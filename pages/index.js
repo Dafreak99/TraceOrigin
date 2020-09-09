@@ -1,65 +1,98 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import Head from "next/head";
+import {
+  Flex,
+  Box,
+  FormControl,
+  FormLabel,
+  Input,
+  Heading,
+  Button,
+} from "@chakra-ui/core";
+import { useToast } from "@chakra-ui/core";
+import { useForm } from "react-hook-form";
 
-export default function Home() {
+import { useAuth } from "../lib/auth";
+const IndexPage = () => {
+  const toast = useToast();
+  const { handleSubmit, register, errors } = useForm();
+  const { user, signinWithEmail } = useAuth();
+  const onSubmit = (values) => {
+    signinWithEmail(values);
+    toast({
+      title: "Login Successfully",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
+  };
+
   return (
-    <div className={styles.container}>
+    <>
       <Head>
         <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+          if (document.cookie && document.cookie.includes('trace-origin')) {
+            window.location.href = "/dashboard"
+          }
+        `,
+          }}
+        />
       </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+      <Flex
+        justify="center"
+        align="center"
+        height="100vh"
+        width="100vw"
+        backgroundColor="gray.800"
+      >
+        <Box
+          as="form"
+          width="500px"
+          p={8}
+          backgroundColor="#fff"
+          borderRadius="3px"
+          onSubmit={handleSubmit(onSubmit)}
         >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
-  )
-}
+          <Heading fontSize="30px" textAlign="center" mb={8}>
+            Sign In {user && user.email}
+          </Heading>
+          <FormControl mb={4}>
+            <FormLabel htmlFor="email">Email address</FormLabel>
+            <Input
+              name="email"
+              type="email"
+              id="email"
+              ref={register({
+                required: "Required",
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: "invalid email address",
+                },
+              })}
+            />
+          </FormControl>
+          <FormControl mb={4}>
+            <FormLabel htmlFor="email">Password</FormLabel>
+            <Input
+              name="password"
+              type="password"
+              id="password"
+              ref={register({
+                required: "Required",
+              })}
+            />
+          </FormControl>
+          <Box textAlign="center">
+            <Button backgroundColor="teal.500" color="#fff" type="submit">
+              Sign In
+            </Button>
+          </Box>
+        </Box>
+      </Flex>
+    </>
+  );
+};
+
+export default IndexPage;
