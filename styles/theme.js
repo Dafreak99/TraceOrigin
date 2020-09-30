@@ -5,11 +5,12 @@ const theme = {
   fonts: {
     ...chakraTheme.fonts,
     body:
-      "Montserrat,-apple-system,system-ui,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif",
+      "apple-system,system-ui,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif",
   },
+
   fontWeights: {
     normal: 400,
-    medium: 600,
+    medium: 500,
     bold: 700,
   },
 };
