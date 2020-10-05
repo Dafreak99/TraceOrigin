@@ -33,7 +33,7 @@ const Sidebar = () => {
       {/* End Logo */}
       <List spacing={3}>
         <ListItem mt={8}>
-          <Link href="/dashboard/info">
+          <Link href="/dashboard">
             <a className="sidebar__link">
               <ListIcon icon={MdInfo} color="gray.50" />
               Thông tin

@@ -37,6 +37,7 @@ const Hero = () => {
     <Slider {...settings}>
       {data.map(({ heading, text, background }, i) => (
         <Box
+          key={i}
           display="flex !important"
           flexDir="column"
           justifyContent="center"
