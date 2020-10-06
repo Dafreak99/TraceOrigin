@@ -9,18 +9,14 @@ import {
   ListItem,
   Text,
 } from "@chakra-ui/core";
-import fetch from "isomorphic-unfetch";
-import { useState } from "react";
 import FarmInfoModify from "./FarmInfoModify";
 import Layout from "./Layout";
 
+import axios from "axios";
+import { getYourFarm } from "../../lib/db-admin";
+
 const Info = ({ data }) => {
-  console.log(data[0]);
-  return (
-    <Layout>
-      {data.length > 0 ? <Content data={data[0]} /> : <FarmInfoModify />}
-    </Layout>
-  );
+  return <Layout>{data ? <Content data={data} /> : <FarmInfoModify />}</Layout>;
 };
 
 const Content = ({
@@ -94,8 +90,9 @@ const Content = ({
           Hình ảnh trang trại của bạn
         </Heading>
         <Flex>
-          {farmImage.map((image) => (
+          {farmImage.map((image, i) => (
             <Image
+              key={i}
               src={image}
               height="20rem"
               width="30rem"
@@ -114,20 +111,18 @@ const Content = ({
 export default Info;
 
 export async function getStaticProps(context) {
-  const res = await fetch("http://localhost:3000/api/farm", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization:
-        "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
-    },
-  });
+  // Don't need to make api request
+  try {
+    const data = await getYourFarm(
+      "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY"
+    );
 
-  const data = await res.json();
-
-  return {
-    props: {
-      data,
-    },
-  };
+    return {
+      props: {
+        data: JSON.parse(JSON.stringify(data[0])),
+      },
+    };
+  } catch (error) {
+    console.log(error.message);
+  }
 }

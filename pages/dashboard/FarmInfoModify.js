@@ -14,7 +14,6 @@ import { useForm } from "react-hook-form";
 import Asterisk from "../../components/Asterisk";
 
 import UploadPreview from "../../components/UploadPreview";
-import fetch from "isomorphic-unfetch";
 import router from "next/router";
 
 const FarmInfoModify = () => {
@@ -47,7 +46,7 @@ const FarmInfoModify = () => {
       urls.push(data);
     }
 
-    let respond = await fetch("http://localhost:3000/api/farm/modify", {
+    let respond = await fetch("/api/farm/modify", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
