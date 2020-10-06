@@ -12,7 +12,6 @@ import {
 import FarmInfoModify from "./FarmInfoModify";
 import Layout from "./Layout";
 
-import axios from "axios";
 import { getYourFarm } from "../../lib/db-admin";
 
 const Info = ({ data }) => {
