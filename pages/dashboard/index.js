@@ -111,17 +111,17 @@ export default Info;
 
 export async function getStaticProps(context) {
   // Don't need to make api request
+  let data;
   try {
-    const data = await getYourFarm(
+    data = await getYourFarm(
       "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY"
     );
-
-    return {
-      props: {
-        data: JSON.parse(JSON.stringify(data[0])),
-      },
-    };
   } catch (error) {
     console.log(error.message);
   }
+  return {
+    props: {
+      data: JSON.parse(JSON.stringify(data[0])) || {},
+    },
+  };
 }
