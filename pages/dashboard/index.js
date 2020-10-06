@@ -17,7 +17,7 @@ import { getYourFarm } from "../../lib/db-admin";
 const Info = ({ data }) => {
   return <Layout>{data ? <Content data={data} /> : <FarmInfoModify />}</Layout>;
 };
-
+// Remove iso
 const Content = ({
   data: { farmName, farmOwner, address, acreage, phoneNumber, farmImage },
 }) => {
