@@ -11,9 +11,9 @@ import {
 } from "@chakra-ui/core";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import Asterisk from "../../components/Asterisk";
+import Asterisk from "./Asterisk";
 
-import UploadPreview from "../../components/UploadPreview";
+import UploadPreview from "./UploadPreview";
 import router from "next/router";
 
 const FarmInfoModify = () => {

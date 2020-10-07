@@ -1,5 +1,6 @@
 import Ponds from "../../components/Ponds";
-import Layout from "./Layout";
+import Layout from "../../components/Layout";
+
 const Info = () => {
   return (
     <Layout>

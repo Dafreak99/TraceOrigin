@@ -4,7 +4,7 @@ import DailyNoteModal from "../../components/DailyNoteModal";
 import FeedingDiaryModal from "../../components/FeedingDiaryModal";
 import PondEnviromentModal from "../../components/PondEnviromentModal";
 
-import Layout from "./Layout";
+import Layout from "../../components/Layout";
 
 const DashBoard = () => {
   return (

@@ -2,15 +2,14 @@ import {
   Box,
   Button,
   Flex,
-  Grid,
   Heading,
   Image,
   List,
   ListItem,
   Text,
 } from "@chakra-ui/core";
-import FarmInfoModify from "./FarmInfoModify";
-import Layout from "./Layout";
+import FarmInfoModify from "../../components/FarmInfoModify";
+import Layout from "../../components/Layout";
 
 import { getYourFarm } from "../../lib/db-admin";
 
@@ -89,7 +88,7 @@ const Content = ({
           Hình ảnh trang trại của bạn
         </Heading>
         <Flex>
-          {farmImage.map((image, i) => (
+          {/* {farmImage.map((image, i) => (
             <Image
               key={i}
               src={image}
@@ -100,7 +99,7 @@ const Content = ({
               borderRadius="3px"
               mr={4}
             />
-          ))}
+          ))} */}
         </Flex>
       </Box>
     </Box>
@@ -119,6 +118,7 @@ export async function getStaticProps(context) {
   } catch (error) {
     console.log(error.message);
   }
+
   return {
     props: {
       data: JSON.parse(JSON.stringify(data[0])) || {},
