@@ -3,31 +3,29 @@ import { FormLabel, Input, Image, Flex, Box } from "@chakra-ui/core";
 import { AiOutlinePlus } from "react-icons/ai";
 import { FiTrash } from "react-icons/fi";
 
-import styles from "../styles/UploadPreview.module.css";
+import styles from "../../styles/UploadPreview.module.css";
 
-const UploadPreview = ({ filesSrc, setFilesSrc }) => {
-  const [files, setFiles] = useState([]);
-
+const UploadPreview = ({ files, setFiles, fileUrls, setFileUrls }) => {
   const onUpload = (e) => {
-    let filesBlob = [];
     let srcs = [];
+    let filesBlob = [];
 
     for (let i = 0; i < e.target.files.length; i++) {
+      // Create blob to display image inside browser
       filesBlob.push(URL.createObjectURL(e.target.files[i]));
+      // This is the actuacl File Type
       srcs.push(e.target.files[i]);
     }
 
-    setFiles([...files, ...filesBlob]);
-    setFilesSrc([...filesSrc, ...srcs]);
+    setFiles([...files, ...srcs]);
+    setFileUrls([...fileUrls, ...filesBlob]);
   };
 
   const onDeselectImage = (e) => {
-    let index = e.target.getAttribute("data-index");
+    let index = parseInt(e.target.getAttribute("data-index"));
 
-    if (index) {
-      setFiles([...files.slice(0, index), ...files.slice(index + 1)]);
-      setFilesSrc([...filesSrc.slice(0, index), ...filesSrc.slice(index + 1)]);
-    }
+    setFiles([...files.slice(0, index), ...files.slice(index + 1)]);
+    setFileUrls([...fileUrls.slice(0, index), ...fileUrls.slice(index + 1)]);
   };
 
   return (
@@ -55,12 +53,12 @@ const UploadPreview = ({ filesSrc, setFilesSrc }) => {
         multiple
         accept="image/*"
       />
-      {files.length > 0 &&
-        files.map((file, i) => (
+      {fileUrls.length > 0 &&
+        fileUrls.map((url, i) => (
           <div className={styles.uploadPreview}>
             <div className={styles.overlay} />
             <Image
-              src={file}
+              src={url}
               id="ok"
               h="100px"
               w="100px"

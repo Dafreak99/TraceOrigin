@@ -1,5 +1,5 @@
-import Ponds from "../../components/Ponds";
-import Layout from "../../components/Layout";
+import Ponds from "../../components/dashboard/Ponds";
+import Layout from "../../components/dashboard/Layout";
 
 const Info = () => {
   return (

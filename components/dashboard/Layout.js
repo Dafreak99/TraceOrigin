@@ -1,6 +1,6 @@
 import { Flex } from "@chakra-ui/core";
 
-import Sidebar from "./Sidebar";
+import Sidebar from "../Sidebar";
 import DashboardContent from "./DashboardContent";
 
 // Common layout for Dashboard

@@ -8,18 +8,39 @@ import {
   ListItem,
   Text,
 } from "@chakra-ui/core";
-import FarmInfoModify from "../../components/FarmInfoModify";
-import Layout from "../../components/Layout";
+import { useState } from "react";
 
+import FarmInfoModify from "../../components/dashboard/FarmInfoModify";
+import Layout from "../../components/dashboard/Layout";
 import { getYourFarm } from "../../lib/db-admin";
 
 const Info = ({ data }) => {
-  return <Layout>{data ? <Content data={data} /> : <FarmInfoModify />}</Layout>;
+  const [isEdit, setIsEdit] = useState(false);
+
+  if (isEdit) {
+    return (
+      <Layout>
+        <FarmInfoModify isEdit={isEdit} setIsEdit={setIsEdit} data={data} />
+      </Layout>
+    );
+  }
+  return (
+    <Layout>
+      {data ? (
+        <Content data={data} isEdit={isEdit} setIsEdit={setIsEdit} />
+      ) : (
+        <FarmInfoModify />
+      )}
+    </Layout>
+  );
 };
-// Remove iso
+
 const Content = ({
   data: { farmName, farmOwner, address, acreage, phoneNumber, farmImage },
+  isEdit,
+  setIsEdit,
 }) => {
+  console.log(isEdit);
   return (
     <Box px={16} py={12}>
       <Flex justifyContent="space-between">
@@ -28,6 +49,7 @@ const Content = ({
           backgroundColor="gray.800"
           color="#fff"
           textTransform="uppercase"
+          onClick={() => setIsEdit(!isEdit)}
         >
           Chỉnh sửa thông tin
         </Button>
@@ -88,7 +110,7 @@ const Content = ({
           Hình ảnh trang trại của bạn
         </Heading>
         <Flex>
-          {/* {farmImage.map((image, i) => (
+          {farmImage.map((image, i) => (
             <Image
               key={i}
               src={image}
@@ -99,7 +121,7 @@ const Content = ({
               borderRadius="3px"
               mr={4}
             />
-          ))} */}
+          ))}
         </Flex>
       </Box>
     </Box>
@@ -109,9 +131,9 @@ const Content = ({
 export default Info;
 
 export async function getStaticProps(context) {
-  // Don't need to make api request
   let data;
   try {
+    // REPLACE WITH USER TOKEN
     data = await getYourFarm(
       "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY"
     );
@@ -121,7 +143,7 @@ export async function getStaticProps(context) {
 
   return {
     props: {
-      data: JSON.parse(JSON.stringify(data[0])) || {},
+      data: JSON.parse(JSON.stringify(data[0])) || null,
     },
   };
 }

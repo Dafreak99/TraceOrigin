@@ -11,16 +11,29 @@ import {
 } from "@chakra-ui/core";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import Asterisk from "./Asterisk";
+import { BiArrowBack } from "react-icons/bi";
 
+import Asterisk from "./Asterisk";
 import UploadPreview from "./UploadPreview";
 import router from "next/router";
 
-const FarmInfoModify = () => {
+const FarmInfoModify = ({ isEdit, setIsEdit, data = {} }) => {
+  const [farmInfo, setData] = useState(data);
   const [isSave, setIsSave] = useState(false);
-  const [filesSrc, setFilesSrc] = useState([]);
+
+  let a = [],
+    b = [];
+
+  if (farmInfo.farmImage) {
+    a = Array(farmInfo.farmImage.length).fill("");
+    b = farmInfo.farmImage;
+  }
+
+  const [files, setFiles] = useState(a);
+  const [fileUrls, setFileUrls] = useState(b);
 
   const { handleSubmit, register, errors } = useForm();
+
   const onSubmit = async (values) => {
     setIsSave(true);
 
@@ -41,9 +54,13 @@ const FarmInfoModify = () => {
     };
 
     // Loop through each image then upload
-    for (let eachFile of filesSrc) {
-      let data = await uploadImage(eachFile);
-      urls.push(data);
+    for (let i = 0; i < files.length; i++) {
+      if (files[i] === "") {
+        urls.push(fileUrls[i]);
+      } else {
+        let data = await uploadImage(files[i]);
+        urls.push(data);
+      }
     }
 
     let respond = await fetch("/api/farm/modify", {
@@ -51,23 +68,30 @@ const FarmInfoModify = () => {
       headers: {
         "Content-Type": "application/json",
         Authorization:
+          // REPLACE WITH USER TOKEN
           "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
       },
       body: JSON.stringify({ ...values, farmImage: urls }),
     });
     let data = await respond.json();
 
-    if (data.status === 500) console.log(data.status);
+    if (data.status === 500) console.log(data.message);
 
     setIsSave(false);
 
-    router.push("/dashboard");
+    router.reload();
   };
 
   return (
     <Box as="form" px={16} py={12} onSubmit={handleSubmit(onSubmit)}>
       <Flex justify="space-between" align="center">
-        <Heading>Thông tin của bạn</Heading>
+        <Heading display="flex" justifyContent="center" alignItems="center">
+          {" "}
+          {isEdit && (
+            <Box as={BiArrowBack} mr={8} onClick={() => setIsEdit(!isEdit)} />
+          )}{" "}
+          Thông tin của bạn
+        </Heading>
         {isSave ? (
           <Button backgroundColor="gray.400" color="#fff">
             <Spinner mr={4} /> Đang lưu
@@ -92,6 +116,8 @@ const FarmInfoModify = () => {
             type="text"
             id="farmName"
             name="farmName"
+            defaultValue={farmInfo.farmName}
+            onChange={() => console.log("hhh")}
             ref={register({
               required: "Required",
             })}
@@ -105,6 +131,7 @@ const FarmInfoModify = () => {
             type="text"
             id="farmOwner"
             name="farmOwner"
+            defaultValue={farmInfo.farmOwner}
             ref={register({
               required: "Required",
             })}
@@ -118,6 +145,7 @@ const FarmInfoModify = () => {
             type="text"
             id="address"
             name="address"
+            defaultValue={farmInfo.address}
             ref={register({
               required: "Required",
             })}
@@ -131,6 +159,7 @@ const FarmInfoModify = () => {
             type="text"
             id="acreage"
             name="acreage"
+            defaultValue={farmInfo.acreage}
             ref={register({
               required: "Required",
             })}
@@ -144,6 +173,7 @@ const FarmInfoModify = () => {
             type="text"
             id="phoneNumber"
             name="phoneNumber"
+            defaultValue={farmInfo.phoneNumber}
             ref={register({
               required: "Required",
             })}
@@ -155,7 +185,12 @@ const FarmInfoModify = () => {
             Hình ảnh của cơ sở <Asterisk />
           </FormLabel>
           <br />
-          <UploadPreview filesSrc={filesSrc} setFilesSrc={setFilesSrc} />
+          <UploadPreview
+            files={files}
+            setFiles={setFiles}
+            fileUrls={fileUrls}
+            setFileUrls={setFileUrls}
+          />
         </FormControl>
       </Grid>
     </Box>

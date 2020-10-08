@@ -20,7 +20,12 @@ export default async (req, res) => {
 
   if (farm) {
     // Update farm info
-    await Farm.updateOne({ addedBy: decoded }, req.body);
+    try {
+      await Farm.updateOne({ addedBy: decoded }, req.body);
+      res.send({ message: "OK", status: "200" });
+    } catch (error) {
+      res.send({ message: error.message, status: "500" });
+    }
   } else {
     // Add new farm info
 
