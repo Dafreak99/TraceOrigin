@@ -21,6 +21,8 @@ import { format } from "date-fns";
 import { mutate } from "swr";
 
 export const AddPondModal = () => {
+  // ADD them phan nhan dien ao nao da va dang duoc nuoi trong giong nhu booking ve theater
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { handleSubmit, register, errors } = useForm();
 

@@ -1,6 +1,5 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import {
-  Box,
   Button,
   Drawer,
   DrawerBody,
@@ -11,18 +10,15 @@ import {
   DrawerOverlay,
   Flex,
   Grid,
-  Input,
-  Text,
+  PseudoBox,
   useDisclosure,
 } from "@chakra-ui/core";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 
 import AddPondModal from "./AddPondModal";
 import fetcher from "../../utils/fetcher";
 
 const Ponds = () => {
-  const ponds = ["Pond no.1", "Pond no.2", "aaaaaaa", "bbbbbbbb"];
-
   const { data, error } = useSWR(
     [
       "/api/pond",
@@ -31,8 +27,38 @@ const Ponds = () => {
     fetcher
   );
 
+  let [index, setIndex] = useState(0);
+  let [selectedPond, setSelectedPond] = useState({});
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef();
+
+  const onDelete = async () => {
+    let res = await fetch("/api/pond/delete", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          // REPLACE WITH USER TOKEN
+          "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
+      },
+      body: JSON.stringify({ pondId: selectedPond._id }),
+    });
+
+    mutate(
+      [
+        "/api/pond",
+        "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
+      ],
+      async (cachedData) => {
+        return [...cachedData.slice(0, index), ...cachedData.slice(index + 1)];
+      },
+      false
+    );
+
+    setSelectedPond({});
+    onClose();
+  };
 
   return (
     <Flex
@@ -47,20 +73,31 @@ const Ponds = () => {
       <AddPondModal />
       <Grid gridTemplateColumns="repeat(2, 1fr)" w="100%" columnGap="1rem">
         {data &&
-          data.map((pond) => (
-            <Flex
-              height="5rem"
-              justify="center"
-              align="center"
+          data.map((pond, i) => (
+            <PseudoBox
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
               backgroundColor="#fff"
               boxShadow="0 4px 8px rgb(220 229 236)"
               borderRadius="5px"
+              height="5rem"
               mb={4}
               ref={btnRef}
-              onClick={onOpen}
+              role="group"
+              _hover={{ backgroundColor: "blue.500" }}
+              transition="350ms all"
+              cursor="pointer"
+              onClick={() => {
+                setIndex(i);
+                setSelectedPond(pond);
+                onOpen();
+              }}
             >
-              <Text fontSize="xl">{pond.pondName}</Text>
-            </Flex>
+              <PseudoBox fontSize="xl" _groupHover={{ color: "#fff" }}>
+                {pond.pondName}
+              </PseudoBox>
+            </PseudoBox>
           ))}
       </Grid>
       <Drawer
@@ -71,16 +108,35 @@ const Ponds = () => {
       >
         <DrawerOverlay />
         <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader>Create your account</DrawerHeader>
+          <DrawerCloseButton color="#fff" />
+
+          <DrawerHeader
+            background="linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url(/pexels-photo-3731945.jpeg)"
+            height="10rem"
+            backgroundSize="cover"
+            color="#fff"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
+            {selectedPond.pondName}
+          </DrawerHeader>
 
           <DrawerBody>
             Add Some Infomartion About A Specific Pond HERE !!!!
           </DrawerBody>
 
           <DrawerFooter>
-            <Button variant="outline" mr={3} onClick={onClose}>
-              Cancel
+            <Button
+              backgroundColor="red"
+              color="red.400"
+              _hover={{}}
+              _focus={{}}
+              mr={3}
+              onClick={onDelete}
+            >
+              Delete
             </Button>
             <Button color="blue">Save</Button>
           </DrawerFooter>
