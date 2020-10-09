@@ -1,6 +1,9 @@
-const fetcher = async (...args) => {
-  console.log(args);
-  const res = await fetch(...args);
+const fetcher = async (url, token) => {
+  const res = await fetch(url, {
+    method: "GET",
+    headers: { "Content-Type": "application/json", Authorization: token },
+    credentials: "same-origin",
+  });
   return res.json();
 };
 
