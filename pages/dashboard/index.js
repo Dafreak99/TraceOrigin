@@ -8,14 +8,23 @@ import {
   ListItem,
   Text,
 } from "@chakra-ui/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useSWR from "swr";
 
 import FarmInfoModify from "../../components/dashboard/FarmInfoModify";
 import Layout from "../../components/dashboard/Layout";
-import { getYourFarm } from "../../lib/db-admin";
+import fetcher from "../../utils/fetcher";
 
-const Info = ({ data }) => {
+const Info = () => {
   const [isEdit, setIsEdit] = useState(false);
+
+  const { data, error } = useSWR(
+    [
+      "/api/farm",
+      "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
+    ],
+    fetcher
+  );
 
   if (isEdit) {
     return (
@@ -40,7 +49,6 @@ const Content = ({
   isEdit,
   setIsEdit,
 }) => {
-  console.log(isEdit);
   return (
     <Box px={16} py={12}>
       <Flex justifyContent="space-between">
@@ -130,20 +138,21 @@ const Content = ({
 
 export default Info;
 
-export async function getStaticProps(context) {
-  let data;
-  try {
-    // REPLACE WITH USER TOKEN
-    data = await getYourFarm(
-      "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY"
-    );
-  } catch (error) {
-    console.log(error.message);
-  }
+// export async function getStaticProps(context) {
+//   let data;
+//   try {
+//     // REPLACE WITH USER TOKEN
+//     data = await getYourFarm(
+//       "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY"
+//     );
+//   } catch (error) {
+//     console.log(error.message);
+//   }
 
-  return {
-    props: {
-      data: JSON.parse(JSON.stringify(data[0])) || null,
-    },
-  };
-}
+//   return {
+//     props: {
+//       data: JSON.parse(JSON.stringify(data[0])) || null,
+//     },
+//     revalidate: 1,
+//   };
+// }

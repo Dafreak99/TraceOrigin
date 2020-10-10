@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
+const Seed = require("./Seed");
 
 const FarmSchema = new mongoose.Schema({
   farmName: String,
   farmOwner: String,
   farmImage: [{ type: String }],
-  address: String,
-  acreage: String,
+  farmAddress: String,
+  farmAcreage: String,
   addedBy: String,
   phoneNumber: String,
 });

@@ -1,7 +1,7 @@
-import jwt from "jsonwebtoken";
-
 import Farm from "../../../models/Farm";
 import dbConnect from "../../../lib/dbConnect";
+
+import jwt from "jsonwebtoken";
 
 dbConnect();
 
@@ -16,7 +16,7 @@ export default async (req, res) => {
 
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-  let farm = await Farm.find({ addedBy: decoded });
+  let farm = await Farm.findOne({ addedBy: decoded });
 
   //  There will cause an error if send NULL back
   res.send(farm);

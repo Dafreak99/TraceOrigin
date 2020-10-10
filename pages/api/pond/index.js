@@ -21,7 +21,7 @@ export default async (req, res) => {
 
   switch (method) {
     case "GET":
-      let ponds = await Pond.find({ farmId: farm._id });
+      let ponds = await Pond.find({ farmId: farm._id }).populate("seed");
       res.send(ponds);
 
       break;

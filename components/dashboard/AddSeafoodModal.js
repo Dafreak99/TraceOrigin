@@ -1,7 +1,4 @@
 import {
-  Box,
-  Text,
-  Flex,
   Modal,
   ModalOverlay,
   ModalHeader,
@@ -18,17 +15,14 @@ import {
 } from "@chakra-ui/core";
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
-import { mutate } from "swr";
 
-export const AddPondModal = () => {
-  // ADD them phan nhan dien ao nao da va dang duoc nuoi trong giong nhu booking ve theater
-
+export const AddSeafoodModal = ({ pondId }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { handleSubmit, register, errors } = useForm();
 
   const onSubmit = async (values) => {
     try {
-      let res = await fetch("/api/pond", {
+      let res = await fetch("/api/pond/utilize", {
         method: "POST",
         body: values,
         headers: {
@@ -36,20 +30,10 @@ export const AddPondModal = () => {
           Authorization:
             "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
         },
-        body: JSON.stringify(values),
+        body: JSON.stringify({ ...values, pondId }),
       });
 
       let data = await res.json();
-      mutate(
-        [
-          "/api/pond",
-          "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
-        ],
-        async (cachedData) => {
-          return [...cachedData, data];
-        },
-        false
-      );
     } catch (error) {
       console.log(error.message);
     }
@@ -59,56 +43,91 @@ export const AddPondModal = () => {
 
   return (
     <>
-      <Button mb={8} backgroundColor="gray.300" onClick={onOpen}>
-        Thêm ao mới
+      <Button mt={8} onClick={onOpen}>
+        Sử dụng ao
       </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
-          <ModalHeader>Thêm ao mới</ModalHeader>
+          <ModalHeader>Thêm thông tin về thủy sản nuôi tại ao</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormControl>
-              <FormLabel htmlFor="pondName">Tên ao: </FormLabel>
+              <FormLabel htmlFor="seedName">Tên con giống: </FormLabel>
               <Input
                 type="text"
-                id="pondName"
-                name="pondName"
+                id="seedName"
+                name="seedName"
                 ref={register({
                   required: "Required",
                 })}
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="pondAcreage">Diện tích ao: </FormLabel>
+              <FormLabel htmlFor="seedQuantity">Số lượng: </FormLabel>
               <Input
                 type="text"
-                id="pondAcreage"
-                name="pondAcreage"
+                id="seedQuantity"
+                name="seedQuantity"
                 ref={register({
                   required: "Required",
                 })}
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="pondCode">Mã số ao: </FormLabel>
+              <FormLabel htmlFor="cultivateDate">Ngày thả giống: </FormLabel>
               <Input
                 type="text"
-                id="pondCode"
-                name="pondCode"
+                id="cultivateDate"
+                name="cultivateDate"
+                defaultValue={format(new Date(), "dd/MM/yyyy")}
                 ref={register({
                   required: "Required",
                 })}
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="stockingDensity">
-                Mật độ thả(Ước lượng số con thả/m3):
+              <FormLabel htmlFor="seedFarmName">Tên trại giống: </FormLabel>
+              <Input
+                type="text"
+                id="seedFarmName"
+                name="seedFarmName"
+                ref={register({
+                  required: "Required",
+                })}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="seedFarmAddress">
+                Địa chỉ trại giống:
               </FormLabel>
               <Input
                 type="text"
-                id="stockingDensity"
-                name="stockingDensity"
+                id="seedFarmAddress"
+                name="seedFarmAddress"
+                ref={register({
+                  required: "Required",
+                })}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="seedImportDate">Ngày nhập giống:</FormLabel>
+              <Input
+                type="text"
+                id="seedImportDate"
+                name="seedImportDate"
+                defaultValue={format(new Date(), "dd/MM/yyyy")}
+                ref={register({
+                  required: "Required",
+                })}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="seedAge">Ngày tuổi của con giống:</FormLabel>
+              <Input
+                type="text"
+                id="seedAge"
+                name="seedAge"
                 ref={register({
                   required: "Required",
                 })}
@@ -130,4 +149,4 @@ export const AddPondModal = () => {
   );
 };
 
-export default AddPondModal;
+export default AddSeafoodModal;

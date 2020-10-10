@@ -10,13 +10,16 @@ import {
   DrawerOverlay,
   Flex,
   Grid,
+  Heading,
   PseudoBox,
+  Text,
   useDisclosure,
 } from "@chakra-ui/core";
 import useSWR, { mutate } from "swr";
 
 import AddPondModal from "./AddPondModal";
 import fetcher from "../../utils/fetcher";
+import AddSeafoodModal from "./AddSeafoodModal";
 
 const Ponds = () => {
   const { data, error } = useSWR(
@@ -120,11 +123,49 @@ const Ponds = () => {
             justifyContent="center"
             alignItems="center"
           >
-            {selectedPond.pondName}
+            Tên ao: {selectedPond.pondName}
           </DrawerHeader>
 
           <DrawerBody>
-            Add Some Infomartion About A Specific Pond HERE !!!!
+            <Heading size="md" mb={4} mt={4}>
+              Thông tin về ao nuôi
+            </Heading>
+            <Text>Tên ao: {selectedPond.pondName}</Text>
+            <Text>Mã ao: {selectedPond.pondCode}</Text>
+            <Text>Diện tích ao: {selectedPond.pondAcreage}</Text>
+            {selectedPond.seed ? (
+              <>
+                <Text>
+                  Trạng thái:{" "}
+                  <Text as="span" color="red.300">
+                    Đang được sử dụng
+                  </Text>
+                </Text>
+
+                <Heading size="md" mt={4} mb={4}>
+                  Thông tin con giống
+                </Heading>
+                <Text>Tên con giống: {selectedPond.seed.seedName}</Text>
+                <Text>Số lượng: {selectedPond.seed.seedQuantity}</Text>
+                <Text>Ngày nhập giống: {selectedPond.seed.importDate}</Text>
+                <Text>Ngày tuổi của giống: {selectedPond.seed.seedAge}</Text>
+                <Text>Ngày thả giống: {selectedPond.seed.cultivateDate}</Text>
+                <Text>Tên cơ sở bán: {selectedPond.seed.seedFarmName}</Text>
+                <Text>
+                  Địa chỉ cơ sở bán: {selectedPond.seed.seedFarmAddress}
+                </Text>
+              </>
+            ) : (
+              <>
+                <Text>
+                  Trạng thái:{" "}
+                  <Text as="span" color="green.300">
+                    Trống
+                  </Text>
+                </Text>
+                <AddSeafoodModal pondId={selectedPond._id} />{" "}
+              </>
+            )}
           </DrawerBody>
 
           <DrawerFooter>

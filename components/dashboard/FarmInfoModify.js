@@ -16,6 +16,7 @@ import { BiArrowBack } from "react-icons/bi";
 import Asterisk from "./Asterisk";
 import UploadPreview from "./UploadPreview";
 import router from "next/router";
+import { mutate } from "swr";
 
 const FarmInfoModify = ({ isEdit, setIsEdit, data = {} }) => {
   const [farmInfo, setData] = useState(data);
@@ -74,6 +75,14 @@ const FarmInfoModify = ({ isEdit, setIsEdit, data = {} }) => {
       body: JSON.stringify({ ...values, farmImage: urls }),
     });
     let data = await respond.json();
+
+    mutate(
+      "/api/farm",
+      async (cachedData) => {
+        return { ...values, farmImage: urls };
+      },
+      false
+    );
 
     if (data.status === 500) console.log(data.message);
 
@@ -138,27 +147,27 @@ const FarmInfoModify = ({ isEdit, setIsEdit, data = {} }) => {
           />
         </FormControl>
         <FormControl gridColumn="span 6">
-          <FormLabel htmlFor="address">
+          <FormLabel htmlFor="farmAddress">
             Địa chỉ <Asterisk />
           </FormLabel>
           <Input
             type="text"
-            id="address"
-            name="address"
-            defaultValue={farmInfo.address}
+            id="farmAddress"
+            name="farmAddress"
+            defaultValue={farmInfo.farmAddress}
             ref={register({
               required: "Required",
             })}
           />
         </FormControl>
         <FormControl gridColumn="span 6">
-          <FormLabel htmlFor="address">
+          <FormLabel htmlFor="farmAcreage">
             Tổng diện tích cơ sở nuôi <Asterisk />
           </FormLabel>
           <Input
             type="text"
-            id="acreage"
-            name="acreage"
+            id="farmAcreage"
+            name="farmAcreage"
             defaultValue={farmInfo.acreage}
             ref={register({
               required: "Required",
@@ -181,7 +190,7 @@ const FarmInfoModify = ({ isEdit, setIsEdit, data = {} }) => {
         </FormControl>
 
         <FormControl gridColumn="span 12">
-          <FormLabel htmlFor="image">
+          <FormLabel>
             Hình ảnh của cơ sở <Asterisk />
           </FormLabel>
           <br />

@@ -4,9 +4,9 @@ const PondSchema = new mongoose.Schema({
   farmId: String,
   pondAcreage: String,
   pondCode: String,
-  pondDate: String,
   pondName: String,
-  pondQuantity: String,
+  stockingDensity: String,
+  seed: { type: mongoose.Schema.Types.ObjectId, ref: "Seed" },
 });
 
 module.exports = mongoose.models.Pond || mongoose.model("Pond", PondSchema);
