@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import {
+  Box,
   Button,
   Drawer,
   DrawerBody,
@@ -74,7 +75,13 @@ const Ponds = () => {
       py={8}
     >
       <AddPondModal />
-      <Grid gridTemplateColumns="repeat(2, 1fr)" w="100%" columnGap="1rem">
+
+      <Grid
+        gridTemplateColumns="repeat(2, 1fr)"
+        w="100%"
+        columnGap="1rem"
+        flex="1"
+      >
         {data &&
           data.map((pond, i) => (
             <PseudoBox
@@ -85,10 +92,12 @@ const Ponds = () => {
               boxShadow="0 4px 8px rgb(220 229 236)"
               borderRadius="5px"
               height="5rem"
+              backgroundColor={pond.seed ? "#b4b4b4" : "#48e2b0"}
+              color="#fff"
               mb={4}
               ref={btnRef}
               role="group"
-              _hover={{ backgroundColor: "blue.500" }}
+              _hover={{ opacity: 0.5 }}
               transition="350ms all"
               cursor="pointer"
               onClick={() => {
@@ -103,6 +112,19 @@ const Ponds = () => {
             </PseudoBox>
           ))}
       </Grid>
+
+      <Heading size="md">Chú thích</Heading>
+      <Box mb={8}>
+        <Flex alignItems="center" mb={4}>
+          <Box height="3rem" width="3rem" background="#b4b4b4" mr={4} />
+          <Text fontSize="1rem">: ao đang được sử dụng</Text>
+        </Flex>
+        <Flex alignItems="center">
+          <Box height="3rem" width="3rem" background="#48e2b0" mr={4} />
+          <Text fontSize="1rem">: ao còn trống</Text>
+        </Flex>
+      </Box>
+
       <Drawer
         isOpen={isOpen}
         placement="right"
@@ -147,7 +169,7 @@ const Ponds = () => {
                 </Heading>
                 <Text>Tên con giống: {selectedPond.seed.seedName}</Text>
                 <Text>Số lượng: {selectedPond.seed.seedQuantity}</Text>
-                <Text>Ngày nhập giống: {selectedPond.seed.importDate}</Text>
+                <Text>Ngày nhập giống: {selectedPond.seed.seedImportDate}</Text>
                 <Text>Ngày tuổi của giống: {selectedPond.seed.seedAge}</Text>
                 <Text>Ngày thả giống: {selectedPond.seed.cultivateDate}</Text>
                 <Text>Tên cơ sở bán: {selectedPond.seed.seedFarmName}</Text>
