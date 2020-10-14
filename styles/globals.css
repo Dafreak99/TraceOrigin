@@ -86,7 +86,16 @@ input {
   display: block;
   padding: 8px 32px;
 }
+
+.sidebar__link--sub {
+  display: block;
+  padding: 8px 55px;
+}
 .sidebar__link:hover {
+  background-color: #007bff;
+  transition: 350ms linear;
+}
+.sidebar__link--sub:hover {
   background-color: #007bff;
   transition: 350ms linear;
 }

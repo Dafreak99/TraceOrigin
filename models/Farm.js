@@ -2,13 +2,13 @@ const mongoose = require("mongoose");
 const Seed = require("./Seed");
 
 const FarmSchema = new mongoose.Schema({
-  farmName: String,
-  farmOwner: String,
-  farmImage: [{ type: String }],
-  farmAddress: String,
-  farmAcreage: String,
-  addedBy: String,
-  phoneNumber: String,
+  tenCoSoNuoi: String,
+  tenChuCoSoNuoi: String,
+  hinhAnh: [{ type: String }],
+  diaChi: String,
+  dienTich: String,
+  sdt: String,
+  themVaoBoi: String,
 });
 
 module.exports = mongoose.models.Farm || mongoose.model("Farm", FarmSchema);

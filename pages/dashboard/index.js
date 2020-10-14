@@ -26,6 +26,8 @@ const Info = () => {
     fetcher
   );
 
+  console.log(data);
+
   if (isEdit) {
     return (
       <Layout>
@@ -45,7 +47,15 @@ const Info = () => {
 };
 
 const Content = ({
-  data: { farmName, farmOwner, address, acreage, phoneNumber, farmImage },
+  data: {
+    tenCoSoNuoi,
+    tenChuCoSoNuoi,
+    hinhAnh,
+    diaChi,
+    dienTich,
+    sdt,
+    themVaoBoi,
+  },
   isEdit,
   setIsEdit,
 }) => {
@@ -68,7 +78,7 @@ const Content = ({
           <Text fontSize="md" fontWeight="medium">
             Họ và tên chủ cơ sở:{" "}
             <Box as="span" fontWeight="normal">
-              {farmOwner}
+              {tenChuCoSoNuoi}
             </Box>
           </Text>
         </ListItem>
@@ -82,9 +92,9 @@ const Content = ({
         </ListItem>
         <ListItem>
           <Text fontSize="md" fontWeight="medium">
-            Tên trang trại:{" "}
+            Tên cơ sở nuôi:{" "}
             <Box as="span" fontWeight="normal">
-              {farmName}
+              {tenCoSoNuoi}
             </Box>
           </Text>
         </ListItem>
@@ -92,7 +102,7 @@ const Content = ({
           <Text fontSize="md" fontWeight="medium">
             Diện tích trang trại:{" "}
             <Box as="span" fontWeight="normal">
-              {acreage}
+              {dienTich}
             </Box>
           </Text>
         </ListItem>
@@ -100,7 +110,7 @@ const Content = ({
           <Text fontSize="md" fontWeight="medium">
             Địa chỉ trang trại:{" "}
             <Box as="span" fontWeight="normal">
-              {address}
+              {diaChi}
             </Box>
           </Text>
         </ListItem>
@@ -108,7 +118,7 @@ const Content = ({
           <Text fontSize="md" fontWeight="medium">
             SĐT liên hệ:{" "}
             <Box as="span" fontWeight="normal">
-              {phoneNumber}
+              {sdt}
             </Box>
           </Text>
         </ListItem>
@@ -118,7 +128,7 @@ const Content = ({
           Hình ảnh trang trại của bạn
         </Heading>
         <Flex>
-          {farmImage.map((image, i) => (
+          {hinhAnh.map((image, i) => (
             <Image
               key={i}
               src={image}

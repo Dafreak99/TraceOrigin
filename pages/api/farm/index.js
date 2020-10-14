@@ -16,7 +16,7 @@ export default async (req, res) => {
 
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-  let farm = await Farm.findOne({ addedBy: decoded });
+  let farm = await Farm.findOne({ themVaoBoi: decoded });
 
   //  There will cause an error if send NULL back
   res.send(farm);

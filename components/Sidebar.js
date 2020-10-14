@@ -8,11 +8,17 @@ import {
   ListItem,
   ListIcon,
   PseudoBox,
+  Accordion,
+  AccordionItem,
+  AccordionHeader,
+  AccordionIcon,
+  AccordionPanel,
 } from "@chakra-ui/core";
 import Link from "next/link";
 import { MdBrandingWatermark, MdInfo } from "react-icons/md";
 import { FaStickyNote } from "react-icons/fa";
 import { GiFoodChain } from "react-icons/gi";
+import AddFoodModal from "./dashboard/AddFoodModal";
 
 const Sidebar = () => {
   return (
@@ -49,12 +55,38 @@ const Sidebar = () => {
           </Link>
         </ListItem>
         <ListItem>
-          <Link href="/dashboard/management">
-            <a className="sidebar__link">
-              <ListIcon icon={MdBrandingWatermark} color="gray.50" />
-              Quản lí
-            </a>
-          </Link>
+          <Accordion allowToggle>
+            <AccordionItem border="none">
+              <AccordionHeader
+                outline="none"
+                px={8}
+                py={2}
+                _focus={{}}
+                _hover={{ backgroundColor: "#007bff" }}
+              >
+                <Box flex="1" textAlign="left">
+                  <ListIcon icon={MdBrandingWatermark} color="gray.50" />
+                  Quản lí
+                </Box>
+                <AccordionIcon />
+              </AccordionHeader>
+              <AccordionPanel p={0} mt={3}>
+                <List spacing={3}>
+                  <ListItem>
+                    <AddFoodModal />
+                  </ListItem>
+                  <ListItem>
+                    <Link href="/dashboard/diary">
+                      <a className="sidebar__link--sub">
+                        <ListIcon icon={GiFoodChain} color="gray.50" />
+                        Nhật ký hằng ngày
+                      </a>
+                    </Link>
+                  </ListItem>
+                </List>
+              </AccordionPanel>
+            </AccordionItem>
+          </Accordion>
         </ListItem>
         <ListItem>
           <Link href="/dashboard/notes">

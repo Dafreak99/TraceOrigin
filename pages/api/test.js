@@ -7,7 +7,7 @@ dbConnect();
 export default async (req, res) => {
   // id = 5f77e95f5178f607a87d892f
   const farm = await Farm.findOne({
-    addedBy: "5f77e95f5178f607a87d892f",
+    themVaoBoi: "5f77e95f5178f607a87d892f",
   });
 
   const ponds = await Pond.find({ farmId: farm._id }).populate("seed");

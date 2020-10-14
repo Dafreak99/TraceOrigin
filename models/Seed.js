@@ -1,15 +1,14 @@
 const mongoose = require("mongoose");
 
 const SeedSchema = new mongoose.Schema({
-  seedName: String,
-  seedQuantity: String,
-  seedFarmName: String,
-  seedFarmAddress: String,
-  seedImportDate: String,
-  seedAge: String,
+  tenCongiong: String,
+  soLuongConGiong: String,
+  tenTraiGiong: String,
+  diaChiTraiGiong: String,
+  ngayThaGiong: String,
+  ngayThuHoach: String,
+  ngayTuoiGiong: String,
   pondId: String,
-  cultivateDate: String,
-  harvestDate: String,
 });
 
 module.exports = mongoose.models.Seed || mongoose.model("Seed", SeedSchema);

@@ -69,46 +69,46 @@ export const AddPondModal = () => {
           <ModalCloseButton />
           <ModalBody>
             <FormControl>
-              <FormLabel htmlFor="pondName">Tên ao: </FormLabel>
+              <FormLabel htmlFor="tenAo">Tên ao: </FormLabel>
               <Input
                 type="text"
-                id="pondName"
-                name="pondName"
+                id="tenAo"
+                name="tenAo"
                 ref={register({
                   required: "Required",
                 })}
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="pondAcreage">Diện tích ao: </FormLabel>
+              <FormLabel htmlFor="dienTich">Diện tích ao: </FormLabel>
               <Input
                 type="text"
-                id="pondAcreage"
-                name="pondAcreage"
+                id="dienTich"
+                name="dienTich"
                 ref={register({
                   required: "Required",
                 })}
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="pondCode">Mã số ao: </FormLabel>
+              <FormLabel htmlFor="maAo">Mã số ao: </FormLabel>
               <Input
                 type="text"
-                id="pondCode"
-                name="pondCode"
+                id="maAo"
+                name="maAo"
                 ref={register({
                   required: "Required",
                 })}
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="stockingDensity">
+              <FormLabel htmlFor="matDoTha">
                 Mật độ thả(Ước lượng số con thả/m3):
               </FormLabel>
               <Input
                 type="text"
-                id="stockingDensity"
-                name="stockingDensity"
+                id="matDoTha"
+                name="matDoTha"
                 ref={register({
                   required: "Required",
                 })}

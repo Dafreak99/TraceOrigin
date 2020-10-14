@@ -10,7 +10,11 @@ const DashBoard = () => {
   return (
     <Layout>
       <Box px={16} py={12}>
-        <Grid gridTemplateColumns="repeat(3, 1fr)" columnGap="40px">
+        <Grid
+          gridTemplateColumns="repeat(3, 1fr)"
+          columnGap="40px"
+          rowGap="40px"
+        >
           <FeedingDiaryModal />
           <DailyNoteModal />
           <PondEnviromentModal />

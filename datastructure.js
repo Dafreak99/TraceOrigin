@@ -1,43 +1,52 @@
 const product = {
-  productName: "",
-  productPrice: "",
-  weight: "",
-  packingMethod: "",
-  image: [""],
+  tenSanPham: "",
+  giaSanPham: "",
+  khoiLuong: "",
+  phuongThucDongGoi: "",
+  hinhAnh: [""],
 
   pond: {
-    pondName: "",
-    pondAcreage: "",
-    stockingDensity: "", // mat do tha
-    pondCode: "",
+    tenAo: "",
+    dienTich: "",
+    matDoTha: "", // mat do tha
+    maAo: "",
     seed: {
-      seedName: "",
-      seedQuantity: "",
-      seedFarmName: "",
-      seedFarmAddress: "",
-      seedImportDate: "",
-      cultivateDate: "",
-      harvestDate: "",
-      seedAge: "",
+      tenCongiong: "",
+      soLuongConGiong: "",
+      tenTraiGiong: "",
+      diaChiTraiGiong: "",
+      ngayThaGiong: "",
+      ngayThuHoach: "",
+      ngayTuoiGiong: "",
       pondId: "", // thả tại ao nào
     },
     farm: {
-      farmName: "",
-      farmOwner: "",
-      farmImage: [""],
-      farmAddress: "",
-      farmAcreage: "",
-      phoneNumber: "",
-      addedBy: "",
+      tenCoSoNuoi: "",
+      tenChuCoSoNuoi: "",
+      hinhAnh: [""],
+      diaChi: "",
+      dienTich: "",
+      sdt: "",
+      themVaoBoi: "",
     },
   },
 
   feedingDiary: [
     {
-      pondName: "",
-      foodName: "",
-      feedingDate: "",
-      feedingWeight: "",
+      tenAo: "",
+      tenThucAn: "",
+      ngayChoAn: "",
+      khoiLuongChoAn: "",
     },
   ],
+};
+
+const farm = {
+  tenCoSoNuoi: "",
+  tenChuCoSoNuoi: "",
+  hinhAnh: [""],
+  diaChi: "",
+  dienTich: "",
+  sdt: "",
+  themVaoBoi: "",
 };

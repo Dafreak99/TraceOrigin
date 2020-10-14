@@ -20,7 +20,7 @@ import useSWR, { mutate } from "swr";
 
 import AddPondModal from "./AddPondModal";
 import fetcher from "../../utils/fetcher";
-import AddSeafoodModal from "./AddSeafoodModal";
+import AddSeedModal from "./AddSeedModal";
 
 const Ponds = () => {
   const { data, error } = useSWR(
@@ -75,7 +75,9 @@ const Ponds = () => {
       py={8}
     >
       <AddPondModal />
-
+      {data && data.length === 0 && (
+        <Text fontSize="xl">Bạn chưa thêm mô hình ao!</Text>
+      )}
       <Grid
         gridTemplateColumns="repeat(2, 1fr)"
         w="100%"
@@ -107,7 +109,7 @@ const Ponds = () => {
               }}
             >
               <PseudoBox fontSize="xl" _groupHover={{ color: "#fff" }}>
-                {pond.pondName}
+                {pond.tenAo}
               </PseudoBox>
             </PseudoBox>
           ))}
@@ -145,16 +147,16 @@ const Ponds = () => {
             justifyContent="center"
             alignItems="center"
           >
-            Tên ao: {selectedPond.pondName}
+            Tên ao: {selectedPond.tenAo}
           </DrawerHeader>
 
           <DrawerBody>
             <Heading size="md" mb={4} mt={4}>
               Thông tin về ao nuôi
             </Heading>
-            <Text>Tên ao: {selectedPond.pondName}</Text>
-            <Text>Mã ao: {selectedPond.pondCode}</Text>
-            <Text>Diện tích ao: {selectedPond.pondAcreage}</Text>
+            <Text>Tên ao: {selectedPond.tenAo}</Text>
+            <Text>Mã ao: {selectedPond.maAo}</Text>
+            <Text>Diện tích ao: {selectedPond.dienTich}</Text>
             {selectedPond.seed ? (
               <>
                 <Text>
@@ -167,14 +169,15 @@ const Ponds = () => {
                 <Heading size="md" mt={4} mb={4}>
                   Thông tin con giống
                 </Heading>
-                <Text>Tên con giống: {selectedPond.seed.seedName}</Text>
-                <Text>Số lượng: {selectedPond.seed.seedQuantity}</Text>
-                <Text>Ngày nhập giống: {selectedPond.seed.seedImportDate}</Text>
-                <Text>Ngày tuổi của giống: {selectedPond.seed.seedAge}</Text>
-                <Text>Ngày thả giống: {selectedPond.seed.cultivateDate}</Text>
-                <Text>Tên cơ sở bán: {selectedPond.seed.seedFarmName}</Text>
+                <Text>Tên con giống: {selectedPond.seed.tenConGiong}</Text>
+                <Text>Số lượng: {selectedPond.seed.soLuongConGiong}</Text>
                 <Text>
-                  Địa chỉ cơ sở bán: {selectedPond.seed.seedFarmAddress}
+                  Ngày tuổi của giống: {selectedPond.seed.ngayTuoiConGiong}
+                </Text>
+                <Text>Ngày thả giống: {selectedPond.seed.ngayThaGiong}</Text>
+                <Text>Tên cơ sở bán: {selectedPond.seed.tenTraiGiong}</Text>
+                <Text>
+                  Địa chỉ cơ sở bán: {selectedPond.seed.diaChiTraiGiong}
                 </Text>
               </>
             ) : (
@@ -185,7 +188,10 @@ const Ponds = () => {
                     Trống
                   </Text>
                 </Text>
-                <AddSeafoodModal pondId={selectedPond._id} />{" "}
+                <AddSeedModal
+                  pondId={selectedPond._id}
+                  onCloseDrawer={onClose}
+                />{" "}
               </>
             )}
           </DrawerBody>

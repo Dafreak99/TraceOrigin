@@ -17,7 +17,7 @@ export default async (req, res) => {
 
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-  const farm = await Farm.findOne({ addedBy: decoded });
+  const farm = await Farm.findOne({ themVaoBoi: decoded });
 
   switch (method) {
     case "GET":

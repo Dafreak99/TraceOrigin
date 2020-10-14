@@ -16,7 +16,7 @@ import {
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
 
-export const AddSeafoodModal = ({ pondId }) => {
+export const AddSeedModal = ({ pondId, onCloseDrawer }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { handleSubmit, register, errors } = useForm();
 
@@ -39,6 +39,8 @@ export const AddSeafoodModal = ({ pondId }) => {
     }
 
     onClose();
+    onCloseDrawer();
+    // TODO: Update pond status after adding new seed to pond and delete seed if we deleting pond
   };
 
   return (
@@ -53,33 +55,33 @@ export const AddSeafoodModal = ({ pondId }) => {
           <ModalCloseButton />
           <ModalBody>
             <FormControl>
-              <FormLabel htmlFor="seedName">Tên con giống: </FormLabel>
+              <FormLabel htmlFor="tenConGiong">Tên con giống: </FormLabel>
               <Input
                 type="text"
-                id="seedName"
-                name="seedName"
+                id="tenConGiong"
+                name="tenConGiong"
                 ref={register({
                   required: "Required",
                 })}
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="seedQuantity">Số lượng: </FormLabel>
+              <FormLabel htmlFor="soLuongConGiong">Số lượng: </FormLabel>
               <Input
                 type="text"
-                id="seedQuantity"
-                name="seedQuantity"
+                id="soLuongConGiong"
+                name="soLuongConGiong"
                 ref={register({
                   required: "Required",
                 })}
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="cultivateDate">Ngày thả giống: </FormLabel>
+              <FormLabel htmlFor="ngayThaGiong">Ngày thả giống: </FormLabel>
               <Input
                 type="text"
-                id="cultivateDate"
-                name="cultivateDate"
+                id="ngayThaGiong"
+                name="ngayThaGiong"
                 defaultValue={format(new Date(), "dd/MM/yyyy")}
                 ref={register({
                   required: "Required",
@@ -87,47 +89,38 @@ export const AddSeafoodModal = ({ pondId }) => {
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="seedFarmName">Tên trại giống: </FormLabel>
+              <FormLabel htmlFor="tenTraiGiong">Tên trại giống: </FormLabel>
               <Input
                 type="text"
-                id="seedFarmName"
-                name="seedFarmName"
+                id="tenTraiGiong"
+                name="tenTraiGiong"
                 ref={register({
                   required: "Required",
                 })}
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="seedFarmAddress">
+              <FormLabel htmlFor="diaChiTraiGiong">
                 Địa chỉ trại giống:
               </FormLabel>
               <Input
                 type="text"
-                id="seedFarmAddress"
-                name="seedFarmAddress"
+                id="diaChiTraiGiong"
+                name="diaChiTraiGiong"
                 ref={register({
                   required: "Required",
                 })}
               />
             </FormControl>
+
             <FormControl>
-              <FormLabel htmlFor="seedImportDate">Ngày nhập giống:</FormLabel>
+              <FormLabel htmlFor="ngayTuoiGiong">
+                Ngày tuổi của con giống:
+              </FormLabel>
               <Input
                 type="text"
-                id="seedImportDate"
-                name="seedImportDate"
-                defaultValue={format(new Date(), "dd/MM/yyyy")}
-                ref={register({
-                  required: "Required",
-                })}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="seedAge">Ngày tuổi của con giống:</FormLabel>
-              <Input
-                type="text"
-                id="seedAge"
-                name="seedAge"
+                id="ngayTuoiGiong"
+                name="ngayTuoiGiong"
                 ref={register({
                   required: "Required",
                 })}
@@ -149,4 +142,4 @@ export const AddSeafoodModal = ({ pondId }) => {
   );
 };
 
-export default AddSeafoodModal;
+export default AddSeedModal;

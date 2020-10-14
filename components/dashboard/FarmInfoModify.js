@@ -72,14 +72,14 @@ const FarmInfoModify = ({ isEdit, setIsEdit, data = {} }) => {
           // REPLACE WITH USER TOKEN
           "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
       },
-      body: JSON.stringify({ ...values, farmImage: urls }),
+      body: JSON.stringify({ ...values, hinhAnh: urls }),
     });
     let data = await respond.json();
 
     mutate(
       "/api/farm",
       async (cachedData) => {
-        return { ...values, farmImage: urls };
+        return { ...values, hinhAnh: urls };
       },
       false
     );
@@ -118,71 +118,71 @@ const FarmInfoModify = ({ isEdit, setIsEdit, data = {} }) => {
         columnGap={{ base: "1rem", md: "3rem" }}
       >
         <FormControl gridColumn="span 6">
-          <FormLabel htmlFor="farmOwner">
-            Tên cơ sở <Asterisk />
+          <FormLabel htmlFor="tenCoSoNuoi">
+            Tên cơ sở nuôi
+            <Asterisk />
           </FormLabel>
           <Input
             type="text"
-            id="farmName"
-            name="farmName"
-            defaultValue={farmInfo.farmName}
-            onChange={() => console.log("hhh")}
+            id="tenCoSoNuoi"
+            name="tenCoSoNuoi"
+            defaultValue={farmInfo.tenCoSoNuoi}
             ref={register({
               required: "Required",
             })}
           />
         </FormControl>
         <FormControl gridColumn="span 6">
-          <FormLabel htmlFor="farmOwner">
+          <FormLabel htmlFor="tenChuCoSoNuoi">
             Họ tên chủ cơ sở nuôi <Asterisk />
           </FormLabel>
           <Input
             type="text"
-            id="farmOwner"
-            name="farmOwner"
-            defaultValue={farmInfo.farmOwner}
+            id="tenChuCoSoNuoi"
+            name="tenChuCoSoNuoi"
+            defaultValue={farmInfo.tenChuCoSoNuoi}
             ref={register({
               required: "Required",
             })}
           />
         </FormControl>
         <FormControl gridColumn="span 6">
-          <FormLabel htmlFor="farmAddress">
+          <FormLabel htmlFor="diaChi">
             Địa chỉ <Asterisk />
           </FormLabel>
           <Input
             type="text"
-            id="farmAddress"
-            name="farmAddress"
-            defaultValue={farmInfo.farmAddress}
+            id="diaChi"
+            name="diaChi"
+            defaultValue={farmInfo.diaChi}
             ref={register({
               required: "Required",
             })}
           />
         </FormControl>
         <FormControl gridColumn="span 6">
-          <FormLabel htmlFor="farmAcreage">
+          <FormLabel htmlFor="dienTich">
             Tổng diện tích cơ sở nuôi <Asterisk />
           </FormLabel>
           <Input
             type="text"
-            id="farmAcreage"
-            name="farmAcreage"
-            defaultValue={farmInfo.acreage}
+            id="dienTich"
+            name="dienTich"
+            defaultValue={farmInfo.dienTich}
             ref={register({
               required: "Required",
             })}
           />
         </FormControl>
         <FormControl gridColumn="span 6">
-          <FormLabel htmlFor="phoneNumber">
+          <FormLabel htmlFor="sdt">
             SĐT liên lạc <Asterisk />
           </FormLabel>
           <Input
             type="text"
-            id="phoneNumber"
-            name="phoneNumber"
-            defaultValue={farmInfo.phoneNumber}
+            id="sdt"
+            name="sdt"
+            defaultValue={farmInfo.sdt}
             ref={register({
               required: "Required",
             })}
