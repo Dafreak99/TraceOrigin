@@ -3,6 +3,7 @@ import dbConnect from "../../../lib/dbConnect";
 import Farm from "../../../models/Farm";
 
 import jwt from "jsonwebtoken";
+import Seed from "../../../models/Seed";
 
 dbConnect();
 
@@ -18,8 +19,12 @@ export default async (req, res) => {
     return res.status(400).send({ message: "Bạn không có quyền truy cập" });
 
   try {
+    await Seed.findOneAndRemove({ pondId });
+
     await Pond.findOneAndRemove({ _id: pondId });
     res.send({ message: "Đã xóa thành công ao !" });
+
+    // DELETE CASCADING
   } catch (error) {
     res.send({ message: error.message });
   }

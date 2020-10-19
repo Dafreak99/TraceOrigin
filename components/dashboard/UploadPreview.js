@@ -5,6 +5,10 @@ import { FiTrash } from "react-icons/fi";
 
 import styles from "../../styles/UploadPreview.module.css";
 
+/**
+ * To use this component please pass in [files, setFiles] [fileUrls, setFileUrls]
+ */
+
 const UploadPreview = ({ files, setFiles, fileUrls, setFileUrls }) => {
   const onUpload = (e) => {
     let srcs = [];

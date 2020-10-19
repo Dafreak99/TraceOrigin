@@ -34,7 +34,8 @@ const FeedingDiaryModal = () => {
       direction="column"
       align="center"
     >
-      <Text>Cho ăn</Text> <Box as={FaFish} size="32px" mt={4} />
+      <Text>Nhật ký cho ăn</Text> <Box as={FaFish} size="32px" mt={4} />
+      {/* TODO: How the fuck to add transition into Modal  */}
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
@@ -42,39 +43,53 @@ const FeedingDiaryModal = () => {
           <ModalCloseButton />
           <ModalBody>
             <FormControl>
-              <FormLabel htmlFor="note">Note: </FormLabel>
+              <FormLabel htmlFor="ghiChu">Ghi chú: </FormLabel>
               <Input
                 type="text"
-                id="note"
-                name="note"
+                id="ghiChu"
+                name="ghiChu"
                 ref={register({
                   required: "Required",
                 })}
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="weight">Weight(gam): </FormLabel>
+              <FormLabel htmlFor="khoiLuong">Khối lượng(kg): </FormLabel>
               <Input
                 type="text"
-                id="weight"
-                name="weight"
+                id="khoiLuong"
+                name="khoiLuong"
                 ref={register({
                   required: "Required",
                 })}
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="note">Pond: </FormLabel>
+              <FormLabel htmlFor="aoTen">Ao tên: </FormLabel>
               <Select
-                id="pondName"
-                name="pondName"
+                id="aoTen"
+                name="aoTen"
                 ref={register({
                   required: "Required",
                 })}
               >
-                <option value="pond1">Pond 1</option>
-                <option value="pond2">Pond 2</option>
-                <option value="pond3">Pond 3</option>
+                <option value="CC">Pond 1</option>
+                <option value="CC1">Pond 2</option>
+                <option value="CC2">Pond 3</option>
+              </Select>
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="note">Thức ăn: </FormLabel>
+              <Select
+                id="tenThucAn"
+                name="tenThucAn"
+                ref={register({
+                  required: "Required",
+                })}
+              >
+                <option value="pond1">Loại A1</option>
+                <option value="pond2">Loại A2</option>
+                <option value="pond3">Loại A3</option>
               </Select>
             </FormControl>
           </ModalBody>

@@ -40,7 +40,6 @@ export const AddSeedModal = ({ pondId, onCloseDrawer }) => {
 
     onClose();
     onCloseDrawer();
-    // TODO: Update pond status after adding new seed to pond and delete seed if we deleting pond
   };
 
   return (

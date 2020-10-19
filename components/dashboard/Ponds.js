@@ -17,6 +17,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/core";
 import useSWR, { mutate } from "swr";
+import { useRouter } from "next/router";
 
 import AddPondModal from "./AddPondModal";
 import fetcher from "../../utils/fetcher";
@@ -38,6 +39,7 @@ const Ponds = () => {
   const btnRef = useRef();
 
   const onDelete = async () => {
+    const router = useRouter();
     let res = await fetch("/api/pond/delete", {
       method: "POST",
       headers: {
@@ -61,7 +63,8 @@ const Ponds = () => {
     );
 
     setSelectedPond({});
-    onClose();
+    router.push("/dashboard/ponds");
+    // onClose();
   };
 
   return (

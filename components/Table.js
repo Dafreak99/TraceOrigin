@@ -17,6 +17,7 @@ export const Td = (props) => (
     as="td"
     color="gray.900"
     p={4}
+    fontSize="md"
     borderBottom="1px solid"
     borderBottomColor="gray.100"
     {...props}

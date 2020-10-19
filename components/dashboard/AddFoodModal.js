@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Box,
   Text,
@@ -16,45 +17,82 @@ import {
   useDisclosure,
   Select,
   ListIcon,
+  Spinner,
 } from "@chakra-ui/core";
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
 import { mutate } from "swr";
 import Link from "next/link";
 import { FaStickyNote } from "react-icons/fa";
+import DatePicker from "../DatePicker";
+import UploadPreview from "./UploadPreview";
 
 export const AddFoodModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isSave, setIsSave] = useState(false);
   const { handleSubmit, register, errors } = useForm();
+  let currentDate = format(new Date(), "dd/MM/yyyy");
+  const [ngayNhap, setNgayNhap] = useState(currentDate);
+  const [ngaySanXuat, setNgaySanXuat] = useState(currentDate);
+  const [hanSuDung, setHanSuDung] = useState(currentDate);
+  const [files, setFiles] = useState([]);
+  const [fileUrls, setFileUrls] = useState([]);
 
   const onSubmit = async (values) => {
+    setIsSave(true);
+    values.ngayNhap = ngayNhap;
+    values.ngaySanXuat = ngaySanXuat;
+    values.hanSuDung = hanSuDung;
+
+    let urls = [];
+
+    const uploadImage = async (file) => {
+      const formdata = new FormData();
+      formdata.append("file", file);
+      formdata.append("upload_preset", "traceorigin");
+      formdata.append("resource_type", "auto");
+
+      const res = await fetch(
+        "https://api.cloudinary.com/v1_1/dafreak/upload",
+        { method: "POST", body: formdata }
+      );
+      const { secure_url } = await res.json();
+      return secure_url;
+    };
+
+    // Loop through each image then upload
+    for (let i = 0; i < files.length; i++) {
+      if (files[i] === "") {
+        urls.push(fileUrls[i]);
+      } else {
+        let data = await uploadImage(files[i]);
+        urls.push(data);
+      }
+    }
+
+    values.hinhAnh = urls;
     console.log(values);
-    //   try {
-    //     let res = await fetch("/api/pond", {
-    //       method: "POST",
-    //       body: values,
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         Authorization:
-    //           "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
-    //       },
-    //       body: JSON.stringify(values),
-    //     });
-    //     let data = await res.json();
-    //     mutate(
-    //       [
-    //         "/api/pond",
-    //         "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
-    //       ],
-    //       async (cachedData) => {
-    //         return [...cachedData, data];
-    //       },
-    //       false
-    //     );
-    //   } catch (error) {
-    //     console.log(error.message);
-    //   }
-    //   onClose();
+
+    try {
+      let res = await fetch("/api/food", {
+        method: "POST",
+        body: values,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization:
+            "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
+        },
+        body: JSON.stringify(values),
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+
+    setFiles([]);
+    setFileUrls([]);
+    onClose();
+
+    setIsSave(false);
   };
 
   return (
@@ -71,50 +109,69 @@ export const AddFoodModal = () => {
           <ModalCloseButton />
           <ModalBody>
             <FormControl>
-              <FormLabel htmlFor="foodDate">Ngày tháng năm: </FormLabel>
+              <FormLabel htmlFor="ngayNhap">Ngày tháng năm: </FormLabel>
+              <DatePicker
+                selectedDate={ngayNhap}
+                setSelectedDate={setNgayNhap}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="tenThucAn">Tên thức ăn</FormLabel>
               <Input
                 type="text"
-                id="foodDate"
-                name="foodDate"
-                defaultValue={format(new Date(), "dd/MM/yyyy")}
+                id="tenThucAn"
+                name="tenThucAn"
                 ref={register({
                   required: "Required",
                 })}
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="foodName">
+              <FormLabel htmlFor="donViCungCapThucAn">
                 Tên người/cửa hàng đại lý thức ăn:{" "}
               </FormLabel>
               <Input
                 type="text"
-                id="foodName"
-                name="foodName"
+                id="donViCungCapThucAn"
+                name="donViCungCapThucAn"
+                ref={register({
+                  required: "Required",
+                })}
+              />
+            </FormControl>
+
+            <FormControl>
+              <FormLabel htmlFor="soLuong">Số lượng(kg): </FormLabel>
+              <Input
+                type="text"
+                id="soLuong"
+                name="soLuong"
                 ref={register({
                   required: "Required",
                 })}
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="foodQuantity">Số lượng(kg): </FormLabel>
-              <Input
-                type="text"
-                id="foodQuantity"
-                name="foodQuantity"
-                ref={register({
-                  required: "Required",
-                })}
+              <FormLabel htmlFor="ngaySanXuat">Ngày sản xuất</FormLabel>
+              <DatePicker
+                selectedDate={ngaySanXuat}
+                setSelectedDate={setNgaySanXuat}
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="produceDate">Ngày sản xuất</FormLabel>
-              <Input
-                type="text"
-                id="produceDate"
-                name="produceDate"
-                ref={register({
-                  required: "Required",
-                })}
+              <FormLabel htmlFor="hanSuDung">Hạn sử dụng</FormLabel>
+              <DatePicker
+                selectedDate={hanSuDung}
+                setSelectedDate={setHanSuDung}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Hình ảnh thức ăn</FormLabel>
+              <UploadPreview
+                files={files}
+                setFiles={setFiles}
+                fileUrls={fileUrls}
+                setFileUrls={setFileUrls}
               />
             </FormControl>
           </ModalBody>
@@ -123,9 +180,15 @@ export const AddFoodModal = () => {
             <Button variantColor="blue" mr={3} onClick={onClose}>
               Close
             </Button>
-            <Button variant="ghost" type="submit">
-              Save
-            </Button>
+            {isSave ? (
+              <Button backgroundColor="gray.400" color="#fff">
+                <Spinner mr={4} /> Đang lưu
+              </Button>
+            ) : (
+              <Button variant="ghost" type="submit">
+                Lưu
+              </Button>
+            )}
           </ModalFooter>
         </ModalContent>
       </Modal>
