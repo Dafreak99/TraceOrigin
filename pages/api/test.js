@@ -12,6 +12,6 @@ export default async (req, res) => {
 
   const ponds = await Pond.find({ farmId: farm._id }).populate("seed");
   // Populate by the name field not the model
-
+  console.log(ponds);
   res.send(ponds);
 };

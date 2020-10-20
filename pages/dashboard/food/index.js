@@ -7,11 +7,13 @@ import {
   Heading,
   Image,
 } from "@chakra-ui/core";
-import Layout from "../../components/dashboard/Layout";
-import { Table, Th, Td, Tr } from "../../components/Table";
+import Layout from "../../../components/dashboard/Layout";
+import { Table, Th, Td, Tr } from "../../../components/Table";
 import useSWR from "swr";
+import Link from "next/link";
 
-import fetcher from "../../utils/fetcher";
+import fetcher from "../../../utils/fetcher";
+import FoodTableSkeleton from "../../../components/dashboard/FoodTableSkeleton";
 
 const AddFood = () => {
   const { data, error } = useSWR(
@@ -45,6 +47,7 @@ const AddFood = () => {
               <Th>Số lượng(kg)</Th>
               <Th>Ngày sản xuất</Th>
               <Th>Hạn sử dụng</Th>
+              <Th>{""}</Th>
             </Tr>
             {data.map((food) => (
               <Tr>
@@ -56,11 +59,16 @@ const AddFood = () => {
                 <Td>{food.soLuong}</Td>
                 <Td>{food.ngaySanXuat}</Td>
                 <Td>{food.hanSuDung}</Td>
+                <Td>
+                  <Link href={`./food/${food._id}`}>
+                    <a>Xem</a>
+                  </Link>
+                </Td>
               </Tr>
             ))}
           </Table>
         ) : (
-          "Empty"
+          <FoodTableSkeleton />
         )}
       </Box>
     </Layout>

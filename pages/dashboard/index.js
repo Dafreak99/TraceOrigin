@@ -7,8 +7,9 @@ import {
   List,
   ListItem,
   Text,
+  Skeleton,
 } from "@chakra-ui/core";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useSWR from "swr";
 
 import FarmInfoModify from "../../components/dashboard/FarmInfoModify";
@@ -26,7 +27,28 @@ const Info = () => {
     fetcher
   );
 
-  console.log(data);
+  // First fetch usually returns undefined
+  if (!data) {
+    return (
+      <Layout>
+        <Box px={16} py={12}>
+          <Skeleton height="20px" my="10px" w="40%" />
+          <Skeleton height="20px" my="10px" />
+          <Skeleton height="20px" my="10px" />
+          <Skeleton height="20px" my="10px" w="55%" />
+        </Box>
+      </Layout>
+    );
+  }
+
+  if (data && data.message === "Empty") {
+    // No Farm Info yet
+    return (
+      <Layout>
+        <FarmInfoModify />
+      </Layout>
+    );
+  }
 
   if (isEdit) {
     return (
@@ -35,13 +57,10 @@ const Info = () => {
       </Layout>
     );
   }
+
   return (
     <Layout>
-      {data ? (
-        <Content data={data} isEdit={isEdit} setIsEdit={setIsEdit} />
-      ) : (
-        <FarmInfoModify />
-      )}
+      {data && <Content data={data} isEdit={isEdit} setIsEdit={setIsEdit} />}
     </Layout>
   );
 };
@@ -147,22 +166,3 @@ const Content = ({
 };
 
 export default Info;
-
-// export async function getStaticProps(context) {
-//   let data;
-//   try {
-//     // REPLACE WITH USER TOKEN
-//     data = await getYourFarm(
-//       "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY"
-//     );
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-
-//   return {
-//     props: {
-//       data: JSON.parse(JSON.stringify(data[0])) || null,
-//     },
-//     revalidate: 1,
-//   };
-// }

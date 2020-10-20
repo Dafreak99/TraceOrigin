@@ -76,13 +76,13 @@ const FarmInfoModify = ({ isEdit, setIsEdit, data = {} }) => {
     });
     let data = await respond.json();
 
-    mutate(
-      "/api/farm",
-      async (cachedData) => {
-        return { ...values, hinhAnh: urls };
-      },
-      false
-    );
+    // mutate(
+    //   "/api/farm",
+    //   async (cachedData) => {
+    //     return { ...values, hinhAnh: urls };
+    //   },
+    //   false
+    // );
 
     if (data.status === 500) console.log(data.message);
 

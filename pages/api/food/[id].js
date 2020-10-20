@@ -1,4 +1,5 @@
 import Farm from "../../../models/Farm";
+import Food from "../../../models/Food";
 import dbConnect from "../../../lib/dbConnect";
 
 import jwt from "jsonwebtoken";
@@ -11,20 +12,13 @@ dbConnect();
 export default async (req, res) => {
   const token = req.headers.authorization;
 
+  const {
+    query: { id },
+  } = req;
+
   if (!token)
     return res.status(400).send({ message: "Bạn không có quyền truy cập" });
 
-  const decoded = jwt.verify(token, process.env.SECRET_KEY);
-
-  let farm = await Farm.findOne({ themVaoBoi: decoded });
-
-  // Change the return value to satisfy conditional rendering in Client
-
-  if (farm) {
-    res.send(farm);
-  } else {
-    res.send({ message: "Empty" });
-  }
-
-  //  There will cause an error if send NULL back
+  let food = await Food.findOne({ _id: id });
+  res.send(food);
 };

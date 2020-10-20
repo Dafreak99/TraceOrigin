@@ -19,8 +19,6 @@ export default async (req, res) => {
   let farm = await Farm.findOne({ themVaoBoi: decoded });
   switch (method) {
     case "GET":
-      console.log("here");
-
       let food = await Food.find({ farmId: farm._id });
       res.send(food);
       break;
@@ -28,7 +26,6 @@ export default async (req, res) => {
       try {
         let food = new Food(req.body);
         food.farmId = farm._id;
-        console.log(food);
         await food.save();
         res.send({ message: "OK" });
       } catch (error) {
