@@ -21,9 +21,9 @@ import {
 } from "@chakra-ui/core";
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
-import { mutate } from "swr";
-import Link from "next/link";
 import { FaStickyNote } from "react-icons/fa";
+import { useRouter } from "next/router";
+
 import DatePicker from "../DatePicker";
 import UploadPreview from "./UploadPreview";
 
@@ -37,6 +37,8 @@ export const AddFoodModal = () => {
   const [hanSuDung, setHanSuDung] = useState(currentDate);
   const [files, setFiles] = useState([]);
   const [fileUrls, setFileUrls] = useState([]);
+
+  const router = useRouter();
 
   const onSubmit = async (values) => {
     setIsSave(true);
@@ -71,7 +73,6 @@ export const AddFoodModal = () => {
     }
 
     values.hinhAnh = urls;
-    console.log(values);
 
     try {
       let res = await fetch("/api/food", {
@@ -91,6 +92,8 @@ export const AddFoodModal = () => {
     setFiles([]);
     setFileUrls([]);
     onClose();
+
+    router.push("/dashboard/food");
 
     setIsSave(false);
   };

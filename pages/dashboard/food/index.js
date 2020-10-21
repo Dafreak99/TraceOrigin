@@ -7,13 +7,13 @@ import {
   Heading,
   Image,
 } from "@chakra-ui/core";
-import Layout from "../../../components/dashboard/Layout";
-import { Table, Th, Td, Tr } from "../../../components/Table";
+import Layout from "@/components/dashboard/Layout";
+import { Table, Th, Td, Tr } from "@/components/Table";
 import useSWR from "swr";
 import Link from "next/link";
 
-import fetcher from "../../../utils/fetcher";
-import FoodTableSkeleton from "../../../components/dashboard/FoodTableSkeleton";
+import fetcher from "@/utils/fetcher";
+import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
 
 const AddFood = () => {
   const { data, error } = useSWR(
@@ -36,7 +36,7 @@ const AddFood = () => {
           </BreadcrumbItem>
         </Breadcrumb>
         <Heading mt={10} mb={5}>
-          Lich sử nhập thức ăn
+          Lịch sử nhập thức ăn
         </Heading>
         {data && data.length > 0 ? (
           <Table>

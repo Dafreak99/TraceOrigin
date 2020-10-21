@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import DatePicker from "../components/DatePicker";
+import DatePicker from "@/components/DatePicker";
 
 const DatePickerPage = () => {
   const FORMAT = "dd/MM/yyyy";

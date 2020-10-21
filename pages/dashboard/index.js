@@ -12,9 +12,9 @@ import {
 import { useState } from "react";
 import useSWR from "swr";
 
-import FarmInfoModify from "../../components/dashboard/FarmInfoModify";
-import Layout from "../../components/dashboard/Layout";
-import fetcher from "../../utils/fetcher";
+import FarmInfoModify from "@/components/dashboard/FarmInfoModify";
+import Layout from "@/components/dashboard/Layout";
+import fetcher from "@/utils/fetcher";
 
 const Info = () => {
   const [isEdit, setIsEdit] = useState(false);
@@ -53,7 +53,7 @@ const Info = () => {
   if (isEdit) {
     return (
       <Layout>
-        <FarmInfoModify isEdit={isEdit} setIsEdit={setIsEdit} data={data} />
+        <FarmInfoModify isEdit={isEdit} setIsEdit={setIsEdit} ata={data} d />
       </Layout>
     );
   }

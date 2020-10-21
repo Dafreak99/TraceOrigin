@@ -17,7 +17,7 @@ import {
 import Link from "next/link";
 import { MdBrandingWatermark, MdInfo } from "react-icons/md";
 import { FaStickyNote } from "react-icons/fa";
-import { GiFoodChain } from "react-icons/gi";
+import { GiFoodChain, GiParmecia } from "react-icons/gi";
 import AddFoodModal from "./dashboard/AddFoodModal";
 
 const Sidebar = () => {
@@ -101,6 +101,14 @@ const Sidebar = () => {
             <a className="sidebar__link">
               <ListIcon icon={GiFoodChain} color="gray.50" />
               Nhật ký hằng ngày
+            </a>
+          </Link>
+        </ListItem>
+        <ListItem>
+          <Link href="/dashboard/food">
+            <a className="sidebar__link">
+              <ListIcon icon={GiParmecia} color="gray.50" />
+              Thức ăn
             </a>
           </Link>
         </ListItem>

@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 
 dbConnect();
 
-// @route /api/farm
+// @route /api/food
 // @desc Get detail information of your farm
 
 export default async (req, res) => {

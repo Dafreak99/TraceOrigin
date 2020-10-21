@@ -1,10 +1,10 @@
 import { Box, Grid } from "@chakra-ui/core";
 
-import DailyNoteModal from "../../components/dashboard/DailyNoteModal";
-import FeedingDiaryModal from "../../components/dashboard/FeedingDiaryModal";
-import PondEnviromentModal from "../../components/dashboard/PondEnviromentModal";
+import DailyNoteModal from "@/components/dashboard/DailyNoteModal";
+import FeedingDiaryModal from "@/components/dashboard/FeedingDiaryModal";
+import PondEnviromentModal from "@/components/dashboard/PondEnviromentModal";
 
-import Layout from "../../components/dashboard/Layout";
+import Layout from "@/components/dashboard/Layout";
 
 const DashBoard = () => {
   return (

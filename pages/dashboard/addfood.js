@@ -1,5 +1,5 @@
-import { Box, Grid, Heading } from "@chakra-ui/core";
-import Layout from "../../components/dashboard/Layout";
+import { Box, Heading } from "@chakra-ui/core";
+import Layout from "@/components/dashboard/Layout";
 
 const AddFood = () => {
   return (

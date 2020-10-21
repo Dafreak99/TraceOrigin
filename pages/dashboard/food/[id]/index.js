@@ -11,7 +11,7 @@ import {
 import { BiArrowBack } from "react-icons/bi";
 import { useRouter } from "next/router";
 
-import Layout from "../../../../components/dashboard/Layout";
+import Layout from "@/components/dashboard/Layout";
 
 const Index = ({
   data: {
