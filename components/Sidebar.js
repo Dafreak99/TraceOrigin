@@ -18,6 +18,8 @@ import Link from "next/link";
 import { MdBrandingWatermark, MdInfo } from "react-icons/md";
 import { FaStickyNote } from "react-icons/fa";
 import { GiFoodChain, GiParmecia } from "react-icons/gi";
+import { BsBarChartFill } from "react-icons/bs";
+
 import AddFoodModal from "./dashboard/AddFoodModal";
 
 const Sidebar = () => {
@@ -88,6 +90,7 @@ const Sidebar = () => {
             </AccordionItem>
           </Accordion>
         </ListItem>
+
         <ListItem>
           <Link href="/dashboard/notes">
             <a className="sidebar__link">
@@ -103,6 +106,38 @@ const Sidebar = () => {
               Nhật ký hằng ngày
             </a>
           </Link>
+        </ListItem>
+
+        <ListItem>
+          <Accordion allowToggle>
+            <AccordionItem border="none">
+              <AccordionHeader
+                outline="none"
+                px={8}
+                py={2}
+                _focus={{}}
+                _hover={{ backgroundColor: "#007bff" }}
+              >
+                <Box flex="1" textAlign="left">
+                  <ListIcon icon={BsBarChartFill} color="gray.50" />
+                  Biểu đồ
+                </Box>
+                <AccordionIcon />
+              </AccordionHeader>
+              <AccordionPanel p={0} mt={3}>
+                <List spacing={3}>
+                  <ListItem>
+                    <Link href="/dashboard/feedingchart">
+                      <a className="sidebar__link--sub">
+                        <ListIcon icon={GiFoodChain} color="gray.50" />
+                        Cho ăn
+                      </a>
+                    </Link>
+                  </ListItem>
+                </List>
+              </AccordionPanel>
+            </AccordionItem>
+          </Accordion>
         </ListItem>
         <ListItem>
           <Link href="/dashboard/food">

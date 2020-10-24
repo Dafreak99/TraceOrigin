@@ -1,13 +1,12 @@
-import Farm from "../../../models/Farm";
-import Food from "../../../models/Food";
+import FeedingDiary from "../../../models/FeedingDiary";
 import dbConnect from "../../../lib/dbConnect";
 
 import jwt from "jsonwebtoken";
 
 dbConnect();
 
-// @route /api/food
-// @desc Get detail food information of your farm
+// @route /api/feedingdiary
+// @desc Add feeding diary everyday
 
 export default async (req, res) => {
   const token = req.headers.authorization;
@@ -16,21 +15,19 @@ export default async (req, res) => {
     return res.status(400).send({ message: "Bạn không có quyền truy cập" });
 
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
-  let farm = await Farm.findOne({ themVaoBoi: decoded });
+
   switch (method) {
     case "GET":
-      let food = await Food.find({ farmId: farm._id });
-      console.log(food);
-      res.send(food);
       break;
     case "POST":
       try {
-        let food = new Food(req.body);
-        food.farmId = farm._id;
-        await food.save();
+        console.log(req.body);
+        let feedingDiary = new FeedingDiary(req.body);
+
+        await feedingDiary.save();
         res.send({ message: "OK" });
       } catch (error) {
-        res.send({ message: error.message });
+        res.status(500).send({ message: error.message });
       }
       break;
     default:
