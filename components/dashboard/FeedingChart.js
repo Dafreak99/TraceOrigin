@@ -147,7 +147,6 @@ const FeedingChart = () => {
         ],
       },
       options: {
-        responsive: true,
         scales: {
           yAxes: [
             {

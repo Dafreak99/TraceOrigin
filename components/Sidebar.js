@@ -56,9 +56,32 @@ const Sidebar = () => {
             </a>
           </Link>
         </ListItem>
-        <ListItem>
+        {/* <ListItem>
           <Accordion allowToggle>
-            <AccordionItem border="none">
+           
+          </Accordion>
+        </ListItem> */}
+
+        <ListItem>
+          <Link href="/dashboard/notes">
+            <a className="sidebar__link">
+              <ListIcon icon={FaStickyNote} color="gray.50" />
+              Ghi chú
+            </a>
+          </Link>
+        </ListItem>
+        <ListItem>
+          <Link href="/dashboard/diary">
+            <a className="sidebar__link">
+              <ListIcon icon={GiFoodChain} color="gray.50" />
+              Nhật ký hằng ngày
+            </a>
+          </Link>
+        </ListItem>
+
+        <ListItem>
+          <Accordion allowToggle allowMultiple>
+            <AccordionItem border="none" mb={3}>
               <AccordionHeader
                 outline="none"
                 px={8}
@@ -88,28 +111,6 @@ const Sidebar = () => {
                 </List>
               </AccordionPanel>
             </AccordionItem>
-          </Accordion>
-        </ListItem>
-
-        <ListItem>
-          <Link href="/dashboard/notes">
-            <a className="sidebar__link">
-              <ListIcon icon={FaStickyNote} color="gray.50" />
-              Ghi chú
-            </a>
-          </Link>
-        </ListItem>
-        <ListItem>
-          <Link href="/dashboard/diary">
-            <a className="sidebar__link">
-              <ListIcon icon={GiFoodChain} color="gray.50" />
-              Nhật ký hằng ngày
-            </a>
-          </Link>
-        </ListItem>
-
-        <ListItem>
-          <Accordion allowToggle>
             <AccordionItem border="none">
               <AccordionHeader
                 outline="none"

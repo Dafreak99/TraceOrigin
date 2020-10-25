@@ -31,12 +31,10 @@ const Info = () => {
   if (!data) {
     return (
       <Layout>
-        <Box px={16} py={12}>
-          <Skeleton height="20px" my="10px" w="40%" />
-          <Skeleton height="20px" my="10px" />
-          <Skeleton height="20px" my="10px" />
-          <Skeleton height="20px" my="10px" w="55%" />
-        </Box>
+        <Skeleton height="20px" my="10px" w="40%" />
+        <Skeleton height="20px" my="10px" />
+        <Skeleton height="20px" my="10px" />
+        <Skeleton height="20px" my="10px" w="55%" />
       </Layout>
     );
   }
