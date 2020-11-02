@@ -4,6 +4,7 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
+  Grid,
   Heading,
   Image,
   AlertDialog,
@@ -14,36 +15,34 @@ import {
   AlertDialogOverlay,
   Button,
 } from "@chakra-ui/core";
-import useSWR, { mutate } from "swr";
+import Layout from "@/components/dashboard/Layout";
+import { Table, Th, Td, Tr } from "@/components/Table";
+import useSWR from "swr";
+
+import fetcher from "@/utils/fetcher";
+import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
 import { useRouter } from "next/router";
 import { FaTrash } from "react-icons/fa";
 
-import Layout from "@/components/dashboard/Layout";
-import { Table, Th, Td, Tr } from "@/components/Table";
-import fetcher from "@/utils/fetcher";
-import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
-
-const AddFood = () => {
+const Index = () => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState();
   const [id, setId] = useState();
 
   const onClose = () => setIsOpen(false);
   const cancelRef = React.useRef();
+
   const { data, error } = useSWR(
     [
-      "/api/food",
+      "/api/medicine",
       "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
     ],
     fetcher
   );
 
   const onDelete = async () => {
-    let index = data.findIndex((each) => each._id === id);
-
-    //TODO: Include mutate to see instant change
     try {
-      let res = await fetch(`/api/food/${id}`, {
+      let res = await fetch(`/api/medicine/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -51,20 +50,6 @@ const AddFood = () => {
             "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
         },
       });
-
-      mutate(
-        [
-          "/api/food",
-          "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
-        ],
-        async (cachedData) => {
-          return [
-            ...cachedData.slice(0, index),
-            ...cachedData.slice(index + 1),
-          ];
-        },
-        false
-      );
     } catch (error) {
       console.log(error.message);
     }
@@ -80,19 +65,20 @@ const AddFood = () => {
             <BreadcrumbLink>Quản lí</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbItem isCurrentPage>
-            <BreadcrumbLink>Thức ăn</BreadcrumbLink>
+            <BreadcrumbLink>Thuốc</BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
         <Heading mt={10} mb={5}>
-          Lịch sử nhập thức ăn
+          Lịch sử nhập thuốc
         </Heading>
         {data && data.length > 0 ? (
           <Table>
             <Tr>
               <Th>Ngày nhập</Th>
-              <Th>Tên thức ăn</Th>
+              <Th>Tên thuốc</Th>
               <Th>Hình ảnh</Th>
               <Th>Số lượng(kg)</Th>
+              <Th>Cách bảo quản</Th>
               <Th>Ngày sản xuất</Th>
               <Th>Hạn sử dụng</Th>
               <Th>{""}</Th>
@@ -100,10 +86,11 @@ const AddFood = () => {
             {data.map(
               (
                 {
-                  ngayNhap,
-                  tenThucAn,
+                  tenThuoc,
                   hinhAnh,
                   soLuong,
+                  cachBaoQuan,
+                  ngayNhap,
                   ngaySanXuat,
                   hanSuDung,
                   _id,
@@ -113,14 +100,15 @@ const AddFood = () => {
                 <Tr
                   backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
                   cursor="pointer"
-                  onClick={() => router.push(`./food/${_id}`)}
+                  onClick={() => router.push(`./medicine/${_id}`)}
                 >
                   <Td>{ngayNhap}</Td>
-                  <Td>{tenThucAn}</Td>
+                  <Td>{tenThuoc}</Td>
                   <Td>
                     <Image src={hinhAnh[0]} height="5rem" />
                   </Td>
                   <Td>{soLuong}</Td>
+                  <Td>{cachBaoQuan}</Td>
                   <Td>{ngaySanXuat}</Td>
                   <Td>{hanSuDung}</Td>
                   <Td
@@ -171,4 +159,4 @@ const AddFood = () => {
   );
 };
 
-export default AddFood;
+export default Index;

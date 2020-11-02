@@ -8,6 +8,7 @@ import {
   Grid,
   Heading,
   Input,
+  Select,
   Spinner,
 } from "@chakra-ui/core";
 import { useRouter } from "next/router";
@@ -34,13 +35,15 @@ const Modify = () => {
 
   const [generalData, setGeneralData] = useState(null);
 
+  const [cachBaoQuan, setCachBaoQuan] = useState(null);
+
   const [files, setFiles] = useState([]);
   const [fileUrls, setFileUrls] = useState([]);
 
   const { data, error } = useSWR(
     router.query.id
       ? [
-          `/api/food/${router.query.id}`,
+          `/api/medicine/${router.query.id}`,
           "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
         ]
       : null,
@@ -53,7 +56,7 @@ const Modify = () => {
       setNgayNhap(data.ngayNhap);
       setNgaySanXuat(data.ngaySanXuat);
       setHanSuDung(data.hanSuDung);
-
+      setCachBaoQuan(data.cachBaoQuan);
       if (data.hinhAnh) {
         setFiles(Array(data.hinhAnh.length).fill(""));
         setFileUrls(data.hinhAnh);
@@ -67,6 +70,7 @@ const Modify = () => {
     values.ngaySanXuat = ngaySanXuat;
     values.hanSuDung = hanSuDung;
     values._id = router.query.id;
+    values.cachBaoQuan = cachBaoQuan;
 
     let urls = [];
 
@@ -97,7 +101,7 @@ const Modify = () => {
     values.hinhAnh = urls;
 
     try {
-      let res = await fetch(`/api/food/${router.query.id}`, {
+      let res = await fetch(`/api/medicine/${router.query.id}`, {
         method: "POST",
         body: values,
         headers: {
@@ -129,13 +133,15 @@ const Modify = () => {
         {generalData && (
           <>
             <Flex alignItems="center" justify="space-between">
-              <Heading>Chỉnh sửa thông tin thức ăn</Heading>
+              <Heading>Chỉnh sửa thông tin thuốc</Heading>
               {isSave ? (
                 <Button backgroundColor="gray.400" color="#fff">
                   <Spinner mr={4} /> Đang lưu
                 </Button>
               ) : (
-                <Button type="submit">Lưu thông tin</Button>
+                <Button type="submit" backgroundColor="gray.600" color="#fff">
+                  Lưu thông tin
+                </Button>
               )}
             </Flex>
 
@@ -156,28 +162,43 @@ const Modify = () => {
                 />
               </FormControl>
               <FormControl>
-                <FormLabel htmlFor="tenThucAn">Tên thức ăn</FormLabel>
+                <FormLabel htmlFor="tenThucAn">Tên thuốc</FormLabel>
                 <Input
                   type="text"
-                  id="tenThucAn"
-                  name="tenThucAn"
+                  id="tenThuoc"
+                  name="tenThuoc"
                   onChange={onChange}
-                  value={generalData.tenThucAn}
+                  value={generalData.tenThuoc}
                   ref={register({
                     required: "Required",
                   })}
                 />
               </FormControl>
               <FormControl>
-                <FormLabel htmlFor="donViCungCapThucAn">
-                  Tên người/cửa hàng đại lý thức ăn:{" "}
+                <FormLabel htmlFor="donViCungCapThuoc">
+                  Tên người/cửa hàng cung cấp thuốc:{" "}
                 </FormLabel>
                 <Input
                   type="text"
-                  id="donViCungCapThucAn"
-                  name="donViCungCapThucAn"
+                  id="donViCungCapThuoc"
+                  name="donViCungCapThuoc"
                   onChange={onChange}
-                  value={generalData.donViCungCapThucAn}
+                  value={generalData.donViCungCapThuoc}
+                  ref={register({
+                    required: "Required",
+                  })}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel htmlFor="diaChiDonViCungCapThuoc">
+                  Địa chỉ đơn vị cung cấp thuốc:{" "}
+                </FormLabel>
+                <Input
+                  type="text"
+                  id="diaChiDonViCungCapThuoc"
+                  name="diaChiDonViCungCapThuoc"
+                  onChange={onChange}
+                  value={generalData.diaChiDonViCungCapThuoc}
                   ref={register({
                     required: "Required",
                   })}
@@ -209,6 +230,23 @@ const Modify = () => {
                   selectedDate={hanSuDung}
                   setSelectedDate={setHanSuDung}
                 />
+              </FormControl>
+              <FormControl>
+                <FormLabel htmlFor="cachBaoQuan">Cách bảo quản</FormLabel>
+                <Select
+                  name="cachBaoQuan"
+                  onChange={(e) => setCachBaoQuan(e.target.value)}
+                >
+                  <option
+                    value="Trong kho"
+                    selected={cachBaoQuan === "Trong kho"}
+                  >
+                    Trong kho
+                  </option>
+                  <option value="Tủ lạnh" selected={cachBaoQuan === "Tủ lạnh"}>
+                    Tủ lạnh
+                  </option>
+                </Select>
               </FormControl>
               <FormControl>
                 <FormLabel>Hình ảnh thức ăn</FormLabel>

@@ -27,7 +27,7 @@ export const Td = (props) => (
 export const Tr = (props) => (
   <Box
     as="tr"
-    backgroundColor="gray.50"
+    backgroundColor="#fafafa"
     borderTopLeftRadius={8}
     borderTopRightRadius={8}
     borderBottom="1px solid"

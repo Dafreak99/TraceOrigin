@@ -1,33 +1,38 @@
-import Farm from "../../../models/Farm";
-import Food from "../../../models/Food";
+import Medicine from "../../../models/Medicine";
 import dbConnect from "../../../lib/dbConnect";
 
 import jwt from "jsonwebtoken";
+import Id from "../food/[id]";
 
 dbConnect();
 
-// @route /api/farm
+// @route /api/medicine/[id]
 // @desc Get detail information of your farm
 
 export default async (req, res) => {
   const token = req.headers.authorization;
 
+  const { method } = req;
   const {
     query: { id },
   } = req;
-  const { method } = req;
 
   if (!token)
     return res.status(400).send({ message: "Bạn không có quyền truy cập" });
 
   switch (method) {
     case "GET":
-      let food = await Food.findOne({ _id: id });
-      res.send(food);
+      try {
+        let medicine = await Medicine.findOne({ _id: id });
+        res.send(medicine);
+      } catch (error) {
+        res.send({ message: error.message });
+      }
       break;
     case "POST":
+      // Update a specific medicine
       try {
-        await Food.findOneAndUpdate({ _id: req.body._id }, req.body);
+        await Medicine.findOneAndUpdate({ _id: req.body._id }, req.body);
         res.send({ message: "OK" });
       } catch (error) {
         res.send({ message: error.message });
@@ -35,12 +40,11 @@ export default async (req, res) => {
       break;
     case "DELETE":
       try {
-        await Food.findOneAndRemove({ _id: id });
+        await Medicine.findOneAndRemove({ _id: id });
         res.send({ message: "OK" });
       } catch (error) {
         res.send({ message: error.message });
       }
-
       break;
     default:
       break;

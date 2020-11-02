@@ -17,10 +17,11 @@ import {
 import Link from "next/link";
 import { MdBrandingWatermark, MdInfo } from "react-icons/md";
 import { FaStickyNote } from "react-icons/fa";
-import { GiFoodChain, GiParmecia } from "react-icons/gi";
-import { BsBarChartFill } from "react-icons/bs";
+import { GiFoodChain, GiMedicines, GiParmecia } from "react-icons/gi";
+import { BsBarChartFill, BsFillPlusCircleFill } from "react-icons/bs";
 
 import AddFoodModal from "./dashboard/AddFoodModal";
+import AddMedicineModal from "./dashboard/AddMedicineModal";
 
 const Sidebar = () => {
   return (
@@ -56,11 +57,6 @@ const Sidebar = () => {
             </a>
           </Link>
         </ListItem>
-        {/* <ListItem>
-          <Accordion allowToggle>
-           
-          </Accordion>
-        </ListItem> */}
 
         <ListItem>
           <Link href="/dashboard/notes">
@@ -90,8 +86,8 @@ const Sidebar = () => {
                 _hover={{ backgroundColor: "#007bff" }}
               >
                 <Box flex="1" textAlign="left">
-                  <ListIcon icon={MdBrandingWatermark} color="gray.50" />
-                  Quản lí
+                  <ListIcon icon={BsFillPlusCircleFill} color="gray.50" />
+                  Thêm
                 </Box>
                 <AccordionIcon />
               </AccordionHeader>
@@ -101,12 +97,7 @@ const Sidebar = () => {
                     <AddFoodModal />
                   </ListItem>
                   <ListItem>
-                    <Link href="/dashboard/diary">
-                      <a className="sidebar__link--sub">
-                        <ListIcon icon={GiFoodChain} color="gray.50" />
-                        Nhật ký hằng ngày
-                      </a>
-                    </Link>
+                    <AddMedicineModal />
                   </ListItem>
                 </List>
               </AccordionPanel>
@@ -145,6 +136,14 @@ const Sidebar = () => {
             <a className="sidebar__link">
               <ListIcon icon={GiParmecia} color="gray.50" />
               Thức ăn
+            </a>
+          </Link>
+        </ListItem>
+        <ListItem>
+          <Link href="/dashboard/medicine">
+            <a className="sidebar__link">
+              <ListIcon icon={GiMedicines} color="gray.50" />
+              Thuốc
             </a>
           </Link>
         </ListItem>

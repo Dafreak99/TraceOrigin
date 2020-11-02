@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
-const Seed = require("./Seed");
 
 const FeedingDiarySchema = new mongoose.Schema({
   ghiChu: String,
   ngayThangNam: String,
-  ao: { type: mongoose.Schema.Types.ObjectId, ref: "Pond" },
   khoiLuong: String,
   thucAn: { type: mongoose.Schema.Types.ObjectId, ref: "Food" },
+  ao: { type: mongoose.Schema.Types.ObjectId, ref: "Pond" },
+  coSoNuoi: { type: mongoose.Schema.Types.ObjectId, ref: "Farm" },
 });
 
 module.exports =

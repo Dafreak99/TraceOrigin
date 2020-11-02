@@ -1,4 +1,3 @@
-import Pond from "../../models/Pond";
 import dbConnect from "../../lib/dbConnect";
 import FeedingDiary from "../../models/FeedingDiary";
 
@@ -13,9 +12,9 @@ export default async (req, res) => {
   // const ponds = await Pond.find({ farmId: farm._id }).populate("seed");
   // Populate by the name field not the model
 
-  let feedingdiary = await FeedingDiary.find();
-  // .populate("ao")
-  // .populate("thucAn");
+  let feedingDiaries = await FeedingDiary.find({
+    _id: "5f9424ad4959fa23c00d7833",
+  }).populate("ao");
 
-  res.send(feedingdiary);
+  res.send(feedingDiaries);
 };

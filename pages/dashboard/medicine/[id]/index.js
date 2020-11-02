@@ -15,18 +15,20 @@ import Layout from "@/components/dashboard/Layout";
 import fetcher from "@/utils/fetcher";
 import useSWR from "swr";
 
-const Index = ({}) => {
+const Index = () => {
   const router = useRouter();
 
   const { data, error } = useSWR(
     router.query.id
       ? [
-          `/api/food/${router.query.id}`,
+          `/api/medicine/${router.query.id}`,
           "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
         ]
       : null,
     fetcher
   );
+
+  console.log(data);
 
   return (
     <Layout>
@@ -39,10 +41,10 @@ const Index = ({}) => {
                   as={BiArrowBack}
                   mr={8}
                   color="gray.500"
-                  onClick={() => router.push("/dashboard/food")}
+                  onClick={() => router.push("/dashboard/medicine")}
                 />
                 <Heading size="xl" fontWeight="medium" color="gray.800">
-                  Thức ăn / {data.tenThucAn}
+                  Thuốc / {data.tenThuoc}
                 </Heading>
               </Flex>
               <Button
@@ -50,7 +52,7 @@ const Index = ({}) => {
                 color="#fff"
                 type="submit"
                 onClick={() =>
-                  router.push(`/dashboard/food/${router.query.id}/modify`)
+                  router.push(`/dashboard/medicine/${router.query.id}/modify`)
                 }
               >
                 Chỉnh sửa thông tin
@@ -60,17 +62,34 @@ const Index = ({}) => {
             <List spacing={2} mt={12}>
               <ListItem>
                 <Text fontSize="md" fontWeight="medium">
-                  Tên thức ăn:{" "}
+                  Tên thuốc:{" "}
                   <Box as="span" fontWeight="normal">
-                    {data.tenThucAn}
+                    {data.tenThuoc}
                   </Box>
                 </Text>
               </ListItem>
               <ListItem>
                 <Text fontSize="md" fontWeight="medium">
-                  Đơn vị cung cấp thức ăn:{" "}
+                  Đơn vị cung cấp thuốc:{" "}
                   <Box as="span" fontWeight="normal">
-                    {data.donViCungCapThucAn}
+                    {data.donViCungCapThuoc}
+                  </Box>
+                </Text>
+              </ListItem>
+
+              <ListItem>
+                <Text fontSize="md" fontWeight="medium">
+                  Địa chỉ đơn vị cung cấp thuốc:{" "}
+                  <Box as="span" fontWeight="normal">
+                    {data.diaChiDonViCungCapThuoc}
+                  </Box>
+                </Text>
+              </ListItem>
+              <ListItem>
+                <Text fontSize="md" fontWeight="medium">
+                  Ngày nhập thuốc:{" "}
+                  <Box as="span" fontWeight="normal">
+                    {data.ngayNhap}
                   </Box>
                 </Text>
               </ListItem>
@@ -79,14 +98,6 @@ const Index = ({}) => {
                   Ngày sản xuất:{" "}
                   <Box as="span" fontWeight="normal">
                     {data.ngaySanXuat}
-                  </Box>
-                </Text>
-              </ListItem>
-              <ListItem>
-                <Text fontSize="md" fontWeight="medium">
-                  Ngày nhập:{" "}
-                  <Box as="span" fontWeight="normal">
-                    {data.ngayNhap}
                   </Box>
                 </Text>
               </ListItem>
@@ -103,6 +114,14 @@ const Index = ({}) => {
                   Số lượng:{" "}
                   <Box as="span" fontWeight="normal">
                     {data.soLuong} kg
+                  </Box>
+                </Text>
+              </ListItem>
+              <ListItem>
+                <Text fontSize="md" fontWeight="medium">
+                  Cách bảo quản:{" "}
+                  <Box as="span" fontWeight="normal">
+                    {data.cachBaoQuan}
                   </Box>
                 </Text>
               </ListItem>

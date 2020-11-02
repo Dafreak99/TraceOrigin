@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const Seed = require("./Seed");
 
 const FarmSchema = new mongoose.Schema({
   tenCoSoNuoi: String,

@@ -31,10 +31,12 @@ const Info = () => {
   if (!data) {
     return (
       <Layout>
-        <Skeleton height="20px" my="10px" w="40%" />
-        <Skeleton height="20px" my="10px" />
-        <Skeleton height="20px" my="10px" />
-        <Skeleton height="20px" my="10px" w="55%" />
+        <Box px={12} py={16}>
+          <Skeleton height="20px" my="10px" w="40%" />
+          <Skeleton height="20px" my="10px" />
+          <Skeleton height="20px" my="10px" />
+          <Skeleton height="20px" my="10px" w="55%" />
+        </Box>
       </Layout>
     );
   }
@@ -90,7 +92,15 @@ const Content = ({
         </Button>
       </Flex>
 
-      <List spacing={2} mt={12}>
+      <List
+        spacing={2}
+        mt={12}
+        px={16}
+        py={12}
+        boxShadow="0 4px 10px rgba(0,0,0,.1)"
+        w="max-content"
+        background="#fff"
+      >
         <ListItem>
           <Text fontSize="md" fontWeight="medium">
             Họ và tên chủ cơ sở:{" "}
@@ -141,7 +151,7 @@ const Content = ({
         </ListItem>
       </List>
       <Box mt={12}>
-        <Heading mb={12} color="gray.700">
+        <Heading mb={8} color="gray.700" fontSize="xl">
           Hình ảnh trang trại của bạn
         </Heading>
         <Flex>

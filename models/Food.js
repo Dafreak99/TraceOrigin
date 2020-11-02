@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const Seed = require("./Seed");
 
 const FoodSchema = new mongoose.Schema({
   tenThucAn: String,

@@ -1,13 +1,12 @@
-import FeedingDiary from "../../../models/FeedingDiary";
+import Farm from "../../../models/Farm";
+import Medicine from "../../../models/Medicine";
 import dbConnect from "../../../lib/dbConnect";
 
 import jwt from "jsonwebtoken";
-import Farm from "models/Farm";
 
 dbConnect();
 
-// @route /api/feedingdiary
-// @desc Add feeding diary everyday
+// @route /api/medicune
 
 export default async (req, res) => {
   const token = req.headers.authorization;
@@ -21,25 +20,21 @@ export default async (req, res) => {
   switch (method) {
     case "GET":
       try {
-        let feedingDiaries = await FeedingDiary.find({
-          coSoNuoi: farm._id,
-        });
-
-        // TODO: Popolate problem. Make sure save model before npm run dev
-
-        res.send(feedingDiaries);
+        let medicines = await Medicine.find({ farmId: farm._id });
+        res.send(medicines);
       } catch (error) {
-        res.status(500).send({ message: error.message });
+        res.send({ message: error.message });
       }
+
       break;
     case "POST":
       try {
-        let feedingDiary = new FeedingDiary(req.body);
+        let medicine = new Medicine({ ...req.body, farmId: farm._id });
+        medicine.save();
 
-        await feedingDiary.save();
-        res.send({ message: "OK" });
+        res.send(medicine);
       } catch (error) {
-        res.status(500).send({ message: error.message });
+        res.send({ message: error.message });
       }
       break;
     default:
