@@ -16,6 +16,7 @@ export default async (req, res) => {
     return res.status(400).send({ message: "Bạn không có quyền truy cập" });
 
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
+
   let farm = await Farm.findOne({ themVaoBoi: decoded });
 
   switch (method) {
@@ -23,9 +24,7 @@ export default async (req, res) => {
       try {
         let feedingDiaries = await FeedingDiary.find({
           coSoNuoi: farm._id,
-        });
-
-        // TODO: Popolate problem. Make sure save model before npm run dev
+        }).populate(["ao", "thucAn", "coSoNuoi"]);
 
         res.send(feedingDiaries);
       } catch (error) {
@@ -34,7 +33,10 @@ export default async (req, res) => {
       break;
     case "POST":
       try {
-        let feedingDiary = new FeedingDiary(req.body);
+        let feedingDiary = new FeedingDiary({
+          ...req.body,
+          coSoNuoi: farm._id,
+        });
 
         await feedingDiary.save();
         res.send({ message: "OK" });

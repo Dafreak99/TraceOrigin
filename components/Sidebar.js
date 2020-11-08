@@ -22,6 +22,7 @@ import { BsBarChartFill, BsFillPlusCircleFill } from "react-icons/bs";
 
 import AddFoodModal from "./dashboard/AddFoodModal";
 import AddMedicineModal from "./dashboard/AddMedicineModal";
+import { BiFoodTag } from "react-icons/bi";
 
 const Sidebar = () => {
   return (
@@ -144,6 +145,14 @@ const Sidebar = () => {
             <a className="sidebar__link">
               <ListIcon icon={GiMedicines} color="gray.50" />
               Thuốc
+            </a>
+          </Link>
+        </ListItem>
+        <ListItem>
+          <Link href="/dashboard/feedingdiary">
+            <a className="sidebar__link">
+              <ListIcon icon={BiFoodTag} color="gray.50" />
+              Cho ăn
             </a>
           </Link>
         </ListItem>

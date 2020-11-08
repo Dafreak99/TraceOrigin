@@ -41,7 +41,6 @@ const AddFood = () => {
   const onDelete = async () => {
     let index = data.findIndex((each) => each._id === id);
 
-    //TODO: Include mutate to see instant change
     try {
       let res = await fetch(`/api/food/${id}`, {
         method: "DELETE",
