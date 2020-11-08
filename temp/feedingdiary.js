@@ -1,6 +1,6 @@
 import { Box, Heading, Image } from "@chakra-ui/core";
 import Layout from "@/components/dashboard/Layout";
-import { Table, Tr, Td, Th } from "../../components/Table";
+import { Table, Tr, Td, Th } from "../components/Table";
 import { FaTrash } from "react-icons/fa";
 
 const feedingdiary = ({ data }) => {
@@ -65,8 +65,7 @@ const feedingdiary = ({ data }) => {
 };
 
 export async function getStaticProps() {
-  // TODO: Big bug. Cannot populate
-  let res = await fetch("http://localhost:3000/api/feedingdiary", {
+  let res = await fetch("https://traceorigin.vercel.app/api/feedingdiary", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
