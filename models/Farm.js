@@ -8,6 +8,7 @@ const FarmSchema = new mongoose.Schema({
   dienTich: String,
   sdt: String,
   themVaoBoi: String,
+  toaDo: Object,
 });
 
 module.exports = mongoose.models.Farm || mongoose.model("Farm", FarmSchema);

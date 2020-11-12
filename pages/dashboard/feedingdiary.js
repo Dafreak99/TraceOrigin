@@ -1,6 +1,6 @@
 import { Box, Heading, Image } from "@chakra-ui/core";
 import Layout from "@/components/dashboard/Layout";
-import { Table, Tr, Td, Th } from "../components/Table";
+import { Table, Tr, Td, Th } from "@/components/Table";
 import { FaTrash } from "react-icons/fa";
 
 const feedingdiary = ({ data }) => {
@@ -75,6 +75,8 @@ export async function getStaticProps() {
   });
 
   let data = await res.json();
+  console.log(data);
+  // TODO: Replace with SWR
 
   return {
     props: {

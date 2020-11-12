@@ -127,3 +127,8 @@ input {
   border: 1px solid #e2e8f0;
   border-radius: 3px;
 }
+.mapboxgl-ctrl.mapboxgl-ctrl-group {
+  position: absolute;
+  top: 0;
+  right: 0;
+}

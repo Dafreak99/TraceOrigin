@@ -16,18 +16,19 @@ import { BiArrowBack } from "react-icons/bi";
 import Asterisk from "./Asterisk";
 import UploadPreview from "./UploadPreview";
 import router from "next/router";
-import { mutate } from "swr";
+import Map from "../Map";
 
-const FarmInfoModify = ({ isEdit, setIsEdit, data = {} }) => {
+const FarmInfoModify = ({ isEdit, setIsEdit, data }) => {
   const [farmInfo, setData] = useState(data);
   const [isSave, setIsSave] = useState(false);
+  const [entry, setEntry] = useState(null);
 
   let a = [],
     b = [];
 
-  if (farmInfo.farmImage) {
-    a = Array(farmInfo.farmImage.length).fill("");
-    b = farmInfo.farmImage;
+  if (farmInfo.hinhAnh) {
+    a = Array(farmInfo.hinhAnh.length).fill("");
+    b = farmInfo.hinhAnh;
   }
 
   const [files, setFiles] = useState(a);
@@ -72,7 +73,7 @@ const FarmInfoModify = ({ isEdit, setIsEdit, data = {} }) => {
           // REPLACE WITH USER TOKEN
           "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
       },
-      body: JSON.stringify({ ...values, hinhAnh: urls }),
+      body: JSON.stringify({ ...values, hinhAnh: urls, toaDo: entry }),
     });
     let data = await respond.json();
 
@@ -105,9 +106,13 @@ const FarmInfoModify = ({ isEdit, setIsEdit, data = {} }) => {
       </Flex>
 
       <Grid
-        maxW="900px"
         gridTemplateColumns="repeat(12, 1fr)"
         columnGap={{ base: "1rem", md: "3rem" }}
+        background="#fff"
+        px={12}
+        py={8}
+        mt="2rem"
+        boxShadow="0 4px 10px rgba(0,0,0,.1)"
       >
         <FormControl gridColumn="span 6">
           <FormLabel htmlFor="tenCoSoNuoi">
@@ -180,8 +185,7 @@ const FarmInfoModify = ({ isEdit, setIsEdit, data = {} }) => {
             })}
           />
         </FormControl>
-
-        <FormControl gridColumn="span 12">
+        <FormControl gridColumn="span 6">
           <FormLabel>
             Hình ảnh của cơ sở <Asterisk />
           </FormLabel>
@@ -192,6 +196,15 @@ const FarmInfoModify = ({ isEdit, setIsEdit, data = {} }) => {
             fileUrls={fileUrls}
             setFileUrls={setFileUrls}
           />
+        </FormControl>
+
+        <FormControl gridColumn="span 6">
+          <FormLabel>
+            Vị trí của cơ sở <Asterisk />
+          </FormLabel>
+          <Box height="300px">
+            <Map entry={entry} setEntry={setEntry} />
+          </Box>
         </FormControl>
       </Grid>
     </Box>
