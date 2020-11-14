@@ -1,21 +1,23 @@
 const mongoose = require("mongoose");
+const Farm = require("./Farm");
+const FeedingDiary = require("./FeedingDiary");
+const Pond = require("./Pond");
 
 const ProductSchema = new mongoose.Schema({
-  productName: String,
-  productPrice: String,
+  tenSanPham: String,
+  giaSanPham: String,
   unit: String,
-  image: String,
-  weight: String,
-  cultivateDate: String,
-  harvestDate: String,
+  hinhAnh: [String],
+  khoiLuong: String,
+  pond: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: Pond,
+  },
   farm: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Farm",
+    ref: Farm,
   },
-  seed: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Seed",
-  },
+  feedingDiary: [{ type: mongoose.Schema.Types.ObjectId, ref: FeedingDiary }],
 });
 
 module.exports =

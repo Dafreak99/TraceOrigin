@@ -3,7 +3,6 @@ dbConnect();
 
 import Pond from "../../../models/Pond";
 import Farm from "../../../models/Farm";
-import Seed from "../../../models/Seed";
 
 import jwt from "jsonwebtoken";
 

@@ -152,9 +152,11 @@ const Content = ({
             </Text>
           </ListItem>
         </List>
-        <Box w="500px" ml={8}>
-          <DisplayMap entry={toaDo} />
-        </Box>
+        {toaDo && (
+          <Box w="500px" ml={8}>
+            <DisplayMap entry={toaDo} />
+          </Box>
+        )}
       </Flex>
 
       <Box mt={12}>

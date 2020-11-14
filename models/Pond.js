@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Seed = require("./Seed");
 
 const PondSchema = new mongoose.Schema({
   tenAo: String,
@@ -6,7 +7,7 @@ const PondSchema = new mongoose.Schema({
   dienTich: String,
   maAo: String,
   farmId: String,
-  seed: { type: mongoose.Schema.Types.ObjectId, ref: "Seed" },
+  seed: { type: mongoose.Schema.Types.ObjectId, ref: Seed },
 });
 
 module.exports = mongoose.models.Pond || mongoose.model("Pond", PondSchema);

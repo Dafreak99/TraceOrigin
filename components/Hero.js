@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from "react";
-import { Box, Heading, Image, Text } from "@chakra-ui/core";
+import { Box, Flex, Heading, Image, Text } from "@chakra-ui/core";
 import Slider from "react-slick";
 import gsap from "gsap";
 
@@ -24,12 +24,13 @@ const Hero = () => {
     {
       heading: "Truy xuất nguồn gốc thủy sản",
       text: "Đảm bảo bữa ăn an toàn cho gia đình bạn",
-      background: "/photo-1517115358639-5720b8e02219-removebg-preview.png",
+      background: "/Eating healthy food-amico.svg",
+      // background: "/photo-1517115358639-5720b8e02219-removebg-preview.png",
     },
     {
       heading: "Truy xuất nguồn gốc thủy sản",
       text: "Đảm bảo tính minh mạch và độ an toàn trong từng món ăn",
-      background: "/pexels-photo-248444-removebg-preview.png",
+      background: "/slider1.svg",
     },
   ];
 
@@ -39,36 +40,39 @@ const Hero = () => {
         <Box
           key={i}
           display="flex !important"
-          flexDir="column"
-          justifyContent="center"
+          justifyContent={{ xl: "space-between", base: "center" }}
+          alignItems="center"
           height="100vh"
-          paddingX={32}
+          paddingX={{ base: "2rem", xl: "8rem" }}
           background="#0089ff"
           justify="center"
           position="relative"
+          flexDir={{ base: "column", xl: "row" }}
         >
-          <Heading
-            color="#fff"
-            mb={8}
-            fontSize="4rem"
-            className={i === index ? "fadeIn" : "preFadeIn"}
-          >
-            {heading}
-          </Heading>
+          <Flex justifyContent="center" flexDir="column" alignItems="center">
+            <Heading
+              color="#fff"
+              mb={8}
+              fontSize={{ base: "3xl", xl: "6xl" }}
+              className={i === index ? "fadeIn" : "preFadeIn"}
+              textAlign={{ sx: "center" }}
+            >
+              {heading}
+            </Heading>
 
-          <Text
-            className={i === index ? "fadeIn" : "preFadeIn"}
-            fontSize="2rem"
-            color="#f9fafa"
-            fontWeight="normal"
-          >
-            {text}
-          </Text>
+            <Text
+              className={i === index ? "fadeIn" : "preFadeIn"}
+              fontSize={{ base: "xl", xl: "3xl" }}
+              color="#f9fafa"
+              fontWeight="normal"
+            >
+              {text}
+            </Text>
+          </Flex>
           <Image
+            mt={{ sx: "2rem", xl: 0 }}
             src={background}
-            position="absolute"
-            top="30%"
-            right="10%"
+            height={["10rem", "15rem", "20rem", "30rem"]}
             className={i === index ? "fadeInLeft" : "preFadeInLeft"}
           />
         </Box>

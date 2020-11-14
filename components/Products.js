@@ -4,7 +4,7 @@ import Product from "./Product";
 const Products = () => {
   return (
     <>
-      <Heading textAlign="center" textTransform="uppercase" mb={16}>
+      <Heading textAlign="center" textTransform="uppercase" my={16}>
         Sản phẩm thủy sản
       </Heading>
 

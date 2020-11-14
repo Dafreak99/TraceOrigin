@@ -2,16 +2,14 @@ import dbConnect from "../../lib/dbConnect";
 
 dbConnect();
 
-import FeedingDiary from "../../models/FeedingDiary";
+import Product from "../../models/Product";
 
 export default async (req, res) => {
-  try {
-    let feedingDiaries = await FeedingDiary.find({
-      coSoNuoi: "5f870ac2e3711e0aecacdbae",
-    }).populate(["ao", "thucAn", "coSoNuoi"]);
+  // Deep population
 
-    res.send(feedingDiaries);
-  } catch (error) {
-    res.send({ message: error.message });
-  }
+  let product = await Product.find()
+    .populate({ path: "pond", populate: { path: "seed" } })
+    .populate({ path: "farm" });
+
+  res.send(product);
 };
