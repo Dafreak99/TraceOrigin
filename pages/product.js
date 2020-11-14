@@ -18,15 +18,15 @@ import {
 import { GoPrimitiveDot } from "react-icons/go";
 
 const Product = ({ data }) => {
-  const {
-    tenSanPham,
-    giaSanPham,
-    hinhAnh,
-    donvi,
-    khoiLuong,
-    farm: { tenCoSoNuoi, tenChuCoSoNuoi, diaChi, dienTich, sdt, toaDo },
-    pond,
-  } = data;
+  // const {
+  //   tenSanPham,
+  //   giaSanPham,
+  //   hinhAnh,
+  //   donvi,
+  //   khoiLuong,
+  //   farm: { tenCoSoNuoi, tenChuCoSoNuoi, diaChi, dienTich, sdt, toaDo },
+  //   pond,
+  // } = data;
 
   return (
     <>
@@ -34,8 +34,7 @@ const Product = ({ data }) => {
       <Box py="5rem">
         <div className="container">
           <Heading>Sản phẩm/Tôm sú</Heading>
-
-          <Grid gridTemplateColumns="repeat(12, 1fr)" mt={8}>
+          {/* <Grid gridTemplateColumns="repeat(12, 1fr)" mt={8}>
             <Box gridColumn={{ base: "span 12", xl: "span 6" }}>
               <Image
                 src={hinhAnh}
@@ -99,7 +98,7 @@ const Product = ({ data }) => {
           <Box h="20rem" w="100%" mt={{ base: "4rem", xl: "10rem" }}>
             <DisplayMap entry={toaDo} />
           </Box>
-          <ProductInfo data={data} />
+          <ProductInfo data={data} /> */}
         </div>
       </Box>
     </>
@@ -107,9 +106,11 @@ const Product = ({ data }) => {
 };
 
 export async function getStaticProps() {
-  let res = await fetch("http://localhost:3000/api/product");
+  let res = await fetch("https://traceorigin.vercel.app/api/product");
 
   let data = await res.json();
+
+  console.log("Data", data);
 
   return {
     props: {
