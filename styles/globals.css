@@ -8,7 +8,9 @@
   width: 90vw;
   margin: 0 auto;
 }
-
+body {
+  overflow-x: hidden;
+}
 /* Make Slick Slider Visible */
 
 .slick-slider {
