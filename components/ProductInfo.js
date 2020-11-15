@@ -10,18 +10,18 @@ import {
   ListItem,
   Text,
 } from "@chakra-ui/core";
+
+import { Button as ButtonD } from "antd";
+
+import { Comment } from "antd";
+import Avatar from "antd/lib/avatar/avatar";
+import Form from "antd/lib/form/Form";
+import TextArea from "antd/lib/input/TextArea";
 import { useState } from "react";
-import { FaUserCircle } from "react-icons/fa";
 import GreenDot from "./GreenDot";
 
 const ProductInfo = ({ data }) => {
   const [index, setIndex] = useState(0);
-
-  console.log(data);
-  const props = {
-    backgroundColor: "#1f8bfe",
-    color: "#fff",
-  };
 
   return (
     <Box mt="6rem" w={{ base: "100%", xl: "56.25rem" }}>
@@ -166,17 +166,22 @@ const Tab1 = ({
 
 const Tab2 = () => {
   return (
-    <Flex>
-      <Box mr={4}>
-        <Image src="./profile-user.svg" h="4rem" w="4rem" />
-      </Box>
-      <Box flex="1">
-        <Input placeholder="Thêm bình luận" h="10rem" />
-        <Button backgroundColor="#007bff" color="#fff" px={10} py={6} mt={10}>
-          ĐĂNG
-        </Button>
-      </Box>
-    </Flex>
+    <Comment
+      avatar={
+        <Avatar
+          src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+          alt="Han Solo"
+        />
+      }
+      content={
+        <Box>
+          <Input placeholder="Thêm bình luận" h="10rem" />
+          <Button backgroundColor="#007bff" color="#fff" px={10} py={6} mt={10}>
+            ĐĂNG
+          </Button>
+        </Box>
+      }
+    />
   );
 };
 

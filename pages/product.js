@@ -1,9 +1,3 @@
-import DisplayMap from "@/components/DisplayMap";
-import FoodChainStepper from "@/components/FoodChainStepper";
-import GreenDot from "@/components/GreenDot";
-import Navbar from "@/components/Navbar";
-import ProductInfo from "@/components/ProductInfo";
-import SectionPadding from "@/components/SectionPadding";
 import {
   Box,
   Flex,
@@ -15,7 +9,15 @@ import {
   ListItem,
   Text,
 } from "@chakra-ui/core";
+import { useState } from "react";
 import { GoPrimitiveDot } from "react-icons/go";
+import { Divider } from "antd";
+
+import DisplayMap from "@/components/DisplayMap";
+import FoodChainTimeline from "@/components/FoodChainTimeline";
+import GreenDot from "@/components/GreenDot";
+import Navbar from "@/components/Navbar";
+import ProductInfo from "@/components/ProductInfo";
 
 const Product = ({ data }) => {
   const {
@@ -28,13 +30,19 @@ const Product = ({ data }) => {
     pond,
   } = data;
 
+  const [entry, setEntry] = useState(toaDo);
+
   return (
     <>
       <Navbar float />
       <Box py="5rem">
         <div className="container">
           <Heading>Sản phẩm/Tôm sú</Heading>
-          <Grid gridTemplateColumns="repeat(12, 1fr)" mt={8}>
+          <Grid
+            gridTemplateColumns="repeat(12, 1fr)"
+            my={8}
+            columnGap={{ base: 0, xl: "4rem" }}
+          >
             <Box gridColumn={{ base: "span 12", xl: "span 6" }}>
               <Image
                 src={hinhAnh}
@@ -95,9 +103,22 @@ const Product = ({ data }) => {
               <Image src="./qrcode.png" mt="2rem" />
             </Box>
           </Grid>
-          <Box h="20rem" w="100%" mt={{ base: "4rem", xl: "10rem" }}>
-            <DisplayMap entry={toaDo} />
-          </Box>
+          <Divider />
+          <Grid
+            gridTemplateColumns="repeat(12, 1fr)"
+            mt={{ base: "4rem", xl: "10rem" }}
+            rowGap={{ base: "4rem", xl: 0 }}
+          >
+            <FoodChainTimeline setEntry={setEntry} />
+            <Box
+              gridColumn={{ base: "span 12", xl: "span 8" }}
+              h={{ base: "20rem" }}
+            >
+              <DisplayMap entry={entry} />
+            </Box>
+          </Grid>
+          <Divider />
+
           <ProductInfo data={data} />
         </div>
       </Box>

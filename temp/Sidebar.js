@@ -21,8 +21,8 @@ import { FaStickyNote } from "react-icons/fa";
 import { GiFoodChain, GiMedicines, GiParmecia } from "react-icons/gi";
 import { BsBarChartFill, BsFillPlusCircleFill } from "react-icons/bs";
 
-import AddFoodModal from "./dashboard/AddFoodModal";
-import AddMedicineModal from "./dashboard/AddMedicineModal";
+import AddFoodModal from "../components/dashboard/AddFoodModal";
+import AddMedicineModal from "../components/dashboard/AddMedicineModal";
 import { BiFoodTag } from "react-icons/bi";
 
 const Sidebar = () => {
@@ -45,12 +45,10 @@ const Sidebar = () => {
       <List spacing={3}>
         <ListItem mt={8}>
           <Link href="/dashboard">
-            <Tooltip label="Thông tin" placement="right">
-              <a className="sidebar__link">
-                <ListIcon icon={MdInfo} color="gray.50" />
-                Thông tin
-              </a>
-            </Tooltip>
+            <a className="sidebar__link">
+              <ListIcon icon={MdInfo} color="gray.50" />
+              Thông tin
+            </a>
           </Link>
         </ListItem>
         <ListItem>

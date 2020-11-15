@@ -108,6 +108,7 @@ const FarmInfoModify = ({ isEdit, setIsEdit, data }) => {
       <Grid
         gridTemplateColumns="repeat(12, 1fr)"
         columnGap={{ base: "1rem", md: "3rem" }}
+        rowGap="2rem"
         background="#fff"
         px={12}
         py={8}

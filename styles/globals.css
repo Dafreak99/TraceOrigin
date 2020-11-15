@@ -138,3 +138,12 @@ aside.ant-layout-sider.ant-layout-sider-dark.ant-layout-sider-collapsed.ant-layo
   .logo--name {
   display: none;
 }
+
+.dashboard__content::-webkit-scrollbar {
+  display: none;
+}
+
+.dashboard__content {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
