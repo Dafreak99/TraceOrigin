@@ -3,7 +3,12 @@ import Link from "next/link";
 
 const Product = () => {
   return (
-    <Flex justify="center" align="center" direction="column">
+    <Flex
+      justify="center"
+      align="center"
+      direction="column"
+      gridColumn={{ base: "span 6", xl: "span 4" }}
+    >
       <Link href="/product">
         <a style={{ textAlign: "center" }}>
           <Image src="/tomcangxanh.jpg" />

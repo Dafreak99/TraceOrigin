@@ -1,25 +1,38 @@
-import {
-  Box,
-  Flex,
-  Heading,
-  Icon,
-  Image,
-  Input,
-  List,
-  ListItem,
-  Text,
-  PseudoBox,
-  Grid,
-} from "@chakra-ui/core";
+import { Box, Flex, Image, Input, PseudoBox, Grid } from "@chakra-ui/core";
 import { HiUserCircle } from "react-icons/hi";
+import { useRouter } from "next/router";
 
 import Link from "next/link";
+import { Button } from "antd";
+import { RiMenu2Fill } from "react-icons/ri";
 
-const Navbar = ({ float }) => {
+const Navbar = ({ float, showDrawer }) => {
+  const router = useRouter();
+
   const Content = () => (
     <>
-      <Box gridColumn={{ base: "span 4", xl: "span 1" }} alignSelf="center">
-        <Image src="/water.svg" height="40px" width="40px" />
+      <Box
+        as={RiMenu2Fill}
+        onClick={showDrawer}
+        position="absolute"
+        top="50%"
+        fontSize="25px"
+        left="10px"
+        transform="translateY(-50%)"
+      ></Box>
+
+      <Box
+        gridColumn={{ base: "span 1", md: "span 4", xl: "span 1" }}
+        alignSelf="center"
+      >
+        <Image
+          src="/water.svg"
+          minH="3rem"
+          maxH="3rem"
+          maxW="3rem"
+          minW="3rem"
+          onClick={() => router.push("/")}
+        />
       </Box>
 
       <Flex
@@ -31,36 +44,32 @@ const Navbar = ({ float }) => {
         display={{ sx: "none", xl: "flex" }}
       >
         <Box mr="2rem">
-          <PseudoBox _hover={{ color: "gray.400" }} transition="300ms">
-            <Link href="/dashboard">
-              <a>Giới thiệu</a>
-            </Link>
-          </PseudoBox>
+          <Link href="/">
+            <a>Giới thiệu</a>
+          </Link>
         </Box>
         <Box mr="2rem">
-          <PseudoBox _hover={{ color: "gray.400" }} transition="300ms">
-            <Link href="/">
-              <a>Sản phẩm</a>
-            </Link>
-          </PseudoBox>
+          <Link href="/product">
+            <a>Sản phẩm</a>
+          </Link>
         </Box>
         <Box mr="2rem">
-          <PseudoBox _hover={{ color: "gray.400" }} transition="300ms">
-            <Link href="/">
-              <a>Tin tức</a>
-            </Link>
-          </PseudoBox>
+          <Link href="/dashboard">
+            <a>Dashboard</a>
+          </Link>
         </Box>
         <Box mr="2rem">
-          <PseudoBox _hover={{ color: "gray.400" }} transition="300ms">
-            <Link href="/">
-              <a>Liên hệ</a>
-            </Link>
-          </PseudoBox>
+          <Link href="/">
+            <a>Liên hệ</a>
+          </Link>
         </Box>
       </Flex>
 
-      <Box gridColumn="span 4" alignSelf="center">
+      <Box
+        gridColumn={{ base: "span 10", md: "span 4" }}
+        alignSelf="center"
+        mx={{ base: "1rem", md: 0 }}
+      >
         <Input
           placeholder="Enter your key word"
           height="3rem"
@@ -69,11 +78,11 @@ const Navbar = ({ float }) => {
       </Box>
 
       <Box
-        gridColumn={{ base: "span 4", xl: "span 1" }}
+        gridColumn={{ base: "span 1", md: "span 4", xl: "span 1" }}
         alignSelf="center"
         justifySelf="flex-end"
       >
-        <HiUserCircle size="3.6rem" />
+        <HiUserCircle size="3rem" />
       </Box>
     </>
   );

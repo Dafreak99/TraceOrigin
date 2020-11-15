@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/core";
 import { useState } from "react";
 import { GoPrimitiveDot } from "react-icons/go";
-import { Divider } from "antd";
+import { Divider, Breadcrumb } from "antd";
 
 import DisplayMap from "@/components/DisplayMap";
 import FoodChainTimeline from "@/components/FoodChainTimeline";
@@ -37,7 +37,13 @@ const Product = ({ data }) => {
       <Navbar float />
       <Box py="5rem">
         <div className="container">
-          <Heading>Sản phẩm/Tôm sú</Heading>
+          {/* <Heading>Sản phẩm/Tôm sú</Heading> */}
+          <Breadcrumb>
+            <Breadcrumb.Item>Sản phẩm</Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <a href="">Tôm càng xanh</a>
+            </Breadcrumb.Item>
+          </Breadcrumb>
           <Grid
             gridTemplateColumns="repeat(12, 1fr)"
             my={8}
@@ -118,7 +124,6 @@ const Product = ({ data }) => {
             </Box>
           </Grid>
           <Divider />
-
           <ProductInfo data={data} />
         </div>
       </Box>

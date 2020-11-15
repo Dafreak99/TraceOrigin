@@ -9,8 +9,9 @@ const Products = () => {
       </Heading>
 
       <Grid
-        templateColumns={["repeat(3, 1fr)"]}
+        gridTemplateColumns="repeat(12, 1fr)"
         className="container"
+        columnGap={4}
         rowGap={16}
       >
         <Product />
