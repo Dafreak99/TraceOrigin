@@ -13,6 +13,7 @@ import {
   AccordionHeader,
   AccordionIcon,
   AccordionPanel,
+  Tooltip,
 } from "@chakra-ui/core";
 import Link from "next/link";
 import { MdBrandingWatermark, MdInfo } from "react-icons/md";
@@ -26,7 +27,7 @@ import { BiFoodTag } from "react-icons/bi";
 
 const Sidebar = () => {
   return (
-    <Box height="100vh" width="15vw" backgroundColor="gray.900" color="#fff">
+    <Box height="100vh" width="" backgroundColor="gray.900" color="#fff">
       <Flex
         dir="row"
         align="center"
@@ -44,10 +45,12 @@ const Sidebar = () => {
       <List spacing={3}>
         <ListItem mt={8}>
           <Link href="/dashboard">
-            <a className="sidebar__link">
-              <ListIcon icon={MdInfo} color="gray.50" />
-              Thông tin
-            </a>
+            <Tooltip label="Thông tin" placement="right">
+              <a className="sidebar__link">
+                <ListIcon icon={MdInfo} color="gray.50" />
+                Thông tin
+              </a>
+            </Tooltip>
           </Link>
         </ListItem>
         <ListItem>
@@ -88,7 +91,7 @@ const Sidebar = () => {
               >
                 <Box flex="1" textAlign="left">
                   <ListIcon icon={BsFillPlusCircleFill} color="gray.50" />
-                  Thêm
+                  {/* Thêm */}
                 </Box>
                 <AccordionIcon />
               </AccordionHeader>

@@ -102,7 +102,7 @@ export const AddFoodModal = () => {
     <>
       <Box className="sidebar__link--sub" onClick={onOpen} cursor="pointer">
         <ListIcon icon={RiShoppingBag2Fill} color="gray.50" />
-        Nhập thức ăn
+        {/* Nhập thức ăn */}
       </Box>
 
       <Modal isOpen={isOpen} onClose={onClose}>

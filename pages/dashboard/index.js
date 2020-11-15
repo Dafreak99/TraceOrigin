@@ -14,7 +14,6 @@ import useSWR from "swr";
 
 import FarmInfoModify from "@/components/dashboard/FarmInfoModify";
 import Layout from "@/components/dashboard/Layout";
-import Map from "@/components/Map";
 import fetcher from "@/utils/fetcher";
 import DisplayMap from "@/components/DisplayMap";
 

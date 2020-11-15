@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/core";
+import { Box, Flex, Grid } from "@chakra-ui/core";
 import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
 import Products from "@/components/Products";
@@ -9,13 +9,12 @@ const IndexPage = () => {
   return (
     <>
       <Box position="relative">
-        {/* <Navbar float /> */}
         <Navbar />
         <Hero />
       </Box>
       <SectionPadding>
         <div className="container">
-          <Flex height="20rem" w="100%">
+          <div className={styles.grid}>
             <div className={styles.category}>
               <div className={styles.overlay}></div>
               <h2 className={styles.text}>Nhóm cá biển</h2>
@@ -32,7 +31,7 @@ const IndexPage = () => {
               <div className={styles.overlay}></div>
               <h2 className={styles.text}>Nhóm nhuyễn thể</h2>
             </div>
-          </Flex>
+          </div>
         </div>
         <Products />
       </SectionPadding>

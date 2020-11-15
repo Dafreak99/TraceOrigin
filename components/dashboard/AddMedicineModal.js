@@ -120,7 +120,7 @@ export const AddMedicineModal = () => {
     <>
       <Box className="sidebar__link--sub" onClick={onOpen} cursor="pointer">
         <ListIcon icon={AiFillMedicineBox} color="gray.50" />
-        Nhập thuốc
+        {/* Nhập thuốc */}
       </Box>
 
       <Modal isOpen={isOpen} onClose={onClose}>

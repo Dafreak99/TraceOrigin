@@ -30,7 +30,7 @@ const Hero = () => {
     {
       heading: "Truy xuất nguồn gốc thủy sản",
       text: "Đảm bảo tính minh mạch và độ an toàn trong từng món ăn",
-      background: "/slider1.svg",
+      background: "/Slider1.svg",
     },
   ];
 

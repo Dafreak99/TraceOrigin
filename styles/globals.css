@@ -133,3 +133,8 @@ html {
   color: #fff;
   border-color: transparent;
 }
+
+aside.ant-layout-sider.ant-layout-sider-dark.ant-layout-sider-collapsed.ant-layout-sider-has-trigger
+  .logo--name {
+  display: none;
+}
