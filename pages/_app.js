@@ -8,15 +8,22 @@ import "react-day-picker/lib/style.css";
 
 import theme from "../styles/theme";
 import { AuthProvider } from "../lib/AuthContext";
+import head from "next/head";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <AuthProvider>
-      <ThemeProvider theme={theme}>
-        <CSSReset />
-        <Component {...pageProps} />
-      </ThemeProvider>
-    </AuthProvider>
+    <>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </head>
+
+      <AuthProvider>
+        <ThemeProvider theme={theme}>
+          <CSSReset />
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </AuthProvider>
+    </>
   );
 }
 
