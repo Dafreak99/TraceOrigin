@@ -3,7 +3,6 @@ import { HiUserCircle } from "react-icons/hi";
 import { useRouter } from "next/router";
 
 import Link from "next/link";
-import { Button } from "antd";
 import { RiMenu2Fill } from "react-icons/ri";
 
 const Navbar = ({ float, showDrawer }) => {
@@ -14,13 +13,14 @@ const Navbar = ({ float, showDrawer }) => {
       <Box
         as={RiMenu2Fill}
         onClick={showDrawer}
-        position="absolute"
+        position={{ base: "absolute", xl: "relative" }}
         top="50%"
         fontSize="25px"
         left="10px"
         transform="translateY(-50%)"
+        display={{ xl: "none" }}
       ></Box>
-
+      {/* TODO: FIx link to add medcine add food */}  
       <Box
         gridColumn={{ base: "span 1", md: "span 4", xl: "span 1" }}
         alignSelf="center"

@@ -15,7 +15,15 @@ const FoodChainTimeline = ({ setEntry }) => {
         </Heading>
       </Flex>
       <Timeline mode={mode} style={{ marginTop: "2rem" }}>
-        <Timeline.Item label="2015-09-01">
+        <Timeline.Item
+          label="2015-09-01"
+          onClick={() =>
+            setEntry({
+              latitude: 10.048045740575443,
+              longitude: 105.74744176524034,
+            })
+          }
+        >
           Nhập giống
           <Image src="/koi-fish.svg" h="40px" />
         </Timeline.Item>

@@ -34,8 +34,9 @@ const Index = ({}) => {
         {data && (
           <>
             <Flex alignItems="center" justify="space-between">
-              <Flex>
+              <Flex alignItems="center">
                 <Box
+                  fontSize="3rem"
                   as={BiArrowBack}
                   mr={8}
                   color="gray.500"

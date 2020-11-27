@@ -23,6 +23,7 @@ import fetcher from "@/utils/fetcher";
 import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
 import { useRouter } from "next/router";
 import { FaTrash } from "react-icons/fa";
+import AddMedicineModal from "@/components/dashboard/AddMedicineModal";
 
 const Index = () => {
   const router = useRouter();
@@ -60,6 +61,7 @@ const Index = () => {
   return (
     <Layout>
       <Box px={16} py={12}>
+        <AddMedicineModal />
         <Breadcrumb fontSize="xl">
           <BreadcrumbItem>
             <BreadcrumbLink>Quản lí</BreadcrumbLink>

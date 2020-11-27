@@ -1,15 +1,19 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import MapGL, { Marker, FullscreenControl } from "react-map-gl";
 
 const DisplayMap = ({ entry }) => {
   const [viewport, setViewport] = useState({
     latitude: entry.latitude,
     longitude: entry.longitude,
-    zoom: 15,
+    zoom: 12,
     width: "100vw",
     height: "100vh",
   });
   const mapRef = useRef();
+
+  useEffect(() => {
+    handleViewportChange(entry);
+  }, [entry]);
 
   const handleViewportChange = (newViewport) => {
     setViewport(newViewport);

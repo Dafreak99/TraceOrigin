@@ -15,6 +15,7 @@ import {
   Input,
   useDisclosure,
   Select,
+  Image,
 } from "@chakra-ui/core";
 import { FaFish } from "react-icons/fa";
 import { useForm } from "react-hook-form";
@@ -25,16 +26,11 @@ const PondEnviromentModal = () => {
   const onSubmit = (values) => console.log(values);
 
   return (
-    <Flex
-      onClick={onOpen}
-      borderRadius="5px"
-      backgroundColor="black"
-      color="#fff"
-      p={8}
-      direction="column"
-      align="center"
-    >
-      <Text>Môi trường ao</Text> <Box as={FaFish} size="32px" mt={4} />
+    <Flex onClick={onOpen} className="diary-box">
+      <Text>Môi trường ao</Text>
+      <Image src="/004-sea.svg" />
+
+      {/* <Box as={FaFish} size="32px" mt={4} /> */}
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>

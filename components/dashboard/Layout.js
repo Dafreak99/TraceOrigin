@@ -91,18 +91,18 @@ const Sidebar = () => {
           key="5"
           title={
             <span>
-              <span>Thêm</span>
+              <span>Quản lí</span>
             </span>
           }
         >
           <Menu.Item key="6" icon={<DesktopOutlined />}>
-            <Link href="/dashboard/addfood">
-              <a> Nhập thức ăn</a>
+            <Link href="/dashboard/food">
+              <a> Thức ăn</a>
             </Link>
           </Menu.Item>
           <Menu.Item key="7" icon={<DesktopOutlined />}>
-            <Link href="/dashboard/addfood">
-              <a> Nhập thuốc</a>
+            <Link href="/dashboard/medicine">
+              <a> Thuốc</a>
             </Link>
           </Menu.Item>
         </SubMenu>
@@ -121,21 +121,6 @@ const Sidebar = () => {
             </Link>
           </Menu.Item>
         </SubMenu>
-        <Menu.Item key="10" icon={<DesktopOutlined />}>
-          <Link href="/dashboard/food">
-            <a> Thức ăn</a>
-          </Link>
-        </Menu.Item>
-        <Menu.Item key="11" icon={<DesktopOutlined />}>
-          <Link href="/dashboard/food">
-            <a> Thuốc</a>
-          </Link>
-        </Menu.Item>
-        <Menu.Item key="12" icon={<DesktopOutlined />}>
-          <Link href="/dashboard/food">
-            <a> Cho ăn</a>
-          </Link>
-        </Menu.Item>
       </Menu>
     </Sider>
   );

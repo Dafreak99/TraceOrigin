@@ -147,3 +147,30 @@ aside.ant-layout-sider.ant-layout-sider-dark.ant-layout-sider-collapsed.ant-layo
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+.diary-box {
+  border-radius: 10px;
+  color: #fff;
+  padding: 2rem;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+  font-size: 2rem;
+}
+
+.diary-box:nth-child(1) {
+  background-image: linear-gradient(to right, #243949 0%, #517fa4 100%);
+}
+.diary-box:nth-child(2) {
+  background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+}
+.diary-box:nth-child(3) {
+  background-image: linear-gradient(-45deg, #ffc796 0%, #ff6b95 100%);
+}
+.diary-box:nth-child(4) {
+  background-image: linear-gradient(120deg, #f093fb 0%, #f5576c 100%);
+}
+
+.diary-box img {
+  height: 4rem;
+}

@@ -1,44 +1,44 @@
-import { useState } from "react";
 import {
-  Box,
-  Text,
-  Flex,
-  Modal,
-  ModalOverlay,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  Button,
-  ModalContent,
   FormControl,
   FormLabel,
   Input,
-  useDisclosure,
-  Select,
-  ListIcon,
+  Button,
+  ModalFooter,
   Spinner,
 } from "@chakra-ui/core";
+
+import { useState } from "react";
+import Modal from "antd/lib/modal/Modal";
+
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
-import { RiShoppingBag2Fill } from "react-icons/ri";
+import UploadPreview from "@/components/dashboard/UploadPreview";
+import { Divider, Button as AntdButton } from "antd";
 import { useRouter } from "next/router";
+import { HiPlus } from "react-icons/hi";
 
-import DatePicker from "../DatePicker";
-import UploadPreview from "./UploadPreview";
+const AddFood = () => {
+  const router = useRouter();
 
-export const AddFoodModal = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [loading, setLoading] = useState(false);
+  const [visible, setVisible] = useState(false);
+
   const [isSave, setIsSave] = useState(false);
   const { handleSubmit, register, errors } = useForm();
   let currentDate = format(new Date(), "dd/MM/yyyy");
+
   const [ngayNhap, setNgayNhap] = useState(currentDate);
   const [ngaySanXuat, setNgaySanXuat] = useState(currentDate);
   const [hanSuDung, setHanSuDung] = useState(currentDate);
+
   const [files, setFiles] = useState([]);
   const [fileUrls, setFileUrls] = useState([]);
 
-  const router = useRouter();
+  const showModal = () => setVisible(true);
+
+  const handleCancel = () => {
+    setVisible(false);
+  };
 
   const onSubmit = async (values) => {
     setIsSave(true);
@@ -91,97 +91,107 @@ export const AddFoodModal = () => {
 
     setFiles([]);
     setFileUrls([]);
-    onClose();
+    setVisible(false);
 
     router.push("/dashboard/food");
 
     setIsSave(false);
   };
-
   return (
     <>
-      <Box className="sidebar__link--sub" onClick={onOpen} cursor="pointer">
-        <ListIcon icon={RiShoppingBag2Fill} color="gray.50" />
-        {/* Nhập thức ăn */}
-      </Box>
+      <AntdButton
+        type="primary"
+        shape="circle"
+        onClick={showModal}
+        style={{
+          position: "fixed",
+          bottom: "4rem",
+          right: "5%",
+          height: "3rem",
+          width: "3rem",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <HiPlus fontSize="28px" />
+      </AntdButton>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
-          <ModalHeader>Nhập thông tin thức ăn</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <FormControl>
-              <FormLabel htmlFor="ngayNhap">Ngày tháng năm: </FormLabel>
-              <DatePicker
-                selectedDate={ngayNhap}
-                setSelectedDate={setNgayNhap}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="tenThucAn">Tên thức ăn</FormLabel>
-              <Input
-                type="text"
-                id="tenThucAn"
-                name="tenThucAn"
-                ref={register({
-                  required: "Required",
-                })}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="donViCungCapThucAn">
-                Tên người/cửa hàng đại lý thức ăn:{" "}
-              </FormLabel>
-              <Input
-                type="text"
-                id="donViCungCapThucAn"
-                name="donViCungCapThucAn"
-                ref={register({
-                  required: "Required",
-                })}
-              />
-            </FormControl>
-
-            <FormControl>
-              <FormLabel htmlFor="soLuong">Số lượng(kg): </FormLabel>
-              <Input
-                type="text"
-                id="soLuong"
-                name="soLuong"
-                ref={register({
-                  required: "Required",
-                })}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="ngaySanXuat">Ngày sản xuất</FormLabel>
-              <DatePicker
-                selectedDate={ngaySanXuat}
-                setSelectedDate={setNgaySanXuat}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="hanSuDung">Hạn sử dụng</FormLabel>
-              <DatePicker
-                selectedDate={hanSuDung}
-                setSelectedDate={setHanSuDung}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel>Hình ảnh thức ăn</FormLabel>
-              <UploadPreview
-                files={files}
-                setFiles={setFiles}
-                fileUrls={fileUrls}
-                setFileUrls={setFileUrls}
-              />
-            </FormControl>
-          </ModalBody>
+      <Modal
+        visible={visible}
+        title="Nhập thức ăn"
+        onCancel={handleCancel}
+        footer={null}
+      >
+        {/* Modal Body */}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FormControl>
+            <FormLabel htmlFor="ngayNhap">Ngày tháng năm: </FormLabel>
+            <DatePicker selectedDate={ngayNhap} setSelectedDate={setNgayNhap} />
+          </FormControl>
+          <FormControl>
+            <FormLabel htmlFor="tenThucAn">Tên thức ăn</FormLabel>
+            <Input
+              type="text"
+              id="tenThucAn"
+              name="tenThucAn"
+              ref={register({
+                required: "Required",
+              })}
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel htmlFor="donViCungCapThucAn">
+              Tên người/cửa hàng đại lý thức ăn:{" "}
+            </FormLabel>
+            <Input
+              type="text"
+              id="donViCungCapThucAn"
+              name="donViCungCapThucAn"
+              ref={register({
+                required: "Required",
+              })}
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel htmlFor="soLuong">Số lượng(kg): </FormLabel>
+            <Input
+              type="text"
+              id="soLuong"
+              name="soLuong"
+              ref={register({
+                required: "Required",
+              })}
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel htmlFor="ngaySanXuat">Ngày sản xuất</FormLabel>
+            <DatePicker
+              selectedDate={ngaySanXuat}
+              setSelectedDate={setNgaySanXuat}
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel htmlFor="hanSuDung">Hạn sử dụng</FormLabel>
+            <DatePicker
+              selectedDate={hanSuDung}
+              setSelectedDate={setHanSuDung}
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel>Hình ảnh thức ăn</FormLabel>
+            <UploadPreview
+              files={files}
+              setFiles={setFiles}
+              fileUrls={fileUrls}
+              setFileUrls={setFileUrls}
+            />
+          </FormControl>
+          <Divider />
 
           <ModalFooter>
-            <Button variantColor="blue" mr={3} onClick={onClose}>
-              Close
+            <Button variantColor="blue" mr={3} onClick={handleCancel}>
+              Đóng
             </Button>
             {isSave ? (
               <Button backgroundColor="gray.400" color="#fff">
@@ -193,10 +203,10 @@ export const AddFoodModal = () => {
               </Button>
             )}
           </ModalFooter>
-        </ModalContent>
+        </form>
       </Modal>
     </>
   );
 };
 
-export default AddFoodModal;
+export default AddFood;

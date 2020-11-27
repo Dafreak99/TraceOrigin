@@ -37,7 +37,6 @@ const Product = ({ data }) => {
       <Navbar float />
       <Box py="5rem">
         <div className="container">
-          {/* <Heading>Sản phẩm/Tôm sú</Heading> */}
           <Breadcrumb>
             <Breadcrumb.Item>Sản phẩm</Breadcrumb.Item>
             <Breadcrumb.Item>
@@ -135,8 +134,6 @@ export async function getStaticProps() {
   let res = await fetch("https://traceorigin.vercel.app/api/product");
 
   let data = await res.json();
-
-  console.log("Data", data);
 
   return {
     props: {
