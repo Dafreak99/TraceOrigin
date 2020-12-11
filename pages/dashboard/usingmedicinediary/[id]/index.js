@@ -2,13 +2,11 @@ import {
   Box,
   Button,
   Flex,
+  Heading,
   Image,
   List,
   ListItem,
   Text,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
 } from "@chakra-ui/core";
 import { BiArrowBack } from "react-icons/bi";
 import { useRouter } from "next/router";
@@ -33,62 +31,34 @@ const Index = () => {
   return (
     <Layout>
       <Box px={16} py={12}>
-        {data && (
-          <>
-            <Flex alignItems="center" justify="space-between">
-              <Flex alignItems="center">
-                <Flex
-                  justify="center"
-                  align="center"
-                  height="50px"
-                  width="50px"
-                  background="#c9e3fe45"
-                  borderRadius="50%"
-                  mr={8}
-                  cursor="pointer"
-                >
+        {/* {data && (
+            <>
+              <Flex alignItems="center" justify="space-between">
+                <Flex>
                   <Box
-                    height="32px"
-                    width="32px"
                     as={BiArrowBack}
-                    color="#4386e8"
+                    mr={8}
+                    fontSize="3rem"
+                    color="gray.500"
                     onClick={() => router.push("/dashboard/medicine")}
                   />
+                  <Heading size="xl" fontWeight="medium" color="gray.800">
+                    Thuốc / {data.tenThuoc}
+                  </Heading>
                 </Flex>
-
-                <Breadcrumb fontSize="xl" color="#485B6D">
-                  <BreadcrumbItem>
-                    <BreadcrumbLink
-                      onClick={() => router.push("/dashboard/medicine")}
-                    >
-                      Thuốc
-                    </BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbItem isCurrentPage>
-                    <BreadcrumbLink>{data.tenThuoc}</BreadcrumbLink>
-                  </BreadcrumbItem>
-                </Breadcrumb>
+                <Button
+                  backgroundColor="gray.600"
+                  color="#fff"
+                  type="submit"
+                  onClick={() =>
+                    router.push(`/dashboard/medicine/${router.query.id}/modify`)
+                  }
+                >
+                  Chỉnh sửa thông tin
+                </Button>
               </Flex>
-              <Button
-                backgroundColor="#098efc"
-                color="#fff"
-                type="submit"
-                onClick={() =>
-                  router.push(`/dashboard/medicine/${router.query.id}/modify`)
-                }
-              >
-                Chỉnh sửa thông tin
-              </Button>
-            </Flex>
-            <Flex
-              px="4rem"
-              py="6rem"
-              mt={8}
-              boxShadow="0 15px 30px rgba(0,0,0,.05)"
-              background="#fff"
-            >
-              <Image src={data.hinhAnh[0]} h="20rem" mr="8rem" />
-              <List spacing={4}>
+  
+              <List spacing={2} mt={12}>
                 <ListItem>
                   <Text fontSize="md" fontWeight="medium">
                     Tên thuốc:{" "}
@@ -105,7 +75,7 @@ const Index = () => {
                     </Box>
                   </Text>
                 </ListItem>
-
+  
                 <ListItem>
                   <Text fontSize="md" fontWeight="medium">
                     Địa chỉ đơn vị cung cấp thuốc:{" "}
@@ -154,10 +124,15 @@ const Index = () => {
                     </Box>
                   </Text>
                 </ListItem>
+                <ListItem>
+                  <Text fontSize="md" fontWeight="medium">
+                    Hình ảnh:
+                  </Text>
+                  <Image src={data.hinhAnh[0]} height="30rem" mt={6} />
+                </ListItem>
               </List>
-            </Flex>
-          </>
-        )}
+            </>
+          )} */}
       </Box>
     </Layout>
   );

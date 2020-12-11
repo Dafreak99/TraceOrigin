@@ -7,7 +7,6 @@ import {
   ModalFooter,
   Button,
   ModalContent,
-  FormControl,
   FormLabel,
   Input,
   useDisclosure,
@@ -15,6 +14,8 @@ import {
 } from "@chakra-ui/core";
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
+
+import FormControl from "./FormControl";
 
 export const AddSeedModal = ({ pondId, onCloseDrawer }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();

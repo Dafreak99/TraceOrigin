@@ -2,7 +2,6 @@ import {
   Box,
   Grid,
   Heading,
-  FormControl,
   FormLabel,
   Input,
   Flex,
@@ -17,6 +16,8 @@ import Asterisk from "./Asterisk";
 import UploadPreview from "./UploadPreview";
 import router from "next/router";
 import Map from "../Map";
+import FormControl from "./FormControl";
+import BackButton from "./BackButton";
 
 const FarmInfoModify = ({ isEdit, setIsEdit, data }) => {
   const [farmInfo, setData] = useState(data);
@@ -87,19 +88,17 @@ const FarmInfoModify = ({ isEdit, setIsEdit, data }) => {
   return (
     <Box as="form" px={16} py={12} onSubmit={handleSubmit(onSubmit)}>
       <Flex justify="space-between" align="center">
-        <Heading display="flex" justifyContent="center" alignItems="center">
-          {" "}
-          {isEdit && (
-            <Box as={BiArrowBack} mr={8} onClick={() => setIsEdit(!isEdit)} />
-          )}{" "}
-          Thông tin của bạn
-        </Heading>
+        <Flex alignItems="center">
+          <BackButton onClick={() => setIsEdit(!isEdit)} />
+          <Heading>Thông tin của bạn</Heading>
+        </Flex>
+
         {isSave ? (
           <Button backgroundColor="gray.400" color="#fff">
             <Spinner mr={4} /> Đang lưu
           </Button>
         ) : (
-          <Button backgroundColor="gray.600" color="#fff" type="submit">
+          <Button backgroundColor="#007bff" color="#fff" type="submit">
             Lưu thông tin
           </Button>
         )}

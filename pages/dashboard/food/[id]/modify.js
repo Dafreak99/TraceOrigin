@@ -3,12 +3,12 @@ import {
   Box,
   Button,
   Flex,
-  FormControl,
   FormLabel,
   Grid,
   Heading,
   Input,
   Spinner,
+  Text,
 } from "@chakra-ui/core";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
@@ -17,20 +17,19 @@ import Layout from "@/components/dashboard/Layout";
 import UploadPreview from "@/components/dashboard/UploadPreview";
 import DatePicker from "@/components/DatePicker";
 import fetcher from "@/utils/fetcher";
-import { format } from "date-fns";
 import useSWR from "swr";
+import FormControl from "@/components/dashboard/FormControl";
+import BackButton from "@/components/dashboard/BackButton";
 
 const Modify = () => {
   const router = useRouter();
 
   const [isSave, setIsSave] = useState(false);
-  const { handleSubmit, register, errors } = useForm();
+  const { handleSubmit, register, errors, control, reset } = useForm();
 
-  const currentDate = format(new Date(), "dd/MM/yyyy");
-
-  const [ngayNhap, setNgayNhap] = useState(currentDate);
-  const [ngaySanXuat, setNgaySanXuat] = useState(currentDate);
-  const [hanSuDung, setHanSuDung] = useState(currentDate);
+  const [ngayNhap, setNgayNhap] = useState(null);
+  const [ngaySanXuat, setNgaySanXuat] = useState(null);
+  const [hanSuDung, setHanSuDung] = useState(null);
 
   const [generalData, setGeneralData] = useState(null);
 
@@ -63,9 +62,7 @@ const Modify = () => {
 
   const onSubmit = async (values) => {
     setIsSave(true);
-    values.ngayNhap = ngayNhap;
-    values.ngaySanXuat = ngaySanXuat;
-    values.hanSuDung = hanSuDung;
+
     values._id = router.query.id;
 
     let urls = [];
@@ -129,13 +126,18 @@ const Modify = () => {
         {generalData && (
           <>
             <Flex alignItems="center" justify="space-between">
-              <Heading>Chỉnh sửa thông tin thức ăn</Heading>
+              <Flex alignItems="center">
+                <BackButton />
+                <Heading>Chỉnh sửa thông tin thức ăn</Heading>
+              </Flex>
               {isSave ? (
                 <Button backgroundColor="gray.400" color="#fff">
                   <Spinner mr={4} /> Đang lưu
                 </Button>
               ) : (
-                <Button type="submit">Lưu thông tin</Button>
+                <Button type="submit" backgroundColor="#007bff" color="#fff">
+                  Lưu thông tin
+                </Button>
               )}
             </Flex>
 
@@ -149,10 +151,11 @@ const Modify = () => {
               mt="2rem"
             >
               <FormControl>
-                <FormLabel htmlFor="ngayNhap">Ngày tháng năm: </FormLabel>
+                <FormLabel htmlFor="ngayNhap">Ngày nhập: </FormLabel>
                 <DatePicker
-                  selectedDate={ngayNhap}
-                  setSelectedDate={setNgayNhap}
+                  control={control}
+                  name="ngayNhap"
+                  placeholder={ngayNhap}
                 />
               </FormControl>
               <FormControl>
@@ -199,15 +202,22 @@ const Modify = () => {
               <FormControl>
                 <FormLabel htmlFor="ngaySanXuat">Ngày sản xuất</FormLabel>
                 <DatePicker
-                  selectedDate={ngaySanXuat}
-                  setSelectedDate={setNgaySanXuat}
+                  control={control}
+                  name="ngaySanXuat"
+                  placeholder={ngaySanXuat}
                 />
+                {errors.ngaySanXuat?.type === "required" && (
+                  <Text fontSize="md" fontStyle="italic" color="red.300">
+                    Vui lòng nhập ngày
+                  </Text>
+                )}
               </FormControl>
               <FormControl>
                 <FormLabel htmlFor="hanSuDung">Hạn sử dụng</FormLabel>
                 <DatePicker
-                  selectedDate={hanSuDung}
-                  setSelectedDate={setHanSuDung}
+                  control={control}
+                  name="hanSuDung"
+                  placeholder={hanSuDung}
                 />
               </FormControl>
               <FormControl>

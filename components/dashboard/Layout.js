@@ -9,7 +9,7 @@ import {
   FileOutlined,
   InsertRowBelowOutlined,
   PlusCircleOutlined,
-  BellOutlined,
+  UsergroupAddOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
 import Header from "./Header";
@@ -121,6 +121,11 @@ const Sidebar = () => {
             </Link>
           </Menu.Item>
         </SubMenu>
+        <Menu.Item key="10" icon={<UsergroupAddOutlined />}>
+          <Link href="/dashboard/worker">
+            <a>Danh sách nhân công</a>
+          </Link>
+        </Menu.Item>
       </Menu>
     </Sider>
   );

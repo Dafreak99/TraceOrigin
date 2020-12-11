@@ -174,3 +174,7 @@ aside.ant-layout-sider.ant-layout-sider-dark.ant-layout-sider-collapsed.ant-layo
 .diary-box img {
   height: 4rem;
 }
+
+.form-control {
+  margin-bottom: 1rem;
+}

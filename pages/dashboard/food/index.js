@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import {
   Box,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
   Heading,
   Image,
   AlertDialog,
@@ -13,6 +10,8 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
   Button,
+  Alert,
+  AlertIcon,
 } from "@chakra-ui/core";
 import useSWR, { mutate } from "swr";
 import { useRouter } from "next/router";
@@ -24,11 +23,13 @@ import Layout from "@/components/dashboard/Layout";
 import { Table, Th, Td, Tr } from "@/components/Table";
 import fetcher from "@/utils/fetcher";
 import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
+import { format } from "date-fns";
 
 const AddFood = () => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState();
   const [id, setId] = useState();
+  const [loading, setLoading] = useState(true);
   const [currentData, setCurrentData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -45,6 +46,9 @@ const AddFood = () => {
   );
 
   useEffect(() => {
+    if (data !== undefined) {
+      setLoading(false);
+    }
     if (data && data.length > 0) {
       setCurrentData(data.slice(0, 5));
     }
@@ -75,10 +79,8 @@ const AddFood = () => {
           "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
         ],
         async (cachedData) => {
-          return [
-            ...cachedData.slice(0, index),
-            ...cachedData.slice(index + 1),
-          ];
+          let data = cachedData.filter((each) => each._id !== id);
+          return data;
         },
         false
       );
@@ -89,18 +91,24 @@ const AddFood = () => {
     setIsOpen(false);
   };
 
+  if (loading) {
+    return (
+      <Layout>
+        <Box px={16} py={12} position="relative">
+          <AddFoodModal />
+          <Heading mt={10} mb={5}>
+            Lịch sử nhập thức ăn
+          </Heading>
+          <FoodTableSkeleton />
+        </Box>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <Box px={16} py={12} position="relative">
         <AddFoodModal />
-        <Breadcrumb fontSize="xl">
-          <BreadcrumbItem>
-            <BreadcrumbLink>Quản lí</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbItem isCurrentPage>
-            <BreadcrumbLink>Thức ăn</BreadcrumbLink>
-          </BreadcrumbItem>
-        </Breadcrumb>
         <Heading mt={10} mb={5}>
           Lịch sử nhập thức ăn
         </Heading>
@@ -134,14 +142,14 @@ const AddFood = () => {
                     cursor="pointer"
                     onClick={() => router.push(`./food/${_id}`)}
                   >
-                    <Td>{ngayNhap}</Td>
+                    <Td>{format(new Date(ngayNhap), "dd/MM/yyyy")}</Td>
                     <Td>{tenThucAn}</Td>
                     <Td>
                       <Image src={hinhAnh[0]} height="5rem" />
                     </Td>
                     <Td>{soLuong}</Td>
-                    <Td>{ngaySanXuat}</Td>
-                    <Td>{hanSuDung}</Td>
+                    <Td>{format(new Date(ngaySanXuat), "dd/MM/yyyy")}</Td>
+                    <Td>{format(new Date(hanSuDung), "dd/MM/yyyy")}</Td>
                     <Td
                       borderLeft="1px solid #e8eef3"
                       px={8}
@@ -191,7 +199,10 @@ const AddFood = () => {
             />
           </>
         ) : (
-          <FoodTableSkeleton />
+          <Alert status="info" fontSize="md" w="30rem">
+            <AlertIcon />
+            Chưa nhập thức ăn
+          </Alert>
         )}
       </Box>
     </Layout>

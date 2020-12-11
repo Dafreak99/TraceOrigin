@@ -1,28 +1,44 @@
+import { DatePicker as AntdPicker } from "antd";
 import { format } from "date-fns";
-import { useState } from "react";
-import DayPickerInput from "react-day-picker/DayPickerInput";
 
+import { Controller } from "react-hook-form";
 /**
- * To use this component please pass in [selectedDate, setSelectedDate].
- * const [selectedDate, setSelectedDate] = useState(format(new Date(), FORMAT));
+ * Passing control, input name and placeholder to this component
  */
 
-const DatePicker = ({ selectedDate, setSelectedDate }) => {
-  const FORMAT = "dd/MM/yyyy";
-
-  const handleDayChange = (selectedDay) => {
-    setSelectedDate(format(selectedDay, FORMAT));
-  };
+const DatePicker = ({ control, name, placeholder }) => {
+  const defaultDate = placeholder
+    ? format(new Date(placeholder), "yyyy-MM-dd")
+    : null;
 
   return (
-    <DayPickerInput
-      name="abc"
-      format={FORMAT}
-      value={selectedDate}
-      selectedDay={selectedDate}
-      onDayChange={handleDayChange}
+    <Controller
+      name={name}
+      control={control}
+      rules={{ required: true }}
+      defaultValue={defaultDate}
+      render={({ onChange }) => (
+        <AntdPicker
+          id="ngayThangNam"
+          placeholder={placeholder ? placeholder : "Chọn ngày"}
+          onChange={(_, dateString) => onChange(dateString)}
+          format="YYYY-MM-DD"
+        />
+      )}
     />
   );
 };
+// console.log(format(parseISO("2020-12-10"), "MM-dd-yyyy"));
+// When comparing 2 date with ISO format use new key word
+// console.log(
+//   isAfter(new Date(dateString), new Date("2020-01-01"))
+// );
 
+// Wrapped inside controller to retain the name attribute
+// {ngayThangNam: "2020-01-01"} when submit form
 export default DatePicker;
+
+// Để submit đc thì trong defaultValue của <Controller/> phải có giá trị
+
+// 1. Chọn ngày -> defaultValue={null} để hiển thị lỗi khi chưa chọn ngày
+// 2. Có ngày sẵn hiển thị ra as default

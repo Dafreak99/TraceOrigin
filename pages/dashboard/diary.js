@@ -5,7 +5,7 @@ import FeedingDiaryModal from "@/components/dashboard/FeedingDiaryModal";
 import PondEnviromentModal from "@/components/dashboard/PondEnviromentModal";
 
 import Layout from "@/components/dashboard/Layout";
-import UsingMedicineDiary from "@/components/UsingMedicineDiary";
+import UsingMedicineDiary from "@/components/dashboard/UsingMedicineDiary";
 
 const DashBoard = () => {
   return (

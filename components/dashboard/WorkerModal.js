@@ -4,33 +4,26 @@ import {
   Button,
   ModalFooter,
   Spinner,
+  Select,
 } from "@chakra-ui/core";
 
 import { useState } from "react";
 import Modal from "antd/lib/modal/Modal";
 
 import { useForm } from "react-hook-form";
-import { format } from "date-fns";
-import UploadPreview from "@/components/dashboard/UploadPreview";
 import { Divider, Button as AntdButton } from "antd";
-import { useRouter } from "next/router";
 import { HiPlus } from "react-icons/hi";
-
 import FormControl from "./FormControl";
-import DatePicker from "../DatePicker";
-import { mutate } from "swr";
+import useSWR, { mutate } from "swr";
+import fetcher from "@/utils/fetcher";
 
-const AddFood = () => {
-  const router = useRouter();
+const { Option } = Select;
 
-  const [loading, setLoading] = useState(false);
+const WorkerModal = () => {
   const [visible, setVisible] = useState(false);
 
   const [isSave, setIsSave] = useState(false);
-  const { handleSubmit, register, errors, control, reset } = useForm();
-
-  const [files, setFiles] = useState([]);
-  const [fileUrls, setFileUrls] = useState([]);
+  const { handleSubmit, register, errors } = useForm();
 
   const showModal = () => setVisible(true);
 
@@ -41,36 +34,8 @@ const AddFood = () => {
   const onSubmit = async (values) => {
     setIsSave(true);
 
-    let urls = [];
-
-    const uploadImage = async (file) => {
-      const formdata = new FormData();
-      formdata.append("file", file);
-      formdata.append("upload_preset", "traceorigin");
-      formdata.append("resource_type", "auto");
-
-      const res = await fetch(
-        "https://api.cloudinary.com/v1_1/dafreak/upload",
-        { method: "POST", body: formdata }
-      );
-      const { secure_url } = await res.json();
-      return secure_url;
-    };
-
-    // Loop through each image then upload
-    for (let i = 0; i < files.length; i++) {
-      if (files[i] === "") {
-        urls.push(fileUrls[i]);
-      } else {
-        let data = await uploadImage(files[i]);
-        urls.push(data);
-      }
-    }
-
-    values.hinhAnh = urls;
-
     try {
-      let res = await fetch("/api/food", {
+      let res = await fetch("/api/worker", {
         method: "POST",
         body: values,
         headers: {
@@ -80,11 +45,13 @@ const AddFood = () => {
         },
         body: JSON.stringify(values),
       });
-      const data = await res.json();
+
+      let data = await res.json();
 
       mutate(
         [
-          "/api/food",
+          "/api/worker",
+          // REPLACE TOKEN
           "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
         ],
         async (cachedData) => {
@@ -96,12 +63,8 @@ const AddFood = () => {
       console.log(error.message);
     }
 
-    setFiles([]);
-    setFileUrls([]);
     setVisible(false);
 
-    router.push("/dashboard/food");
-    reset();
     setIsSave(false);
   };
   return (
@@ -126,71 +89,96 @@ const AddFood = () => {
 
       <Modal
         visible={visible}
-        title="Nhập thức ăn"
+        title="Thêm nhân công"
         onCancel={handleCancel}
         footer={null}
       >
         {/* Modal Body */}
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(2, 1fr)",
+            gridColumnGap: "2rem",
+          }}
+        >
           <FormControl>
-            <FormLabel htmlFor="ngayNhap">Ngày nhập: </FormLabel>
-            <DatePicker control={control} name="ngayNhap" />
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="tenThucAn">Tên thức ăn</FormLabel>
+            <FormLabel htmlFor="hoTen">Họ và tên</FormLabel>
             <Input
               type="text"
-              id="tenThucAn"
-              name="tenThucAn"
+              id="hoTen"
+              name="hoTen"
               ref={register({
                 required: "Required",
               })}
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="donViCungCapThucAn">
-              Tên người/cửa hàng đại lý thức ăn:{" "}
-            </FormLabel>
+            <FormLabel htmlFor="diaChi">Địa chỉ</FormLabel>
             <Input
               type="text"
-              id="donViCungCapThucAn"
-              name="donViCungCapThucAn"
+              id="diaChi"
+              name="diaChi"
               ref={register({
                 required: "Required",
               })}
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="soLuong">Số lượng(kg): </FormLabel>
+            <FormLabel htmlFor="soCMND">CMND</FormLabel>
             <Input
               type="text"
-              id="soLuong"
-              name="soLuong"
+              id="soCMND"
+              name="soCMND"
               ref={register({
                 required: "Required",
               })}
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="ngaySanXuat">Ngày sản xuất</FormLabel>
-            <DatePicker control={control} name="ngaySanXuat" />
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="hanSuDung">Hạn sử dụng</FormLabel>
-            <DatePicker control={control} name="hanSuDung" />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Hình ảnh thức ăn</FormLabel>
-            <UploadPreview
-              files={files}
-              setFiles={setFiles}
-              fileUrls={fileUrls}
-              setFileUrls={setFileUrls}
+            <FormLabel htmlFor="namSinh">Năm sinh</FormLabel>
+            <Input
+              type="text"
+              id="namSinh"
+              name="namSinh"
+              ref={register({
+                required: "Required",
+              })}
             />
           </FormControl>
-          <Divider />
 
-          <ModalFooter>
+          <FormControl>
+            <FormLabel htmlFor="gioiTinh">Giới tính</FormLabel>
+            <br />
+            <Select name="gioiTinh" ref={register()}>
+              <option value="Nam">Nam</option>
+              <option value="Nữ">Nữ</option>
+            </Select>
+          </FormControl>
+          <FormControl>
+            <FormLabel htmlFor="bangCap">Bằng cấp</FormLabel>
+            <Select name="bangCap" ref={register()}>
+              <option value="Thạc sĩ">Thạc sĩ</option>
+              <option value="Cử nhân">Cử nhân</option>
+              <option value="Cấp 3">Cấp 3</option>
+              <option value="Cấp 2">Cấp 2</option>
+            </Select>
+          </FormControl>
+          <FormControl>
+            <FormLabel htmlFor="nhiemVu">Nhiệm vụ</FormLabel>
+            <Input
+              type="text"
+              id="nhiemVu"
+              name="nhiemVu"
+              ref={register({
+                required: "Required",
+              })}
+            />
+          </FormControl>
+
+          <Divider style={{ gridColumn: "span 2" }} />
+
+          <ModalFooter gridColumn="span 2">
             <Button variantColor="blue" mr={3} onClick={handleCancel}>
               Đóng
             </Button>
@@ -210,4 +198,4 @@ const AddFood = () => {
   );
 };
 
-export default AddFood;
+export default WorkerModal;

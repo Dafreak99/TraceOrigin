@@ -4,11 +4,15 @@ import { Table, Tr, Td, Th } from "@/components/Table";
 import { FaTrash } from "react-icons/fa";
 import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
+import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
+import { useRouter } from "next/router";
 
-const feedingdiary = () => {
+const UsingMedicineDiary = () => {
+  const router = useRouter();
+
   const { data, error } = useSWR(
     [
-      "/api/feedingdiary",
+      "/api/usingmedicine",
       "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
     ],
     fetcher
@@ -17,49 +21,59 @@ const feedingdiary = () => {
   return (
     <Layout>
       <Box px={16} py={12}>
-        <Heading mb={8}>Nhật ký cho ăn</Heading>
-        {data && data.length > 0 && (
+        <Heading mb={8}>Nhật ký sử dụng thuốc</Heading>
+
+        {data && data.length > 0 ? (
           <Table>
             <Tr>
-              <Th>Ngày cho ăn</Th>
+              <Th>Ngày sử dung</Th>
+              <Th>Tên thuốc</Th>
+              <Th>Hình ảnh thuốc</Th>
               <Th>Tên thức ăn</Th>
-              <Th>Hình ảnh</Th>
-              <Th>Khối lượng(kg)</Th>
-              <Th>Ghi chú</Th>
+              <Th>Hình ảnh thức ăn</Th>
               <Th>Tên Ao</Th>
+              <Th>Khối lượng thuốc(kg)</Th>
+              <Th>Tỷ lệ phối trộn(%)</Th>
+              <Th>Người trộn</Th>
               <Th>{""}</Th>
             </Tr>
             {data.map(
               (
                 {
                   ngayThangNam,
-                  khoiLuong,
-                  ghiChu,
-                  thucAn: { tenThucAn, hinhAnh },
+                  thuoc: { tenThuoc, hinhAnh: hinhAnhThuoc },
+                  thucAn: { tenThucAn, hinhAnh: hinhAnhThucAn },
                   ao: { tenAo },
+                  tyLePhoiTron,
+                  khoiLuongThuoc,
+                  nguoiTron: { hoTen },
+                  _id,
                 },
                 i
               ) => (
                 <Tr
                   backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
                   cursor="pointer"
-                  onClick={() => router.push(`./medicine/${_id}`)}
+                  onClick={() => router.push(`./usingmedicinediary/${_id}`)}
                 >
                   <Td>{ngayThangNam}</Td>
+                  <Td>{tenThuoc}</Td>
+                  <Td>
+                    <Image src={hinhAnhThuoc[0]} height="5rem" />
+                  </Td>
                   <Td>{tenThucAn}</Td>
                   <Td>
-                    <Image src={hinhAnh[0]} height="5rem" />
+                    <Image src={hinhAnhThucAn[0]} height="5rem" />
                   </Td>
-                  <Td>{khoiLuong}</Td>
-                  <Td>{ghiChu}</Td>
                   <Td>{tenAo}</Td>
+                  <Td>{khoiLuongThuoc}</Td>
+                  <Td>{tyLePhoiTron}</Td>
+                  <Td>{hoTen}</Td>
                   <Td
                     borderLeft="1px solid #e8eef3"
                     px={8}
                     onClick={(e) => {
                       e.stopPropagation();
-                      // setIsOpen(true);
-                      // setId(_id);
                     }}
                   >
                     <Box as={FaTrash}></Box>
@@ -68,29 +82,12 @@ const feedingdiary = () => {
               )
             )}
           </Table>
+        ) : (
+          <FoodTableSkeleton />
         )}
       </Box>
     </Layout>
   );
 };
 
-// export async function getStaticProps() {
-//   let res = await fetch("https://traceorigin.vercel.app/api/feedingdiary", {
-//     method: "GET",
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization:
-//         "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
-//     },
-//   });
-
-//   let data = await res.json();
-
-//   return {
-//     props: {
-//       data,
-//     },
-//   };
-// }
-
-export default feedingdiary;
+export default UsingMedicineDiary;

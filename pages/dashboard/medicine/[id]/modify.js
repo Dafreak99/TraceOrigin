@@ -3,29 +3,31 @@ import {
   Box,
   Button,
   Flex,
-  FormControl,
   FormLabel,
   Grid,
   Heading,
   Input,
-  Select,
   Spinner,
 } from "@chakra-ui/core";
 import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
+import { Select } from "antd";
+import useSWR from "swr";
+import { BiArrowBack } from "react-icons/bi";
+import { format } from "date-fns";
 
 import Layout from "@/components/dashboard/Layout";
 import UploadPreview from "@/components/dashboard/UploadPreview";
 import DatePicker from "@/components/DatePicker";
 import fetcher from "@/utils/fetcher";
-import { format } from "date-fns";
-import useSWR from "swr";
+import FormControl from "@/components/dashboard/FormControl";
+const { Option } = Select;
 
 const Modify = () => {
   const router = useRouter();
 
   const [isSave, setIsSave] = useState(false);
-  const { handleSubmit, register, errors } = useForm();
+  const { handleSubmit, register, errors, control, reset } = useForm();
 
   const currentDate = format(new Date(), "dd/MM/yyyy");
 
@@ -66,11 +68,8 @@ const Modify = () => {
 
   const onSubmit = async (values) => {
     setIsSave(true);
-    values.ngayNhap = ngayNhap;
-    values.ngaySanXuat = ngaySanXuat;
-    values.hanSuDung = hanSuDung;
+
     values._id = router.query.id;
-    values.cachBaoQuan = cachBaoQuan;
 
     let urls = [];
 
@@ -117,7 +116,7 @@ const Modify = () => {
 
     setFiles([]);
     setFileUrls([]);
-
+    reset();
     setIsSave(false);
 
     router.back();
@@ -133,13 +132,34 @@ const Modify = () => {
         {generalData && (
           <>
             <Flex alignItems="center" justify="space-between">
-              <Heading>Chỉnh sửa thông tin thuốc</Heading>
+              <Flex alignItems="center">
+                <Flex
+                  justify="center"
+                  align="center"
+                  height="50px"
+                  width="50px"
+                  background="#c9e3fe45"
+                  borderRadius="50%"
+                  mr={8}
+                  cursor="pointer"
+                >
+                  <Box
+                    height="32px"
+                    width="32px"
+                    as={BiArrowBack}
+                    color="#4386e8"
+                    onClick={() => router.back()}
+                  />
+                </Flex>
+
+                <Heading>Chỉnh sửa thông tin thuốc</Heading>
+              </Flex>
               {isSave ? (
                 <Button backgroundColor="gray.400" color="#fff">
                   <Spinner mr={4} /> Đang lưu
                 </Button>
               ) : (
-                <Button type="submit" backgroundColor="gray.600" color="#fff">
+                <Button type="submit" backgroundColor="#098efc" color="#fff">
                   Lưu thông tin
                 </Button>
               )}
@@ -155,10 +175,12 @@ const Modify = () => {
               mt="2rem"
             >
               <FormControl>
-                <FormLabel htmlFor="ngayNhap">Ngày tháng năm: </FormLabel>
+                <FormLabel htmlFor="ngayNhap">Ngày nhập: </FormLabel>
+                <br />
                 <DatePicker
-                  selectedDate={ngayNhap}
-                  setSelectedDate={setNgayNhap}
+                  control={control}
+                  name="ngayNhap"
+                  placeholder={ngayNhap}
                 />
               </FormControl>
               <FormControl>
@@ -207,7 +229,7 @@ const Modify = () => {
               <FormControl>
                 <FormLabel htmlFor="soLuong">Số lượng(kg): </FormLabel>
                 <Input
-                  type="text"
+                  type="number"
                   id="soLuong"
                   name="soLuong"
                   onChange={onChange}
@@ -219,34 +241,41 @@ const Modify = () => {
               </FormControl>
               <FormControl>
                 <FormLabel htmlFor="ngaySanXuat">Ngày sản xuất</FormLabel>
+                <br />
                 <DatePicker
-                  selectedDate={ngaySanXuat}
-                  setSelectedDate={setNgaySanXuat}
+                  control={control}
+                  name="ngaySanXuat"
+                  placeholder={ngaySanXuat}
                 />
               </FormControl>
               <FormControl>
                 <FormLabel htmlFor="hanSuDung">Hạn sử dụng</FormLabel>
+                <br />
                 <DatePicker
-                  selectedDate={hanSuDung}
-                  setSelectedDate={setHanSuDung}
+                  control={control}
+                  name="hanSuDung"
+                  placeholder={hanSuDung}
                 />
               </FormControl>
               <FormControl>
                 <FormLabel htmlFor="cachBaoQuan">Cách bảo quản</FormLabel>
-                <Select
+
+                <Controller
                   name="cachBaoQuan"
-                  onChange={(e) => setCachBaoQuan(e.target.value)}
-                >
-                  <option
-                    value="Trong kho"
-                    selected={cachBaoQuan === "Trong kho"}
-                  >
-                    Trong kho
-                  </option>
-                  <option value="Tủ lạnh" selected={cachBaoQuan === "Tủ lạnh"}>
-                    Tủ lạnh
-                  </option>
-                </Select>
+                  defaultValue="Tủ lạnh"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ onChange }) => (
+                    <Select
+                      defaultValue="Tủ lạnh"
+                      onChange={onChange}
+                      style={{ width: "100%" }}
+                    >
+                      <Option value="Tủ lạnh">Tủ lạnh</Option>
+                      <Option value="Trong kho">Trong kho</Option>
+                    </Select>
+                  )}
+                />
               </FormControl>
               <FormControl>
                 <FormLabel>Hình ảnh thức ăn</FormLabel>

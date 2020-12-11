@@ -3,26 +3,24 @@ import {
   Flex,
   ModalFooter,
   Button,
-  FormControl,
   FormLabel,
   Input,
-  useDisclosure,
   Image,
   Spinner,
 } from "@chakra-ui/core";
-import { DatePicker } from "antd";
 import Modal from "antd/lib/modal/Modal";
 import { format } from "date-fns";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import DatePicker from "../DatePicker";
+
+import FormControl from "./FormControl";
 
 const DailyNoteModal = () => {
-  const { handleSubmit, register, errors } = useForm();
+  const { handleSubmit, register, errors, control } = useForm();
   const [isSave, setIsSave] = useState(false);
   const [visible, setVisible] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(
-    format(new Date(), "dd/MM/yyyy")
-  );
+
   const showModal = () => setVisible(true);
 
   const handleOk = () => {
@@ -73,14 +71,7 @@ const DailyNoteModal = () => {
           </FormControl>
           <FormControl>
             <FormLabel htmlFor="date">Ngày ghi: </FormLabel>
-            <DatePicker
-              placeholder={selectedDate}
-              onChange={onChange}
-              format="DD/MM/YYYY"
-              id="date"
-              name="date"
-              ref={register()}
-            />
+            <DatePicker control={control} name="date" />
           </FormControl>
 
           <ModalFooter>

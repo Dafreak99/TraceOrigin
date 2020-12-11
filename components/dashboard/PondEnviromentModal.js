@@ -10,7 +10,6 @@ import {
   ModalFooter,
   Button,
   ModalContent,
-  FormControl,
   FormLabel,
   Input,
   useDisclosure,
@@ -19,6 +18,7 @@ import {
 } from "@chakra-ui/core";
 import { FaFish } from "react-icons/fa";
 import { useForm } from "react-hook-form";
+import FormControl from "./FormControl";
 
 const PondEnviromentModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();

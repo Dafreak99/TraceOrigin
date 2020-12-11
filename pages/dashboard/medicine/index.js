@@ -1,10 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  Grid,
   Heading,
   Image,
   AlertDialog,
@@ -14,19 +10,25 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
   Button,
+  Badge,
+  Alert,
+  AlertIcon,
 } from "@chakra-ui/core";
-import Layout from "@/components/dashboard/Layout";
-import { Table, Th, Td, Tr } from "@/components/Table";
-import useSWR from "swr";
-
-import fetcher from "@/utils/fetcher";
-import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
+import useSWR, { mutate } from "swr";
 import { useRouter } from "next/router";
 import { FaTrash } from "react-icons/fa";
+import { Tooltip } from "antd";
+
+import { Table, Th, Td, Tr } from "@/components/Table";
+import Layout from "@/components/dashboard/Layout";
+import fetcher from "@/utils/fetcher";
+import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
 import AddMedicineModal from "@/components/dashboard/AddMedicineModal";
+import { format, isBefore } from "date-fns";
 
 const Index = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState();
   const [id, setId] = useState();
 
@@ -41,6 +43,12 @@ const Index = () => {
     fetcher
   );
 
+  useEffect(() => {
+    if (data !== undefined) {
+      setLoading(false);
+    }
+  }, [data]);
+
   const onDelete = async () => {
     try {
       let res = await fetch(`/api/medicine/${id}`, {
@@ -51,6 +59,20 @@ const Index = () => {
             "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
         },
       });
+
+      mutate(
+        [
+          "/api/medicine",
+          "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
+        ],
+        async (cachedData) => {
+          let data = cachedData.filter((each) => each._id !== id);
+          return data;
+        },
+        false
+      );
+
+      // Add mutate
     } catch (error) {
       console.log(error.message);
     }
@@ -58,18 +80,72 @@ const Index = () => {
     setIsOpen(false);
   };
 
+  const medicineCondition = (soLuong, hanSuDung) => {
+    let expired = isBefore(new Date(hanSuDung), new Date());
+
+    if (soLuong === 0) {
+      return (
+        <Tooltip title="Số lượng còn lại là 0" color="#007bff">
+          <Badge
+            ml="1"
+            fontSize="0.8em"
+            background="red"
+            color="#fff"
+            borderRadius="3px"
+          >
+            Bad
+          </Badge>
+        </Tooltip>
+      );
+    } else if (expired) {
+      return (
+        <Tooltip title="Hết hạn sử dụng" color="#007bff">
+          <Badge
+            ml="1"
+            fontSize="0.8em"
+            background="red"
+            color="#fff"
+            borderRadius="3px"
+          >
+            Bad
+          </Badge>
+        </Tooltip>
+      );
+    } else {
+      return (
+        <Badge
+          ml="1"
+          fontSize="0.8em"
+          background="#20f3b8"
+          color="#fff"
+          borderRadius="3px"
+        >
+          Good
+        </Badge>
+      );
+    }
+  };
+
+  if (loading) {
+    return (
+      <Layout>
+        <Box px={16} py={12}>
+          <AddMedicineModal />
+
+          <Heading mt={10} mb={5}>
+            Lịch sử nhập thuốc
+          </Heading>
+          <FoodTableSkeleton />
+        </Box>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <Box px={16} py={12}>
         <AddMedicineModal />
-        <Breadcrumb fontSize="xl">
-          <BreadcrumbItem>
-            <BreadcrumbLink>Quản lí</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbItem isCurrentPage>
-            <BreadcrumbLink>Thuốc</BreadcrumbLink>
-          </BreadcrumbItem>
-        </Breadcrumb>
+
         <Heading mt={10} mb={5}>
           Lịch sử nhập thuốc
         </Heading>
@@ -79,10 +155,11 @@ const Index = () => {
               <Th>Ngày nhập</Th>
               <Th>Tên thuốc</Th>
               <Th>Hình ảnh</Th>
-              <Th>Số lượng(kg)</Th>
+              <Th>Số lượng(g)</Th>
               <Th>Cách bảo quản</Th>
               <Th>Ngày sản xuất</Th>
               <Th>Hạn sử dụng</Th>
+              <Th>Tình trạng</Th>
               <Th>{""}</Th>
             </Tr>
             {data.map(
@@ -104,15 +181,18 @@ const Index = () => {
                   cursor="pointer"
                   onClick={() => router.push(`./medicine/${_id}`)}
                 >
-                  <Td>{ngayNhap}</Td>
+                  <Td>{format(new Date(ngayNhap), "dd/MM/yyyy")}</Td>
+
                   <Td>{tenThuoc}</Td>
                   <Td>
                     <Image src={hinhAnh[0]} height="5rem" />
                   </Td>
                   <Td>{soLuong}</Td>
                   <Td>{cachBaoQuan}</Td>
-                  <Td>{ngaySanXuat}</Td>
-                  <Td>{hanSuDung}</Td>
+                  <Td>{format(new Date(ngaySanXuat), "dd/MM/yyyy")}</Td>
+                  <Td>{format(new Date(hanSuDung), "dd/MM/yyyy")}</Td>
+
+                  <Td>{medicineCondition(soLuong, hanSuDung)}</Td>
                   <Td
                     borderLeft="1px solid #e8eef3"
                     px={8}
@@ -154,7 +234,10 @@ const Index = () => {
             </AlertDialog>
           </Table>
         ) : (
-          <FoodTableSkeleton />
+          <Alert status="info" fontSize="md" w="30rem">
+            <AlertIcon />
+            Chưa nhập thuốc
+          </Alert>
         )}
       </Box>
     </Layout>

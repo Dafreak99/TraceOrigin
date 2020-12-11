@@ -2,40 +2,32 @@ import { useState } from "react";
 import {
   ModalFooter,
   Button,
-  FormControl,
   FormLabel,
   Input,
   useDisclosure,
-  Select,
   Spinner,
+  Text,
 } from "@chakra-ui/core";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { format } from "date-fns";
 import { useRouter } from "next/router";
 import Modal from "antd/lib/modal/Modal";
 import { mutate } from "swr";
-import { Button as AntdButton } from "antd";
+import { Button as AntdButton, Select } from "antd";
 import { HiPlus } from "react-icons/hi";
 
 import DatePicker from "../DatePicker";
 import UploadPreview from "./UploadPreview";
+import FormControl from "./FormControl";
 
 export const AddMedicineModal = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [isSave, setIsSave] = useState(false);
   const [visible, setVisible] = useState(false);
 
-  const { handleSubmit, register, errors } = useForm();
-
-  let currentDate = format(new Date(), "dd/MM/yyyy");
-  const [ngayNhap, setNgayNhap] = useState(currentDate);
-  const [ngaySanXuat, setNgaySanXuat] = useState(currentDate);
-  const [hanSuDung, setHanSuDung] = useState(currentDate);
+  const { handleSubmit, register, errors, control, reset } = useForm();
 
   const [files, setFiles] = useState([]);
   const [fileUrls, setFileUrls] = useState([]);
-
-  const router = useRouter();
 
   const showModal = () => setVisible(true);
 
@@ -54,10 +46,6 @@ export const AddMedicineModal = () => {
 
   const onSubmit = async (values) => {
     setIsSave(true);
-
-    values.ngayNhap = ngayNhap;
-    values.ngaySanXuat = ngaySanXuat;
-    values.hanSuDung = hanSuDung;
 
     let urls = [];
 
@@ -119,7 +107,8 @@ export const AddMedicineModal = () => {
     setFiles([]);
     setFileUrls([]);
 
-    onClose();
+    reset();
+    setVisible(false);
 
     setIsSave(false);
   };
@@ -210,34 +199,52 @@ export const AddMedicineModal = () => {
           </FormControl>
           <FormControl gridColumn="span 6">
             <FormLabel htmlFor="ngayNhap">Ngày nhập thuốc: </FormLabel>
-            <DatePicker selectedDate={ngayNhap} setSelectedDate={setNgayNhap} />
+            <DatePicker control={control} name="ngayNhap" />
+            {errors.ngayNhap?.type === "required" && (
+              <Text fontSize="md" fontStyle="italic" color="red.300">
+                Vui lòng nhập ngày
+              </Text>
+            )}
           </FormControl>
           <FormControl gridColumn="span 6">
             <FormLabel htmlFor="ngaySanXuat">Ngày sản xuất</FormLabel>
-            <DatePicker
-              selectedDate={ngaySanXuat}
-              setSelectedDate={setNgaySanXuat}
-            />
+            <DatePicker control={control} name="ngaySanXuat" />
+            {errors.ngaySanXuat?.type === "required" && (
+              <Text fontSize="md" fontStyle="italic" color="red.300">
+                Vui lòng nhập ngày
+              </Text>
+            )}
           </FormControl>
           <FormControl gridColumn="span 6">
             <FormLabel htmlFor="hanSuDung">Hạn sử dụng</FormLabel>
-            <DatePicker
-              selectedDate={hanSuDung}
-              setSelectedDate={setHanSuDung}
-            />
+            <DatePicker control={control} name="hanSuDung" />
+            {errors.hanSuDung?.type === "required" && (
+              <Text fontSize="md" fontStyle="italic" color="red.300">
+                Vui lòng nhập ngày
+              </Text>
+            )}
           </FormControl>
           <FormControl gridColumn="span 6">
             <FormLabel htmlFor="soLuong">Cách bảo quản:</FormLabel>
-            <Select
+
+            <Controller
               name="cachBaoQuan"
-              ref={register({
-                required: "Required",
-              })}
-            >
-              <option value="Tủ lạnh">Tủ lạnh</option>
-              <option value="Trong kho">Trong kho</option>
-            </Select>
+              defaultValue="Tủ lạnh"
+              control={control}
+              rules={{ required: true }}
+              render={({ onChange }) => (
+                <Select
+                  defaultValue="Tủ lạnh"
+                  onChange={onChange}
+                  style={{ width: "100%" }}
+                >
+                  <Option value="Tủ lạnh">Tủ lạnh</Option>
+                  <Option value="Trong kho">Trong kho</Option>
+                </Select>
+              )}
+            />
           </FormControl>
+
           <FormControl gridColumn="span 6">
             <FormLabel>Hình ảnh thuốc</FormLabel>
             <UploadPreview

@@ -1,37 +1,31 @@
 import {
-  Box,
   Text,
   Flex,
   ModalFooter,
   Button,
-  FormControl,
   FormLabel,
   Input,
   Select,
   Spinner,
   Image,
 } from "@chakra-ui/core";
-import { Button as AntdButton } from "antd";
 import Modal from "antd/lib/modal/Modal";
 
-import { FaFish } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import fetcher from "@/utils/fetcher";
 import useSWR from "swr";
 import { useState } from "react";
-import { format } from "date-fns";
 import DatePicker from "../DatePicker";
+import FormControl from "./FormControl";
+import { format } from "date-fns";
 
 const FeedingDiaryModal = () => {
   const [visible, setVisible] = useState(false);
 
   const [isSave, setIsSave] = useState(false);
 
-  const { handleSubmit, register, errors } = useForm();
+  const { handleSubmit, register, errors, control, reset } = useForm();
   const [selectedFood, setSelectedFood] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(
-    format(new Date(), "dd/MM/yyyy")
-  );
 
   const { data } = useSWR(
     [
@@ -68,7 +62,6 @@ const FeedingDiaryModal = () => {
     setIsSave(true);
 
     // Date and time format HH:mm' 'dd/MM/yyyy
-    values.ngayThangNam = selectedDate;
     try {
       await fetch("/api/feedingdiary", {
         method: "POST",
@@ -84,6 +77,7 @@ const FeedingDiaryModal = () => {
       console.log(error.message);
     }
 
+    reset();
     setVisible(false);
     setIsSave(false);
   };
@@ -98,7 +92,6 @@ const FeedingDiaryModal = () => {
       <Flex onClick={showModal} className="diary-box">
         <Text>Nhật ký cho ăn</Text>
         <Image src="/001-seafood.svg" />
-        {/* <Box as={FaFish} size="32px" mt={4} /> */}
       </Flex>
       {/* Render out modal */}
       <Modal
@@ -169,11 +162,8 @@ const FeedingDiaryModal = () => {
             )}
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="ngayNhap">Ngày tháng năm: </FormLabel>
-            <DatePicker
-              selectedDate={selectedDate}
-              setSelectedDate={setSelectedDate}
-            />
+            <FormLabel htmlFor="ngayThangNam">Ngày tháng năm: </FormLabel>
+            <DatePicker control={control} name="ngayThangNam" />
           </FormControl>
           <FormControl>
             <FormLabel htmlFor="ghiChu">Ghi chú: </FormLabel>

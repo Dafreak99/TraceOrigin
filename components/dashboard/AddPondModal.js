@@ -10,7 +10,6 @@ import {
   ModalFooter,
   Button,
   ModalContent,
-  FormControl,
   FormLabel,
   Input,
   useDisclosure,
@@ -19,6 +18,8 @@ import {
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
 import { mutate } from "swr";
+
+import FormControl from "./FormControl";
 
 export const AddPondModal = () => {
   // ADD them phan nhan dien ao nao da va dang duoc nuoi trong giong nhu booking ve theater
