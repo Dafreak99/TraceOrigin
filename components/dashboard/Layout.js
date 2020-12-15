@@ -6,13 +6,17 @@ import {
   DesktopOutlined,
   BorderVerticleOutlined,
   InfoCircleOutlined,
-  FileOutlined,
   InsertRowBelowOutlined,
   PlusCircleOutlined,
   UsergroupAddOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
 import Header from "./Header";
+import Icon from "@ant-design/icons";
+import { BiNote } from "react-icons/bi";
+import { FiUsers } from "react-icons/fi";
+import { FaBorderAll, FaChartBar, FaStickyNote } from "react-icons/fa";
+import { useRouter } from "next/router";
 
 const { Content, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -38,7 +42,108 @@ const CommonLayout = ({ children }) => {
   );
 };
 
+const FarmSidebar = () => {
+  return (
+    <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
+      <Menu.Item key="1" icon={<InfoCircleOutlined />}>
+        <Link href="/farm">
+          <a>Thông tin</a>
+        </Link>
+      </Menu.Item>
+      <Menu.Item key="2" icon={<Icon component={FaBorderAll} />}>
+        <Link href="/farm/ponds">
+          <a>Ao</a>
+        </Link>
+      </Menu.Item>
+
+      <Menu.Item key="3" icon={<InsertRowBelowOutlined />}>
+        <Link href="/farm/diary">
+          <a>Nhật ký hằng ngày </a>
+        </Link>
+      </Menu.Item>
+
+      <SubMenu
+        icon={<PlusCircleOutlined />}
+        key="4"
+        title={
+          <span>
+            <span>Quản lí</span>
+          </span>
+        }
+      >
+        <Menu.Item key="5" icon={<DesktopOutlined />}>
+          <Link href="/farm/food">
+            <a> Thức ăn</a>
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="6" icon={<DesktopOutlined />}>
+          <Link href="/farm/medicine">
+            <a> Thuốc</a>
+          </Link>
+        </Menu.Item>
+      </SubMenu>
+
+      <SubMenu
+        icon={<Icon component={FaStickyNote} />}
+        key="7"
+        title={
+          <span>
+            <span>Nhât ký</span>
+          </span>
+        }
+      >
+        <Menu.Item key="8" icon={<DesktopOutlined />}>
+          <Link href="/farm/feedingdiary">
+            <a> Cho ăn</a>
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="9" icon={<DesktopOutlined />}>
+          <Link href="/farm/usingmedicinediary">
+            <a> Sử dụng thuốc</a>
+          </Link>
+        </Menu.Item>
+      </SubMenu>
+
+      <SubMenu
+        icon={<Icon component={FaChartBar} />}
+        key="10"
+        title={
+          <span>
+            <span>Biểu đồ</span>
+          </span>
+        }
+      >
+        <Menu.Item key="11" icon={<DesktopOutlined />}>
+          <Link href="/farm/feedingchart">
+            <a> Cho ăn</a>
+          </Link>
+        </Menu.Item>
+      </SubMenu>
+
+      <Menu.Item key="12" icon={<Icon component={FiUsers} />}>
+        <Link href="/farm/worker">
+          <a>Danh sách nhân công</a>
+        </Link>
+      </Menu.Item>
+    </Menu>
+  );
+};
+
+const BusinessSidebar = () => {
+  return (
+    <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
+      <Menu.Item key="1" icon={<InfoCircleOutlined />}>
+        <Link href="/farm">
+          <a>Thông tin</a>
+        </Link>
+      </Menu.Item>
+    </Menu>
+  );
+};
+
 const Sidebar = () => {
+  const router = useRouter();
+  console.log(router);
   const [collapsed, setCollapsed] = useState(false);
 
   const onCollapse = (collapsed) => {
@@ -64,69 +169,7 @@ const Sidebar = () => {
           Trace Origin.
         </Text>
       </Flex>
-      <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
-        <Menu.Item key="1" icon={<InfoCircleOutlined />}>
-          <Link href="/dashboard">
-            <a>Thông tin</a>
-          </Link>
-        </Menu.Item>
-        <Menu.Item key="2" icon={<BorderVerticleOutlined />}>
-          <Link href="/dashboard/ponds">
-            <a>Ao</a>
-          </Link>
-        </Menu.Item>
-        <Menu.Item key="3" icon={<FileOutlined />}>
-          <Link href="/dashboard/notes">
-            <a>Ghi chú</a>
-          </Link>
-        </Menu.Item>
-        <Menu.Item key="4" icon={<InsertRowBelowOutlined />}>
-          <Link href="/dashboard/diary">
-            <a>Nhật ký hằng ngày </a>
-          </Link>
-        </Menu.Item>
-
-        <SubMenu
-          icon={<PlusCircleOutlined />}
-          key="5"
-          title={
-            <span>
-              <span>Quản lí</span>
-            </span>
-          }
-        >
-          <Menu.Item key="6" icon={<DesktopOutlined />}>
-            <Link href="/dashboard/food">
-              <a> Thức ăn</a>
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="7" icon={<DesktopOutlined />}>
-            <Link href="/dashboard/medicine">
-              <a> Thuốc</a>
-            </Link>
-          </Menu.Item>
-        </SubMenu>
-        <SubMenu
-          icon={<DesktopOutlined />}
-          key="8"
-          title={
-            <span>
-              <span>Biểu đồ</span>
-            </span>
-          }
-        >
-          <Menu.Item key="9" icon={<DesktopOutlined />}>
-            <Link href="/dashboard/feedingchart">
-              <a> Cho ăn</a>
-            </Link>
-          </Menu.Item>
-        </SubMenu>
-        <Menu.Item key="10" icon={<UsergroupAddOutlined />}>
-          <Link href="/dashboard/worker">
-            <a>Danh sách nhân công</a>
-          </Link>
-        </Menu.Item>
-      </Menu>
+      {router.route === "/farm" ? <FarmSidebar /> : <BusinessSidebar />}
     </Sider>
   );
 };

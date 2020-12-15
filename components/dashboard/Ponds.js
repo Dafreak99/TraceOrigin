@@ -215,7 +215,7 @@ const Ponds = () => {
           </DrawerContent>
         </Drawer>
       </Flex>
-      <Box height="700px" width="500px">
+      <Box height="calc(100vh - 64px)" width="100%">
         <DisplayMap entry={{ latitude: 10, longitude: 29 }} />
       </Box>
     </Flex>

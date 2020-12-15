@@ -154,6 +154,7 @@ aside.ant-layout-sider.ant-layout-sider-dark.ant-layout-sider-collapsed.ant-layo
   padding: 2rem;
   flex-direction: column;
   align-items: center;
+  transition: 350ms all;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
   font-size: 2rem;
 }
@@ -177,4 +178,9 @@ aside.ant-layout-sider.ant-layout-sider-dark.ant-layout-sider-collapsed.ant-layo
 
 .form-control {
   margin-bottom: 1rem;
+}
+
+.diary-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 35px 40px rgba(0, 0, 0, 0.1);
 }

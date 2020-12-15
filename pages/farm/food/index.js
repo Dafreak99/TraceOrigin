@@ -61,8 +61,6 @@ const AddFood = () => {
   };
 
   const onDelete = async () => {
-    let index = data.findIndex((each) => each._id === id);
-
     try {
       let res = await fetch(`/api/food/${id}`, {
         method: "DELETE",

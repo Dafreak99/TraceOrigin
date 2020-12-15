@@ -90,7 +90,9 @@ const FeedingDiaryModal = () => {
   return (
     <>
       <Flex onClick={showModal} className="diary-box">
-        <Text>Nhật ký cho ăn</Text>
+        <Text fontWeight="bold" marginBottom="2rem">
+          Nhật ký cho ăn
+        </Text>
         <Image src="/001-seafood.svg" />
       </Flex>
       {/* Render out modal */}

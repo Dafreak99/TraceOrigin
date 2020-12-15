@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/core";
 import useSWR, { mutate } from "swr";
 import { useRouter } from "next/router";
-import { FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import { Pagination } from "antd";
 
 import WorkerModal from "@/components/dashboard/WorkerModal";
@@ -17,16 +17,18 @@ import { Table, Th, Td, Tr } from "@/components/Table";
 import fetcher from "@/utils/fetcher";
 import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
 import Modal from "antd/lib/modal/Modal";
+import { useForm } from "react-hook-form";
+import EditWorkerModal from "@/components/dashboard/EditWorkerModal";
 
 const Worker = () => {
   const router = useRouter();
-  const [isOpen, setIsOpen] = useState();
 
-  const onClose = () => setIsOpen(false);
-  const cancelRef = React.useRef();
   const [visible, setVisible] = useState(false);
 
   const [deleteId, setDeleteId] = useState(null);
+  const [isEdit, setIsEdit] = useState(false);
+
+  const [editIndex, setEditIndex] = useState(0);
 
   const { data, error } = useSWR(
     [
@@ -95,9 +97,12 @@ const Worker = () => {
                 <Th>Họ tên</Th>
                 <Th>Địa chỉ</Th>
                 <Th>CMND</Th>
+                <Th>SDT</Th>
+                <Th>Năm sinh</Th>
                 <Th>Giới tính</Th>
                 <Th>Bằng cấp</Th>
                 <Th>Nhiệm vụ</Th>
+                <Th>{""}</Th>
                 <Th>{""}</Th>
               </Tr>
               {data.map(
@@ -110,6 +115,7 @@ const Worker = () => {
                     gioiTinh,
                     bangCap,
                     nhiemVu,
+                    sdt,
                     _id,
                   },
                   i
@@ -121,7 +127,9 @@ const Worker = () => {
                   >
                     <Td>{i + 1}</Td>
                     <Td>{hoTen}</Td>
+                    <Td>{diaChi}</Td>
                     <Td>{soCMND}</Td>
+                    <Td>{sdt}</Td>
                     <Td>{namSinh}</Td>
                     <Td>{gioiTinh}</Td>
                     <Td>{bangCap}</Td>
@@ -129,14 +137,23 @@ const Worker = () => {
 
                     <Td
                       borderLeft="1px solid #e8eef3"
-                      px={8}
                       onClick={(e) => {
                         e.stopPropagation();
                         setDeleteId(_id);
                         showModal();
                       }}
                     >
-                      <Box as={FaTrash}></Box>
+                      <Box as={FaTrash} />
+                    </Td>
+                    <Td
+                      // px={8}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setIsEdit(!isEdit);
+                        setEditIndex(i);
+                      }}
+                    >
+                      <Box as={FaEdit} />
                     </Td>
                   </Tr>
                 )
@@ -152,6 +169,12 @@ const Worker = () => {
               >
                 <p>Xóa nhân công này ?</p>
               </Modal>
+
+              <EditWorkerModal
+                visible={isEdit}
+                setVisible={setIsEdit}
+                data={data[editIndex]}
+              />
             </Table>
             <Pagination
               defaultCurrent={1}

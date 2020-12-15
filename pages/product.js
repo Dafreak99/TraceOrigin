@@ -119,7 +119,7 @@ const Product = ({ data }) => {
               gridColumn={{ base: "span 12", xl: "span 8" }}
               h={{ base: "20rem" }}
             >
-              <DisplayMap entry={entry} />
+              {entry && <DisplayMap entry={entry} />}
             </Box>
           </Grid>
           <Divider />

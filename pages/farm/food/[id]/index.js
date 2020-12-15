@@ -16,14 +16,15 @@ import { useRouter } from "next/router";
 import Layout from "@/components/dashboard/Layout";
 import fetcher from "@/utils/fetcher";
 import useSWR from "swr";
+import BackButton from "@/components/dashboard/BackButton";
 
-const Index = () => {
+const Index = ({}) => {
   const router = useRouter();
 
   const { data, error } = useSWR(
     router.query.id
       ? [
-          `/api/medicine/${router.query.id}`,
+          `/api/food/${router.query.id}`,
           "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
         ]
       : null,
@@ -37,35 +38,15 @@ const Index = () => {
           <>
             <Flex alignItems="center" justify="space-between">
               <Flex alignItems="center">
-                <Flex
-                  justify="center"
-                  align="center"
-                  height="50px"
-                  width="50px"
-                  background="#c9e3fe45"
-                  borderRadius="50%"
-                  mr={8}
-                  cursor="pointer"
-                >
-                  <Box
-                    height="32px"
-                    width="32px"
-                    as={BiArrowBack}
-                    color="#4386e8"
-                    onClick={() => router.push("/dashboard/medicine")}
-                  />
-                </Flex>
-
+                <BackButton />
                 <Breadcrumb fontSize="xl" color="#485B6D">
                   <BreadcrumbItem>
-                    <BreadcrumbLink
-                      onClick={() => router.push("/dashboard/medicine")}
-                    >
-                      Thuốc
+                    <BreadcrumbLink onClick={() => router.push("/farm/food")}>
+                      Thức ăn
                     </BreadcrumbLink>
                   </BreadcrumbItem>
                   <BreadcrumbItem isCurrentPage>
-                    <BreadcrumbLink>{data.tenThuoc}</BreadcrumbLink>
+                    <BreadcrumbLink>{data.tenThucAn}</BreadcrumbLink>
                   </BreadcrumbItem>
                 </Breadcrumb>
               </Flex>
@@ -74,12 +55,13 @@ const Index = () => {
                 color="#fff"
                 type="submit"
                 onClick={() =>
-                  router.push(`/dashboard/medicine/${router.query.id}/modify`)
+                  router.push(`/farm/food/${router.query.id}/modify`)
                 }
               >
                 Chỉnh sửa thông tin
               </Button>
             </Flex>
+
             <Flex
               px="4rem"
               py="6rem"
@@ -91,34 +73,17 @@ const Index = () => {
               <List spacing={4}>
                 <ListItem>
                   <Text fontSize="md" fontWeight="medium">
-                    Tên thuốc:{" "}
+                    Tên thức ăn:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.tenThuoc}
+                      {data.tenThucAn}
                     </Box>
                   </Text>
                 </ListItem>
                 <ListItem>
                   <Text fontSize="md" fontWeight="medium">
-                    Đơn vị cung cấp thuốc:{" "}
+                    Đơn vị cung cấp thức ăn:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.donViCungCapThuoc}
-                    </Box>
-                  </Text>
-                </ListItem>
-
-                <ListItem>
-                  <Text fontSize="md" fontWeight="medium">
-                    Địa chỉ đơn vị cung cấp thuốc:{" "}
-                    <Box as="span" fontWeight="normal">
-                      {data.diaChiDonViCungCapThuoc}
-                    </Box>
-                  </Text>
-                </ListItem>
-                <ListItem>
-                  <Text fontSize="md" fontWeight="medium">
-                    Ngày nhập thuốc:{" "}
-                    <Box as="span" fontWeight="normal">
-                      {data.ngayNhap}
+                      {data.donViCungCapThucAn}
                     </Box>
                   </Text>
                 </ListItem>
@@ -127,6 +92,14 @@ const Index = () => {
                     Ngày sản xuất:{" "}
                     <Box as="span" fontWeight="normal">
                       {data.ngaySanXuat}
+                    </Box>
+                  </Text>
+                </ListItem>
+                <ListItem>
+                  <Text fontSize="md" fontWeight="medium">
+                    Ngày nhập:{" "}
+                    <Box as="span" fontWeight="normal">
+                      {data.ngayNhap}
                     </Box>
                   </Text>
                 </ListItem>
@@ -143,14 +116,6 @@ const Index = () => {
                     Số lượng:{" "}
                     <Box as="span" fontWeight="normal">
                       {data.soLuong} kg
-                    </Box>
-                  </Text>
-                </ListItem>
-                <ListItem>
-                  <Text fontSize="md" fontWeight="medium">
-                    Cách bảo quản:{" "}
-                    <Box as="span" fontWeight="normal">
-                      {data.cachBaoQuan}
                     </Box>
                   </Text>
                 </ListItem>

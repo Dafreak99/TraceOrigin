@@ -1,11 +1,15 @@
-import { Box, Heading, Image } from "@chakra-ui/core";
+import { Alert, AlertIcon, Box, Heading, Image } from "@chakra-ui/core";
 import Layout from "@/components/dashboard/Layout";
 import { Table, Tr, Td, Th } from "@/components/Table";
 import { FaTrash } from "react-icons/fa";
 import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
+import { useEffect, useState } from "react";
+import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
+import { format } from "date-fns";
 
 const feedingdiary = () => {
+  const [loading, setLoading] = useState(true);
   const { data, error } = useSWR(
     [
       "/api/feedingdiary",
@@ -14,11 +18,28 @@ const feedingdiary = () => {
     fetcher
   );
 
+  useEffect(() => {
+    if (data !== undefined) {
+      setLoading(false);
+    }
+  }, [data]);
+
+  if (loading) {
+    return (
+      <Layout>
+        <Box px={16} py={12}>
+          <Heading mb={8}>Nhật ký cho ăn</Heading>
+          <FoodTableSkeleton />
+        </Box>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <Box px={16} py={12}>
         <Heading mb={8}>Nhật ký cho ăn</Heading>
-        {data && data.length > 0 && (
+        {data && data.length > 0 ? (
           <Table>
             <Tr>
               <Th>Ngày cho ăn</Th>
@@ -45,7 +66,7 @@ const feedingdiary = () => {
                   cursor="pointer"
                   onClick={() => router.push(`./medicine/${_id}`)}
                 >
-                  <Td>{ngayThangNam}</Td>
+                  <Td>{format(new Date(ngayThangNam), "dd/MM/yyyy")}</Td>
                   <Td>{tenThucAn}</Td>
                   <Td>
                     <Image src={hinhAnh[0]} height="5rem" />
@@ -68,29 +89,15 @@ const feedingdiary = () => {
               )
             )}
           </Table>
+        ) : (
+          <Alert status="info" fontSize="md" w="30rem">
+            <AlertIcon />
+            Chưa có lịch sử cho ăn
+          </Alert>
         )}
       </Box>
     </Layout>
   );
 };
-
-// export async function getStaticProps() {
-//   let res = await fetch("https://traceorigin.vercel.app/api/feedingdiary", {
-//     method: "GET",
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization:
-//         "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
-//     },
-//   });
-
-//   let data = await res.json();
-
-//   return {
-//     props: {
-//       data,
-//     },
-//   };
-// }
 
 export default feedingdiary;

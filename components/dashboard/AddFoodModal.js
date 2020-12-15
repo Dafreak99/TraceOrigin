@@ -100,7 +100,7 @@ const AddFood = () => {
     setFileUrls([]);
     setVisible(false);
 
-    router.push("/dashboard/food");
+    router.push("/farm/food");
     reset();
     setIsSave(false);
   };

@@ -4,64 +4,74 @@ import {
   Button,
   ModalFooter,
   Spinner,
-  Select,
 } from "@chakra-ui/core";
 
 import { useState } from "react";
 import Modal from "antd/lib/modal/Modal";
 
-import { useForm } from "react-hook-form";
-import { Divider, Button as AntdButton } from "antd";
+import { Controller, useForm } from "react-hook-form";
+import { Divider, Button as AntdButton, Select } from "antd";
 import { HiPlus } from "react-icons/hi";
 import FormControl from "./FormControl";
+
 import useSWR, { mutate } from "swr";
 import fetcher from "@/utils/fetcher";
 
 const { Option } = Select;
 
-const WorkerModal = () => {
-  const [visible, setVisible] = useState(false);
+const EditWorkerModal = ({ visible, setVisible, data }) => {
+  const {
+    hoTen,
+    diaChi,
+    soCMND,
+    namSinh,
+    gioiTinh,
+    bangCap,
+    nhiemVu,
+    sdt,
+    _id,
+  } = data;
 
   const [isSave, setIsSave] = useState(false);
-  const { handleSubmit, register, errors } = useForm();
+  const { handleSubmit, register, errors, control, reset } = useForm();
 
   const showModal = () => setVisible(true);
 
-  const handleCancel = () => {
-    setVisible(false);
-  };
+  const handleCancel = () => setVisible(false);
 
   const onSubmit = async (values) => {
     setIsSave(true);
 
-    try {
-      let res = await fetch("/api/worker", {
-        method: "POST",
-        body: values,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization:
-            "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
-        },
-        body: JSON.stringify(values),
-      });
+    values._id = _id;
 
-      let data = await res.json();
-
-      mutate(
-        [
-          "/api/worker",
+    let res = await fetch(`/api/worker/${_id}`, {
+      method: "POST",
+      body: values,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
           // REPLACE TOKEN
           "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
-        ],
-        async (cachedData) => {
-          return [...cachedData, data];
-        },
-        false
-      );
-    } catch (error) {
-      console.log(error.message);
-    }
+      },
+      body: JSON.stringify(values),
+    });
+
+    mutate(
+      [
+        "/api/worker",
+        "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
+      ],
+      async (cachedData) => {
+        let index = cachedData.findIndex((each) => each._id === _id);
+
+        return [
+          ...cachedData.slice(0, index),
+          values,
+          ...cachedData.slice(index + 1),
+        ];
+      },
+      false
+    );
 
     setVisible(false);
 
@@ -108,6 +118,7 @@ const WorkerModal = () => {
               type="text"
               id="hoTen"
               name="hoTen"
+              defaultValue={hoTen}
               ref={register({
                 required: "Required",
               })}
@@ -119,6 +130,7 @@ const WorkerModal = () => {
               type="text"
               id="diaChi"
               name="diaChi"
+              defaultValue={diaChi}
               ref={register({
                 required: "Required",
               })}
@@ -130,6 +142,7 @@ const WorkerModal = () => {
               type="text"
               id="sdt"
               name="sdt"
+              defaultValue={sdt}
               ref={register({
                 required: "Required",
               })}
@@ -142,6 +155,7 @@ const WorkerModal = () => {
               type="text"
               id="soCMND"
               name="soCMND"
+              defaultValue={soCMND}
               ref={register({
                 required: "Required",
               })}
@@ -153,6 +167,7 @@ const WorkerModal = () => {
               type="text"
               id="namSinh"
               name="namSinh"
+              defaultValue={namSinh}
               ref={register({
                 required: "Required",
               })}
@@ -162,26 +177,54 @@ const WorkerModal = () => {
           <FormControl>
             <FormLabel htmlFor="gioiTinh">Giới tính</FormLabel>
             <br />
-            <Select name="gioiTinh" ref={register()}>
-              <option value="Nam">Nam</option>
-              <option value="Nữ">Nữ</option>
-            </Select>
+
+            <Controller
+              name="gioiTinh"
+              defaultValue={gioiTinh}
+              control={control}
+              rules={{ required: true }}
+              render={({ onChange }) => (
+                <Select
+                  defaultValue={gioiTinh}
+                  onChange={onChange}
+                  style={{ width: "100%" }}
+                >
+                  <Option value="Nam">Nam</Option>
+                  <Option value="Nữ">Nữ</Option>
+                </Select>
+              )}
+            />
           </FormControl>
           <FormControl>
             <FormLabel htmlFor="bangCap">Bằng cấp</FormLabel>
-            <Select name="bangCap" ref={register()}>
-              <option value="Thạc sĩ">Thạc sĩ</option>
-              <option value="Cử nhân">Cử nhân</option>
-              <option value="Cấp 3">Cấp 3</option>
-              <option value="Cấp 2">Cấp 2</option>
-            </Select>
+
+            <Controller
+              name="bangCap"
+              defaultValue={bangCap}
+              control={control}
+              rules={{ required: true }}
+              render={({ onChange }) => (
+                <Select
+                  defaultValue={bangCap}
+                  onChange={onChange}
+                  style={{ width: "100%" }}
+                >
+                  <Option value="Thạc sĩ">Thạc sĩ</Option>
+                  <Option value="Cử nhân">Cử nhân</Option>
+                  <Option value="Cấp 3">Cấp 3</Option>
+                  <Option value="Cấp 2">Cấp 2</Option>
+                </Select>
+              )}
+            />
           </FormControl>
+
           <FormControl>
             <FormLabel htmlFor="nhiemVu">Nhiệm vụ</FormLabel>
             <Input
               type="text"
               id="nhiemVu"
               name="nhiemVu"
+              defaultValue={nhiemVu}
               ref={register({
                 required: "Required",
               })}
@@ -210,4 +253,4 @@ const WorkerModal = () => {
   );
 };
 
-export default WorkerModal;
+export default EditWorkerModal;

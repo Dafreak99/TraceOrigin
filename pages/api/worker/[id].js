@@ -24,14 +24,14 @@ export default async (req, res) => {
       let worker = await Worker.findById(id);
       res.send(worker);
       break;
-    // case "POST":
-    //   try {
-    //     await Food.findOneAndUpdate({ _id: req.body._id }, req.body);
-    //     res.send({ message: "OK" });
-    //   } catch (error) {
-    //     res.send({ message: error.message });
-    //   }
-    //   break;
+    case "POST":
+      try {
+        await Worker.findOneAndUpdate({ _id: id }, req.body);
+        res.send({ message: "OK" });
+      } catch (error) {
+        res.send({ message: error.message });
+      }
+      break;
     case "DELETE":
       try {
         await Worker.findOneAndRemove({ _id: id });

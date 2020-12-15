@@ -1,4 +1,4 @@
-import { Box, Heading, Image } from "@chakra-ui/core";
+import { AlertIcon, Box, Heading, Image, Alert } from "@chakra-ui/core";
 import Layout from "@/components/dashboard/Layout";
 import { Table, Tr, Td, Th } from "@/components/Table";
 import { FaTrash } from "react-icons/fa";
@@ -6,9 +6,12 @@ import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
 import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { format } from "date-fns";
 
 const UsingMedicineDiary = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
 
   const { data, error } = useSWR(
     [
@@ -18,11 +21,28 @@ const UsingMedicineDiary = () => {
     fetcher
   );
 
+  useEffect(() => {
+    if (data !== undefined) {
+      setLoading(false);
+    }
+  }, [data]);
+
+  if (loading) {
+    return (
+      <Layout>
+        <Box px={16} py={12} position="relative">
+          <Heading mb={8}>Nhật ký sử dụng thuốc</Heading>
+
+          <FoodTableSkeleton />
+        </Box>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <Box px={16} py={12}>
         <Heading mb={8}>Nhật ký sử dụng thuốc</Heading>
-
         {data && data.length > 0 ? (
           <Table>
             <Tr>
@@ -56,7 +76,7 @@ const UsingMedicineDiary = () => {
                   cursor="pointer"
                   onClick={() => router.push(`./usingmedicinediary/${_id}`)}
                 >
-                  <Td>{ngayThangNam}</Td>
+                  <Td>{format(new Date(ngayThangNam), "dd/MM/yyyy")}</Td>
                   <Td>{tenThuoc}</Td>
                   <Td>
                     <Image src={hinhAnhThuoc[0]} height="5rem" />
@@ -83,7 +103,10 @@ const UsingMedicineDiary = () => {
             )}
           </Table>
         ) : (
-          <FoodTableSkeleton />
+          <Alert status="info" fontSize="md" w="30rem">
+            <AlertIcon />
+            Chưa sử dụng thuốc
+          </Alert>
         )}
       </Box>
     </Layout>

@@ -18,7 +18,6 @@ import FormControl from "./FormControl";
 
 import fetcher from "@/utils/fetcher";
 import DatePicker from "../DatePicker";
-// import DatePicker from "../DatePicker";
 
 const { Option } = Select;
 
@@ -107,7 +106,9 @@ const UsingMedicineDiary = () => {
   return (
     <>
       <Flex onClick={showModal} className="diary-box">
-        <Text>Sử dụng thuốc</Text>
+        <Text fontWeight="bold" marginBottom="2rem">
+          Sử dụng thuốc
+        </Text>
         <Image src="/003-medicine.svg" />
       </Flex>
 
@@ -195,7 +196,7 @@ const UsingMedicineDiary = () => {
                 defaultValue={foods[0]._id}
                 rules={{ required: true }}
                 render={({ onChange }) => (
-                  <AntdSelect
+                  <Select
                     onChange={onChange}
                     style={{ width: "100%" }}
                     defaultValue={foods[0].tenThucAn}
@@ -203,7 +204,7 @@ const UsingMedicineDiary = () => {
                     {foods.map((food) => (
                       <Option value={food._id}>{food.tenThucAn}</Option>
                     ))}
-                  </AntdSelect>
+                  </Select>
                 )}
               />
             )}
@@ -243,7 +244,7 @@ const UsingMedicineDiary = () => {
                 defaultValue={workers[0]._id}
                 rules={{ required: true }}
                 render={({ onChange }) => (
-                  <AntdSelect
+                  <Select
                     onChange={onChange}
                     style={{ width: "100%" }}
                     defaultValue={workers[0].hoTen}
@@ -251,7 +252,7 @@ const UsingMedicineDiary = () => {
                     {workers.map((worker) => (
                       <Option value={worker._id}>{worker.hoTen}</Option>
                     ))}
-                  </AntdSelect>
+                  </Select>
                 )}
               />
             )}
@@ -265,7 +266,7 @@ const UsingMedicineDiary = () => {
                 defaultValue={ponds[0]._id}
                 rules={{ required: true }}
                 render={({ onChange }) => (
-                  <AntdSelect
+                  <Select
                     onChange={onChange}
                     style={{ width: "100%" }}
                     defaultValue={ponds[0].tenAo}
@@ -273,7 +274,7 @@ const UsingMedicineDiary = () => {
                     {ponds.map((pond) => (
                       <Option value={pond._id}>{pond.tenAo}</Option>
                     ))}
-                  </AntdSelect>
+                  </Select>
                 )}
               />
             )}

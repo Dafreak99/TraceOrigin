@@ -50,3 +50,18 @@ const farm = {
   sdt: "",
   themVaoBoi: "",
 };
+
+
+
+
+sanpham{
+  traigiong{} -> Thêm các trại giống từ account doanh nghiệp
+  trainuoi{} -> Farm model -> Click thu hoạch -> Pending đợi doanh nghiệp xử lý
+  cosochebien{} -> Doanh nghiệp xử lý pending -> lựa chọn cơ sở chế biến
+  
+
+
+
+
+}
+

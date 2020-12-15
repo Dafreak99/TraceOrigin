@@ -4,6 +4,7 @@ const WorkerSchema = new mongoose.Schema({
   hoTen: String,
   diaChi: String,
   soCMND: String,
+  sdt: String,
   namSinh: String,
   gioiTinh: String,
   bangCap: String,

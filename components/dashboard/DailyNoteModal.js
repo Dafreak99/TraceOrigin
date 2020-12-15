@@ -9,7 +9,6 @@ import {
   Spinner,
 } from "@chakra-ui/core";
 import Modal from "antd/lib/modal/Modal";
-import { format } from "date-fns";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import DatePicker from "../DatePicker";
@@ -23,36 +22,22 @@ const DailyNoteModal = () => {
 
   const showModal = () => setVisible(true);
 
-  const handleOk = () => {
-    setLoading(true);
-
-    setTimeout(() => {
-      setLoading(false);
-      setVisible(false);
-    }, 3000);
-  };
-
-  const handleCancel = () => {
-    setVisible(false);
-  };
-
-  const onChange = (_, dateString) => {
-    setSelectedDate(dateString);
-  };
+  const handleCancel = () => setVisible(false);
 
   const onSubmit = (values) => console.log(values);
 
   return (
     <>
       <Flex onClick={showModal} className="diary-box">
-        <Text>Nhật ký cho ăn</Text>
+        <Text fontWeight="bold" marginBottom="2rem">
+          Ghi chú hằng ngày
+        </Text>
         <Image src="/002-post-it.svg" />
       </Flex>
 
       <Modal
         visible={visible}
-        title="Nhập thức ăn"
-        // onOk={handleOk}
+        title="Ghi chú hằng ngày"
         onCancel={handleCancel}
         footer={null}
       >
