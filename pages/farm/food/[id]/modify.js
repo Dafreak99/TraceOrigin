@@ -116,10 +116,6 @@ const Modify = () => {
     router.back();
   };
 
-  const onChange = (e) => {
-    setGeneralData({ ...generalData, [e.target.name]: e.target.value });
-  };
-
   return (
     <Layout>
       <Box px={16} py={12} as="form" onSubmit={handleSubmit(onSubmit)}>
@@ -152,6 +148,7 @@ const Modify = () => {
             >
               <FormControl>
                 <FormLabel htmlFor="ngayNhap">Ngày nhập: </FormLabel>
+                <br />
                 <DatePicker
                   control={control}
                   name="ngayNhap"
@@ -164,7 +161,6 @@ const Modify = () => {
                   type="text"
                   id="tenThucAn"
                   name="tenThucAn"
-                  onChange={onChange}
                   value={generalData.tenThucAn}
                   ref={register({
                     required: "Required",
@@ -179,7 +175,6 @@ const Modify = () => {
                   type="text"
                   id="donViCungCapThucAn"
                   name="donViCungCapThucAn"
-                  onChange={onChange}
                   value={generalData.donViCungCapThucAn}
                   ref={register({
                     required: "Required",
@@ -192,7 +187,6 @@ const Modify = () => {
                   type="text"
                   id="soLuong"
                   name="soLuong"
-                  onChange={onChange}
                   value={generalData.soLuong}
                   ref={register({
                     required: "Required",
@@ -201,6 +195,7 @@ const Modify = () => {
               </FormControl>
               <FormControl>
                 <FormLabel htmlFor="ngaySanXuat">Ngày sản xuất</FormLabel>
+                <br />
                 <DatePicker
                   control={control}
                   name="ngaySanXuat"
@@ -214,6 +209,7 @@ const Modify = () => {
               </FormControl>
               <FormControl>
                 <FormLabel htmlFor="hanSuDung">Hạn sử dụng</FormLabel>
+                <br />
                 <DatePicker
                   control={control}
                   name="hanSuDung"

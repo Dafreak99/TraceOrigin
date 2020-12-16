@@ -2,13 +2,15 @@ const mongoose = require("mongoose");
 const Farm = require("./Farm");
 const FeedingDiary = require("./FeedingDiary");
 const Pond = require("./Pond");
+const UsingMedicine = require("./UsingMedicine");
 
 const ProductSchema = new mongoose.Schema({
   tenSanPham: String,
   giaSanPham: String,
-  unit: String,
+  donvi: String,
   hinhAnh: [String],
-  khoiLuong: String,
+  trongLuong: String,
+  ngayThuHoach: String,
   pond: {
     type: mongoose.Schema.Types.ObjectId,
     ref: Pond,
@@ -17,7 +19,9 @@ const ProductSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: Farm,
   },
-  feedingDiary: [{ type: mongoose.Schema.Types.ObjectId, ref: FeedingDiary }],
+  feeding: [{ type: mongoose.Schema.Types.ObjectId, ref: FeedingDiary }],
+  usingMedicine: [{ type: mongoose.Schema.Types.ObjectId, ref: UsingMedicine }],
+  processingFacility: String,
 });
 
 module.exports =

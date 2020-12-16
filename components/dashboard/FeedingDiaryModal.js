@@ -8,6 +8,8 @@ import {
   Select,
   Spinner,
   Image,
+  AlertIcon,
+  Alert,
 } from "@chakra-ui/core";
 import Modal from "antd/lib/modal/Modal";
 
@@ -61,6 +63,7 @@ const FeedingDiaryModal = () => {
   const onSubmit = async (values) => {
     setIsSave(true);
 
+    values.khoiLuong = +values.khoiLuong;
     // Date and time format HH:mm' 'dd/MM/yyyy
     try {
       await fetch("/api/feedingdiary", {
@@ -104,88 +107,97 @@ const FeedingDiaryModal = () => {
         footer={null}
       >
         {/* Modal Body */}
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <FormControl>
-            <FormLabel htmlFor="ao">Ao tên: </FormLabel>
-            <Select
-              id="ao"
-              name="ao"
-              ref={register({
-                required: "Required",
-              })}
-            >
-              {ponds &&
-                ponds.map((pond) => (
-                  <option value={pond._id}>{pond.tenAo}</option>
-                ))}
-            </Select>
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="note">Thức ăn: </FormLabel>
-            <Select
-              id="thucAn"
-              name="thucAn"
-              ref={register({
-                required: "Required",
-              })}
-              onChange={onChangeFoodOption}
-            >
-              {data &&
-                data.map((each) => (
-                  <option value={each._id}>{each.tenThucAn}</option>
-                ))}
-            </Select>
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="khoiLuong">Khối lượng(kg): </FormLabel>
-            <Input
-              type="number"
-              id="khoiLuong"
-              name="khoiLuong"
-              ref={register({
-                required: "Required",
-                max: selectedFood
-                  ? selectedFood.soLuong
-                  : data && data[0].soLuong,
-              })}
-            />
-            {errors.khoiLuong?.type === "required" && (
-              <Text fontSize="md" fontStyle="italic" color="red.300">
-                Vui lòng nhập vào khối lượng thức ăn !
-              </Text>
-            )}
+        {data && data.length > 0 && ponds && ponds.length > 0 ? (
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <FormControl>
+              <FormLabel htmlFor="ao">Ao tên: </FormLabel>
+              <Select
+                id="ao"
+                name="ao"
+                ref={register({
+                  required: "Required",
+                })}
+              >
+                {ponds &&
+                  ponds.map((pond) => (
+                    <option value={pond._id}>{pond.tenAo}</option>
+                  ))}
+              </Select>
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="note">Thức ăn: </FormLabel>
+              <Select
+                id="thucAn"
+                name="thucAn"
+                ref={register({
+                  required: "Required",
+                })}
+                onChange={onChangeFoodOption}
+              >
+                {data &&
+                  data.map((each) => (
+                    <option value={each._id}>{each.tenThucAn}</option>
+                  ))}
+              </Select>
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="khoiLuong">Khối lượng(kg): </FormLabel>
+              <Input
+                type="number"
+                id="khoiLuong"
+                name="khoiLuong"
+                ref={register({
+                  required: "Required",
+                  max: selectedFood
+                    ? selectedFood.soLuong
+                    : data && data[0].soLuong,
+                })}
+              />
+              {errors.khoiLuong?.type === "required" && (
+                <Text fontSize="md" fontStyle="italic" color="red.300">
+                  Vui lòng nhập vào khối lượng thức ăn !
+                </Text>
+              )}
 
-            {errors.khoiLuong?.type === "max" && (
-              <Text fontSize="md" fontStyle="italic" color="red.300">
-                Tối đa là{" "}
-                {selectedFood ? selectedFood.soLuong : data && data[0].soLuong}{" "}
-                kg
-              </Text>
-            )}
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="ngayThangNam">Ngày tháng năm: </FormLabel>
-            <DatePicker control={control} name="ngayThangNam" />
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="ghiChu">Ghi chú: </FormLabel>
-            <Input type="text" id="ghiChu" name="ghiChu" ref={register()} />
-          </FormControl>
-          <ModalFooter>
-            <Button variantColor="blue" mr={3} onClick={handleCancel}>
-              Đóng
-            </Button>
-            {isSave ? (
-              <Button backgroundColor="gray.400" color="#fff">
-                <Spinner mr={4} /> Đang lưu
+              {errors.khoiLuong?.type === "max" && (
+                <Text fontSize="md" fontStyle="italic" color="red.300">
+                  Tối đa là{" "}
+                  {selectedFood
+                    ? selectedFood.soLuong
+                    : data && data[0].soLuong}{" "}
+                  kg
+                </Text>
+              )}
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="ngayThangNam">Ngày tháng năm: </FormLabel>
+              <DatePicker control={control} name="ngayThangNam" />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="ghiChu">Ghi chú: </FormLabel>
+              <Input type="text" id="ghiChu" name="ghiChu" ref={register()} />
+            </FormControl>
+            <ModalFooter>
+              <Button variantColor="blue" mr={3} onClick={handleCancel}>
+                Đóng
               </Button>
-            ) : (
-              <Button variant="ghost" type="submit">
-                Lưu
-              </Button>
-            )}
-          </ModalFooter>
-        </form>
+              {isSave ? (
+                <Button backgroundColor="gray.400" color="#fff">
+                  <Spinner mr={4} /> Đang lưu
+                </Button>
+              ) : (
+                <Button variant="ghost" type="submit">
+                  Lưu
+                </Button>
+              )}
+            </ModalFooter>
+          </form>
+        ) : (
+          <Alert status="warning">
+            <AlertIcon />
+            Vui lòng đảm bảo rằng dữ liệu của thức ăn hoặc ao không bị rỗng
+          </Alert>
+        )}
       </Modal>
     </>
   );

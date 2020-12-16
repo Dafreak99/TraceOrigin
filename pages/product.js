@@ -22,10 +22,9 @@ import ProductInfo from "@/components/ProductInfo";
 const Product = ({ data }) => {
   const {
     tenSanPham,
-    giaSanPham,
+    trongLuong,
     hinhAnh,
     donvi,
-    khoiLuong,
     farm: { tenCoSoNuoi, tenChuCoSoNuoi, diaChi, dienTich, sdt, toaDo },
     pond,
   } = data;
@@ -40,7 +39,7 @@ const Product = ({ data }) => {
           <Breadcrumb>
             <Breadcrumb.Item>Sản phẩm</Breadcrumb.Item>
             <Breadcrumb.Item>
-              <a href="">Tôm càng xanh</a>
+              <a href="">{tenSanPham}</a>
             </Breadcrumb.Item>
           </Breadcrumb>
           <Grid
@@ -131,7 +130,7 @@ const Product = ({ data }) => {
 };
 
 export async function getStaticProps() {
-  let res = await fetch("https://traceorigin.vercel.app/api/product");
+  let res = await fetch("http://localhost:3000/api/info");
 
   let data = await res.json();
 

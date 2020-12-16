@@ -8,9 +8,9 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (a === "business") {
-      router.push("/farm");
-    } else {
       router.push("/business");
+    } else {
+      router.push("/farm");
     }
   }, []);
 

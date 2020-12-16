@@ -17,6 +17,7 @@ import { Comment } from "antd";
 import Avatar from "antd/lib/avatar/avatar";
 import Form from "antd/lib/form/Form";
 import TextArea from "antd/lib/input/TextArea";
+import { format } from "date-fns";
 import { useState } from "react";
 import GreenDot from "./GreenDot";
 
@@ -52,10 +53,10 @@ const ProductInfo = ({ data }) => {
 
 const Tab1 = ({
   tenSanPham,
-  giaSanPham,
   hinhAnh,
   donvi,
-  khoiLuong,
+  trongLuong,
+  ngayThuHoach,
   pond: { seed },
 }) => {
   const {
@@ -83,11 +84,12 @@ const Tab1 = ({
             </Text>
           </Text>
         </ListItem>
+
         <ListItem>
           <Text fontWeight="bold">
-            Giá sản phẩm:{" "}
+            Ngày thu hoạch:{" "}
             <Text as="span" fontWeight="normal">
-              {giaSanPham}
+              {format(new Date(ngayThuHoach), "dd/MM/yyyy")}
             </Text>
           </Text>
         </ListItem>
@@ -101,9 +103,9 @@ const Tab1 = ({
         </ListItem>
         <ListItem>
           <Text fontWeight="bold">
-            Khối lượng:{" "}
+            Trọng lượng:{" "}
             <Text as="span" fontWeight="normal">
-              {khoiLuong}
+              {trongLuong}
             </Text>
           </Text>
         </ListItem>
@@ -145,14 +147,7 @@ const Tab1 = ({
             </Text>
           </Text>
         </ListItem>
-        <ListItem>
-          <Text fontWeight="bold">
-            Khối lượng:{" "}
-            <Text as="span" fontWeight="normal">
-              {khoiLuong}
-            </Text>
-          </Text>
-        </ListItem>
+
         <ListItem>
           <Image
             src="http://portal1.traceverified.com/Images/Certificates/organica-logo.png"

@@ -79,8 +79,6 @@ const feedingdiary = () => {
                     px={8}
                     onClick={(e) => {
                       e.stopPropagation();
-                      // setIsOpen(true);
-                      // setId(_id);
                     }}
                   >
                     <Box as={FaTrash}></Box>

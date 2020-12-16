@@ -4,7 +4,7 @@ const FoodSchema = new mongoose.Schema({
   tenThucAn: String,
   ngayNhap: String,
   donViCungCapThucAn: String,
-  soLuong: String,
+  soLuong: Number,
   ngaySanXuat: String,
   hanSuDung: String,
   hinhAnh: [String],

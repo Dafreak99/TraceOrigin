@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 const SeedSchema = new mongoose.Schema({
-  tenCongiong: String,
   soLuongConGiong: String,
   tenTraiGiong: String,
   diaChiTraiGiong: String,

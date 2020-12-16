@@ -12,6 +12,8 @@ import {
   Flex,
   Grid,
   Heading,
+  List,
+  ListItem,
   PseudoBox,
   Text,
   useDisclosure,
@@ -23,8 +25,11 @@ import AddPondModal from "./AddPondModal";
 import fetcher from "../../utils/fetcher";
 import AddSeedModal from "./AddSeedModal";
 import DisplayMap from "../DisplayMap";
+import Modal from "antd/lib/modal/Modal";
 
 const Ponds = () => {
+  const router = useRouter();
+
   const { data, error } = useSWR(
     [
       "/api/pond",
@@ -39,8 +44,21 @@ const Ponds = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef();
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
   const onDelete = async () => {
-    const router = useRouter();
     let res = await fetch("/api/pond/delete", {
       method: "POST",
       headers: {
@@ -63,9 +81,10 @@ const Ponds = () => {
       false
     );
 
+    // TODO: When deleting pond, also delete relevant data like feedingdiary and usingmedicinedairy
+
     setSelectedPond({});
-    router.push("/dashboard/ponds");
-    // onClose();
+    onClose();
   };
 
   return (
@@ -75,7 +94,7 @@ const Ponds = () => {
         direction="column"
         w="20vw"
         backgroundColor="#f9fcff"
-        minH="100vh"
+        minH="calc(100vh - 64px)"
         px={4}
         py={8}
       >
@@ -157,44 +176,100 @@ const Ponds = () => {
               <Heading size="md" mb={4} mt={4}>
                 Thông tin về ao nuôi
               </Heading>
-              <Text>Tên ao: {selectedPond.tenAo}</Text>
-              <Text>Mã ao: {selectedPond.maAo}</Text>
-              <Text>Diện tích ao: {selectedPond.dienTich}</Text>
-              {selectedPond.seed ? (
-                <>
-                  <Text>
-                    Trạng thái:{" "}
-                    <Text as="span" color="red.300">
-                      Đang được sử dụng
-                    </Text>
-                  </Text>
 
+              <List spacing={2}>
+                <ListItem>
+                  <Text fontSize="md" fontWeight="medium">
+                    Tên ao:{" "}
+                    <Box as="span" fontWeight="normal">
+                      {selectedPond.tenAo}
+                    </Box>
+                  </Text>
+                </ListItem>
+                <ListItem>
+                  <Text fontSize="md" fontWeight="medium">
+                    Mã ao:{" "}
+                    <Box as="span" fontWeight="normal">
+                      {selectedPond.maAo}
+                    </Box>
+                  </Text>
+                </ListItem>
+                <ListItem>
+                  <Text fontSize="md" fontWeight="medium">
+                    Diện tích ao (hecta):{" "}
+                    <Box as="span" fontWeight="normal">
+                      {selectedPond.dienTich}
+                    </Box>
+                  </Text>
+                </ListItem>
+                {selectedPond.seed ? (
+                  <ListItem>
+                    <Text fontSize="md" fontWeight="medium">
+                      Trạng thái:{" "}
+                      <Box as="span" fontWeight="normal" color="#2dcc84">
+                        Đang được sử dụng
+                      </Box>
+                    </Text>
+                  </ListItem>
+                ) : (
+                  <>
+                    <ListItem>
+                      <Text fontSize="md" fontWeight="medium">
+                        Trạng thái:{" "}
+                        <Box as="span" fontWeight="normal" color="#cc2d48">
+                          Trống
+                        </Box>
+                      </Text>
+                    </ListItem>
+
+                    <AddSeedModal
+                      pondId={selectedPond._id}
+                      onCloseDrawer={onClose}
+                    />
+                  </>
+                )}
+              </List>
+
+              {selectedPond.seed && (
+                <>
                   <Heading size="md" mt={4} mb={4}>
                     Thông tin con giống
                   </Heading>
-                  <Text>Tên con giống: {selectedPond.seed.tenConGiong}</Text>
-                  <Text>Số lượng: {selectedPond.seed.soLuongConGiong}</Text>
-                  <Text>
-                    Ngày tuổi của giống: {selectedPond.seed.ngayTuoiConGiong}
-                  </Text>
-                  <Text>Ngày thả giống: {selectedPond.seed.ngayThaGiong}</Text>
-                  <Text>Tên cơ sở bán: {selectedPond.seed.tenTraiGiong}</Text>
-                  <Text>
-                    Địa chỉ cơ sở bán: {selectedPond.seed.diaChiTraiGiong}
-                  </Text>
-                </>
-              ) : (
-                <>
-                  <Text>
-                    Trạng thái:{" "}
-                    <Text as="span" color="green.300">
-                      Trống
-                    </Text>
-                  </Text>
-                  <AddSeedModal
-                    pondId={selectedPond._id}
-                    onCloseDrawer={onClose}
-                  />{" "}
+
+                  <List spacing={2}>
+                    <ListItem>
+                      <Text fontSize="md" fontWeight="medium">
+                        Số lượng:{" "}
+                        <Box as="span" fontWeight="normal">
+                          {selectedPond.seed.soLuongConGiong}
+                        </Box>
+                      </Text>
+                    </ListItem>
+                    <ListItem>
+                      <Text fontSize="md" fontWeight="medium">
+                        Ngày tuổi của giống:{" "}
+                        <Box as="span" fontWeight="normal">
+                          {selectedPond.seed.ngayTuoiGiong}
+                        </Box>
+                      </Text>
+                    </ListItem>
+                    <ListItem>
+                      <Text fontSize="md" fontWeight="medium">
+                        Tên trại giống:{" "}
+                        <Box as="span" fontWeight="normal">
+                          {selectedPond.seed.tenTraiGiong}
+                        </Box>
+                      </Text>
+                    </ListItem>
+                    <ListItem>
+                      <Text fontSize="md" fontWeight="medium">
+                        Địa chỉ trại giống:{" "}
+                        <Box as="span" fontWeight="normal">
+                          {selectedPond.seed.diaChiTraiGiong}
+                        </Box>
+                      </Text>
+                    </ListItem>
+                  </List>
                 </>
               )}
             </DrawerBody>
@@ -208,9 +283,13 @@ const Ponds = () => {
                 mr={3}
                 onClick={onDelete}
               >
-                Delete
+                Xóa
               </Button>
-              <Button color="blue">Save</Button>
+              <Button
+                onClick={() => router.push(`/farm/harvest/${selectedPond._id}`)}
+              >
+                Thu hoạch
+              </Button>
             </DrawerFooter>
           </DrawerContent>
         </Drawer>

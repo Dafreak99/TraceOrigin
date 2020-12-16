@@ -18,7 +18,6 @@ import fetcher from "@/utils/fetcher";
 import DisplayMap from "@/components/DisplayMap";
 
 const Info = () => {
-  console.log("AAAA");
   const [isEdit, setIsEdit] = useState(false);
 
   const { data, error } = useSWR(

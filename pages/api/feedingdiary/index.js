@@ -3,6 +3,7 @@ import dbConnect from "../../../lib/dbConnect";
 
 import jwt from "jsonwebtoken";
 import Farm from "models/Farm";
+import Food from "models/Food";
 
 dbConnect();
 
@@ -39,6 +40,16 @@ export default async (req, res) => {
         });
 
         await feedingDiary.save();
+
+        let food = await Food.findOne({ _id: req.body.thucAn });
+
+        // Reducing food quantity after feeding
+
+        await Food.findOneAndUpdate(
+          { _id: req.body.thucAn },
+          { soLuong: food.soLuong - req.body.khoiLuong }
+        );
+
         res.send({ message: "OK" });
       } catch (error) {
         res.status(500).send({ message: error.message });

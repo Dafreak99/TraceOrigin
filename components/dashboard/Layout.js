@@ -4,16 +4,13 @@ import { Flex, Image, Text } from "@chakra-ui/core";
 import { Layout, Menu } from "antd";
 import {
   DesktopOutlined,
-  BorderVerticleOutlined,
   InfoCircleOutlined,
   InsertRowBelowOutlined,
   PlusCircleOutlined,
-  UsergroupAddOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
 import Header from "./Header";
 import Icon from "@ant-design/icons";
-import { BiNote } from "react-icons/bi";
 import { FiUsers } from "react-icons/fi";
 import { FaBorderAll, FaChartBar, FaStickyNote } from "react-icons/fa";
 import { useRouter } from "next/router";
@@ -43,20 +40,43 @@ const CommonLayout = ({ children }) => {
 };
 
 const FarmSidebar = () => {
+  const { route } = useRouter();
+
+  let params = route.split("/");
+  let key;
+  if (params.length === 2) {
+    key = "default";
+  } else if (params.length === 3) {
+    key = params[2];
+  }
+
+  let predefinedKey = {
+    food: "management",
+    medicine: "management",
+    feedingdiary: "diary",
+    usingmedicinediary: "diary",
+    feedingchart: "chart",
+  };
+
   return (
-    <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
-      <Menu.Item key="1" icon={<InfoCircleOutlined />}>
+    <Menu
+      theme="dark"
+      defaultSelectedKeys={[key]}
+      mode="inline"
+      defaultOpenKeys={[predefinedKey[key] ? predefinedKey[key] : null]}
+    >
+      <Menu.Item key="default" icon={<InfoCircleOutlined />}>
         <Link href="/farm">
           <a>Thông tin</a>
         </Link>
       </Menu.Item>
-      <Menu.Item key="2" icon={<Icon component={FaBorderAll} />}>
+      <Menu.Item key="ponds" icon={<Icon component={FaBorderAll} />}>
         <Link href="/farm/ponds">
           <a>Ao</a>
         </Link>
       </Menu.Item>
 
-      <Menu.Item key="3" icon={<InsertRowBelowOutlined />}>
+      <Menu.Item key="dairy" icon={<InsertRowBelowOutlined />}>
         <Link href="/farm/diary">
           <a>Nhật ký hằng ngày </a>
         </Link>
@@ -64,19 +84,19 @@ const FarmSidebar = () => {
 
       <SubMenu
         icon={<PlusCircleOutlined />}
-        key="4"
+        key="management"
         title={
           <span>
             <span>Quản lí</span>
           </span>
         }
       >
-        <Menu.Item key="5" icon={<DesktopOutlined />}>
+        <Menu.Item key="food" icon={<DesktopOutlined />}>
           <Link href="/farm/food">
             <a> Thức ăn</a>
           </Link>
         </Menu.Item>
-        <Menu.Item key="6" icon={<DesktopOutlined />}>
+        <Menu.Item key="medicine" icon={<DesktopOutlined />}>
           <Link href="/farm/medicine">
             <a> Thuốc</a>
           </Link>
@@ -85,19 +105,19 @@ const FarmSidebar = () => {
 
       <SubMenu
         icon={<Icon component={FaStickyNote} />}
-        key="7"
+        key="diary"
         title={
           <span>
             <span>Nhât ký</span>
           </span>
         }
       >
-        <Menu.Item key="8" icon={<DesktopOutlined />}>
+        <Menu.Item key="feedingdiary" icon={<DesktopOutlined />}>
           <Link href="/farm/feedingdiary">
             <a> Cho ăn</a>
           </Link>
         </Menu.Item>
-        <Menu.Item key="9" icon={<DesktopOutlined />}>
+        <Menu.Item key="usingmedicinediary" icon={<DesktopOutlined />}>
           <Link href="/farm/usingmedicinediary">
             <a> Sử dụng thuốc</a>
           </Link>
@@ -106,21 +126,21 @@ const FarmSidebar = () => {
 
       <SubMenu
         icon={<Icon component={FaChartBar} />}
-        key="10"
+        key="chart"
         title={
           <span>
             <span>Biểu đồ</span>
           </span>
         }
       >
-        <Menu.Item key="11" icon={<DesktopOutlined />}>
+        <Menu.Item key="feedingchart" icon={<DesktopOutlined />}>
           <Link href="/farm/feedingchart">
             <a> Cho ăn</a>
           </Link>
         </Menu.Item>
       </SubMenu>
 
-      <Menu.Item key="12" icon={<Icon component={FiUsers} />}>
+      <Menu.Item key="worker" icon={<Icon component={FiUsers} />}>
         <Link href="/farm/worker">
           <a>Danh sách nhân công</a>
         </Link>
@@ -130,11 +150,26 @@ const FarmSidebar = () => {
 };
 
 const BusinessSidebar = () => {
+  const { route } = useRouter();
+
+  let params = route.split("/");
+  let key;
+  if (params.length === 2) {
+    key = "default";
+  } else if (params.length === 3) {
+    key = params[2];
+  }
+
   return (
-    <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
-      <Menu.Item key="1" icon={<InfoCircleOutlined />}>
-        <Link href="/farm">
+    <Menu theme="dark" defaultSelectedKeys={[key]} mode="inline">
+      <Menu.Item key="default" icon={<InfoCircleOutlined />}>
+        <Link href="/business">
           <a>Thông tin</a>
+        </Link>
+      </Menu.Item>
+      <Menu.Item key="product" icon={<InfoCircleOutlined />}>
+        <Link href="/business/product">
+          <a>Sản phẩm</a>
         </Link>
       </Menu.Item>
     </Menu>
@@ -142,9 +177,9 @@ const BusinessSidebar = () => {
 };
 
 const Sidebar = () => {
-  const router = useRouter();
-  console.log(router);
   const [collapsed, setCollapsed] = useState(false);
+
+  const account = "business";
 
   const onCollapse = (collapsed) => {
     setCollapsed(collapsed);
@@ -169,7 +204,8 @@ const Sidebar = () => {
           Trace Origin.
         </Text>
       </Flex>
-      {router.route === "/farm" ? <FarmSidebar /> : <BusinessSidebar />}
+      {/* Should use account type */}
+      {account === "farm" ? <FarmSidebar /> : <BusinessSidebar />}
     </Sider>
   );
 };

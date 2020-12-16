@@ -74,6 +74,7 @@ export const AddMedicineModal = () => {
     }
 
     values.hinhAnh = urls;
+    values.soLuong = +values.soLuong;
 
     try {
       let res = await fetch("/api/medicine", {

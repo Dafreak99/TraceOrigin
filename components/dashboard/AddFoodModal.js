@@ -68,6 +68,7 @@ const AddFood = () => {
     }
 
     values.hinhAnh = urls;
+    values.soLuong = +values.soLuong;
 
     try {
       let res = await fetch("/api/food", {
@@ -163,7 +164,7 @@ const AddFood = () => {
           <FormControl>
             <FormLabel htmlFor="soLuong">Số lượng(kg): </FormLabel>
             <Input
-              type="text"
+              type="number"
               id="soLuong"
               name="soLuong"
               ref={register({

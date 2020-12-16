@@ -10,6 +10,10 @@ import jwt from "jsonwebtoken";
 
 export default async (req, res) => {
   const { method } = req;
+  const {
+    query: { id },
+  } = req;
+
   const token = req.headers.authorization;
 
   if (!token)
@@ -21,20 +25,10 @@ export default async (req, res) => {
 
   switch (method) {
     case "GET":
-      let ponds = await Pond.find({ farmId: farm._id }).populate("seed");
-
-      res.send(ponds);
-
+      let pond = await Pond.findOne({ _id: id }).populate("seed");
+      res.send(pond);
       break;
     case "POST":
-      try {
-        let pond = new Pond({ ...req.body, farmId: farm._id });
-
-        await pond.save();
-        res.send(pond);
-      } catch (error) {
-        res.status(400).send({ message: error.message });
-      }
       break;
     default:
       break;

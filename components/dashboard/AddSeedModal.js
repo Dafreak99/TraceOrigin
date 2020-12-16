@@ -55,17 +55,6 @@ export const AddSeedModal = ({ pondId, onCloseDrawer }) => {
           <ModalCloseButton />
           <ModalBody>
             <FormControl>
-              <FormLabel htmlFor="tenConGiong">Tên con giống: </FormLabel>
-              <Input
-                type="text"
-                id="tenConGiong"
-                name="tenConGiong"
-                ref={register({
-                  required: "Required",
-                })}
-              />
-            </FormControl>
-            <FormControl>
               <FormLabel htmlFor="soLuongConGiong">Số lượng: </FormLabel>
               <Input
                 type="text"
