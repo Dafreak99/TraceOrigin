@@ -6,9 +6,9 @@ const BusinessSchema = new mongoose.Schema({
   diaChi: String,
   hinhAnh: [{ type: String }],
   sdt: String,
-  themVaoBoi: String,
   toaDo: Object,
   farm: { type: mongoose.Schema.Types.ObjectId, ref: Farm },
+  themVaoBoi: String,
 });
 
 module.exports =

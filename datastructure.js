@@ -60,3 +60,11 @@ sanpham{
   cosochebien{} -> Doanh nghiệp xử lý pending -> lựa chọn cơ sở chế biến
 }
 
+// TODO: Thêm cơ sở chế biến
+
+
+// Nếu thêm trại giống từ doanh nghiệp
+// Sau đó trại nuôi có thể lựa chọn từ dropdown thì somehow 
+// phải có connection between trainuoi va doanhnghiep
+
+
