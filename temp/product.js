@@ -130,9 +130,11 @@ const Product = ({ data }) => {
 };
 
 export async function getStaticProps() {
-  let res = await fetch("http://localhost:3000/api/info");
+  let res = await fetch("https://traceorigin.vercel.app/api/info");
 
   let data = await res.json();
+
+  console.log(data);
 
   return {
     props: {

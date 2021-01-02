@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Farm = require("./Farm");
 const FeedingDiary = require("./FeedingDiary");
 const Pond = require("./Pond");
+const Seed = require("./Seed");
 const UsingMedicine = require("./UsingMedicine");
 
 const ProductSchema = new mongoose.Schema({
@@ -21,6 +22,7 @@ const ProductSchema = new mongoose.Schema({
   },
   feeding: [{ type: mongoose.Schema.Types.ObjectId, ref: FeedingDiary }],
   usingMedicine: [{ type: mongoose.Schema.Types.ObjectId, ref: UsingMedicine }],
+  seed: { type: mongoose.Schema.Types.ObjectId, ref: Seed },
   processingFacility: String,
 });
 

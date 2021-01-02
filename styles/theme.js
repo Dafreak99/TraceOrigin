@@ -5,7 +5,8 @@ const theme = {
   fonts: {
     ...chakraTheme.fonts,
     body:
-      "apple-system,system-ui,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif",
+      // "apple-system,system-ui,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif",
+      "Nunito, sans-serif",
   },
 
   fontWeights: {

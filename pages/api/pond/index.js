@@ -5,6 +5,9 @@ import Pond from "../../../models/Pond";
 import Farm from "../../../models/Farm";
 
 import jwt from "jsonwebtoken";
+import FeedingDiary from "models/FeedingDiary";
+import UsingMedicine from "models/UsingMedicine";
+import Seed from "models/Seed";
 
 // @route /api/pond
 
@@ -36,6 +39,22 @@ export default async (req, res) => {
         res.status(400).send({ message: error.message });
       }
       break;
+    case "DELETE":
+      try {
+        const { pondId } = req.body;
+        // When deleting a pond make sure to perform cascade delete in Seed, FeedingDiary and UsingMediicne
+
+        await Seed.deleteOne({ pondId });
+        await FeedingDiary.deleteMany({ ao: pondId });
+        await UsingMedicine.deleteMany({ ao: pondId });
+        await Pond.findByIdAndDelete(pondId);
+
+        res.send({ message: "Đã xóa thành công ao !" });
+
+        // DELETE CASCADING
+      } catch (error) {
+        res.send({ message: error.message });
+      }
     default:
       break;
   }

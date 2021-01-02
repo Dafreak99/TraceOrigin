@@ -8,8 +8,9 @@ import Product from "models/Product";
 import Farm from "models/Farm";
 import FeedingDiary from "models/FeedingDiary";
 import UsingMedicine from "models/UsingMedicine";
+import Seed from "models/Seed";
 
-// @route /api/food
+// @route /api/product
 
 export default async (req, res) => {
   const { method } = req;
@@ -36,19 +37,21 @@ export default async (req, res) => {
       break;
     case "POST":
       try {
-        let feeding = await FeedingDiary.find({ ao: req.body.pond });
-        let usingMedicine = await UsingMedicine.find({
+        const feeding = await FeedingDiary.find({ ao: req.body.pond });
+        const usingMedicine = await UsingMedicine.find({
           ao: req.body.pond,
         });
 
-        let product = new Product({
+        const seed = await Seed.findOne({ pondId: req.body.pond });
+
+        const product = new Product({
           ...req.body,
           farm: farm._id,
           feeding,
           usingMedicine,
+          seed,
+          processingFacility: null,
         });
-
-        console.log(product);
 
         await product.save();
         res.send({ message: "OK" });

@@ -1,19 +1,46 @@
 import { Box, Flex, Heading, Text } from "@chakra-ui/core";
 import { Form, Input, Button, Image } from "antd";
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/router";
 
 const layout = {
-  labelCol: { span: 4 },
-  wrapperCol: { span: 20 },
+  labelCol: { span: 8 },
+  wrapperCol: { span: 16 },
 };
 const tailLayout = {
   wrapperCol: { offset: 10, span: 3 },
 };
 
 const SignIn = () => {
-  const onFinish = (values) => {
-    console.log("Success:", values);
+  const router = useRouter();
+
+  const ISSERVER = typeof window === "undefined";
+
+  if (!ISSERVER) {
+    if (localStorage.getItem("token")) {
+      router.push("/");
+    }
+  }
+
+  const onFinish = async (values) => {
+    try {
+      let res = await fetch("/api/user/signin", {
+        method: "POST",
+        body: values,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+      const data = await res.json();
+      if (res.status === 200) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        router.push("/");
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   const onFinishFailed = (errorInfo) => {

@@ -10,6 +10,7 @@ import {
   Image,
   AlertIcon,
   Alert,
+  Box,
 } from "@chakra-ui/core";
 import Modal from "antd/lib/modal/Modal";
 
@@ -19,9 +20,8 @@ import useSWR from "swr";
 import { useState } from "react";
 import DatePicker from "../DatePicker";
 import FormControl from "./FormControl";
-import { format } from "date-fns";
 
-const FeedingDiaryModal = () => {
+const FeedingDiaryModal = ({ bg, color, icon }) => {
   const [visible, setVisible] = useState(false);
 
   const [isSave, setIsSave] = useState(false);
@@ -45,25 +45,8 @@ const FeedingDiaryModal = () => {
     fetcher
   );
 
-  const showModal = () => setVisible(true);
-
-  const handleOk = () => {
-    setLoading(true);
-
-    setTimeout(() => {
-      setLoading(false);
-      setVisible(false);
-    }, 3000);
-  };
-
-  const handleCancel = () => {
-    setVisible(false);
-  };
-
   const onSubmit = async (values) => {
     setIsSave(true);
-
-    values.khoiLuong = +values.khoiLuong;
     // Date and time format HH:mm' 'dd/MM/yyyy
     try {
       await fetch("/api/feedingdiary", {
@@ -72,7 +55,9 @@ const FeedingDiaryModal = () => {
           "Content-Type": "application/json",
           Authorization:
             // REPLACE WITH USER TOKEN
-            "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
+            process.browser ? localStorage.getItem("token") : null,
+
+          // "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
         },
         body: JSON.stringify(values),
       });
@@ -90,23 +75,36 @@ const FeedingDiaryModal = () => {
     setSelectedFood(matchedFood);
   };
 
+  const handleCancel = () => {
+    setVisible(false);
+  };
+
   return (
     <>
-      <Flex onClick={showModal} className="diary-box">
-        <Text fontWeight="bold" marginBottom="2rem">
-          Nhật ký cho ăn
+      <Box className="diary-boxx" onClick={() => setVisible(true)}>
+        <Flex
+          height="60px"
+          width="60px"
+          borderRadius="15px"
+          justify="center"
+          align="center"
+          backgroundColor={bg}
+          margin="0 auto"
+        >
+          <Box as={icon} height="32px" width="32px" color={color} />
+        </Flex>
+        <Text fontWeight="bold" fontSize="xl" mt="2rem">
+          Cho ăn
         </Text>
-        <Image src="/001-seafood.svg" />
-      </Flex>
+      </Box>
       {/* Render out modal */}
+
       <Modal
         visible={visible}
-        title="Nhật ký cho ăn"
-        onOk={handleOk}
         onCancel={handleCancel}
+        title="Nhật ký cho ăn"
         footer={null}
       >
-        {/* Modal Body */}
         {data && data.length > 0 && ponds && ponds.length > 0 ? (
           <form onSubmit={handleSubmit(onSubmit)}>
             <FormControl>
@@ -178,7 +176,15 @@ const FeedingDiaryModal = () => {
               <Input type="text" id="ghiChu" name="ghiChu" ref={register()} />
             </FormControl>
             <ModalFooter>
-              <Button variantColor="blue" mr={3} onClick={handleCancel}>
+              <Button
+                variantColor="blue"
+                mr={3}
+                onClick={() => {
+                  console.log(visible);
+                  setVisible(!visible);
+                  console.dir(setVisible);
+                }}
+              >
                 Đóng
               </Button>
               {isSave ? (

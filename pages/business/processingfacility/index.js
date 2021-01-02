@@ -21,9 +21,9 @@ import Layout from "@/components/dashboard/Layout";
 import { Table, Th, Td, Tr } from "@/components/Table";
 import fetcher from "@/utils/fetcher";
 import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
-import AddHatcheryModal from "@/components/dashboard/AddHatcheryModal";
+import AddProcessingFacility from "@/components/dashboard/AddProcessingFaclity";
 
-const AddFood = () => {
+const ProcessingFacility = () => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState();
   const [id, setId] = useState();
@@ -34,9 +34,10 @@ const AddFood = () => {
 
   const { data, error } = useSWR(
     [
-      "/api/hatchery",
+      "/api/processingfacility",
       // BUSINESS ACCOUNT USER TOKEN
       process.browser ? localStorage.getItem("token") : null,
+
       // "eyJhbGciOiJIUzI1NiJ9.NWZkYjFiOWM0MjRkYjUwM2E0OTdjN2Iy.5rpAKpQJ35fR9F_bWwW4vZQc-rRPPqHO_ABVG6Hk9Ao",
     ],
     fetcher
@@ -81,9 +82,9 @@ const AddFood = () => {
     return (
       <Layout>
         <Box px={16} py={12} position="relative">
-          <AddHatcheryModal />
+          <AddProcessingFacility />
           <Heading mt={10} mb={5}>
-            Danh sách trại giống
+            Danh sách cơ sở chế biến
           </Heading>
           <FoodTableSkeleton />
         </Box>
@@ -94,28 +95,28 @@ const AddFood = () => {
   return (
     <Layout>
       <Box px={16} py={12} position="relative">
-        <AddHatcheryModal />
+        <AddProcessingFacility />
 
         <Heading mt={10} mb={5}>
-          Danh sách trại giống
+          Danh sách cơ sở chế biến
         </Heading>
         {data && data.length > 0 ? (
           <>
             <Table>
               <Tr>
-                <Th>Tên trại giống</Th>
-                <Th>Địa chỉ</Th>
+                <Th>Tên cơ sở chế biến</Th>
+                <Th>Địa chỉ cơ sở chế biến</Th>
 
                 <Th>{""}</Th>
               </Tr>
-              {data.map(({ tenTraiGiong, diaChiTraiGiong, _id }, i) => (
+              {data.map(({ tenCoSoCheBien, diaChiCoSoCheBien, _id }, i) => (
                 <Tr
                   backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
                   cursor="pointer"
                   onClick={() => router.push(`./food/${_id}`)}
                 >
-                  <Td>{tenTraiGiong}</Td>
-                  <Td>{diaChiTraiGiong}</Td>
+                  <Td>{tenCoSoCheBien}</Td>
+                  <Td>{diaChiCoSoCheBien}</Td>
 
                   <Td
                     borderLeft="1px solid #e8eef3"
@@ -160,7 +161,7 @@ const AddFood = () => {
         ) : (
           <Alert status="info" fontSize="md" w="30rem">
             <AlertIcon />
-            Chưa có trại giống
+            Chưa có cơ sở chế biến
           </Alert>
         )}
       </Box>
@@ -168,4 +169,4 @@ const AddFood = () => {
   );
 };
 
-export default AddFood;
+export default ProcessingFacility;

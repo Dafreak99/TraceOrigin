@@ -10,7 +10,7 @@ export default async (req, res) => {
   const { method } = req;
 
   if (method === "POST") {
-    const { username, password } = req.body;
+    const { username } = req.body;
 
     let existedUser = await User.findOne({ username });
 

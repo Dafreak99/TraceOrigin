@@ -3,10 +3,11 @@ import { ThemeProvider, CSSReset } from "@chakra-ui/core";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "../styles/globals.css";
 import "antd/dist/antd.min.css";
-
 import theme from "../styles/theme";
+
+import "../styles/globals.css";
+
 import { AuthProvider } from "../lib/AuthContext";
 
 function MyApp({ Component, pageProps }) {

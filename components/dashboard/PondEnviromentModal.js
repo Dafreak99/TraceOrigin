@@ -8,8 +8,9 @@ import {
   Input,
   Image,
   Spinner,
+  Box,
 } from "@chakra-ui/core";
-import { Select } from "antd";
+import { Divider, Select } from "antd";
 import { Option } from "antd/lib/mentions";
 import Modal from "antd/lib/modal/Modal";
 import { useState } from "react";
@@ -19,7 +20,7 @@ import DatePicker from "../DatePicker";
 
 import FormControl from "./FormControl";
 
-const PondEnvironmentModal = () => {
+const PondEnvironmentModal = ({ bg, color, icon }) => {
   const { handleSubmit, register, errors, control, reset } = useForm();
   const [isSave, setIsSave] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -70,12 +71,22 @@ const PondEnvironmentModal = () => {
 
   return (
     <>
-      <Flex onClick={showModal} className="diary-box">
-        <Text fontWeight="bold" marginBottom="2rem">
+      <Box className="diary-boxx" onClick={() => setVisible(true)}>
+        <Flex
+          height="60px"
+          width="60px"
+          borderRadius="15px"
+          justify="center"
+          align="center"
+          backgroundColor={bg}
+          margin="0 auto"
+        >
+          <Box as={icon} height="32px" width="32px" color={color} />
+        </Flex>
+        <Text fontWeight="bold" fontSize="xl" mt="2rem">
           Môi trường ao
         </Text>
-        <Image src="/004-sea.svg" />
-      </Flex>
+      </Box>
 
       <Modal
         visible={visible}
@@ -203,7 +214,7 @@ const PondEnvironmentModal = () => {
               })}
             />
           </FormControl>
-
+          <Divider />
           <ModalFooter>
             <Button variantColor="blue" mr={3} onClick={handleCancel}>
               Đóng

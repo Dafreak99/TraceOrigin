@@ -1,13 +1,86 @@
-import { Alert, AlertIcon, Badge, Box, Heading, Image } from "@chakra-ui/core";
+import {
+  Alert,
+  AlertIcon,
+  Badge,
+  Box,
+  Button,
+  FormLabel,
+  Heading,
+  Image,
+  Input,
+  ModalFooter,
+  Spinner,
+} from "@chakra-ui/core";
 import Layout from "@/components/dashboard/Layout";
 import useSWR from "swr";
+import { Controller, useForm } from "react-hook-form";
+
 import fetcher from "@/utils/fetcher";
 import { Table, Td, Th, Tr } from "@/components/Table";
 import { FaTrash } from "react-icons/fa";
 import { format } from "date-fns";
 import { AiFillCheckCircle } from "react-icons/ai";
+import { useRouter } from "next/router";
+import Modal from "antd/lib/modal/Modal";
+import FormControl from "@/components/dashboard/FormControl";
+import { useState } from "react";
+import { Divider, Select } from "antd";
+
 const Product = () => {
+  const router = useRouter();
+
   const { data, error } = useSWR("/api/business", fetcher);
+  const [productId, setProductId] = useState(null);
+
+  const { data: processingFacilties } = useSWR(
+    [
+      "/api/processingfacility",
+      // BUSINESS ACCOUNT USER TOKEN
+      process.browser ? localStorage.getItem("token") : null,
+
+      // "eyJhbGciOiJIUzI1NiJ9.NWZkYjFiOWM0MjRkYjUwM2E0OTdjN2Iy.5rpAKpQJ35fR9F_bWwW4vZQc-rRPPqHO_ABVG6Hk9Ao",
+    ],
+    fetcher
+  );
+
+  const [visible, setVisible] = useState(false);
+  const { handleSubmit, register, errors, control, reset } = useForm();
+  const [isSave, setIsSave] = useState(false);
+
+  const handleProcess = (id) => {
+    setProductId(id);
+
+    setVisible(true);
+  };
+
+  const handleCancel = () => {
+    setVisible(false);
+  };
+
+  const onSubmit = async (values) => {
+    setIsSave(true);
+    try {
+      let res = await fetch(`/api/product/${productId}`, {
+        method: "PUT",
+        body: values,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization:
+            // REPLACE TOKEN
+            process.browser ? localStorage.getItem("token") : null,
+
+          // "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
+        },
+        body: JSON.stringify(values),
+      });
+      let data = await res.json();
+    } catch (error) {
+      console.log(error.message);
+    }
+    setIsSave(false);
+
+    router.reload();
+  };
 
   return (
     <Layout>
@@ -35,7 +108,7 @@ const Product = () => {
                 <Tr
                   backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
                   cursor="pointer"
-                  // onClick={() => router.push(`./medicine/${_id}`)}
+                  onClick={() => router.push(`./product/${_id}`)}
                 >
                   <Td>{format(new Date(ngayThuHoach), "dd/MM/yyyy")}</Td>
 
@@ -56,20 +129,72 @@ const Product = () => {
                     px={8}
                     onClick={(e) => {
                       e.stopPropagation();
-                      setIsOpen(true);
-                      setId(_id);
+                      handleProcess(_id);
                     }}
+                    color="#5adba5"
                   >
                     <Box as={AiFillCheckCircle} size="32px"></Box>
                   </Td>
                 </Tr>
               )
             )}
+
+            {/* Modal */}
+
+            <Modal
+              visible={visible}
+              title="Chọn cơ sở chế biến"
+              onCancel={handleCancel}
+              footer={null}
+            >
+              {/* Modal Body */}
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <FormControl>
+                  <FormLabel>Cơ sở chế biến</FormLabel>
+                  {processingFacilties && processingFacilties.length > 0 && (
+                    <Controller
+                      name="processingFacility"
+                      control={control}
+                      defaultValue={processingFacilties[0]._id}
+                      rules={{ required: true }}
+                      render={({ onChange }) => (
+                        <Select
+                          onChange={onChange}
+                          style={{ width: "100%" }}
+                          defaultValue={processingFacilties[0].tenCoSoCheBien}
+                        >
+                          {processingFacilties.map((facility) => (
+                            <Option value={facility._id}>
+                              {facility.tenCoSoCheBien}
+                            </Option>
+                          ))}
+                        </Select>
+                      )}
+                    />
+                  )}
+                </FormControl>
+
+                <ModalFooter>
+                  <Button variantColor="blue" mr={3} onClick={handleCancel}>
+                    Đóng
+                  </Button>
+                  {isSave ? (
+                    <Button backgroundColor="gray.400" color="#fff">
+                      <Spinner mr={4} /> Đang lưu
+                    </Button>
+                  ) : (
+                    <Button variant="ghost" type="submit">
+                      Lưu
+                    </Button>
+                  )}
+                </ModalFooter>
+              </form>
+            </Modal>
           </Table>
         ) : (
-          <Alert status="info" fontSize="md" w="30rem">
+          <Alert status="success" fontSize="md" w="30rem">
             <AlertIcon />
-            Chưa nhập thuốc
+            Tất cả sản phẩm đều đã được duyệt
           </Alert>
         )}
       </Box>

@@ -4,26 +4,28 @@ import {
   Button,
   ModalFooter,
   Spinner,
-  Select,
 } from "@chakra-ui/core";
 
 import { useState } from "react";
 import Modal from "antd/lib/modal/Modal";
 
 import { useForm } from "react-hook-form";
+
 import { Divider, Button as AntdButton } from "antd";
+import { useRouter } from "next/router";
 import { HiPlus } from "react-icons/hi";
+
 import FormControl from "./FormControl";
-import useSWR, { mutate } from "swr";
-import fetcher from "@/utils/fetcher";
+import { mutate } from "swr";
 
-const { Option } = Select;
+const AddWarehouse = () => {
+  const router = useRouter();
 
-const WorkerModal = () => {
+  const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
 
   const [isSave, setIsSave] = useState(false);
-  const { handleSubmit, register, errors } = useForm();
+  const { handleSubmit, register, errors, control, reset } = useForm();
 
   const showModal = () => setVisible(true);
 
@@ -35,39 +37,28 @@ const WorkerModal = () => {
     setIsSave(true);
 
     try {
-      let res = await fetch("/api/worker", {
+      let res = await fetch("/api/warehouse", {
         method: "POST",
         body: values,
         headers: {
           "Content-Type": "application/json",
-          Authorization: process.browser ? localStorage.getItem("token") : null,
-
-          // "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
+          Authorization:
+            // BUSINESS ACCOUNT USER TOKEN
+            process.browser ? localStorage.getItem("token") : null,
+          // "eyJhbGciOiJIUzI1NiJ9.NWZkYjFiOWM0MjRkYjUwM2E0OTdjN2Iy.5rpAKpQJ35fR9F_bWwW4vZQc-rRPPqHO_ABVG6Hk9Ao",
         },
         body: JSON.stringify(values),
       });
-
-      let data = await res.json();
-
-      mutate(
-        [
-          "/api/worker",
-          // REPLACE TOKEN
-          process.browser ? localStorage.getItem("token") : null,
-
-          // "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
-        ],
-        async (cachedData) => {
-          return [...cachedData, data];
-        },
-        false
-      );
+      const data = await res.json();
     } catch (error) {
       console.log(error.message);
     }
 
-    setVisible(false);
+    console.log(values);
 
+    // setVisible(false);
+
+    // reset();
     setIsSave(false);
   };
   return (
@@ -92,43 +83,36 @@ const WorkerModal = () => {
 
       <Modal
         visible={visible}
-        title="Thêm nhân công"
+        title="Thêm nhà kho"
         onCancel={handleCancel}
         footer={null}
       >
         {/* Modal Body */}
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(2, 1fr)",
-            gridColumnGap: "2rem",
-          }}
-        >
+        <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl>
-            <FormLabel htmlFor="hoTen">Họ và tên</FormLabel>
+            <FormLabel htmlFor="maKho">Mã kho</FormLabel>
             <Input
               type="text"
-              id="hoTen"
-              name="hoTen"
+              id="maKho"
+              name="maKho"
               ref={register({
                 required: "Required",
               })}
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="diaChi">Địa chỉ</FormLabel>
+            <FormLabel htmlFor="tenKho">Tên kho: </FormLabel>
             <Input
               type="text"
-              id="diaChi"
-              name="diaChi"
+              id="tenKho"
+              name="tenKho"
               ref={register({
                 required: "Required",
               })}
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="sdt">SĐT</FormLabel>
+            <FormLabel htmlFor="sdt">SĐT liên hệ: </FormLabel>
             <Input
               type="text"
               id="sdt"
@@ -138,62 +122,32 @@ const WorkerModal = () => {
               })}
             />
           </FormControl>
-
           <FormControl>
-            <FormLabel htmlFor="soCMND">CMND</FormLabel>
+            <FormLabel htmlFor="email">Email: </FormLabel>
             <Input
-              type="text"
-              id="soCMND"
-              name="soCMND"
+              type="email"
+              id="email"
+              name="email"
               ref={register({
                 required: "Required",
               })}
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="namSinh">Năm sinh</FormLabel>
+            <FormLabel htmlFor="diaChi">Địa chỉ: </FormLabel>
             <Input
               type="text"
-              id="namSinh"
-              name="namSinh"
+              id="diaChi"
+              name="diaChi"
               ref={register({
                 required: "Required",
               })}
             />
           </FormControl>
 
-          <FormControl>
-            <FormLabel htmlFor="gioiTinh">Giới tính</FormLabel>
-            <br />
-            <Select name="gioiTinh" ref={register()}>
-              <option value="Nam">Nam</option>
-              <option value="Nữ">Nữ</option>
-            </Select>
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="bangCap">Bằng cấp</FormLabel>
-            <Select name="bangCap" ref={register()}>
-              <option value="Thạc sĩ">Thạc sĩ</option>
-              <option value="Cử nhân">Cử nhân</option>
-              <option value="Cấp 3">Cấp 3</option>
-              <option value="Cấp 2">Cấp 2</option>
-            </Select>
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="nhiemVu">Nhiệm vụ</FormLabel>
-            <Input
-              type="text"
-              id="nhiemVu"
-              name="nhiemVu"
-              ref={register({
-                required: "Required",
-              })}
-            />
-          </FormControl>
+          <Divider />
 
-          <Divider style={{ gridColumn: "span 2" }} />
-
-          <ModalFooter gridColumn="span 2">
+          <ModalFooter>
             <Button variantColor="blue" mr={3} onClick={handleCancel}>
               Đóng
             </Button>
@@ -213,4 +167,4 @@ const WorkerModal = () => {
   );
 };
 
-export default WorkerModal;
+export default AddWarehouse;

@@ -9,6 +9,7 @@ import {
   Image,
   Alert,
   AlertIcon,
+  Box,
 } from "@chakra-ui/core";
 import { Divider, Select } from "antd";
 import Modal from "antd/lib/modal/Modal";
@@ -23,7 +24,7 @@ import DatePicker from "../DatePicker";
 
 const { Option } = Select;
 
-const UsingMedicineDiary = () => {
+const UsingMedicineDiary = ({ bg, color, icon }) => {
   const [selectedMedicine, setSelectedMedicine] = useState(null);
 
   const [visible, setVisible] = useState(false);
@@ -90,7 +91,9 @@ const UsingMedicineDiary = () => {
           "Content-Type": "application/json",
           Authorization:
             // REPLACE WITH USER TOKEN
-            "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
+            process.browser ? localStorage.getItem("token") : null,
+
+          // "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
         },
         body: JSON.stringify(values),
       });
@@ -110,12 +113,22 @@ const UsingMedicineDiary = () => {
 
   return (
     <>
-      <Flex onClick={showModal} className="diary-box">
-        <Text fontWeight="bold" marginBottom="2rem">
+      <Box className="diary-boxx" onClick={() => setVisible(true)}>
+        <Flex
+          height="60px"
+          width="60px"
+          borderRadius="15px"
+          justify="center"
+          align="center"
+          backgroundColor={bg}
+          margin="0 auto"
+        >
+          <Box as={icon} height="32px" width="32px" color={color} />
+        </Flex>
+        <Text fontWeight="bold" fontSize="xl" mt="2rem">
           Sử dụng thuốc
         </Text>
-        <Image src="/003-medicine.svg" />
-      </Flex>
+      </Box>
 
       {/* Modal */}
       <Modal
@@ -295,8 +308,8 @@ const UsingMedicineDiary = () => {
               )}
             </FormControl>
 
-            <Divider />
-            <ModalFooter>
+            <br />
+            <ModalFooter gridColumn="span 2">
               <Button variantColor="blue" mr={3} onClick={handleCancel}>
                 Đóng
               </Button>

@@ -46,26 +46,16 @@ const Ponds = () => {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
-
   const onDelete = async () => {
-    let res = await fetch("/api/pond/delete", {
-      method: "POST",
+    let res = await fetch("/api/pond", {
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         Authorization:
           // REPLACE WITH USER TOKEN
-          "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
+          process.browser ? localStorage.getItem("token") : null,
+
+        // "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
       },
       body: JSON.stringify({ pondId: selectedPond._id }),
     });
@@ -80,8 +70,6 @@ const Ponds = () => {
       },
       false
     );
-
-    // TODO: When deleting pond, also delete relevant data like feedingdiary and usingmedicinedairy
 
     setSelectedPond({});
     onClose();

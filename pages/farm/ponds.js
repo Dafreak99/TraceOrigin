@@ -5,7 +5,6 @@ const Info = () => {
   return (
     <Layout>
       <Ponds />
-      {/* TODO: Harvest */}
     </Layout>
   );
 };

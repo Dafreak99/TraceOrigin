@@ -1,40 +1,30 @@
-import { useEffect, useState } from "react";
 import {
-  Box,
-  Heading,
-  Image,
+  Alert,
   AlertDialog,
   AlertDialogBody,
-  AlertDialogFooter,
-  AlertDialogHeader,
   AlertDialogContent,
+  AlertDialogHeader,
   AlertDialogOverlay,
-  Button,
-  Alert,
   AlertIcon,
+  Box,
+  Heading,
 } from "@chakra-ui/core";
-import useSWR, { mutate } from "swr";
-import { useRouter } from "next/router";
 import { FaTrash } from "react-icons/fa";
+import useSWR from "swr";
 
-import Layout from "@/components/dashboard/Layout";
-import { Table, Th, Td, Tr } from "@/components/Table";
-import fetcher from "@/utils/fetcher";
+import AddWarehouseModal from "@/components/dashboard/AddWarehouseModal";
 import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
-import AddHatcheryModal from "@/components/dashboard/AddHatcheryModal";
+import Layout from "@/components/dashboard/Layout";
+import { Table, Td, Th, Tr } from "@/components/Table";
+import fetcher from "@/utils/fetcher";
+import { useEffect, useState } from "react";
 
-const AddFood = () => {
-  const router = useRouter();
-  const [isOpen, setIsOpen] = useState();
-  const [id, setId] = useState();
+const Warehouse = () => {
   const [loading, setLoading] = useState(true);
-
-  const onClose = () => setIsOpen(false);
-  const cancelRef = React.useRef();
 
   const { data, error } = useSWR(
     [
-      "/api/hatchery",
+      "/api/warehouse",
       // BUSINESS ACCOUNT USER TOKEN
       process.browser ? localStorage.getItem("token") : null,
       // "eyJhbGciOiJIUzI1NiJ9.NWZkYjFiOWM0MjRkYjUwM2E0OTdjN2Iy.5rpAKpQJ35fR9F_bWwW4vZQc-rRPPqHO_ABVG6Hk9Ao",
@@ -48,42 +38,13 @@ const AddFood = () => {
     }
   }, [data]);
 
-  const onDelete = async () => {
-    try {
-      let res = await fetch(`/api/food/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization:
-            "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
-        },
-      });
-
-      mutate(
-        [
-          "/api/food",
-          "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
-        ],
-        async (cachedData) => {
-          let data = cachedData.filter((each) => each._id !== id);
-          return data;
-        },
-        false
-      );
-    } catch (error) {
-      console.log(error.message);
-    }
-
-    setIsOpen(false);
-  };
-
   if (loading) {
     return (
       <Layout>
         <Box px={16} py={12} position="relative">
-          <AddHatcheryModal />
+          <AddWarehouseModal />
           <Heading mt={10} mb={5}>
-            Danh sách trại giống
+            Danh sách kho
           </Heading>
           <FoodTableSkeleton />
         </Box>
@@ -94,36 +55,41 @@ const AddFood = () => {
   return (
     <Layout>
       <Box px={16} py={12} position="relative">
-        <AddHatcheryModal />
+        <AddWarehouseModal />
 
         <Heading mt={10} mb={5}>
-          Danh sách trại giống
+          Danh sách kho
         </Heading>
         {data && data.length > 0 ? (
           <>
             <Table>
               <Tr>
-                <Th>Tên trại giống</Th>
+                <Th>Mã kho</Th>
+                <Th>Tên kho</Th>
+                <Th>SĐT</Th>
+                <Th>Email</Th>
                 <Th>Địa chỉ</Th>
-
                 <Th>{""}</Th>
               </Tr>
-              {data.map(({ tenTraiGiong, diaChiTraiGiong, _id }, i) => (
+              {data.map(({ maKho, tenKho, sdt, email, diaChi, _id }, i) => (
                 <Tr
                   backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
                   cursor="pointer"
                   onClick={() => router.push(`./food/${_id}`)}
                 >
-                  <Td>{tenTraiGiong}</Td>
-                  <Td>{diaChiTraiGiong}</Td>
+                  <Td>{maKho}</Td>
+                  <Td>{tenKho}</Td>
+                  <Td>{sdt}</Td>
+                  <Td>{email}</Td>
+                  <Td>{diaChi}</Td>
 
                   <Td
                     borderLeft="1px solid #e8eef3"
                     px={8}
                     onClick={(e) => {
                       e.stopPropagation();
-                      setIsOpen(true);
-                      setId(_id);
+                      // setIsOpen(true);
+                      // setId(_id);
                     }}
                   >
                     <Box as={FaTrash}></Box>
@@ -131,9 +97,9 @@ const AddFood = () => {
                 </Tr>
               ))}
               <AlertDialog
-                isOpen={isOpen}
-                leastDestructiveRef={cancelRef}
-                onClose={onClose}
+              // isOpen={isOpen}
+              // leastDestructiveRef={cancelRef}
+              // onClose={onClose}
               >
                 <AlertDialogOverlay />
                 <AlertDialogContent>
@@ -146,10 +112,17 @@ const AddFood = () => {
                   </AlertDialogBody>
 
                   <AlertDialogFooter>
-                    <Button ref={cancelRef} onClick={onClose}>
+                    <Button
+                    //   ref={cancelRef}
+                    // onClick={onClose}
+                    >
                       Hủy bỏ
                     </Button>
-                    <Button variantColor="red" onClick={onDelete} ml={3}>
+                    <Button
+                      variantColor="red"
+                      // onClick={onDelete}
+                      ml={3}
+                    >
                       Xóa
                     </Button>
                   </AlertDialogFooter>
@@ -160,7 +133,7 @@ const AddFood = () => {
         ) : (
           <Alert status="info" fontSize="md" w="30rem">
             <AlertIcon />
-            Chưa có trại giống
+            Chưa có danh sách kho
           </Alert>
         )}
       </Box>
@@ -168,4 +141,4 @@ const AddFood = () => {
   );
 };
 
-export default AddFood;
+export default Warehouse;

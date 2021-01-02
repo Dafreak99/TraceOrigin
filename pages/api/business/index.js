@@ -19,9 +19,10 @@ export default async (req, res) => {
     case "GET":
       try {
         let business = await Business.findById("5fd96b00f6b4c120583681ab");
+
         let product = await Product.find({
           farm: business.farm,
-          processingFacility: "",
+          processingFacility: null,
         });
 
         res.send({ business, product });

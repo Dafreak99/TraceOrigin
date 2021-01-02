@@ -1,4 +1,4 @@
-import { Box, Flex, Image, Input, PseudoBox, Grid } from "@chakra-ui/core";
+import { Box, Flex, Image, Input, Grid } from "@chakra-ui/core";
 import { HiUserCircle } from "react-icons/hi";
 import { useRouter } from "next/router";
 
@@ -20,7 +20,7 @@ const Navbar = ({ float, showDrawer }) => {
         transform="translateY(-50%)"
         display={{ xl: "none" }}
       ></Box>
-      {/* TODO: FIx link to add medcine add food */}  
+
       <Box
         gridColumn={{ base: "span 1", md: "span 4", xl: "span 1" }}
         alignSelf="center"
@@ -81,6 +81,8 @@ const Navbar = ({ float, showDrawer }) => {
         gridColumn={{ base: "span 1", md: "span 4", xl: "span 1" }}
         alignSelf="center"
         justifySelf="flex-end"
+        cursor="pointer"
+        onClick={() => router.push("/signin")}
       >
         <HiUserCircle size="3rem" />
       </Box>

@@ -7,12 +7,16 @@ const Dashboard = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (a === "business") {
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (!user) {
+      router.push("/");
+    } else if (user.type === "business") {
       router.push("/business");
     } else {
       router.push("/farm");
     }
-  }, []);
+  }, [localStorage.getItem("user")]);
 
   return (
     <Flex h="100vh" w="100vw" justify="center" align="center">

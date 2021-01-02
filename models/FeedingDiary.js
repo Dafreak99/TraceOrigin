@@ -6,7 +6,7 @@ const Pond = require("./Pond");
 const FeedingDiarySchema = new mongoose.Schema({
   ghiChu: String,
   ngayThangNam: String,
-  khoiLuong: String,
+  khoiLuong: Number,
   thucAn: { type: mongoose.Schema.Types.ObjectId, ref: Food },
   ao: { type: mongoose.Schema.Types.ObjectId, ref: Pond },
   coSoNuoi: { type: mongoose.Schema.Types.ObjectId, ref: Farm },

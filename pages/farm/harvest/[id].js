@@ -224,7 +224,7 @@ const Index = () => {
                   <Text fontSize="md" fontWeight="medium">
                     Tên trại giống:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.seed.tenTraiGiong}
+                      {data.seed.traiGiong.tenTraiGiong}
                     </Box>
                   </Text>
                 </ListItem>
@@ -232,7 +232,7 @@ const Index = () => {
                   <Text fontSize="md" fontWeight="medium">
                     Địa chỉ trại giống:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.seed.diaChiTraiGiong}
+                      {data.seed.traiGiong.diaChiTraiGiong}
                     </Box>
                   </Text>
                 </ListItem>

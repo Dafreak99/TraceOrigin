@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const Business = require("./Business");
 
 const FarmSchema = new mongoose.Schema({
   tenCoSoNuoi: String,

@@ -1,5 +1,7 @@
 /* @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"); */
 
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap");
+
 * {
   padding: 0;
   margin: 0;
@@ -10,6 +12,7 @@
 }
 html {
   overflow-x: hidden;
+  font-family: "Nunito", sans-serif;
 }
 /* Make Slick Slider Visible */
 
@@ -183,4 +186,17 @@ aside.ant-layout-sider.ant-layout-sider-dark.ant-layout-sider-collapsed.ant-layo
 .diary-box:hover {
   transform: translateY(-5px);
   box-shadow: 0 35px 40px rgba(0, 0, 0, 0.1);
+}
+
+.diary-boxx {
+  border-radius: 5px;
+  padding: 3rem 4rem;
+  background-color: #fff;
+  transition: 350ms all;
+  text-align: center;
+}
+
+.diary-boxx:hover {
+  box-shadow: 0 35px 40px rgb(140 36 158 / 8%);
+  transform: translateY(-10px);
 }

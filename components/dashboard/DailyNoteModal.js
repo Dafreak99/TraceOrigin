@@ -7,6 +7,7 @@ import {
   Input,
   Image,
   Spinner,
+  Box,
 } from "@chakra-ui/core";
 import Modal from "antd/lib/modal/Modal";
 import { useState } from "react";
@@ -15,7 +16,7 @@ import DatePicker from "../DatePicker";
 
 import FormControl from "./FormControl";
 
-const DailyNoteModal = () => {
+const DailyNoteModal = ({ bg, color, icon }) => {
   const { handleSubmit, register, errors, control } = useForm();
   const [isSave, setIsSave] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -28,13 +29,22 @@ const DailyNoteModal = () => {
 
   return (
     <>
-      <Flex onClick={showModal} className="diary-box">
-        <Text fontWeight="bold" marginBottom="2rem">
+      <Box className="diary-boxx" onClick={() => setVisible(true)}>
+        <Flex
+          height="60px"
+          width="60px"
+          borderRadius="15px"
+          justify="center"
+          align="center"
+          backgroundColor={bg}
+          margin="0 auto"
+        >
+          <Box as={icon} height="32px" width="32px" color={color} />
+        </Flex>
+        <Text fontWeight="bold" fontSize="xl" mt="2rem">
           Ghi chú hằng ngày
         </Text>
-        <Image src="/002-post-it.svg" />
-      </Flex>
-
+      </Box>
       <Modal
         visible={visible}
         title="Ghi chú hằng ngày"

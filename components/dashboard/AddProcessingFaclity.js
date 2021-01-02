@@ -10,14 +10,16 @@ import { useState } from "react";
 import Modal from "antd/lib/modal/Modal";
 
 import { useForm } from "react-hook-form";
+import { format } from "date-fns";
 import { Divider, Button as AntdButton } from "antd";
 import { useRouter } from "next/router";
 import { HiPlus } from "react-icons/hi";
 
 import FormControl from "./FormControl";
+
 import { mutate } from "swr";
 
-const AddHatchery = () => {
+const AddProcessingFacility = () => {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
@@ -36,7 +38,7 @@ const AddHatchery = () => {
     setIsSave(true);
 
     try {
-      let res = await fetch("/api/hatchery", {
+      let res = await fetch("/api/processingfacility", {
         method: "POST",
         body: values,
         headers: {
@@ -52,7 +54,7 @@ const AddHatchery = () => {
 
       mutate(
         [
-          "/api/hatchery",
+          "/api/processingfacility",
           // BUSINESS ACCOUNT USER TOKEN
           process.browser ? localStorage.getItem("token") : null,
           // "eyJhbGciOiJIUzI1NiJ9.NWZkYjFiOWM0MjRkYjUwM2E0OTdjN2Iy.5rpAKpQJ35fR9F_bWwW4vZQc-rRPPqHO_ABVG6Hk9Ao",
@@ -91,31 +93,31 @@ const AddHatchery = () => {
 
       <Modal
         visible={visible}
-        title="Thêm trại giống"
+        title="Thêm cơ sở chế biến"
         onCancel={handleCancel}
         footer={null}
       >
         {/* Modal Body */}
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl>
-            <FormLabel htmlFor="tenTraiGiong">Tên trại giống</FormLabel>
+            <FormLabel htmlFor="tenTraiGiong">Tên cơ sở chế biến</FormLabel>
             <Input
               type="text"
-              id="tenTraiGiong"
-              name="tenTraiGiong"
+              id="tenCoSoCheBien"
+              name="tenCoSoCheBien"
               ref={register({
                 required: "Required",
               })}
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="diaChiTraiGiong">
-              Địa chỉ trại giống:{" "}
+            <FormLabel htmlFor="diaChiCoSoCheBien">
+              Địa chỉ cơ sở chế biến
             </FormLabel>
             <Input
               type="text"
-              id="diaChiTraiGiong"
-              name="diaChiTraiGiong"
+              id="diaChiCoSoCheBien"
+              name="diaChiCoSoCheBien"
               ref={register({
                 required: "Required",
               })}
@@ -144,4 +146,4 @@ const AddHatchery = () => {
   );
 };
 
-export default AddHatchery;
+export default AddProcessingFacility;

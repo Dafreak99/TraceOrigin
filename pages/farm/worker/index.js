@@ -60,7 +60,9 @@ const Worker = () => {
       [
         "/api/worker",
         // REPLACE TOKEN
-        "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
+        process.browser ? localStorage.getItem("token") : null,
+
+        // "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
       ],
       async (cachedData) => {
         let data = cachedData.filter((each) => each._id !== deleteId);

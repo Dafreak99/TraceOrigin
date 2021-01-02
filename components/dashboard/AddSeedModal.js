@@ -1,4 +1,5 @@
 import {
+  Select,
   Modal,
   ModalOverlay,
   ModalHeader,
@@ -10,18 +11,36 @@ import {
   FormLabel,
   Input,
   useDisclosure,
-  Select,
+  Spinner,
+  Alert,
+  AlertIcon,
 } from "@chakra-ui/core";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { format } from "date-fns";
 
 import FormControl from "./FormControl";
+import { useState } from "react";
+import useSWR from "swr";
+import fetcher from "@/utils/fetcher";
 
 export const AddSeedModal = ({ pondId, onCloseDrawer }) => {
+  const { data, error } = useSWR(
+    [
+      "/api/hatchery/fromfarm",
+      // BUSINESS ACCOUNT USER TOKEN
+      process.browser ? localStorage.getItem("token") : null,
+      // "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
+    ],
+    fetcher
+  );
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { handleSubmit, register, errors } = useForm();
+  const { handleSubmit, register, errors, control, reset } = useForm();
+  const [isSave, setIsSave] = useState(false);
 
   const onSubmit = async (values) => {
+    if (!values.traiGiong) return;
+
+    setIsSave(true);
     try {
       let res = await fetch("/api/pond/utilize", {
         method: "POST",
@@ -38,6 +57,7 @@ export const AddSeedModal = ({ pondId, onCloseDrawer }) => {
     } catch (error) {
       console.log(error.message);
     }
+    setIsSave(false);
 
     onClose();
     onCloseDrawer();
@@ -77,30 +97,6 @@ export const AddSeedModal = ({ pondId, onCloseDrawer }) => {
                 })}
               />
             </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="tenTraiGiong">Tên trại giống: </FormLabel>
-              <Input
-                type="text"
-                id="tenTraiGiong"
-                name="tenTraiGiong"
-                ref={register({
-                  required: "Required",
-                })}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="diaChiTraiGiong">
-                Địa chỉ trại giống:
-              </FormLabel>
-              <Input
-                type="text"
-                id="diaChiTraiGiong"
-                name="diaChiTraiGiong"
-                ref={register({
-                  required: "Required",
-                })}
-              />
-            </FormControl>
 
             <FormControl>
               <FormLabel htmlFor="ngayTuoiGiong">
@@ -115,15 +111,41 @@ export const AddSeedModal = ({ pondId, onCloseDrawer }) => {
                 })}
               />
             </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="traiGiong">Trại giống:</FormLabel>
+              {data && data.length > 0 ? (
+                <Select
+                  id="traiGiong"
+                  name="traiGiong"
+                  ref={register({
+                    required: "Required",
+                  })}
+                >
+                  {data.map((each) => (
+                    <option value={each._id}>{each.tenTraiGiong}</option>
+                  ))}
+                </Select>
+              ) : (
+                <Alert status="warning">
+                  <AlertIcon />
+                  Vui lòng thêm thông tin trại giống từ doanh nghiệp
+                </Alert>
+              )}
+            </FormControl>
           </ModalBody>
-
           <ModalFooter>
             <Button variantColor="blue" mr={3} onClick={onClose}>
-              Close
+              Đóng
             </Button>
-            <Button variant="ghost" type="submit">
-              Save
-            </Button>
+            {isSave ? (
+              <Button backgroundColor="gray.400" color="#fff">
+                <Spinner mr={4} /> Đang lưu
+              </Button>
+            ) : (
+              <Button variant="ghost" type="submit">
+                Lưu
+              </Button>
+            )}
           </ModalFooter>
         </ModalContent>
       </Modal>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Flex, Image, Text } from "@chakra-ui/core";
+import { Box, Flex, Image, Text } from "@chakra-ui/core";
 import { Layout, Menu } from "antd";
 import {
   DesktopOutlined,
@@ -12,8 +12,15 @@ import Link from "next/link";
 import Header from "./Header";
 import Icon from "@ant-design/icons";
 import { FiUsers } from "react-icons/fi";
-import { FaBorderAll, FaChartBar, FaStickyNote } from "react-icons/fa";
+import {
+  FaBorderAll,
+  FaChartBar,
+  FaStickyNote,
+  FaWarehouse,
+} from "react-icons/fa";
 import { useRouter } from "next/router";
+import { RiBuilding4Fill, RiBuildingFill } from "react-icons/ri";
+import { AiOutlineLogout } from "react-icons/ai";
 
 const { Content, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -172,18 +179,56 @@ const BusinessSidebar = () => {
           <a>Sản phẩm</a>
         </Link>
       </Menu.Item>
+      <Menu.Item key="hatchery" icon={<Icon component={RiBuilding4Fill} />}>
+        <Link href="/business/hatchery">
+          <a>Trại giống</a>
+        </Link>
+      </Menu.Item>
+      <Menu.Item
+        key="processingfacility"
+        icon={<Icon component={RiBuildingFill} />}
+      >
+        <Link href="/business/processingfacility">
+          <a>Cơ sở chế biến</a>
+        </Link>
+      </Menu.Item>
+      <Menu.Item key="warehouse" icon={<Icon component={FaWarehouse} />}>
+        <Link href="/business/warehouse">
+          <a>Kho hàng</a>
+        </Link>
+      </Menu.Item>
     </Menu>
   );
 };
 
 const Sidebar = () => {
+  const router = useRouter();
+
   const [collapsed, setCollapsed] = useState(false);
 
-  const account = "business";
+  const ISSERVER = typeof window === "undefined";
+
+  let user;
+
+  if (!ISSERVER) {
+    user = JSON.parse(localStorage.getItem("user"));
+
+    if (!user) {
+      router.push("/signin");
+    }
+  }
 
   const onCollapse = (collapsed) => {
     setCollapsed(collapsed);
   };
+
+  const logout = () => {
+    window.localStorage.removeItem("token");
+    window.localStorage.removeItem("user");
+
+    router.push("/");
+  };
+
   return (
     <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
       <Flex
@@ -205,7 +250,22 @@ const Sidebar = () => {
         </Text>
       </Flex>
       {/* Should use account type */}
-      {account === "farm" ? <FarmSidebar /> : <BusinessSidebar />}
+      {user && user.type === "farm" ? <FarmSidebar /> : <BusinessSidebar />}
+      <Flex
+        justify="center"
+        align="center"
+        position="absolute"
+        bottom="10%"
+        left="50%"
+        transform="translateX(-50%)"
+        onClick={logout}
+        cursor="pointer"
+      >
+        <Box as={AiOutlineLogout} color="#fff" h="32px" w="32px" />
+        <Text color="#fff" mr="1rem">
+          Logout
+        </Text>
+      </Flex>
     </Sider>
   );
 };
