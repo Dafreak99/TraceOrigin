@@ -41,8 +41,6 @@ const WorkerModal = () => {
         headers: {
           "Content-Type": "application/json",
           Authorization: process.browser ? localStorage.getItem("token") : null,
-
-          // "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
         },
         body: JSON.stringify(values),
       });
@@ -50,13 +48,7 @@ const WorkerModal = () => {
       let data = await res.json();
 
       mutate(
-        [
-          "/api/worker",
-          // REPLACE TOKEN
-          process.browser ? localStorage.getItem("token") : null,
-
-          // "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
-        ],
+        ["/api/worker", process.browser ? localStorage.getItem("token") : null],
         async (cachedData) => {
           return [...cachedData, data];
         },

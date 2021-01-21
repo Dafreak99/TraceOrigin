@@ -11,12 +11,12 @@ const Dashboard = () => {
 
     if (!user) {
       router.push("/");
-    } else if (user.type === "business") {
-      router.push("/business");
+    } else if (user.type === "qualitycontrol") {
+      router.push("/qualitycontrol");
     } else {
       router.push("/farm");
     }
-  }, [localStorage.getItem("user")]);
+  }, []);
 
   return (
     <Flex h="100vh" w="100vw" justify="center" align="center">

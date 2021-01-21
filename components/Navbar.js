@@ -78,7 +78,7 @@ const Navbar = ({ float, showDrawer }) => {
       </Box>
 
       <Box
-        gridColumn={{ base: "span 1", md: "span 4", xl: "span 1" }}
+        gridColumn={{ base: "span 1", md: "span 4", xl: "span 2" }}
         alignSelf="center"
         justifySelf="flex-end"
         cursor="pointer"
@@ -91,33 +91,36 @@ const Navbar = ({ float, showDrawer }) => {
 
   if (float) {
     return (
-      <Grid
-        backgroundColor="#fff"
-        height="6rem"
-        paddingX={16}
-        boxShadow="0 2px 3px rgba(0,0,0,.1)"
-        gridTemplateColumns="repeat(12, 1fr)"
-      >
-        {Content()}
-      </Grid>
+      <Box boxShadow="0 2px 3px rgba(0,0,0,.1)">
+        <Grid
+          backgroundColor="#fff"
+          height="6rem"
+          gridTemplateColumns="repeat(12, 1fr)"
+          className="container"
+        >
+          {Content()}
+        </Grid>
+      </Box>
     );
   }
 
   return (
-    <Grid
-      backgroundColor="#fff"
-      height="6rem"
-      position="absolute"
-      top="5%"
-      left="5%"
-      paddingX={16}
-      align="center"
-      width="90vw"
-      zIndex="99"
-      gridTemplateColumns="repeat(12, 1fr)"
-    >
-      {Content()}
-    </Grid>
+    <Box boxShadow="0 2px 3px rgba(0,0,0,.1)">
+      <Grid
+        px={16}
+        backgroundColor="#fff"
+        height="6rem"
+        position="absolute"
+        top="5%"
+        left="5%"
+        align="center"
+        width="90vw"
+        zIndex="99"
+        gridTemplateColumns="repeat(12, 1fr)"
+      >
+        {Content()}
+      </Grid>
+    </Box>
   );
 };
 

@@ -9,6 +9,7 @@ import Farm from "models/Farm";
 import FeedingDiary from "models/FeedingDiary";
 import UsingMedicine from "models/UsingMedicine";
 import Seed from "models/Seed";
+import Pond from "models/Pond";
 
 // @route /api/product
 
@@ -25,36 +26,48 @@ export default async (req, res) => {
 
   switch (method) {
     case "GET":
-      // temporary test one first
-      let product = await Product.findOne({
-        _id: "5f5d97cbdf4ab92994ee8f07",
-      })
-        .populate({ path: "pond", populate: { path: "seed" } })
-        .populate({ path: "farm" });
-
-      res.send(product);
+      let products = await Product.find({ farm: farm.id }).populate({
+        path: "pond",
+        populate: { path: "seed" },
+      });
+      res.send(products);
 
       break;
     case "POST":
       try {
-        const feeding = await FeedingDiary.find({ ao: req.body.pond });
-        const usingMedicine = await UsingMedicine.find({
-          ao: req.body.pond,
-        });
-
-        const seed = await Seed.findOne({ pondId: req.body.pond });
-
         const product = new Product({
           ...req.body,
-          farm: farm._id,
-          feeding,
-          usingMedicine,
-          seed,
-          processingFacility: null,
+          farm: farm.id,
+          duyetDangKy: false,
         });
 
         await product.save();
-        res.send({ message: "OK" });
+
+        res.send(product);
+
+        // const feeding = await FeedingDiary.find({ ao: req.body.pond });
+        // const usingMedicine = await UsingMedicine.find({
+        //   ao: req.body.pond,
+        // });
+
+        // const seed = await Seed.findOne({ pondId: req.body.pond });
+
+        // const product = new Product({
+        //   ...req.body,
+        //   farm: farm._id,
+        //   feeding,
+        //   usingMedicine,
+        //   seed,
+        //   processingFacility: null,
+        // });
+
+        // // Unlink to refresh data
+        // await FeedingDiary.updateMany({ ao: req.body.pond }, { isDone: true });
+        // await UsingMedicine.updateMany({ ao: req.body.pond }, { isDone: true });
+        // await Pond.findOneAndUpdate({ _id: req.body.pond }, { seed: null });
+
+        // await product.save();
+        // res.send({ message: "OK" });
       } catch (error) {
         console.log(error.message);
         res.send({ message: error.message });

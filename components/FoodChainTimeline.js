@@ -7,27 +7,16 @@ const FoodChainTimeline = ({ setEntry }) => {
   const [mode, setMode] = useState("left");
 
   return (
-    <Box gridColumn={{ base: "span 12", xl: "span 4" }}>
+    <Box gridColumn={{ xl: "span 6" }}>
       <Flex alignItems="center">
         <GreenDot />
-        <Heading size="md">
-          Timeline(Tìm cách để di chuyển bản đồ khi click vào timeline)
-        </Heading>
+        <Heading size="md">Timeline</Heading>
       </Flex>
       <Timeline mode={mode} style={{ marginTop: "2rem" }}>
         <Timeline.Item
-          label="2015-09-01"
-          onClick={() =>
-            setEntry({
-              latitude: 10.048045740575443,
-              longitude: 105.74744176524034,
-            })
-          }
+          label="2015-09-01 09:12:11"
+          onClick={() => setEntry({ longitude: 10, latitude: 20 })}
         >
-          Nhập giống
-          <Image src="/koi-fish.svg" h="40px" />
-        </Timeline.Item>
-        <Timeline.Item label="2015-09-01 09:12:11">
           Thả giống xuống ao nuôi <Image src="/pond.svg" h="40px" />
         </Timeline.Item>
         <Timeline.Item label="2015-09-01 09:12:11">

@@ -10,7 +10,6 @@ import {
   Text,
 } from "@chakra-ui/core";
 import { useState } from "react";
-import { GoPrimitiveDot } from "react-icons/go";
 import { Divider, Breadcrumb } from "antd";
 
 import DisplayMap from "@/components/DisplayMap";
@@ -18,6 +17,7 @@ import FoodChainTimeline from "@/components/FoodChainTimeline";
 import GreenDot from "@/components/GreenDot";
 import Navbar from "@/components/Navbar";
 import ProductInfo from "@/components/ProductInfo";
+import Footer from "@/components/Footer";
 
 const Product = ({ data }) => {
   const {
@@ -110,21 +110,15 @@ const Product = ({ data }) => {
           <Divider />
           <Grid
             gridTemplateColumns="repeat(12, 1fr)"
-            mt={{ base: "4rem", xl: "10rem" }}
-            rowGap={{ base: "4rem", xl: 0 }}
+            columnGap="4rem"
+            mt="6rem"
           >
+            <ProductInfo data={data} />
             <FoodChainTimeline setEntry={setEntry} />
-            <Box
-              gridColumn={{ base: "span 12", xl: "span 8" }}
-              h={{ base: "20rem" }}
-            >
-              {entry && <DisplayMap entry={entry} />}
-            </Box>
           </Grid>
-          <Divider />
-          <ProductInfo data={data} />
         </div>
       </Box>
+      <Footer />
     </>
   );
 };
@@ -133,8 +127,6 @@ export async function getStaticProps() {
   let res = await fetch("https://traceorigin.vercel.app/api/info");
 
   let data = await res.json();
-
-  console.log(data);
 
   return {
     props: {

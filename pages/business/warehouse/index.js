@@ -3,14 +3,16 @@ import {
   AlertDialog,
   AlertDialogBody,
   AlertDialogContent,
+  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogOverlay,
   AlertIcon,
   Box,
+  Button,
   Heading,
 } from "@chakra-ui/core";
 import { FaTrash } from "react-icons/fa";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 
 import AddWarehouseModal from "@/components/dashboard/AddWarehouseModal";
 import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
@@ -18,19 +20,58 @@ import Layout from "@/components/dashboard/Layout";
 import { Table, Td, Th, Tr } from "@/components/Table";
 import fetcher from "@/utils/fetcher";
 import { useEffect, useState } from "react";
+import Modal from "antd/lib/modal/Modal";
 
 const Warehouse = () => {
-  const [loading, setLoading] = useState(true);
-
   const { data, error } = useSWR(
-    [
-      "/api/warehouse",
-      // BUSINESS ACCOUNT USER TOKEN
-      process.browser ? localStorage.getItem("token") : null,
-      // "eyJhbGciOiJIUzI1NiJ9.NWZkYjFiOWM0MjRkYjUwM2E0OTdjN2Iy.5rpAKpQJ35fR9F_bWwW4vZQc-rRPPqHO_ABVG6Hk9Ao",
-    ],
+    ["/api/warehouse", process.browser ? localStorage.getItem("token") : null],
     fetcher
   );
+
+  const [isOpen, setIsOpen] = useState();
+  const [id, setId] = useState();
+  const [loading, setLoading] = useState(true);
+
+  const [visible, setVisible] = useState(false);
+
+  const [deleteId, setDeleteId] = useState(null);
+
+  const showModal = () => setVisible(true);
+
+  const hideModal = () => setVisible(false);
+
+  const onOK = async () => {
+    try {
+      let res = await fetch(`/api/warehouse/`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: process.browser ? localStorage.getItem("token") : null,
+        },
+        body: JSON.stringify({ deleteId }),
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+
+    mutate(
+      [
+        "/api/warehouse",
+        // REPLACE TOKEN
+        process.browser ? localStorage.getItem("token") : null,
+
+        // process.browser ? localStorage.getItem("token") : null,
+      ],
+      async (cachedData) => {
+        let data = cachedData.filter((each) => each._id !== deleteId);
+
+        return data;
+      },
+      false
+    );
+
+    hideModal();
+  };
 
   useEffect(() => {
     if (data !== undefined) {
@@ -85,49 +126,27 @@ const Warehouse = () => {
 
                   <Td
                     borderLeft="1px solid #e8eef3"
-                    px={8}
                     onClick={(e) => {
                       e.stopPropagation();
-                      // setIsOpen(true);
-                      // setId(_id);
+                      setDeleteId(_id);
+                      showModal();
                     }}
                   >
-                    <Box as={FaTrash}></Box>
+                    <Box as={FaTrash} />
                   </Td>
                 </Tr>
               ))}
-              <AlertDialog
-              // isOpen={isOpen}
-              // leastDestructiveRef={cancelRef}
-              // onClose={onClose}
+
+              <Modal
+                title={null}
+                visible={visible}
+                onOk={onOK}
+                onCancel={hideModal}
+                okText="Yes"
+                cancelText="No"
               >
-                <AlertDialogOverlay />
-                <AlertDialogContent>
-                  <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                    Xóa
-                  </AlertDialogHeader>
-
-                  <AlertDialogBody>
-                    Bạn có chắc rằng sẽ xóa sản phẩm này ?
-                  </AlertDialogBody>
-
-                  <AlertDialogFooter>
-                    <Button
-                    //   ref={cancelRef}
-                    // onClick={onClose}
-                    >
-                      Hủy bỏ
-                    </Button>
-                    <Button
-                      variantColor="red"
-                      // onClick={onDelete}
-                      ml={3}
-                    >
-                      Xóa
-                    </Button>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
+                <p>Xóa nhân công này ?</p>
+              </Modal>
             </Table>
           </>
         ) : (

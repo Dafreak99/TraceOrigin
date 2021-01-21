@@ -6,7 +6,6 @@ import {
   Input,
   ModalFooter,
   Spinner,
-  Image,
   Alert,
   AlertIcon,
   Box,
@@ -32,37 +31,30 @@ const UsingMedicineDiary = ({ bg, color, icon }) => {
 
   const [isSave, setIsSave] = useState(false);
 
-  const showModal = () => setVisible(true);
-
   const { data: medicines } = useSWR(
     [
       "/api/medicine",
-      "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
+      process.browser ? localStorage.getItem("token") : null,
+      ,
     ],
     fetcher
   );
 
   const { data: foods } = useSWR(
-    [
-      "/api/food",
-      "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
-    ],
+    ["/api/food", process.browser ? localStorage.getItem("token") : null],
     fetcher
   );
 
-  const { data: ponds } = useSWR(
+  const { data: products } = useSWR(
     [
-      "/api/pond",
-      "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
+      "/api/product/approved",
+      process.browser ? localStorage.getItem("token") : null,
     ],
     fetcher
   );
 
   const { data: workers } = useSWR(
-    [
-      "/api/worker",
-      "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
-    ],
+    ["/api/worker", process.browser ? localStorage.getItem("token") : null],
     fetcher
   );
 
@@ -89,11 +81,7 @@ const UsingMedicineDiary = ({ bg, color, icon }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization:
-            // REPLACE WITH USER TOKEN
-            process.browser ? localStorage.getItem("token") : null,
-
-          // "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
+          Authorization: process.browser ? localStorage.getItem("token") : null,
         },
         body: JSON.stringify(values),
       });
@@ -143,11 +131,33 @@ const UsingMedicineDiary = ({ bg, color, icon }) => {
         medicines.length > 0 &&
         foods &&
         foods.length > 0 &&
-        ponds &&
-        ponds.length > 0 &&
+        products &&
+        products.length > 0 &&
         workers &&
         workers.length > 0 ? (
           <form onSubmit={handleSubmit(onSubmit)}>
+            <FormControl>
+              <FormLabel htmlFor="sanPham">Sản phẩm: </FormLabel>
+
+              <Controller
+                name="sanPham"
+                control={control}
+                defaultValue={products[0]._id}
+                rules={{ required: true }}
+                render={({ onChange }) => (
+                  <Select
+                    onChange={onChange}
+                    style={{ width: "100%" }}
+                    defaultValue={products[0].tenSanPham}
+                  >
+                    {products.map((product) => (
+                      <Option value={product._id}>{product.tenSanPham}</Option>
+                    ))}
+                  </Select>
+                )}
+              />
+            </FormControl>
+
             <FormControl>
               <FormLabel htmlFor="thuoc">Tên thuốc:</FormLabel>
               {medicines && medicines.length > 0 && (
@@ -279,28 +289,6 @@ const UsingMedicineDiary = ({ bg, color, icon }) => {
                     >
                       {workers.map((worker) => (
                         <Option value={worker._id}>{worker.hoTen}</Option>
-                      ))}
-                    </Select>
-                  )}
-                />
-              )}
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="ao">Ao sử dụng:</FormLabel>
-              {ponds && ponds.length > 0 && (
-                <Controller
-                  name="ao"
-                  control={control}
-                  defaultValue={ponds[0]._id}
-                  rules={{ required: true }}
-                  render={({ onChange }) => (
-                    <Select
-                      onChange={onChange}
-                      style={{ width: "100%" }}
-                      defaultValue={ponds[0].tenAo}
-                    >
-                      {ponds.map((pond) => (
-                        <Option value={pond._id}>{pond.tenAo}</Option>
                       ))}
                     </Select>
                   )}

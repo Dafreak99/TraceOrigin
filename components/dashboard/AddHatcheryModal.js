@@ -41,10 +41,7 @@ const AddHatchery = () => {
         body: values,
         headers: {
           "Content-Type": "application/json",
-          Authorization:
-            // BUSINESS ACCOUNT USER TOKEN
-            process.browser ? localStorage.getItem("token") : null,
-          // "eyJhbGciOiJIUzI1NiJ9.NWZkYjFiOWM0MjRkYjUwM2E0OTdjN2Iy.5rpAKpQJ35fR9F_bWwW4vZQc-rRPPqHO_ABVG6Hk9Ao",
+          Authorization: process.browser ? localStorage.getItem("token") : null,
         },
         body: JSON.stringify(values),
       });
@@ -53,9 +50,8 @@ const AddHatchery = () => {
       mutate(
         [
           "/api/hatchery",
-          // BUSINESS ACCOUNT USER TOKEN
+
           process.browser ? localStorage.getItem("token") : null,
-          // "eyJhbGciOiJIUzI1NiJ9.NWZkYjFiOWM0MjRkYjUwM2E0OTdjN2Iy.5rpAKpQJ35fR9F_bWwW4vZQc-rRPPqHO_ABVG6Hk9Ao",
         ],
         async (cachedData) => [...cachedData, data],
         false

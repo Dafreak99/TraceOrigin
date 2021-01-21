@@ -5,7 +5,6 @@ import {
   Button,
   FormLabel,
   Input,
-  Select,
   Spinner,
   Image,
   AlertIcon,
@@ -14,12 +13,13 @@ import {
 } from "@chakra-ui/core";
 import Modal from "antd/lib/modal/Modal";
 
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import fetcher from "@/utils/fetcher";
 import useSWR from "swr";
 import { useState } from "react";
 import DatePicker from "../DatePicker";
 import FormControl from "./FormControl";
+import { Select } from "antd";
 
 const FeedingDiaryModal = ({ bg, color, icon }) => {
   const [visible, setVisible] = useState(false);
@@ -30,34 +30,26 @@ const FeedingDiaryModal = ({ bg, color, icon }) => {
   const [selectedFood, setSelectedFood] = useState(null);
 
   const { data } = useSWR(
-    [
-      "/api/food",
-      "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
-    ],
+    ["/api/food", process.browser ? localStorage.getItem("token") : null],
     fetcher
   );
 
-  const { data: ponds } = useSWR(
+  const { data: products } = useSWR(
     [
-      "/api/pond",
-      "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
+      "/api/product/approved",
+      process.browser ? localStorage.getItem("token") : null,
     ],
     fetcher
   );
 
   const onSubmit = async (values) => {
     setIsSave(true);
-    // Date and time format HH:mm' 'dd/MM/yyyy
     try {
       await fetch("/api/feedingdiary", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization:
-            // REPLACE WITH USER TOKEN
-            process.browser ? localStorage.getItem("token") : null,
-
-          // "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
+          Authorization: process.browser ? localStorage.getItem("token") : null,
         },
         body: JSON.stringify(values),
       });
@@ -68,11 +60,6 @@ const FeedingDiaryModal = ({ bg, color, icon }) => {
     reset();
     setVisible(false);
     setIsSave(false);
-  };
-
-  const onChangeFoodOption = (e) => {
-    let matchedFood = data.find((food) => food._id === e.target.value);
-    setSelectedFood(matchedFood);
   };
 
   const handleCancel = () => {
@@ -105,38 +92,49 @@ const FeedingDiaryModal = ({ bg, color, icon }) => {
         title="Nhật ký cho ăn"
         footer={null}
       >
-        {data && data.length > 0 && ponds && ponds.length > 0 ? (
+        {data && data.length > 0 && products && products.length > 0 ? (
           <form onSubmit={handleSubmit(onSubmit)}>
             <FormControl>
-              <FormLabel htmlFor="ao">Ao tên: </FormLabel>
-              <Select
-                id="ao"
-                name="ao"
-                ref={register({
-                  required: "Required",
-                })}
-              >
-                {ponds &&
-                  ponds.map((pond) => (
-                    <option value={pond._id}>{pond.tenAo}</option>
-                  ))}
-              </Select>
+              <FormLabel htmlFor="sanPham">Sản phẩm: </FormLabel>
+
+              <Controller
+                name="sanPham"
+                control={control}
+                defaultValue={products[0]._id}
+                rules={{ required: true }}
+                render={({ onChange }) => (
+                  <Select
+                    onChange={onChange}
+                    style={{ width: "100%" }}
+                    defaultValue={products[0].tenSanPham}
+                  >
+                    {products.map((product) => (
+                      <Option value={product._id}>{product.tenSanPham}</Option>
+                    ))}
+                  </Select>
+                )}
+              />
             </FormControl>
             <FormControl>
               <FormLabel htmlFor="note">Thức ăn: </FormLabel>
-              <Select
-                id="thucAn"
+
+              <Controller
                 name="thucAn"
-                ref={register({
-                  required: "Required",
-                })}
-                onChange={onChangeFoodOption}
-              >
-                {data &&
-                  data.map((each) => (
-                    <option value={each._id}>{each.tenThucAn}</option>
-                  ))}
-              </Select>
+                control={control}
+                defaultValue={data[0]._id}
+                rules={{ required: true }}
+                render={({ onChange }) => (
+                  <Select
+                    onChange={onChange}
+                    style={{ width: "100%" }}
+                    defaultValue={data[0].tenThucAn}
+                  >
+                    {data.map((each) => (
+                      <Option value={each._id}>{each.tenThucAn}</Option>
+                    ))}
+                  </Select>
+                )}
+              />
             </FormControl>
             <FormControl>
               <FormLabel htmlFor="khoiLuong">Khối lượng(kg): </FormLabel>

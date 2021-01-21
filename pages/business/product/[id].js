@@ -27,10 +27,8 @@ const Index = ({}) => {
     router.query.id
       ? [
           `/api/product/${router.query.id}`,
-          // BUSINESS ACCOUNT USER TOKEN
-          process.browser ? localStorage.getItem("token") : null,
 
-          // "eyJhbGciOiJIUzI1NiJ9.NWZkYjFiOWM0MjRkYjUwM2E0OTdjN2Iy.5rpAKpQJ35fR9F_bWwW4vZQc-rRPPqHO_ABVG6Hk9Ao",
+          process.browser ? localStorage.getItem("token") : null,
         ]
       : null,
     fetcher
@@ -40,8 +38,6 @@ const Index = ({}) => {
   A dog is a type of domesticated animal.
   
 `;
-
-  console.log(data);
 
   return (
     <Layout>
@@ -64,14 +60,7 @@ const Index = ({}) => {
                   </BreadcrumbItem>
                 </Breadcrumb>
               </Flex>
-              <Button
-                backgroundColor="#098efc"
-                color="#fff"
-                type="submit"
-                // onClick={() =>
-                //   router.push(`/farm/food/${router.query.id}/modify`)
-                // }
-              >
+              <Button backgroundColor="#098efc" color="#fff" type="submit">
                 Chỉnh sửa thông tin
               </Button>
             </Flex>

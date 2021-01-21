@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import UsingMedicine from "../../../models/UsingMedicine";
 import Farm from "../../../models/Farm";
 import Medicine from "models/Medicine";
+import Product from "models/Product";
 
 // @route /api/usingmedicine
 
@@ -21,20 +22,19 @@ export default async (req, res) => {
 
   switch (method) {
     case "GET":
-      let all = await UsingMedicine.find({ farmId: farm._id }).populate([
-        "ao",
-        "nguoiTron",
-        "thucAn",
-        "thuoc",
-      ]);
+      let all = await UsingMedicine.find({
+        farmId: farm._id,
+        isDone: false,
+      }).populate(["ao", "nguoiTron", "thucAn", "thuoc"]);
       res.send(all);
       break;
     case "POST":
-      const { thuoc, khoiLuongThuoc } = req.body;
+      const { thuoc, khoiLuongThuoc, sanPham } = req.body;
 
       try {
+        let product = await Product.findById(sanPham);
         // Reduce medicine quantity after using
-        let medicine = await Medicine.findOne({ _id: req.body.thuoc });
+        let medicine = await Medicine.findOne({ _id: thuoc });
 
         await Medicine.findOneAndUpdate(
           { _id: req.body.thuoc },
@@ -43,7 +43,9 @@ export default async (req, res) => {
 
         let usingMedicine = new UsingMedicine({
           ...req.body,
+          ao: product.pond,
           farmId: farm._id,
+          isDone: false,
         });
 
         await usingMedicine.save();

@@ -34,7 +34,13 @@ export default async (req, res) => {
         await warehouse.save();
         res.send(warehouse);
       } catch (error) {
-        console.log(error.message);
+        res.send({ message: error.message });
+      }
+    case "DELETE":
+      try {
+        await Warehouse.findByIdAndRemove(req.body.deleteId);
+        res.send({ message: "OK" });
+      } catch (error) {
         res.send({ message: error.message });
       }
 

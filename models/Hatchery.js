@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const HatcherySchema = new mongoose.Schema({
   tenTraiGiong: String,
   diaChiTraiGiong: String,
-  businessId: String,
+  farmId: String,
 });
 
 module.exports =

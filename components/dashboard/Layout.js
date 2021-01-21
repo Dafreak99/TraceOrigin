@@ -11,7 +11,7 @@ import {
 import Link from "next/link";
 import Header from "./Header";
 import Icon from "@ant-design/icons";
-import { FiUsers } from "react-icons/fi";
+import { FiAperture, FiPackage, FiUsers } from "react-icons/fi";
 import {
   FaBorderAll,
   FaChartBar,
@@ -147,9 +147,19 @@ const FarmSidebar = () => {
         </Menu.Item>
       </SubMenu>
 
+      <Menu.Item key="product" icon={<Icon component={FiAperture} />}>
+        <Link href="/farm/product">
+          <a>Sản phẩm</a>
+        </Link>
+      </Menu.Item>
       <Menu.Item key="worker" icon={<Icon component={FiUsers} />}>
         <Link href="/farm/worker">
           <a>Danh sách nhân công</a>
+        </Link>
+      </Menu.Item>
+      <Menu.Item key="hatchery" icon={<Icon component={FiUsers} />}>
+        <Link href="/farm/hatchery">
+          <a>Danh sách trại giống</a>
         </Link>
       </Menu.Item>
     </Menu>
@@ -195,6 +205,38 @@ const BusinessSidebar = () => {
       <Menu.Item key="warehouse" icon={<Icon component={FaWarehouse} />}>
         <Link href="/business/warehouse">
           <a>Kho hàng</a>
+        </Link>
+      </Menu.Item>
+      <Menu.Item key="packing" icon={<Icon component={FiPackage} />}>
+        <Link href="/business/packing">
+          <a>Quy cách đóng gói</a>
+        </Link>
+      </Menu.Item>
+      <Menu.Item key="consignment" icon={<Icon component={FiPackage} />}>
+        <Link href="/business/consignment">
+          <a>Quản lý lô hàng</a>
+        </Link>
+      </Menu.Item>
+    </Menu>
+  );
+};
+
+const QualityControlSidebar = () => {
+  const { route } = useRouter();
+
+  let params = route.split("/");
+  let key;
+  if (params.length === 2) {
+    key = "default";
+  } else if (params.length === 3) {
+    key = params[2];
+  }
+
+  return (
+    <Menu theme="dark" defaultSelectedKeys={[key]} mode="inline">
+      <Menu.Item key="default" icon={<InfoCircleOutlined />}>
+        <Link href="/quanlitycontrol">
+          <a>Sản phẩm chờ duyệt</a>
         </Link>
       </Menu.Item>
     </Menu>
@@ -249,8 +291,12 @@ const Sidebar = () => {
           Trace Origin.
         </Text>
       </Flex>
-      {/* Should use account type */}
-      {user && user.type === "farm" ? <FarmSidebar /> : <BusinessSidebar />}
+
+      {user && user.type === "farm" ? (
+        <FarmSidebar />
+      ) : (
+        <QualityControlSidebar />
+      )}
       <Flex
         justify="center"
         align="center"
@@ -262,7 +308,7 @@ const Sidebar = () => {
         cursor="pointer"
       >
         <Box as={AiOutlineLogout} color="#fff" h="32px" w="32px" />
-        <Text color="#fff" mr="1rem">
+        <Text color="#fff" ml="10px">
           Logout
         </Text>
       </Flex>

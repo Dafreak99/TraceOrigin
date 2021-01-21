@@ -29,7 +29,7 @@ export default async (req, res) => {
       const product = await Product.findOne({ _id: id })
         .populate({
           path: "pond",
-          populate: { path: "seed" },
+          populate: { path: "seed", populate: "traiGiong" },
         })
         .populate({ path: "farm" })
         .populate({ path: "feeding", populate: "thucAn" })

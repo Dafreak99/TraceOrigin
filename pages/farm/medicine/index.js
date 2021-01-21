@@ -36,10 +36,7 @@ const Index = () => {
   const cancelRef = React.useRef();
 
   const { data, error } = useSWR(
-    [
-      "/api/medicine",
-      "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
-    ],
+    ["/api/medicine", process.browser ? localStorage.getItem("token") : null],
     fetcher
   );
 
@@ -55,15 +52,14 @@ const Index = () => {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization:
-            "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
+          Authorization: process.browser ? localStorage.getItem("token") : null,
         },
       });
 
       mutate(
         [
           "/api/medicine",
-          "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
+          process.browser ? localStorage.getItem("token") : null,
         ],
         async (cachedData) => {
           let data = cachedData.filter((each) => each._id !== id);

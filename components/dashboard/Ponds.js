@@ -31,10 +31,7 @@ const Ponds = () => {
   const router = useRouter();
 
   const { data, error } = useSWR(
-    [
-      "/api/pond",
-      "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
-    ],
+    ["/api/pond", process.browser ? localStorage.getItem("token") : null],
     fetcher
   );
 
@@ -54,17 +51,12 @@ const Ponds = () => {
         Authorization:
           // REPLACE WITH USER TOKEN
           process.browser ? localStorage.getItem("token") : null,
-
-        // "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
       },
       body: JSON.stringify({ pondId: selectedPond._id }),
     });
 
     mutate(
-      [
-        "/api/pond",
-        "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
-      ],
+      ["/api/pond", process.browser ? localStorage.getItem("token") : null],
       async (cachedData) => {
         return [...cachedData.slice(0, index), ...cachedData.slice(index + 1)];
       },
@@ -245,7 +237,7 @@ const Ponds = () => {
                       <Text fontSize="md" fontWeight="medium">
                         Tên trại giống:{" "}
                         <Box as="span" fontWeight="normal">
-                          {selectedPond.seed.tenTraiGiong}
+                          {selectedPond.seed.traiGiong.tenTraiGiong}
                         </Box>
                       </Text>
                     </ListItem>
@@ -253,7 +245,7 @@ const Ponds = () => {
                       <Text fontSize="md" fontWeight="medium">
                         Địa chỉ trại giống:{" "}
                         <Box as="span" fontWeight="normal">
-                          {selectedPond.seed.diaChiTraiGiong}
+                          {selectedPond.seed.traiGiong.diaChiTraiGiong}
                         </Box>
                       </Text>
                     </ListItem>
@@ -273,10 +265,17 @@ const Ponds = () => {
               >
                 Xóa
               </Button>
-              <Button
+              {/* <Button
                 onClick={() => router.push(`/farm/harvest/${selectedPond._id}`)}
               >
                 Thu hoạch
+              </Button> */}
+              <Button
+                onClick={() =>
+                  router.push(`/farm/register/${selectedPond._id}`)
+                }
+              >
+                Đăng ký
               </Button>
             </DrawerFooter>
           </DrawerContent>

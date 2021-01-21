@@ -50,15 +50,25 @@ const AddWarehouse = () => {
         body: JSON.stringify(values),
       });
       const data = await res.json();
+
+      mutate(
+        [
+          "/api/warehouse",
+
+          process.browser ? localStorage.getItem("token") : null,
+        ],
+        async (cachedData) => {
+          return [...cachedData, data];
+        },
+        false
+      );
     } catch (error) {
       console.log(error.message);
     }
 
-    console.log(values);
+    setVisible(false);
 
-    // setVisible(false);
-
-    // reset();
+    reset();
     setIsSave(false);
   };
   return (

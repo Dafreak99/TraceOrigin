@@ -12,18 +12,26 @@ const ProductSchema = new mongoose.Schema({
   hinhAnh: [String],
   trongLuong: String,
   ngayThuHoach: String,
+  duyetDangKy: Boolean,
   pond: {
     type: mongoose.Schema.Types.ObjectId,
     ref: Pond,
+    default: null,
   },
   farm: {
     type: mongoose.Schema.Types.ObjectId,
     ref: Farm,
+    default: null,
   },
-  feeding: [{ type: mongoose.Schema.Types.ObjectId, ref: FeedingDiary }],
-  usingMedicine: [{ type: mongoose.Schema.Types.ObjectId, ref: UsingMedicine }],
-  seed: { type: mongoose.Schema.Types.ObjectId, ref: Seed },
-  processingFacility: String,
+  feeding: [
+    { type: mongoose.Schema.Types.ObjectId, ref: FeedingDiary, default: null },
+  ],
+  usingMedicine: [
+    { type: mongoose.Schema.Types.ObjectId, ref: UsingMedicine, default: null },
+  ],
+  seed: { type: mongoose.Schema.Types.ObjectId, ref: Seed, default: null },
+  processingFacility: { type: String, default: null },
+  qrCode: { type: String, default: null },
 });
 
 module.exports =

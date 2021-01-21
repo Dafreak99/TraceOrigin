@@ -6,7 +6,8 @@ export const Th = (props) => (
     textTransform="uppercase"
     fontSize="xs"
     color="gray.500"
-    fontWeight="medium"
+    // color="#2573e6"
+    fontWeight="bold"
     px={4}
     {...props}
   />

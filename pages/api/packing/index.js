@@ -2,13 +2,11 @@ import dbConnect from "../../../lib/dbConnect";
 
 import jwt from "jsonwebtoken";
 import Business from "models/Business";
-import Hatchery from "models/Hatchery";
-import Farm from "models/Farm";
+import Packing from "models/Packing";
 
 dbConnect();
 
-// @route /api/hatchery
-// @desc Get detail information about your hatcheries
+// @route /api/packing
 
 export default async (req, res) => {
   const token = req.headers.authorization;
@@ -18,15 +16,22 @@ export default async (req, res) => {
 
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-  let farm = await Farm.findOne({ themVaoBoi: decoded });
-  let business = await Business.findOne({ farm: farm._id });
+  let business = await Business.findOne({ themVaoBoi: decoded });
 
   switch (method) {
     case "GET":
-      let hatcheries = await Hatchery.find({ businessId: business._id });
-      res.send(hatcheries);
+      let packing = await Packing.find({ businessId: business._id });
+      res.send(packing);
       break;
-
+    case "POST":
+      try {
+        let packing = new Packing({ ...req.body, businessId: business._id });
+        await packing.save();
+        res.send(packing);
+      } catch (error) {
+        res.send({ message: error.message });
+      }
+      break;
     default:
       break;
   }

@@ -52,7 +52,7 @@ const EditWorkerModal = ({ visible, setVisible, data }) => {
         Authorization:
           // REPLACE TOKEN
           process.browser ? localStorage.getItem("token") : null,
-        // "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
+        // process.browser ? localStorage.getItem("token") : null,
       },
       body: JSON.stringify(values),
     });
@@ -60,7 +60,8 @@ const EditWorkerModal = ({ visible, setVisible, data }) => {
     mutate(
       [
         "/api/worker",
-        "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
+        process.browser ? localStorage.getItem("token") : null,
+        ,
       ],
       async (cachedData) => {
         let index = cachedData.findIndex((each) => each._id === _id);
@@ -100,7 +101,7 @@ const EditWorkerModal = ({ visible, setVisible, data }) => {
 
       <Modal
         visible={visible}
-        title="Thêm nhân công"
+        title="Chỉnh sửa nhân công"
         onCancel={handleCancel}
         footer={null}
       >

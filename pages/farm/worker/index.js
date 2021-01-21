@@ -31,10 +31,7 @@ const Worker = () => {
   const [editIndex, setEditIndex] = useState(0);
 
   const { data, error } = useSWR(
-    [
-      "/api/worker",
-      "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
-    ],
+    ["/api/worker", process.browser ? localStorage.getItem("token") : null],
     fetcher
   );
 
@@ -48,8 +45,7 @@ const Worker = () => {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization:
-            "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
+          Authorization: process.browser ? localStorage.getItem("token") : null,
         },
       });
     } catch (error) {
@@ -62,7 +58,7 @@ const Worker = () => {
         // REPLACE TOKEN
         process.browser ? localStorage.getItem("token") : null,
 
-        // "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
+        // process.browser ? localStorage.getItem("token") : null,
       ],
       async (cachedData) => {
         let data = cachedData.filter((each) => each._id !== deleteId);
@@ -141,21 +137,20 @@ const Worker = () => {
                       borderLeft="1px solid #e8eef3"
                       onClick={(e) => {
                         e.stopPropagation();
-                        setDeleteId(_id);
-                        showModal();
-                      }}
-                    >
-                      <Box as={FaTrash} />
-                    </Td>
-                    <Td
-                      // px={8}
-                      onClick={(e) => {
-                        e.stopPropagation();
                         setIsEdit(!isEdit);
                         setEditIndex(i);
                       }}
                     >
                       <Box as={FaEdit} />
+                    </Td>
+                    <Td
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setDeleteId(_id);
+                        showModal();
+                      }}
+                    >
+                      <Box as={FaTrash} />
                     </Td>
                   </Tr>
                 )

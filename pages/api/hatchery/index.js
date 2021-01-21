@@ -3,6 +3,7 @@ import dbConnect from "../../../lib/dbConnect";
 import jwt from "jsonwebtoken";
 import Business from "models/Business";
 import Hatchery from "models/Hatchery";
+import Farm from "models/Farm";
 
 dbConnect();
 
@@ -17,16 +18,16 @@ export default async (req, res) => {
 
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-  let business = await Business.findOne({ themVaoBoi: decoded });
+  let farm = await Farm.findOne({ themVaoBoi: decoded });
 
   switch (method) {
     case "GET":
-      let hatcheries = await Hatchery.find({ businessId: business._id });
+      let hatcheries = await Hatchery.find({ farmId: farm._id });
       res.send(hatcheries);
       break;
     case "POST":
       try {
-        let hatchery = new Hatchery({ ...req.body, businessId: business._id });
+        let hatchery = new Hatchery({ ...req.body, farmId: farm._id });
         await hatchery.save();
         res.send(hatchery);
       } catch (error) {

@@ -11,12 +11,9 @@ import {
   Text,
 } from "@chakra-ui/core";
 
-import { Button as ButtonD } from "antd";
-
 import { Comment } from "antd";
 import Avatar from "antd/lib/avatar/avatar";
-import Form from "antd/lib/form/Form";
-import TextArea from "antd/lib/input/TextArea";
+
 import { format } from "date-fns";
 import { useState } from "react";
 import GreenDot from "./GreenDot";
@@ -25,7 +22,7 @@ const ProductInfo = ({ data }) => {
   const [index, setIndex] = useState(0);
 
   return (
-    <Box mt="6rem" w={{ base: "100%", xl: "56.25rem" }}>
+    <Box mt="6rem" gridColumn="span 6">
       <Flex w="max-content" borderRadius="3px">
         <Box
           className={index === 0 ? "product-tab active" : "product-tab"}
@@ -57,16 +54,14 @@ const Tab1 = ({
   donvi,
   trongLuong,
   ngayThuHoach,
-  pond: { seed },
-}) => {
-  const {
+  seed: {
     soLuongConGiong,
     ngayThaGiong,
-    tenTraiGiong,
     diaChiTraiGiong,
     ngayTuoiGiong,
-  } = seed;
-
+    traiGiong,
+  },
+}) => {
   return (
     <Grid gridTemplateColumns="repeat(12, 1fr)">
       <List spacing={3} mt={4} gridColumn={{ base: "span 12", md: "span 6" }}>
@@ -127,7 +122,7 @@ const Tab1 = ({
           <Text fontWeight="bold">
             Tên trại giống:{" "}
             <Text as="span" fontWeight="normal">
-              {tenTraiGiong}
+              {traiGiong.tenTraiGiong}
             </Text>
           </Text>
         </ListItem>
@@ -135,7 +130,7 @@ const Tab1 = ({
           <Text fontWeight="bold">
             Địa chỉ trại giống:{" "}
             <Text as="span" fontWeight="normal">
-              {diaChiTraiGiong}
+              {traiGiong.diaChiTraiGiong}
             </Text>
           </Text>
         </ListItem>

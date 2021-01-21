@@ -18,7 +18,7 @@ export default async (req, res) => {
 
   try {
     const { pondId } = req.body;
-    let seed = new Seed(req.body);
+    let seed = new Seed({ ...req.body, isDone: false });
     await seed.save();
 
     await Pond.findOneAndUpdate({ _id: pondId }, { seed: seed._id });

@@ -21,10 +21,7 @@ const Info = () => {
   const [isEdit, setIsEdit] = useState(false);
 
   const { data, error } = useSWR(
-    [
-      "/api/farm",
-      "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
-    ],
+    ["/api/farm", process.browser ? localStorage.getItem("token") : null, ,],
     fetcher
   );
 

@@ -40,7 +40,7 @@ const Modify = () => {
     router.query.id
       ? [
           `/api/food/${router.query.id}`,
-          "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
+          process.browser ? localStorage.getItem("token") : null,
         ]
       : null,
     fetcher
@@ -99,8 +99,7 @@ const Modify = () => {
         body: values,
         headers: {
           "Content-Type": "application/json",
-          Authorization:
-            "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
+          Authorization: process.browser ? localStorage.getItem("token") : null,
         },
         body: JSON.stringify(values),
       });

@@ -13,6 +13,7 @@ const UsingMedicineSchema = new mongoose.Schema({
   tyLePhoiTron: String,
   khoiLuongThuoc: Number,
   farmId: String,
+  isDone: Boolean,
 });
 
 module.exports =

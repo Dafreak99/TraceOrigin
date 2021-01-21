@@ -1,20 +1,28 @@
-import { Image, Text, Flex, Link as ChakraLink } from "@chakra-ui/core";
+import { Image, Text, Flex, Link as ChakraLink, Box } from "@chakra-ui/core";
 import Link from "next/link";
+import { AiOutlineQrcode } from "react-icons/ai";
 
 const Product = () => {
   return (
     <Flex
       justify="center"
-      align="center"
       direction="column"
-      gridColumn={{ base: "span 6", xl: "span 4" }}
+      gridColumn={{ base: "span 6", xl: "span 3" }}
     >
       <Link href="/product">
-        <a style={{ textAlign: "center" }}>
-          <Image src="/tomcangxanh.jpg" />
-          <Text mt={8} color="gray.600">
-            Tôm càng xanh
-          </Text>
+        <a>
+          <Image src="/tomcangxanh.jpg" w="100%" />
+          <Flex align="center" mt={8}>
+            <Box
+              as={AiOutlineQrcode}
+              height="40px"
+              width="40px"
+              marginRight="30px"
+            />
+            <Text color="gray.600" fontSize="md">
+              Tôm càng xanh
+            </Text>
+          </Flex>
         </a>
       </Link>
     </Flex>

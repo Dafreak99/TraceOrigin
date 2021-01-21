@@ -20,17 +20,14 @@ import { format } from "date-fns";
 
 import FormControl from "./FormControl";
 import { useState } from "react";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import fetcher from "@/utils/fetcher";
+import { useRouter } from "next/router";
 
 export const AddSeedModal = ({ pondId, onCloseDrawer }) => {
+  const router = useRouter();
   const { data, error } = useSWR(
-    [
-      "/api/hatchery/fromfarm",
-      // BUSINESS ACCOUNT USER TOKEN
-      process.browser ? localStorage.getItem("token") : null,
-      // "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
-    ],
+    ["/api/hatchery", process.browser ? localStorage.getItem("token") : null],
     fetcher
   );
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -47,13 +44,10 @@ export const AddSeedModal = ({ pondId, onCloseDrawer }) => {
         body: values,
         headers: {
           "Content-Type": "application/json",
-          Authorization:
-            "eyJhbGciOiJIUzI1NiJ9.NWY3N2U5NWY1MTc4ZjYwN2E4N2Q4OTJm.sbylEYcbOYbyduD_9ATpULGTIt5oIfA-k6crYU3YlgY",
+          Authorization: process.browser ? localStorage.getItem("token") : null,
         },
         body: JSON.stringify({ ...values, pondId }),
       });
-
-      let data = await res.json();
     } catch (error) {
       console.log(error.message);
     }
@@ -61,6 +55,8 @@ export const AddSeedModal = ({ pondId, onCloseDrawer }) => {
 
     onClose();
     onCloseDrawer();
+
+    router.reload();
   };
 
   return (
@@ -128,7 +124,7 @@ export const AddSeedModal = ({ pondId, onCloseDrawer }) => {
               ) : (
                 <Alert status="warning">
                   <AlertIcon />
-                  Vui lòng thêm thông tin trại giống từ doanh nghiệp
+                  Vui lòng thêm thông tin trại giống
                 </Alert>
               )}
             </FormControl>

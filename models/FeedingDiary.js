@@ -7,9 +7,10 @@ const FeedingDiarySchema = new mongoose.Schema({
   ghiChu: String,
   ngayThangNam: String,
   khoiLuong: Number,
-  thucAn: { type: mongoose.Schema.Types.ObjectId, ref: Food },
   ao: { type: mongoose.Schema.Types.ObjectId, ref: Pond },
+  thucAn: { type: mongoose.Schema.Types.ObjectId, ref: Food },
   coSoNuoi: { type: mongoose.Schema.Types.ObjectId, ref: Farm },
+  isDone: Boolean,
 });
 
 module.exports =
