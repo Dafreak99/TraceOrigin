@@ -13,6 +13,7 @@ const ProductSchema = new mongoose.Schema({
   trongLuong: String,
   ngayThuHoach: String,
   duyetDangKy: Boolean,
+  duyetThuHoach: String,
   pond: {
     type: mongoose.Schema.Types.ObjectId,
     ref: Pond,

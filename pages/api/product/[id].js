@@ -33,8 +33,8 @@ export default async (req, res) => {
         })
         .populate({ path: "farm" })
         .populate({ path: "feeding", populate: "thucAn" })
-        .populate({ path: "usingMedicine", populate: { path: "thuoc" } });
-
+        .populate({ path: "usingMedicine", populate: { path: "thuoc" } })
+        .populate({ path: "seed", populate: "traiGiong" });
       res.send(product);
 
       break;

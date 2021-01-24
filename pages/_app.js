@@ -4,6 +4,7 @@ import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "antd/dist/antd.min.css";
+
 import theme from "../styles/theme";
 
 import "../styles/globals.css";

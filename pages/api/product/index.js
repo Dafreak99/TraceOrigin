@@ -26,48 +26,38 @@ export default async (req, res) => {
 
   switch (method) {
     case "GET":
-      let products = await Product.find({ farm: farm.id }).populate({
-        path: "pond",
-        populate: { path: "seed" },
-      });
+      let products = await Product.find({
+        farm: farm.id,
+        duyetThuHoach: null,
+      })
+        .populate({ path: "pond", populate: { path: "seed" } })
+        .populate({ path: "seed", populate: { path: "traiGiong" } })
+        .populate({ path: "farm" })
+        .populate({ path: "feeding" })
+        .populate({ path: "usingMedicine", populate: { path: "thuoc" } });
       res.send(products);
 
       break;
     case "POST":
       try {
+        await Seed.findOneAndUpdate(
+          { pondId: req.body.pond },
+          { isRegistered: true }
+        );
+
+        let seed = await Seed.findOne({ pondId: req.body.pond });
+
         const product = new Product({
           ...req.body,
           farm: farm.id,
           duyetDangKy: false,
+          duyetThuHoach: null,
+          seed,
         });
 
         await product.save();
 
         res.send(product);
-
-        // const feeding = await FeedingDiary.find({ ao: req.body.pond });
-        // const usingMedicine = await UsingMedicine.find({
-        //   ao: req.body.pond,
-        // });
-
-        // const seed = await Seed.findOne({ pondId: req.body.pond });
-
-        // const product = new Product({
-        //   ...req.body,
-        //   farm: farm._id,
-        //   feeding,
-        //   usingMedicine,
-        //   seed,
-        //   processingFacility: null,
-        // });
-
-        // // Unlink to refresh data
-        // await FeedingDiary.updateMany({ ao: req.body.pond }, { isDone: true });
-        // await UsingMedicine.updateMany({ ao: req.body.pond }, { isDone: true });
-        // await Pond.findOneAndUpdate({ _id: req.body.pond }, { seed: null });
-
-        // await product.save();
-        // res.send({ message: "OK" });
       } catch (error) {
         console.log(error.message);
         res.send({ message: error.message });

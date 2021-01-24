@@ -39,7 +39,7 @@ export const AddSeedModal = ({ pondId, onCloseDrawer }) => {
 
     setIsSave(true);
     try {
-      let res = await fetch("/api/pond/utilize", {
+      await fetch("/api/pond/utilize", {
         method: "POST",
         body: values,
         headers: {

@@ -226,3 +226,45 @@ aside.ant-layout-sider.ant-layout-sider-dark.ant-layout-sider-collapsed.ant-layo
   width: 50%;
   border-bottom: 3px solid #007bff;
 }
+
+.ant-layout-sider-trigger {
+  color: #000;
+  background: #fff;
+}
+
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  border-bottom-right-radius: 200px;
+  border-top-right-radius: 200px;
+}
+
+.ant-menu-inline .ant-menu-item:after,
+.ant-menu-vertical-left .ant-menu-item:after,
+.ant-menu-vertical-right .ant-menu-item:after,
+.ant-menu-vertical .ant-menu-item:after {
+  border-right: none;
+}
+
+.ant-menu-submenu-title span,
+.ant-menu-item span,
+.ant-menu-item a {
+  color: #aaacaf;
+  font-family: "Nunito";
+  font-size: 15px;
+}
+
+.ant-menu-item-selected,
+.ant-menu-item-selected a,
+.ant-menu-item-selected a:hover {
+  color: #1890ff;
+}
+
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected .anticon {
+  color: #1890ff;
+}
+
+.ant-layout-sider-collapsed .logout__wrapper {
+  padding: 10px;
+}
+.ant-layout-sider-collapsed .logout__text {
+  display: none;
+}

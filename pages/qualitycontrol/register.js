@@ -105,7 +105,7 @@ const DashBoard = () => {
                     backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
                     cursor="pointer"
                     onClick={() =>
-                      router.push(`./qualitycontrol/product/${_id}`)
+                      router.push(`./qualitycontrol/product-register/${_id}`)
                     }
                   >
                     <Td>{tenSanPham}</Td>
@@ -155,7 +155,7 @@ const DashBoard = () => {
         ) : (
           <Alert status="info" fontSize="md" w="30rem">
             <AlertIcon />
-            Chưa nhập thức ăn
+            Tất cả đã được phê duyệt
           </Alert>
         )}
       </Box>

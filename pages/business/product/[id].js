@@ -18,7 +18,7 @@ import fetcher from "@/utils/fetcher";
 import useSWR from "swr";
 import BackButton from "@/components/dashboard/BackButton";
 import { format } from "date-fns";
-import { Collapse, Tree } from "antd";
+import { Collapse } from "antd";
 import { Table, Td, Th, Tr } from "@/components/Table";
 const { Panel } = Collapse;
 const Index = ({}) => {

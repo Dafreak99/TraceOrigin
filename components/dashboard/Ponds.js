@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Box,
   Button,
@@ -265,18 +265,15 @@ const Ponds = () => {
               >
                 Xóa
               </Button>
-              {/* <Button
-                onClick={() => router.push(`/farm/harvest/${selectedPond._id}`)}
-              >
-                Thu hoạch
-              </Button> */}
-              <Button
-                onClick={() =>
-                  router.push(`/farm/register/${selectedPond._id}`)
-                }
-              >
-                Đăng ký
-              </Button>
+              {!selectedPond?.seed?.isRegistered && (
+                <Button
+                  onClick={() =>
+                    router.push(`/farm/register/${selectedPond._id}`)
+                  }
+                >
+                  Đăng ký
+                </Button>
+              )}
             </DrawerFooter>
           </DrawerContent>
         </Drawer>

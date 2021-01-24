@@ -73,7 +73,7 @@ const Index = ({}) => {
               <Image src={data.hinhAnh[0]} h="20rem" mr="8rem" />
               <List spacing={4}>
                 <ListItem>
-                  <Text fontSize="md" fontWeight="medium">
+                  <Text fontSize="md" fontWeight="bold">
                     Tên thức ăn:{" "}
                     <Box as="span" fontWeight="normal">
                       {data.tenThucAn}
@@ -81,7 +81,7 @@ const Index = ({}) => {
                   </Text>
                 </ListItem>
                 <ListItem>
-                  <Text fontSize="md" fontWeight="medium">
+                  <Text fontSize="md" fontWeight="bold">
                     Đơn vị cung cấp thức ăn:{" "}
                     <Box as="span" fontWeight="normal">
                       {data.donViCungCapThucAn}
@@ -89,7 +89,7 @@ const Index = ({}) => {
                   </Text>
                 </ListItem>
                 <ListItem>
-                  <Text fontSize="md" fontWeight="medium">
+                  <Text fontSize="md" fontWeight="bold">
                     Ngày sản xuất:{" "}
                     <Box as="span" fontWeight="normal">
                       {data.ngaySanXuat}
@@ -97,7 +97,7 @@ const Index = ({}) => {
                   </Text>
                 </ListItem>
                 <ListItem>
-                  <Text fontSize="md" fontWeight="medium">
+                  <Text fontSize="md" fontWeight="bold">
                     Ngày nhập:{" "}
                     <Box as="span" fontWeight="normal">
                       {data.ngayNhap}
@@ -105,7 +105,7 @@ const Index = ({}) => {
                   </Text>
                 </ListItem>
                 <ListItem>
-                  <Text fontSize="md" fontWeight="medium">
+                  <Text fontSize="md" fontWeight="bold">
                     Ngày hết hạn:{" "}
                     <Box as="span" fontWeight="normal">
                       {data.hanSuDung}
@@ -113,7 +113,7 @@ const Index = ({}) => {
                   </Text>
                 </ListItem>
                 <ListItem>
-                  <Text fontSize="md" fontWeight="medium">
+                  <Text fontSize="md" fontWeight="bold">
                     Số lượng:{" "}
                     <Box as="span" fontWeight="normal">
                       {data.soLuong} kg

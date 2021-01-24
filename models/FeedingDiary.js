@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Farm = require("./Farm");
 const Food = require("./Food");
 const Pond = require("./Pond");
+const Product = require("./Product");
 
 const FeedingDiarySchema = new mongoose.Schema({
   ghiChu: String,

@@ -2,6 +2,9 @@ import fetcher from "@/utils/fetcher";
 import { useEffect, useState } from "react";
 import {
   Box,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
   Button,
   Flex,
   FormLabel,
@@ -22,7 +25,7 @@ import DatePicker from "@/components/DatePicker";
 import useSWR from "swr";
 import FormControl from "@/components/dashboard/FormControl";
 import BackButton from "@/components/dashboard/BackButton";
-import { Select } from "antd";
+import { message, Select } from "antd";
 import { format } from "date-fns";
 
 const Index = () => {
@@ -32,6 +35,14 @@ const Index = () => {
   const [files, setFiles] = useState([]);
   const [fileUrls, setFileUrls] = useState([]);
   const { handleSubmit, register, errors, control, reset } = useForm();
+
+  const { data } = useSWR(
+    [
+      router.query.id ? `/api/product/harvest/${router.query.id}` : null,
+      process.browser ? localStorage.getItem("token") : null,
+    ],
+    fetcher
+  );
 
   const onSubmit = async (values) => {
     setIsSave(true);
@@ -63,10 +74,11 @@ const Index = () => {
 
     values.hinhAnh = urls;
     values.trongLuong = +values.trongLuong;
-    values.pond = data._id;
+    values.productId = data.product._id;
+    values.pond = data.pond._id;
 
     try {
-      let res = await fetch("/api/product", {
+      await fetch("/api/product/harvest", {
         method: "POST",
         body: values,
         headers: {
@@ -77,20 +89,15 @@ const Index = () => {
       });
     } catch (error) {
       console.log(error.message);
+      message.error("Lỗi !");
     }
 
     setIsSave(false);
 
-    router.push("/farm/ponds");
-  };
+    message.success("Thu hoạch thành công. Chờ phê duyệt !");
 
-  const { data } = useSWR(
-    [
-      router.query.id ? `/api/pond/${router.query.id}` : null,
-      process.browser ? localStorage.getItem("token") : null,
-    ],
-    fetcher
-  );
+    router.push("/farm/product");
+  };
 
   return (
     <Layout>
@@ -100,7 +107,14 @@ const Index = () => {
             <Flex alignItems="center" justify="space-between">
               <Flex alignItems="center">
                 <BackButton />
-                <Heading>Thu hoạch sản phẩm</Heading>
+                <Breadcrumb fontSize="xl" color="#485B6D">
+                  <BreadcrumbItem>
+                    <BreadcrumbLink>Thu hoạch sản phẩm</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbItem isCurrentPage>
+                    <BreadcrumbLink>{data.product.tenSanPham}</BreadcrumbLink>
+                  </BreadcrumbItem>
+                </Breadcrumb>
               </Flex>
               {isSave ? (
                 <Button backgroundColor="gray.400" color="#fff">
@@ -122,17 +136,6 @@ const Index = () => {
               padding="2rem 3rem"
               mt="2rem"
             >
-              <FormControl>
-                <FormLabel htmlFor="tenSanPham">Tên sản phẩm: </FormLabel>
-                <Input
-                  type="text"
-                  id="tenSanPham"
-                  name="tenSanPham"
-                  ref={register({
-                    required: "Required",
-                  })}
-                />
-              </FormControl>
               <FormControl>
                 <FormLabel htmlFor="ngayThuHoach">Ngày thu hoạch: </FormLabel>
                 <br />
@@ -196,42 +199,42 @@ const Index = () => {
                   Thông tin con giống
                 </Heading>
                 <ListItem>
-                  <Text fontSize="md" fontWeight="medium">
+                  <Text fontSize="md" fontWeight="bold">
                     Ngày thả giống:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.seed.ngayThaGiong}
+                      {data.pond.seed.ngayThaGiong}
                     </Box>
                   </Text>
                 </ListItem>
                 <ListItem>
-                  <Text fontSize="md" fontWeight="medium">
+                  <Text fontSize="md" fontWeight="bold">
                     Số lượng:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.seed.soLuongConGiong}
+                      {data.pond.seed.soLuongConGiong}
                     </Box>
                   </Text>
                 </ListItem>
                 <ListItem>
-                  <Text fontSize="md" fontWeight="medium">
+                  <Text fontSize="md" fontWeight="bold">
                     Ngày tuổi của giống:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.seed.ngayTuoiGiong}
+                      {data.pond.seed.ngayTuoiGiong}
                     </Box>
                   </Text>
                 </ListItem>
                 <ListItem>
-                  <Text fontSize="md" fontWeight="medium">
+                  <Text fontSize="md" fontWeight="bold">
                     Tên trại giống:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.seed.traiGiong.tenTraiGiong}
+                      {data.pond.seed.traiGiong.tenTraiGiong}
                     </Box>
                   </Text>
                 </ListItem>
                 <ListItem>
-                  <Text fontSize="md" fontWeight="medium">
+                  <Text fontSize="md" fontWeight="bold">
                     Địa chỉ trại giống:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.seed.traiGiong.diaChiTraiGiong}
+                      {data.pond.seed.traiGiong.diaChiTraiGiong}
                     </Box>
                   </Text>
                 </ListItem>
@@ -241,26 +244,26 @@ const Index = () => {
                   Thông tin về ao nuôi
                 </Heading>
                 <ListItem>
-                  <Text fontSize="md" fontWeight="medium">
+                  <Text fontSize="md" fontWeight="bold">
                     Tên ao:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.tenAo}
+                      {data.pond.tenAo}
                     </Box>
                   </Text>
                 </ListItem>
                 <ListItem>
-                  <Text fontSize="md" fontWeight="medium">
+                  <Text fontSize="md" fontWeight="bold">
                     Mã ao:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.maAo}
+                      {data.pond.maAo}
                     </Box>
                   </Text>
                 </ListItem>
                 <ListItem>
-                  <Text fontSize="md" fontWeight="medium">
+                  <Text fontSize="md" fontWeight="bold">
                     Diện tích ao (hecta):{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.dienTich}
+                      {data.pond.dienTich}
                     </Box>
                   </Text>
                 </ListItem>

@@ -1,18 +1,12 @@
-import dbConnect from "../../../lib/dbConnect";
+import dbConnect from "../../../../lib/dbConnect";
 dbConnect();
-
-import Food from "../../../models/Food";
 
 import jwt from "jsonwebtoken";
 import Product from "models/Product";
 import Farm from "models/Farm";
-import FeedingDiary from "models/FeedingDiary";
-import UsingMedicine from "models/UsingMedicine";
-import Seed from "models/Seed";
-import Pond from "models/Pond";
 
-// @route /api/product/approved
-// Get approved product
+// @route /api/product/harvest/pending
+//  Get pending product waiting for harvest acceptance
 
 export default async (req, res) => {
   const { method } = req;
@@ -28,28 +22,14 @@ export default async (req, res) => {
   switch (method) {
     case "GET":
       let products = await Product.find({
-        farm: farm._id,
-        duyetDangKy: true,
-        duyetThuHoach: null,
+        duyetThuHoach: "pending",
       }).populate({
         path: "pond",
         populate: { path: "seed" },
       });
-
       res.send(products);
-
       break;
-    case "POST":
-      let { id } = req.body;
 
-      await Product.findOneAndUpdate(
-        { _id: id },
-        { duyetDangKy: true, qrCode: id }
-      );
-
-      res.send({ message: "OK" });
-
-      break;
     default:
       break;
   }

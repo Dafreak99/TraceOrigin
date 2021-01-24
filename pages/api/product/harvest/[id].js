@@ -1,7 +1,7 @@
-import dbConnect from "../../../lib/dbConnect";
+import dbConnect from "../../../../lib/dbConnect";
 dbConnect();
 
-import Food from "../../../models/Food";
+import Food from "models/Food";
 
 import jwt from "jsonwebtoken";
 import Product from "models/Product";
@@ -11,13 +11,17 @@ import UsingMedicine from "models/UsingMedicine";
 import Seed from "models/Seed";
 import Pond from "models/Pond";
 
-// @route /api/product/approved
-// Get approved product
+// @route /api/product/harvest/[id]
+// Harvest product/ Add diaries
 
 export default async (req, res) => {
   const { method } = req;
 
   const token = req.headers.authorization;
+
+  const {
+    query: { id },
+  } = req;
 
   if (!token)
     return res.status(400).send({ message: "Bạn không có quyền truy cập" });
@@ -27,28 +31,17 @@ export default async (req, res) => {
 
   switch (method) {
     case "GET":
-      let products = await Product.find({
-        farm: farm._id,
-        duyetDangKy: true,
-        duyetThuHoach: null,
-      }).populate({
-        path: "pond",
-        populate: { path: "seed" },
+      let product = await Product.findById(id);
+
+      let pond = await Pond.findOne({ _id: product.pond }).populate({
+        path: "seed",
+        populate: { path: "traiGiong" },
       });
+      res.send({ pond, product });
 
-      res.send(products);
-
-      break;
     case "POST":
-      let { id } = req.body;
-
-      await Product.findOneAndUpdate(
-        { _id: id },
-        { duyetDangKy: true, qrCode: id }
-      );
-
+      await Product.findOneAndUpdate({ _id: id }, { duyetThuHoach: "true" });
       res.send({ message: "OK" });
-
       break;
     default:
       break;

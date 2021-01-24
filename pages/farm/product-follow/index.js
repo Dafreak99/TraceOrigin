@@ -31,15 +31,13 @@ const Product = () => {
   const [isOpen, setIsOpen] = useState();
   const [id, setId] = useState();
   const [loading, setLoading] = useState(true);
+  const [qrUrl, setQrUrl] = useState(null);
 
   const onClose = () => setIsOpen(false);
   const cancelRef = React.useRef();
 
   const { data, error } = useSWR(
-    [
-      "/api/product/harvest",
-      process.browser ? localStorage.getItem("token") : null,
-    ],
+    ["/api/product", process.browser ? localStorage.getItem("token") : null],
     fetcher
   );
 
@@ -79,7 +77,7 @@ const Product = () => {
       <Layout>
         <Box px={16} py={12} position="relative">
           <Heading mt={10} mb={5}>
-            Danh sách sản phẩm đã thu hoạch
+            Danh sách sản phẩm đang theo dõi
           </Heading>
           <FoodTableSkeleton />
         </Box>
@@ -87,24 +85,21 @@ const Product = () => {
     );
   }
 
-  console.log(data);
-
   return (
     <Layout>
       <Box px={16} py={12} position="relative">
         <Heading mt={10} mb={5}>
-          Danh sách sản phẩm đã thu hoạch
+          Danh sách sản phẩm đang theo dõi
         </Heading>
         {data && data.length > 0 ? (
           <>
             <Table>
               <Tr>
                 <Th>Tên sản phẩm</Th>
-                <Th>Hình ảnh</Th>
-                <Th>Ngày thu hoạch</Th>
-
+                <Th>Nuôi tại ao</Th>
+                <Th>Ngày thả giống</Th>
+                <Th>Được phê duyệt</Th>
                 <Th>Mã QR</Th>
-                <Th>QR</Th>
                 <Th>{""}</Th>
                 <Th>{""}</Th>
               </Tr>
@@ -112,12 +107,12 @@ const Product = () => {
                 (
                   {
                     tenSanPham,
-                    pond: { tenAo },
-                    seed: { ngayThaGiong },
+                    pond: {
+                      tenAo,
+                      seed: { ngayThaGiong },
+                    },
                     duyetDangKy,
-                    ngayThuHoach,
                     qrCode,
-                    hinhAnh,
                     _id,
                   },
                   i
@@ -128,15 +123,37 @@ const Product = () => {
                     onClick={() => router.push(`./food/${_id}`)}
                   >
                     <Td>{tenSanPham}</Td>
+                    <Td>{tenAo}</Td>
+                    <Td>{ngayThaGiong}</Td>
                     <Td>
-                      <Image src={hinhAnh[0]} height="100px" width="auto" />
+                      {duyetDangKy ? (
+                        <Badge
+                          ml="1"
+                          fontSize="0.8em"
+                          background="#20f3b8"
+                          color="#fff"
+                          borderRadius="3px"
+                        >
+                          Yes
+                        </Badge>
+                      ) : (
+                        <Badge
+                          ml="1"
+                          fontSize="0.8em"
+                          background="red"
+                          color="#fff"
+                          borderRadius="3px"
+                        >
+                          No
+                        </Badge>
+                      )}
                     </Td>
-                    <Td>{ngayThuHoach}</Td>
-                    <Td>{qrCode}</Td>
-                    <Td>
-                      {" "}
-                      <QRCode value={qrCode} />
-                    </Td>
+                    <Td>{qrCode ? qrCode : "Chưa cấp"}</Td>
+                    {qrCode && (
+                      <Td>
+                        <QRCode value={qrCode} />
+                      </Td>
+                    )}
 
                     <Td
                       borderLeft="1px solid #e8eef3"
@@ -147,9 +164,9 @@ const Product = () => {
                     >
                       {duyetDangKy && (
                         <Button
-                        // onClick={() => router.push(`/farm/harvest/${_id}`)}
+                          onClick={() => router.push(`/farm/harvest/${_id}`)}
                         >
-                          Thêm đóng gói
+                          Thu hoạch
                         </Button>
                       )}
                     </Td>
@@ -198,7 +215,7 @@ const Product = () => {
         ) : (
           <Alert status="info" fontSize="md" w="30rem">
             <AlertIcon />
-            Chưa nhập thức ăn
+            Hiện không có sản phẩm nào
           </Alert>
         )}
       </Box>

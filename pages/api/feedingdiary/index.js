@@ -48,9 +48,8 @@ export default async (req, res) => {
 
         await feedingDiary.save();
 
-        let food = await Food.findOne({ _id: req.body.thucAn });
-
         // Reducing food quantity after feeding
+        let food = await Food.findOne({ _id: req.body.thucAn });
 
         await Food.findOneAndUpdate(
           { _id: req.body.thucAn },

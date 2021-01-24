@@ -12,7 +12,7 @@ const Dashboard = () => {
     if (!user) {
       router.push("/");
     } else if (user.type === "qualitycontrol") {
-      router.push("/qualitycontrol");
+      router.push("/qualitycontrol/register");
     } else {
       router.push("/farm");
     }

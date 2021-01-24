@@ -160,7 +160,7 @@ const Modify = () => {
                   type="text"
                   id="tenThucAn"
                   name="tenThucAn"
-                  value={generalData.tenThucAn}
+                  defaultValue={generalData.tenThucAn}
                   ref={register({
                     required: "Required",
                   })}
@@ -174,7 +174,7 @@ const Modify = () => {
                   type="text"
                   id="donViCungCapThucAn"
                   name="donViCungCapThucAn"
-                  value={generalData.donViCungCapThucAn}
+                  defaultValue={generalData.donViCungCapThucAn}
                   ref={register({
                     required: "Required",
                   })}
@@ -186,7 +186,7 @@ const Modify = () => {
                   type="text"
                   id="soLuong"
                   name="soLuong"
-                  value={generalData.soLuong}
+                  defaultValue={generalData.soLuong}
                   ref={register({
                     required: "Required",
                   })}

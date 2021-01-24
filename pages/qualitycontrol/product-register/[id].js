@@ -30,8 +30,6 @@ const Index = () => {
 
   // Data here is {}
 
-  console.log(data);
-
   return (
     <Layout>
       <Box px={16} py={12}>

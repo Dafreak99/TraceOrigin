@@ -20,6 +20,7 @@ import Layout from "@/components/dashboard/Layout";
 import useSWR from "swr";
 import FormControl from "@/components/dashboard/FormControl";
 import BackButton from "@/components/dashboard/BackButton";
+import { message } from "antd";
 
 const Index = () => {
   const router = useRouter();
@@ -35,8 +36,6 @@ const Index = () => {
     ],
     fetcher
   );
-
-  console.log(data);
 
   const onSubmit = async (values) => {
     setIsSave(true);
@@ -55,12 +54,15 @@ const Index = () => {
       });
     } catch (error) {
       console.log(error.message);
+      message.error("Lỗi !");
     }
 
     reset();
     setIsSave(false);
 
-    router.push("/farm/product");
+    message.success("Đăng ký sản phẩm thành công. Chờ phê duyệt !");
+
+    router.push("/farm/product-follow");
   };
   return (
     <Layout>

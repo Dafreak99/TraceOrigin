@@ -6,7 +6,7 @@ import Farm from "../../../models/Farm";
 
 import jwt from "jsonwebtoken";
 
-// @route /api/pond
+// @route /api/pond/[id]
 
 export default async (req, res) => {
   const { method } = req;
