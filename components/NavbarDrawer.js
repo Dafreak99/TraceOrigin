@@ -29,7 +29,7 @@ const NavbarDrawer = ({ visible, onClose }) => {
             color="#000"
             fontWeight="bold"
             fontSize="20px"
-            color="#2196f3"
+            // color="#2196f3"
             className="logo--name"
           >
             Trace Origin.

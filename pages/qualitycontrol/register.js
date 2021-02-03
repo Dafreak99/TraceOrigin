@@ -1,6 +1,6 @@
 import Layout from "@/components/dashboard/Layout";
 
-import { Box, Alert, AlertIcon, Heading } from "@chakra-ui/core";
+import { Box, Alert, AlertIcon, Heading, Text } from "@chakra-ui/core";
 
 import { Table, Td, Th, Tr } from "@/components/Table";
 
@@ -20,30 +20,35 @@ const DashBoard = () => {
       "/api/product/unapproved",
       process.browser ? localStorage.getItem("token") : null,
     ],
-    fetcher
+    fetcher,
+    { refreshInterval: 1000 }
   );
 
-  const onDelete = async (id) => {
-    // try {
-    //   let res = await fetch(`/api/food/${id}`, {
-    //     method: "DELETE",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Authorization: process.browser ? localStorage.getItem("token") : null,
-    //     },
-    //   });
-    //   mutate(
-    //     ["/api/food", process.browser ? localStorage.getItem("token") : null],
-    //     async (cachedData) => {
-    //       let data = cachedData.filter((each) => each._id !== id);
-    //       return data;
-    //     },
-    //     false
-    //   );
-    // } catch (error) {
-    //   console.log(error.message);
-    // }
-    // setIsOpen(false);
+  const onReject = async (id) => {
+    try {
+      await fetch(`/api/product/register/reject`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: process.browser ? localStorage.getItem("token") : null,
+        },
+        body: JSON.stringify({ id }),
+      });
+
+      mutate(
+        [
+          "/api/product/unapproved",
+          process.browser ? localStorage.getItem("token") : null,
+        ],
+        async (cachedData) => {
+          let data = cachedData.filter((each) => each._id !== id);
+          return data;
+        },
+        false
+      );
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   const onApprove = async (id) => {
@@ -96,7 +101,6 @@ const DashBoard = () => {
                       tenAo,
                       seed: { ngayThaGiong },
                     },
-                    duyetDangKy,
                     _id,
                   },
                   i
@@ -142,7 +146,7 @@ const DashBoard = () => {
                         title="Bạn có chắc sẽ không duyệt sản phẩm này？"
                         okText="Có"
                         cancelText="Không"
-                        onConfirm={() => onDelete(_id)}
+                        onConfirm={() => onReject(_id)}
                       >
                         <Box as={AiFillCloseCircle} size="32px"></Box>
                       </Popconfirm>
@@ -155,7 +159,7 @@ const DashBoard = () => {
         ) : (
           <Alert status="info" fontSize="md" w="30rem">
             <AlertIcon />
-            Tất cả đã được phê duyệt
+            <Text fontSize="md">Tất cả đều đã được phê duyệt</Text>
           </Alert>
         )}
       </Box>

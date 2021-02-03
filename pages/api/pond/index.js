@@ -8,6 +8,7 @@ import jwt from "jsonwebtoken";
 import FeedingDiary from "models/FeedingDiary";
 import UsingMedicine from "models/UsingMedicine";
 import Seed from "models/Seed";
+import Product from "models/Product";
 
 // @route /api/pond
 
@@ -24,10 +25,12 @@ export default async (req, res) => {
 
   switch (method) {
     case "GET":
-      let ponds = await Pond.find({ farmId: farm._id }).populate({
-        path: "seed",
-        populate: { path: "traiGiong" },
-      });
+      let ponds = await Pond.find({ farmId: farm._id, luuTru: false }).populate(
+        {
+          path: "seed",
+          populate: { path: "traiGiong" },
+        }
+      );
 
       res.send(ponds);
 
@@ -45,16 +48,39 @@ export default async (req, res) => {
     case "DELETE":
       try {
         const { pondId } = req.body;
-        // When deleting a pond make sure to perform cascade delete in Seed, FeedingDiary and UsingMediicne
 
-        await Seed.deleteOne({ pondId });
-        await FeedingDiary.deleteMany({ ao: pondId });
-        await UsingMedicine.deleteMany({ ao: pondId });
-        await Pond.findByIdAndDelete(pondId);
+        // How to know which Product is linked to this pond ?
+        // For each pond, only one product can be register at a time
+        // Find a product which has that pondId and duyetThuHoach !== 'true'
+        console.log("Run");
+
+        let product = await Product.findOne({
+          pond: pondId,
+        }).sort({ _id: -1 });
+        // Get lastest one
+
+        // Doesn't register for Product yet
+
+        if (!product) {
+          await Seed.deleteOne({ pondId });
+          await Pond.findByIdAndDelete(pondId);
+          return res.send({ message: "Đã xóa thành công ao !" });
+        }
+
+        if (product.duyetThuHoach === "true") {
+          // Archive to keep the link from Product to Pond after harvested
+          await Pond.findByIdAndUpdate(pondId, { luuTru: true });
+          await Seed.findOneAndUpdate({ pondId }, { isDone: true });
+        } else {
+          // When deleting a pond make sure to perform cascade delete in Product, Seed, FeedingDiary and UsingMediicne
+          await Product.deleteOne(product._id);
+          await FeedingDiary.deleteMany({ ao: pondId });
+          await UsingMedicine.deleteMany({ ao: pondId });
+          await Seed.deleteOne({ pondId });
+          await Pond.findByIdAndDelete(pondId);
+        }
 
         res.send({ message: "Đã xóa thành công ao !" });
-
-        // DELETE CASCADING
       } catch (error) {
         res.send({ message: error.message });
       }

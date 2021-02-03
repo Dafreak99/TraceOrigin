@@ -19,11 +19,6 @@ export default async (req, res) => {
     query: { id },
   } = req;
 
-  const token = req.headers.authorization;
-  if (!token)
-    return res.status(400).send({ message: "Bạn không có quyền truy cập" });
-  const decoded = jwt.verify(token, process.env.SECRET_KEY);
-
   switch (method) {
     case "GET":
       const product = await Product.findOne({ _id: id })
@@ -31,10 +26,11 @@ export default async (req, res) => {
           path: "pond",
           populate: { path: "seed", populate: "traiGiong" },
         })
-        .populate({ path: "farm" })
+        .populate({ path: "farm", populate: "chungThuc" })
         .populate({ path: "feeding", populate: "thucAn" })
         .populate({ path: "usingMedicine", populate: { path: "thuoc" } })
         .populate({ path: "seed", populate: "traiGiong" });
+
       res.send(product);
 
       break;

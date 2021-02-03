@@ -25,7 +25,6 @@ import AddPondModal from "./AddPondModal";
 import fetcher from "../../utils/fetcher";
 import AddSeedModal from "./AddSeedModal";
 import DisplayMap from "../DisplayMap";
-import Modal from "antd/lib/modal/Modal";
 
 const Ponds = () => {
   const router = useRouter();
@@ -41,16 +40,12 @@ const Ponds = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef();
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
   const onDelete = async () => {
     let res = await fetch("/api/pond", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Authorization:
-          // REPLACE WITH USER TOKEN
-          process.browser ? localStorage.getItem("token") : null,
+        Authorization: process.browser ? localStorage.getItem("token") : null,
       },
       body: JSON.stringify({ pondId: selectedPond._id }),
     });
@@ -265,7 +260,8 @@ const Ponds = () => {
               >
                 Xóa
               </Button>
-              {!selectedPond?.seed?.isRegistered && (
+
+              {selectedPond.seed && (
                 <Button
                   onClick={() =>
                     router.push(`/farm/register/${selectedPond._id}`)

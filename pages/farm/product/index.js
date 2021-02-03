@@ -13,6 +13,7 @@ import {
   Alert,
   AlertIcon,
   Badge,
+  Text,
 } from "@chakra-ui/core";
 import useSWR, { mutate } from "swr";
 import { useRouter } from "next/router";
@@ -40,7 +41,8 @@ const Product = () => {
       "/api/product/harvest",
       process.browser ? localStorage.getItem("token") : null,
     ],
-    fetcher
+    fetcher,
+    { refreshInterval: 1000 }
   );
 
   useEffect(() => {
@@ -87,7 +89,48 @@ const Product = () => {
     );
   }
 
-  console.log(data);
+  const productStatus = (duyetDangKy) => {
+    if (duyetDangKy === "false") {
+      return (
+        <Badge
+          ml="1"
+          fontSize="0.8em"
+          background="#f8c3c3f0"
+          color="#794444"
+          borderRadius="10px"
+          padding="10px"
+        >
+          No
+        </Badge>
+      );
+    } else if (duyetDangKy === "true") {
+      return (
+        <Badge
+          ml="1"
+          fontSize="0.8em"
+          background="#20f3b8"
+          color="#fff"
+          borderRadius="10px"
+          padding="10px"
+        >
+          Yes
+        </Badge>
+      );
+    } else if (duyetDangKy === "pending") {
+      return (
+        <Badge
+          ml="1"
+          fontSize="0.8em"
+          background="#d1d8e8"
+          color="#646770"
+          borderRadius="10px"
+          padding="10px"
+        >
+          Pending
+        </Badge>
+      );
+    }
+  };
 
   return (
     <Layout>
@@ -102,9 +145,9 @@ const Product = () => {
                 <Th>Tên sản phẩm</Th>
                 <Th>Hình ảnh</Th>
                 <Th>Ngày thu hoạch</Th>
-
                 <Th>Mã QR</Th>
                 <Th>QR</Th>
+                <Th>Duyệt thu hoạch</Th>
                 <Th>{""}</Th>
                 <Th>{""}</Th>
               </Tr>
@@ -112,9 +155,7 @@ const Product = () => {
                 (
                   {
                     tenSanPham,
-                    pond: { tenAo },
-                    seed: { ngayThaGiong },
-                    duyetDangKy,
+                    duyetThuHoach,
                     ngayThuHoach,
                     qrCode,
                     hinhAnh,
@@ -135,8 +176,13 @@ const Product = () => {
                     <Td>{qrCode}</Td>
                     <Td>
                       {" "}
-                      <QRCode value={qrCode} />
+                      <QRCode
+                        value={
+                          "http://traceorigin.vercel.app/product/" + qrCode
+                        }
+                      />
                     </Td>
+                    <Td>{productStatus(duyetThuHoach)}</Td>
 
                     <Td
                       borderLeft="1px solid #e8eef3"
@@ -145,7 +191,7 @@ const Product = () => {
                         e.stopPropagation();
                       }}
                     >
-                      {duyetDangKy && (
+                      {duyetThuHoach === "true" && (
                         <Button
                         // onClick={() => router.push(`/farm/harvest/${_id}`)}
                         >
@@ -198,7 +244,7 @@ const Product = () => {
         ) : (
           <Alert status="info" fontSize="md" w="30rem">
             <AlertIcon />
-            Chưa nhập thức ăn
+            <Text fontSize="md">Chưa nhập thức ăn</Text>
           </Alert>
         )}
       </Box>

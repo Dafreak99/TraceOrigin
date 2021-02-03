@@ -12,10 +12,13 @@ import { RiSendPlaneFill } from "react-icons/ri";
 
 const Footer = () => {
   return (
-    <Box background="#2F4362" padding="100px 70px">
+    <Box background="#2F4362" padding="100px 0px">
       <Box className="container">
-        <Grid gridTemplateColumns="repeat(12,1fr)">
-          <Box gridColumn="span 5">
+        <Grid
+          gridTemplateColumns="repeat(12,1fr)"
+          rowGap={{ base: "3rem", xl: 0 }}
+        >
+          <Box gridColumn={{ base: "span 12", xl: "span 5" }}>
             <Image
               src="/water.svg"
               minH="3rem"
@@ -30,7 +33,7 @@ const Footer = () => {
               Email: haib1704727@student.ctu.edu.vn
             </Text>
           </Box>
-          <Box gridColumn="span 3">
+          <Box gridColumn={{ base: "span 12", xl: "span 3" }}>
             <ul style={{ listStyle: "none" }}>
               <li href="" style={{ marginBottom: "1rem" }}>
                 <a style={{ color: "#fff" }}>Giới thiệu</a>
@@ -46,7 +49,7 @@ const Footer = () => {
               </li>
             </ul>
           </Box>
-          <Box gridColumn="span 4">
+          <Box gridColumn={{ base: "span 12", xl: "span 4" }}>
             <Heading fontSize="md" fontWeight="md" color="#fff" mb="1rem">
               Nhận tin tức sản phẩm
             </Heading>

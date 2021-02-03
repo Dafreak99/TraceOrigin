@@ -12,6 +12,7 @@ import {
   Button,
   Alert,
   AlertIcon,
+  Text,
 } from "@chakra-ui/core";
 import useSWR, { mutate } from "swr";
 import { useRouter } from "next/router";
@@ -192,7 +193,7 @@ const AddFood = () => {
         ) : (
           <Alert status="info" fontSize="md" w="30rem">
             <AlertIcon />
-            Chưa nhập thức ăn
+            <Text fontSize="md">Chưa nhập thức ăn</Text>
           </Alert>
         )}
       </Box>

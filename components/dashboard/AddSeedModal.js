@@ -14,6 +14,7 @@ import {
   Spinner,
   Alert,
   AlertIcon,
+  Text,
 } from "@chakra-ui/core";
 import { Controller, useForm } from "react-hook-form";
 import { format } from "date-fns";
@@ -39,7 +40,7 @@ export const AddSeedModal = ({ pondId, onCloseDrawer }) => {
 
     setIsSave(true);
     try {
-      await fetch("/api/pond/utilize", {
+      let res = await fetch("/api/pond/utilize", {
         method: "POST",
         body: values,
         headers: {
@@ -48,6 +49,22 @@ export const AddSeedModal = ({ pondId, onCloseDrawer }) => {
         },
         body: JSON.stringify({ ...values, pondId }),
       });
+
+      const data = await res.json();
+
+      mutate(
+        ["/api/pond", process.browser ? localStorage.getItem("token") : null],
+        async (cachedData) => {
+          let index = cachedData.findIndex((each) => each._id === data._id);
+
+          return [
+            ...cachedData.slice(0, index),
+            data,
+            ...cachedData.slice(index + 1),
+          ];
+        },
+        false
+      );
     } catch (error) {
       console.log(error.message);
     }
@@ -56,7 +73,7 @@ export const AddSeedModal = ({ pondId, onCloseDrawer }) => {
     onClose();
     onCloseDrawer();
 
-    router.reload();
+    // router.reload();
   };
 
   return (
@@ -124,7 +141,7 @@ export const AddSeedModal = ({ pondId, onCloseDrawer }) => {
               ) : (
                 <Alert status="warning">
                   <AlertIcon />
-                  Vui lòng thêm thông tin trại giống
+                  <Text fontSize="md">Vui lòng thêm thông tin trại giống</Text>
                 </Alert>
               )}
             </FormControl>

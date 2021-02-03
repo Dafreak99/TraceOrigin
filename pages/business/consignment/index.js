@@ -162,7 +162,7 @@ const Packing = () => {
         ) : (
           <Alert status="info" fontSize="md" w="30rem">
             <AlertIcon />
-            Chưa có Lô hàng
+            <Text fontSize="md">Chưa có Lô hàng</Text>
           </Alert>
         )}
       </Box>

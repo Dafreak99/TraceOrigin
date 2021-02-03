@@ -13,6 +13,7 @@ import {
   Badge,
   Alert,
   AlertIcon,
+  Text,
 } from "@chakra-ui/core";
 import useSWR, { mutate } from "swr";
 import { useRouter } from "next/router";
@@ -177,7 +178,7 @@ const Index = () => {
                   cursor="pointer"
                   onClick={() => router.push(`./medicine/${_id}`)}
                 >
-                  <Td>{format(new Date(ngayNhap), "dd/MM/yyyy")}</Td>
+                  <Td>{ngayNhap}</Td>
 
                   <Td>{tenThuoc}</Td>
                   <Td>
@@ -185,8 +186,8 @@ const Index = () => {
                   </Td>
                   <Td>{soLuong}</Td>
                   <Td>{cachBaoQuan}</Td>
-                  <Td>{format(new Date(ngaySanXuat), "dd/MM/yyyy")}</Td>
-                  <Td>{format(new Date(hanSuDung), "dd/MM/yyyy")}</Td>
+                  <Td>{ngaySanXuat}</Td>
+                  <Td>{hanSuDung}</Td>
 
                   <Td>{medicineCondition(soLuong, hanSuDung)}</Td>
                   <Td
@@ -232,7 +233,7 @@ const Index = () => {
         ) : (
           <Alert status="info" fontSize="md" w="30rem">
             <AlertIcon />
-            Chưa nhập thuốc
+            <Text fontSize="md">Chưa nhập thuốc</Text>
           </Alert>
         )}
       </Box>

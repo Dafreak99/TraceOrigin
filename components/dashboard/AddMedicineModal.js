@@ -131,6 +131,9 @@ export const AddMedicineModal = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          background:
+            "linear-gradient(90deg, rgba(35,144,246,1) 0%, rgba(11,90,191,1) 100%)",
+          boxShadow: "0 15px 30px rgb(23 65 187 / 34%)",
         }}
       >
         <HiPlus fontSize="28px" />

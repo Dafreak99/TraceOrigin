@@ -1,15 +1,11 @@
 import dbConnect from "../../../lib/dbConnect";
 dbConnect();
 
-import Food from "../../../models/Food";
-
 import jwt from "jsonwebtoken";
+
 import Product from "models/Product";
 import Farm from "models/Farm";
-import FeedingDiary from "models/FeedingDiary";
-import UsingMedicine from "models/UsingMedicine";
 import Seed from "models/Seed";
-import Pond from "models/Pond";
 
 // @route /api/product
 
@@ -28,7 +24,7 @@ export default async (req, res) => {
     case "GET":
       let products = await Product.find({
         farm: farm.id,
-        duyetThuHoach: null,
+        duyetThuHoach: [null, "false"],
       })
         .populate({ path: "pond", populate: { path: "seed" } })
         .populate({ path: "seed", populate: { path: "traiGiong" } })
@@ -40,17 +36,14 @@ export default async (req, res) => {
       break;
     case "POST":
       try {
-        await Seed.findOneAndUpdate(
-          { pondId: req.body.pond },
-          { isRegistered: true }
-        );
+        await Seed.findOneAndUpdate({ pondId: req.body.pond });
 
         let seed = await Seed.findOne({ pondId: req.body.pond });
 
         const product = new Product({
           ...req.body,
           farm: farm.id,
-          duyetDangKy: false,
+          duyetDangKy: "pending",
           duyetThuHoach: null,
           seed,
         });

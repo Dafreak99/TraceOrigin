@@ -1,14 +1,9 @@
 import dbConnect from "../../../../lib/dbConnect";
 dbConnect();
 
-import Food from "models/Food";
-
 import jwt from "jsonwebtoken";
 import Product from "models/Product";
 import Farm from "models/Farm";
-import FeedingDiary from "models/FeedingDiary";
-import UsingMedicine from "models/UsingMedicine";
-import Seed from "models/Seed";
 import Pond from "models/Pond";
 
 // @route /api/product/harvest/[id]
@@ -39,10 +34,13 @@ export default async (req, res) => {
       });
       res.send({ pond, product });
 
-    case "POST":
-      await Product.findOneAndUpdate({ _id: id }, { duyetThuHoach: "true" });
-      res.send({ message: "OK" });
       break;
+
+    // case "POST":
+
+    //   await Product.findOneAndUpdate({ _id: id }, { duyetThuHoach: "true" });
+    //   res.send({ message: "OK" });
+    //   break;
     default:
       break;
   }

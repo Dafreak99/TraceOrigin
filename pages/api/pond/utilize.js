@@ -19,13 +19,16 @@ export default async (req, res) => {
   try {
     const { pondId } = req.body;
 
-    let seed = new Seed({ ...req.body, isDone: false, isRegistered: false });
+    const seed = new Seed({ ...req.body, isDone: false });
 
     await seed.save();
 
-    await Pond.findOneAndUpdate({ _id: pondId }, { seed: seed._id });
+    const pond = await Pond.findOneAndUpdate(
+      { _id: pondId },
+      { seed: seed._id }
+    );
 
-    res.send({ message: "OK" });
+    res.send(pond);
   } catch (error) {
     res.status(500).send({ message: error.message });
   }

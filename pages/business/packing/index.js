@@ -148,7 +148,7 @@ const Packing = () => {
         ) : (
           <Alert status="info" fontSize="md" w="30rem">
             <AlertIcon />
-            Chưa có Quy cách đóng gói
+            <Text fontSize="md">Chưa có Quy cách đóng gói</Text>
           </Alert>
         )}
       </Box>

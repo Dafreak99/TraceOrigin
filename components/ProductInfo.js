@@ -11,39 +11,63 @@ import {
   Text,
 } from "@chakra-ui/core";
 
-import { Comment } from "antd";
+import { Collapse, Comment } from "antd";
 import Avatar from "antd/lib/avatar/avatar";
+import { Table, Td, Th, Tr } from "@/components/Table";
 
-import { format } from "date-fns";
 import { useState } from "react";
+import { Descriptions, Badge } from "antd";
 import GreenDot from "./GreenDot";
+import { Tabs } from "antd";
+import { FaFish, FaSquareFull } from "react-icons/fa";
+import { MdDateRange, MdLocationOn } from "react-icons/md";
+import { GiWaterSplash, GiWeight } from "react-icons/gi";
+
+const { Panel } = Collapse;
+const { TabPane } = Tabs;
 
 const ProductInfo = ({ data }) => {
   const [index, setIndex] = useState(0);
 
+  function callback(key) {
+    console.log(key);
+  }
+
   return (
-    <Box mt="6rem" gridColumn="span 6">
-      <Flex w="max-content" borderRadius="3px">
-        <Box
-          className={index === 0 ? "product-tab active" : "product-tab"}
-          onClick={() => setIndex(0)}
-        >
-          Chi tiết sản phẩm
-        </Box>
-        <Box
-          className={index === 1 ? "product-tab active" : "product-tab"}
-          onClick={() => setIndex(1)}
-        >
-          Đánh giá
-        </Box>
+    <Box gridColumn={{ base: "span 12", xl: "span 6" }}>
+      <Flex w="100%" borderRadius="3px">
+        <Tabs defaultActiveKey="1" onChange={callback}>
+          <TabPane tab="Chi tiết sản phẩm" key="1">
+            <Box
+              border="2px solid rgb(19 154 243 / 10%)"
+              p={8}
+              borderBottom="3px solid #007bff"
+            >
+              <Tab1 {...data} />
+            </Box>
+          </TabPane>
+          <TabPane tab="Chuỗi liên kết" key="2">
+            <Box
+              border="2px solid rgb(19 154 243 / 10%)"
+              p={8}
+              borderBottom="3px solid #007bff"
+            >
+              <Tab2 data={data} />
+            </Box>
+          </TabPane>
+          <TabPane tab="Xác thực" key="3">
+            <Box
+              border="2px solid rgb(19 154 243 / 10%)"
+              p={8}
+              borderBottom="3px solid #007bff"
+            >
+              {data.farm.chungThuc.hinhAnh.map((image) => (
+                <Image src={image} w="80%" />
+              ))}
+            </Box>
+          </TabPane>
+        </Tabs>
       </Flex>
-      <Box
-        p={8}
-        border="2px solid rgb(19 154 243 / 10%)"
-        borderTop="3px solid #007bff"
-      >
-        {index === 0 ? <Tab1 {...data} /> : <Tab2 />}
-      </Box>
     </Box>
   );
 };
@@ -54,13 +78,7 @@ const Tab1 = ({
   donvi,
   trongLuong,
   ngayThuHoach,
-  seed: {
-    soLuongConGiong,
-    ngayThaGiong,
-    diaChiTraiGiong,
-    ngayTuoiGiong,
-    traiGiong,
-  },
+  seed: { ngayThaGiong, traiGiong },
 }) => {
   return (
     <Grid gridTemplateColumns="repeat(12, 1fr)">
@@ -72,37 +90,49 @@ const Tab1 = ({
           </Heading>
         </Flex>
         <ListItem>
-          <Text fontWeight="bold">
-            Tên sản phẩm:{" "}
-            <Text as="span" fontWeight="normal">
-              {tenSanPham}
+          <Flex align="center">
+            <Box as={FaFish} mr="0.5rem" />
+            <Text fontWeight="bold">
+              Tên sản phẩm:{" "}
+              <Text as="span" fontWeight="normal">
+                {tenSanPham}
+              </Text>
             </Text>
-          </Text>
+          </Flex>
         </ListItem>
 
         <ListItem>
-          <Text fontWeight="bold">
-            Ngày thu hoạch:{" "}
-            <Text as="span" fontWeight="normal">
-              {format(new Date(ngayThuHoach), "dd/MM/yyyy")}
+          <Flex align="center">
+            <Box as={MdDateRange} mr="0.5rem" />
+            <Text fontWeight="bold">
+              Ngày thu hoạch:{" "}
+              <Text as="span" fontWeight="normal">
+                {ngayThuHoach}
+              </Text>
             </Text>
-          </Text>
+          </Flex>
         </ListItem>
         <ListItem>
-          <Text fontWeight="bold">
-            Đơn vị:{" "}
-            <Text as="span" fontWeight="normal">
-              {donvi}
+          <Flex align="center">
+            <Box as={FaSquareFull} mr="0.5rem" />
+            <Text fontWeight="bold">
+              Đơn vị:{" "}
+              <Text as="span" fontWeight="normal">
+                {donvi}
+              </Text>
             </Text>
-          </Text>
+          </Flex>
         </ListItem>
         <ListItem>
-          <Text fontWeight="bold">
-            Trọng lượng:{" "}
-            <Text as="span" fontWeight="normal">
-              {trongLuong}
+          <Flex align="center">
+            <Box as={GiWeight} mr="0.5rem" />
+            <Text fontWeight="bold">
+              Trọng lượng:{" "}
+              <Text as="span" fontWeight="normal">
+                {trongLuong}
+              </Text>
             </Text>
-          </Text>
+          </Flex>
         </ListItem>
       </List>
       <List
@@ -119,29 +149,36 @@ const Tab1 = ({
         </Flex>
 
         <ListItem>
-          <Text fontWeight="bold">
-            Tên trại giống:{" "}
-            <Text as="span" fontWeight="normal">
-              {traiGiong.tenTraiGiong}
+          <Flex align="center">
+            <Box as={GiWaterSplash} mr="0.5rem" />
+            <Text fontWeight="bold">
+              Tên trại giống:{" "}
+              <Text as="span" fontWeight="normal">
+                {traiGiong.tenTraiGiong}
+              </Text>
             </Text>
-          </Text>
+          </Flex>
         </ListItem>
         <ListItem>
-          <Text fontWeight="bold">
-            Địa chỉ trại giống:{" "}
-            <Text as="span" fontWeight="normal">
-              {traiGiong.diaChiTraiGiong}
+          <Flex align="center">
+            <Box as={MdLocationOn} mr="0.5rem" />
+            <Text fontWeight="bold">
+              Địa chỉ trại giống:{" "}
+              <Text as="span" fontWeight="normal">
+                {traiGiong.diaChiTraiGiong}
+              </Text>
             </Text>
-          </Text>
+          </Flex>
         </ListItem>
-        <ListItem>
+        <Flex align="center">
+          <Box as={MdDateRange} mr="0.5rem" />
           <Text fontWeight="bold">
-            Ngày thả giống: {""}
+            Ngày thả giống:{" "}
             <Text as="span" fontWeight="normal">
               {ngayThaGiong}
             </Text>
           </Text>
-        </ListItem>
+        </Flex>
 
         <ListItem>
           <Image
@@ -154,24 +191,160 @@ const Tab1 = ({
   );
 };
 
-const Tab2 = () => {
+const Tab2 = ({ data }) => {
+  console.log(data);
   return (
-    <Comment
-      avatar={
-        <Avatar
-          src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-          alt="Han Solo"
-        />
-      }
-      content={
-        <Box>
-          <Input placeholder="Thêm bình luận" h="10rem" />
-          <Button backgroundColor="#007bff" color="#fff" px={10} py={6} mt={10}>
-            ĐĂNG
-          </Button>
-        </Box>
-      }
-    />
+    // <Comment
+    //   avatar={
+    //     <Avatar
+    //       src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+    //       alt="Han Solo"
+    //     />
+    //   }
+    //   content={
+    //     <Box>
+    //       <Input placeholder="Thêm bình luận" h="10rem" />
+    //       <Button backgroundColor="#007bff" color="#fff" px={10} py={6} mt={10}>
+    //         ĐĂNG
+    //       </Button>
+    //     </Box>
+    //   }
+    // />
+
+    // <Collapse
+    //   defaultActiveKey={["1"]}
+    //   // TODO: Display full information of Product before harvest
+    //   ghost
+    //   style={{ marginTop: "2rem", gridColumn: "span 12" }}
+    // >
+    //   <Panel header="Nhật ký cho ăn" key="1">
+    //     <Table>
+    //       <Tr>
+    //         <Th>Ngày cho ăn</Th>
+    //         <Th>Ghi chú</Th>
+    //         <Th>Khối lượng</Th>
+    //         <Th>Thức ăn</Th>
+    //         <Th>Hình ảnh</Th>
+    //         <Th>{""}</Th>
+    //       </Tr>
+    //       {data.feeding.map(
+    //         (
+    //           {
+    //             ngayThangNam,
+    //             ghiChu,
+    //             khoiLuong,
+    //             thucAn: { tenThucAn, hinhAnh },
+    //           },
+    //           i
+    //         ) => (
+    //           <Tr
+    //             backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
+    //             cursor="pointer"
+    //             // onClick={() => router.push(`./product/${_id}`)}
+    //           >
+    //             <Td>{ngayThangNam}</Td>
+    //             <Td>{ghiChu}</Td>
+    //             <Td>{khoiLuong}</Td>
+    //             <Td>{tenThucAn}</Td>
+    //             <Td>
+    //               <Image src={hinhAnh[0]} h="100px" w="100px" />
+    //             </Td>
+    //           </Tr>
+    //         )
+    //       )}
+    //     </Table>
+    //   </Panel>
+    //   <Panel header="Nhật ký sử dụng thuốc" key="2">
+    //     <Table>
+    //       <Tr>
+    //         <Th>Ngày sử dụng</Th>
+    //         <Th>Khối lượng</Th>
+    //         <Th>Thức ăn</Th>
+    //         <Th>Hình ảnh</Th>
+    //         <Th>{""}</Th>
+    //       </Tr>
+    //       {data.usingMedicine.map(
+    //         (
+    //           { ngayThangNam, khoiLuongThuoc, thuoc: { tenThuoc, hinhAnh } },
+    //           i
+    //         ) => (
+    //           <Tr
+    //             backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
+    //             cursor="pointer"
+    //             // onClick={() => router.push(`./product/${_id}`)}
+    //           >
+    //             <Td>{ngayThangNam}</Td>
+    //             <Td>{khoiLuongThuoc}</Td>
+    //             <Td>{tenThuoc}</Td>
+    //             <Td>
+    //               <Image src={hinhAnh[0]} h="100px" w="100px" />
+    //             </Td>
+    //           </Tr>
+    //         )
+    //       )}
+    //     </Table>
+    //   </Panel>
+    // </Collapse>
+    <>
+      <Collapse
+        defaultActiveKey={["1"]}
+        // TODO: Display full information of Product before harvest
+        ghost
+        style={{ marginTop: "2rem", gridColumn: "span 12" }}
+      >
+        <Panel header="Nhật ký cho ăn" key="1">
+          {data.feeding.map(
+            ({
+              ngayThangNam,
+              ghiChu,
+              khoiLuong,
+              thucAn: { tenThucAn, hinhAnh },
+            }) => (
+              <Descriptions>
+                <Descriptions.Item label="Ngày tháng năm">
+                  {ngayThangNam}
+                </Descriptions.Item>
+                <Descriptions.Item label="Ghi chú">{ghiChu}</Descriptions.Item>
+                <Descriptions.Item label="Tên thức ăn">
+                  {tenThucAn}
+                </Descriptions.Item>
+                <Descriptions.Item label="Khối lượng">
+                  {khoiLuong}
+                </Descriptions.Item>
+                <Descriptions.Item label="Hình ảnh">
+                  <Image src={hinhAnh[0]} h="100px" />
+                </Descriptions.Item>
+              </Descriptions>
+            )
+          )}
+        </Panel>
+
+        <Panel header="Nhật ký sử dụng thuốc" key="2">
+          {data.usingMedicine.map(
+            ({
+              ngayThangNam,
+              khoiLuongThuoc,
+              thuoc: { tenThuoc, hinhAnh },
+            }) => (
+              <Descriptions>
+                <Descriptions.Item label="Ngày tháng năm">
+                  {ngayThangNam}
+                </Descriptions.Item>
+                <Descriptions.Item label="Tên thức ăn">
+                  {tenThuoc}
+                </Descriptions.Item>
+                <Descriptions.Item label="Khối lượng">
+                  {khoiLuongThuoc}
+                </Descriptions.Item>
+                <Descriptions.Item label="Hình ảnh">
+                  <Image src={hinhAnh[0]} h="100px" />
+                </Descriptions.Item>
+              </Descriptions>
+            )
+          )}
+        </Panel>
+      </Collapse>
+    </>
   );
 };
 

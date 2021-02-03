@@ -7,7 +7,7 @@ import Product from "../../models/Product";
 export default async (req, res) => {
   // Deep population
 
-  let product = await Product.findById("5ff82010191514159058dc6a")
+  let product = await Product.find({ duyetThuHoach: "true" })
     .populate({ path: "pond", populate: { path: "seed" } })
     .populate({ path: "seed", populate: { path: "traiGiong" } })
     .populate({ path: "farm" })

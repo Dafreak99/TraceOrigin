@@ -8,6 +8,8 @@ import {
   ListItem,
   Text,
   Skeleton,
+  AlertIcon,
+  Alert,
 } from "@chakra-ui/core";
 import { useState } from "react";
 import useSWR from "swr";
@@ -16,6 +18,8 @@ import FarmInfoModify from "@/components/dashboard/FarmInfoModify";
 import Layout from "@/components/dashboard/Layout";
 import fetcher from "@/utils/fetcher";
 import DisplayMap from "@/components/DisplayMap";
+import { AiFillEdit } from "react-icons/ai";
+import EnterpriseAuthenticationModal from "@/components/dashboard/EntepriseAuthenticationModal";
 
 const Info = () => {
   const [isEdit, setIsEdit] = useState(false);
@@ -63,6 +67,17 @@ const Info = () => {
   );
 };
 
+const Iframe = (props) => {
+  return (
+    <div
+      style={{ boxShadow: "0 10px 20px rgba(0,0,0,.1)", height: "min-content" }}
+      dangerouslySetInnerHTML={{ __html: props.iframe ? props.iframe : "" }}
+    />
+  );
+};
+
+// const iframe = `<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3927.785577468377!2d105.69452631525809!3d10.11662997378989!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31a0869bb424d2f7%3A0x1b4ec7478c19ba31!2zQ8O0bmcgdHkgVE5ISCBDw7RuZyBuZ2hp4buHcCBUaOG7p3kgc-G6o24gTWnhu4FuIE5hbQ!5e0!3m2!1svi!2s!4v1612017259330!5m2!1svi!2s" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="true" aria-hidden="false" tabindex="0"></iframe>`;
+
 const Content = ({
   data: {
     tenCoSoNuoi,
@@ -73,23 +88,58 @@ const Content = ({
     sdt,
     themVaoBoi,
     toaDo,
+    fax,
+    email,
+    website,
+    banDo,
+    chungThuc,
   },
   isEdit,
   setIsEdit,
 }) => {
+  console.log(chungThuc);
+
+  const [visible, setVisible] = useState(false);
+
   return (
     <Box px={16} py={12}>
       <Flex justifyContent="space-between">
         <Heading color="gray.700">Thông Tin Cơ Sở Của Bạn</Heading>
         <Button
-          backgroundColor="gray.800"
+          background="linear-gradient(90deg, rgba(35,144,246,1) 0%, rgba(11,90,191,1) 100%)"
           color="#fff"
           textTransform="uppercase"
           onClick={() => setIsEdit(!isEdit)}
         >
-          Chỉnh sửa thông tin
+          <Box as={AiFillEdit} mr="0.5rem" />
+          <span>Chỉnh sửa thông tin</span>
         </Button>
       </Flex>
+      {chungThuc ? (
+        <Alert status="success" mt="2rem" w="max-content">
+          <AlertIcon />
+          Đã chứng thực doanh nghiệp
+        </Alert>
+      ) : (
+        <Alert status="error" mt="2rem" w="max-content">
+          <AlertIcon />
+          Chưa chứng thực doanh nghiệp.{" "}
+          <Box
+            as="span"
+            ml="3px"
+            textDecoration="underline"
+            cursor="pointer"
+            onClick={() => setVisible(true)}
+          >
+            {" "}
+            Chứng thực ngay bây giờ.
+          </Box>
+          <EnterpriseAuthenticationModal
+            visible={visible}
+            setVisible={setVisible}
+          />
+        </Alert>
+      )}
       <Flex paddingTop={12}>
         <List
           spacing={2}
@@ -97,10 +147,29 @@ const Content = ({
           py={12}
           boxShadow="0 4px 10px rgba(0,0,0,.1)"
           w="max-content"
+          h="max-content"
+          marginRight="2rem"
           background="#fff"
         >
           <ListItem>
-            <Text fontSize="md" fontWeight="medium">
+            <Text fontSize="md" fontWeight="bold">
+              {tenCoSoNuoi}
+            </Text>
+          </ListItem>
+          <ListItem>
+            <Image
+              src={hinhAnh[0]}
+              height="10rem"
+              width="15rem"
+              objectFit="contain"
+              borderRadius="3px"
+              mt="2rem"
+              mb="1rem"
+            />
+          </ListItem>
+
+          <ListItem>
+            <Text fontSize="md" fontWeight="bold">
               Họ và tên chủ cơ sở:{" "}
               <Box as="span" fontWeight="normal">
                 {tenChuCoSoNuoi}
@@ -108,23 +177,16 @@ const Content = ({
             </Text>
           </ListItem>
           <ListItem>
-            <Text fontSize="md" fontWeight="medium">
+            <Text fontSize="md" fontWeight="bold">
               Loại tài khoản:{" "}
               <Box as="span" fontWeight="normal">
                 Nông dân
               </Box>
             </Text>
           </ListItem>
+
           <ListItem>
-            <Text fontSize="md" fontWeight="medium">
-              Tên cơ sở nuôi:{" "}
-              <Box as="span" fontWeight="normal">
-                {tenCoSoNuoi}
-              </Box>
-            </Text>
-          </ListItem>
-          <ListItem>
-            <Text fontSize="md" fontWeight="medium">
+            <Text fontSize="md" fontWeight="bold">
               Diện tích trang trại:{" "}
               <Box as="span" fontWeight="normal">
                 {dienTich}
@@ -132,7 +194,7 @@ const Content = ({
             </Text>
           </ListItem>
           <ListItem>
-            <Text fontSize="md" fontWeight="medium">
+            <Text fontSize="md" fontWeight="bold">
               Địa chỉ trang trại:{" "}
               <Box as="span" fontWeight="normal">
                 {diaChi}
@@ -140,22 +202,42 @@ const Content = ({
             </Text>
           </ListItem>
           <ListItem>
-            <Text fontSize="md" fontWeight="medium">
+            <Text fontSize="md" fontWeight="bold">
               SĐT liên hệ:{" "}
               <Box as="span" fontWeight="normal">
                 {sdt}
               </Box>
             </Text>
           </ListItem>
+          <ListItem>
+            <Text fontSize="md" fontWeight="bold">
+              Fax:{" "}
+              <Box as="span" fontWeight="normal">
+                {fax}
+              </Box>
+            </Text>
+          </ListItem>
+          <ListItem>
+            <Text fontSize="md" fontWeight="bold">
+              Website:{" "}
+              <Box as="span" fontWeight="normal">
+                {website}
+              </Box>
+            </Text>
+          </ListItem>
+          <ListItem>
+            <Text fontSize="md" fontWeight="bold">
+              Email:{" "}
+              <Box as="span" fontWeight="normal">
+                {email}
+              </Box>
+            </Text>
+          </ListItem>
         </List>
-        {toaDo && (
-          <Box w="500px" ml={8}>
-            <DisplayMap entry={toaDo} />
-          </Box>
-        )}
+        <Iframe iframe={banDo} />
       </Flex>
 
-      <Box mt={12}>
+      {/* <Box mt={12}>
         <Heading mb={8} color="gray.700" fontSize="xl">
           Hình ảnh trang trại của bạn
         </Heading>
@@ -173,7 +255,7 @@ const Content = ({
             />
           ))}
         </Flex>
-      </Box>
+      </Box> */}
     </Box>
   );
 };

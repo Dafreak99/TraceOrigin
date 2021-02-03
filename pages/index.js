@@ -11,8 +11,12 @@ import { AiFillControl, AiOutlineQrcode } from "react-icons/ai";
 import { FaRegStickyNote } from "react-icons/fa";
 import { GiPencil } from "react-icons/gi";
 import Footer from "@/components/Footer";
+import useSWR from "swr";
+import fetcher from "@/utils/fetcher";
 
 const IndexPage = () => {
+  const { data, error } = useSWR("/api/product/finish", fetcher);
+
   const [visible, setVisible] = useState(false);
 
   const showDrawer = () => {
@@ -30,139 +34,142 @@ const IndexPage = () => {
         <Hero />
       </Box>
       <SectionPadding>
-        {/* <div className="container">
-          <div className={styles.grid}>
-            <div className={styles.category}>
-              <div className={styles.overlay}></div>
-              <h2 className={styles.text}>Nhóm cá biển</h2>
-            </div>
-            <div className={styles.category}>
-              <div className={styles.overlay}></div>
-              <h2 className={styles.text}>Nhóm cá nước ngọt</h2>
-            </div>
-            <div className={styles.category}>
-              <div className={styles.overlay}></div>
-              <h2 className={styles.text}>Nhóm giáp xác</h2>
-            </div>
-            <div className={styles.category}>
-              <div className={styles.overlay}></div>
-              <h2 className={styles.text}>Nhóm nhuyễn thể</h2>
-            </div>
-          </div>
-        </div> */}
-
         <>
-          <Heading className="heading" marginBottom={16}>
-            Tính năng của TraceOrigin
-          </Heading>
-
-          <Grid
-            gridTemplateColumns="repeat(12, 1fr)"
-            className="container"
-            columnGap={16}
-            rowGap={16}
+          <Heading
+            className="heading"
+            marginBottom="10rem"
+            fontSize={{ base: "xl", xl: "3xl" }}
           >
-            <Box
-              gridColumn="span 3"
-              background="#fff"
-              borderRadius="3px"
-              boxShadow="0 10px 30px rgb(30 126 245 / 0.2)"
-              padding="40px 30px"
-              textAlign="center"
+            Tính Năng Của TraceOrigin
+          </Heading>
+          <div className="container">
+            <Grid
+              gridTemplateColumns="repeat(12, 1fr)"
+              columnGap={{ base: 0, xl: 16 }}
+              rowGap={16}
             >
-              <Heading fontSize="md" mb={4}>
-                Quản lý sản xuất nguồn gốc
-              </Heading>
-              <Text>
-                Traceorigin là cầu nối uy tín đảm bảo xác thực hàng hóa của nhà
-                cung cấp tới tay người tiêu dùng .
-              </Text>
               <Box
-                as={AiOutlineQrcode}
-                height="60px"
-                width="60px"
-                margin="0 auto"
-                mt={8}
-                color="#007bff"
-              />
-            </Box>
-            <Box
-              gridColumn="span 3"
-              background="#fff"
-              borderRadius="3px"
-              boxShadow="0 10px 30px rgb(30 126 245 / 0.2)"
-              padding="40px 30px"
-              textAlign="center"
-            >
-              <Heading fontSize="md" mb={4}>
-                Thông tin ghi chép đầy đủ, đa dạng
-              </Heading>
-              <Text>
-                Traceorigin là cầu nối uy tín đảm bảo xác thực hàng hóa của nhà
-                cung cấp tới tay người tiêu dùng .
-              </Text>
+                gridColumn={{ base: "span 12", xl: " span 3" }}
+                background="#fff"
+                borderRadius="3px"
+                boxShadow="0 10px 30px rgb(30 126 245 / 0.2)"
+                padding="60px 40px"
+                textAlign="center"
+              >
+                <Box
+                  as={AiOutlineQrcode}
+                  height="60px"
+                  width="60px"
+                  margin="0 auto"
+                  mb={8}
+                  color="#007bff"
+                />
+                <Heading fontSize="md" mb={6} fontWeight="bold" fontSize="xl">
+                  Quản lý nguồn gốc
+                </Heading>
+                <Text
+                  fontSize="md"
+                  letterSpacing="0.3px"
+                  color="#2e2e2fab"
+                  fontWeight="600"
+                >
+                  TraceOrigin là cầu nối uy tín đảm bảo xác thực hàng hóa của
+                  nhà cung cấp tới tay người tiêu dùng .
+                </Text>
+              </Box>
               <Box
-                as={FaRegStickyNote}
-                height="60px"
-                width="60px"
-                margin="0 auto"
-                mt={8}
-                color="#007bff"
-              />
-            </Box>
-            <Box
-              gridColumn="span 3"
-              background="#fff"
-              borderRadius="3px"
-              boxShadow="0 10px 30px rgb(30 126 245 / 0.2)"
-              padding="40px 30px"
-              textAlign="center"
-            >
-              <Heading fontSize="md" mb={4}>
-                Kiểm soát chất lượng
-              </Heading>
-              <Text>
-                Traceorigin là cầu nối uy tín đảm bảo xác thực hàng hóa của nhà
-                cung cấp tới tay người tiêu dùng .
-              </Text>
+                gridColumn={{ base: "span 12", xl: " span 3" }}
+                background="#fff"
+                borderRadius="3px"
+                boxShadow="0 10px 30px rgb(30 126 245 / 0.2)"
+                padding="60px 40px"
+                textAlign="center"
+              >
+                <Box
+                  as={FaRegStickyNote}
+                  height="60px"
+                  width="60px"
+                  margin="0 auto"
+                  mb={8}
+                  color="#007bff"
+                />
+                <Heading fontSize="md" mb={6} fontWeight="bold" fontSize="xl">
+                  Thông tin ghi chép
+                </Heading>
+                <Text
+                  fontSize="md"
+                  letterSpacing="0.3px"
+                  color="#2e2e2fab"
+                  fontWeight="600"
+                >
+                  Thông tin ghi chép đầy đủ, đa dạng cho phép người dùng có thể
+                  nắm được mọi thông tin về sản phẩm .
+                </Text>
+              </Box>
               <Box
-                as={AiFillControl}
-                height="60px"
-                width="60px"
-                margin="0 auto"
-                mt={8}
-                color="#007bff"
-              />
-            </Box>
-            <Box
-              gridColumn="span 3"
-              background="#fff"
-              borderRadius="3px"
-              boxShadow="0 10px 30px rgb(30 126 245 / 0.2)"
-              padding="40px 30px"
-              textAlign="center"
-            >
-              <Heading fontSize="md" mb={4}>
-                Ghi chép nhật ký nuôi trồng
-              </Heading>
-              <Text>
-                Traceorigin là cầu nối uy tín đảm bảo xác thực hàng hóa của nhà
-                cung cấp tới tay người tiêu dùng .
-              </Text>
+                gridColumn={{ base: "span 12", xl: " span 3" }}
+                background="#fff"
+                borderRadius="3px"
+                boxShadow="0 10px 30px rgb(30 126 245 / 0.2)"
+                padding="60px 40px"
+                textAlign="center"
+              >
+                <Box
+                  as={AiFillControl}
+                  height="60px"
+                  width="60px"
+                  margin="0 auto"
+                  mb={8}
+                  color="#007bff"
+                />
+                <Heading fontSize="md" mb={6} fontWeight="bold" fontSize="xl">
+                  Kiểm soát chất lượng
+                </Heading>
+                <Text
+                  fontSize="md"
+                  letterSpacing="0.3px"
+                  color="#2e2e2fab"
+                  fontWeight="600"
+                >
+                  Traceorigin là cầu nối uy tín đảm bảo xác thực hàng hóa của
+                  nhà cung cấp tới tay người tiêu dùng .
+                </Text>
+              </Box>
               <Box
-                as={GiPencil}
-                height="60px"
-                width="60px"
-                margin="0 auto"
-                mt={8}
-                color="#007bff"
-              />
-            </Box>
-          </Grid>
+                gridColumn={{ base: "span 12", xl: " span 3" }}
+                background="#fff"
+                borderRadius="3px"
+                boxShadow="0 10px 30px rgb(30 126 245 / 0.2)"
+                padding="60px 40px"
+                textAlign="center"
+              >
+                <Box
+                  as={GiPencil}
+                  height="60px"
+                  width="60px"
+                  margin="0 auto"
+                  mb={8}
+                  color="#007bff"
+                />
+                <Heading mb={6} fontWeight="bold" fontSize="xl">
+                  Ghi Chép Nhật Ký
+                </Heading>
+                <Text
+                  fontSize="md"
+                  letterSpacing="0.3px"
+                  color="#2e2e2fab"
+                  fontWeight="600"
+                >
+                  Traceorigin là cầu nối uy tín đảm bảo xác thực hàng hóa của
+                  nhà cung cấp tới tay người tiêu dùng .
+                </Text>
+              </Box>
+            </Grid>
+          </div>
         </>
       </SectionPadding>
       <SectionPadding>
-        <Products />
+        <Products data={data} />
       </SectionPadding>
       <Footer />
     </>

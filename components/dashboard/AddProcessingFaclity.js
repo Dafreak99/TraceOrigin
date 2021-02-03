@@ -18,12 +18,16 @@ import { HiPlus } from "react-icons/hi";
 import FormControl from "./FormControl";
 
 import { mutate } from "swr";
+import UploadPreview from "./UploadPreview";
 
 const AddProcessingFacility = () => {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
+
+  const [files, setFiles] = useState([]);
+  const [fileUrls, setFileUrls] = useState([]);
 
   const [isSave, setIsSave] = useState(false);
   const { handleSubmit, register, errors, control, reset } = useForm();
@@ -37,16 +41,41 @@ const AddProcessingFacility = () => {
   const onSubmit = async (values) => {
     setIsSave(true);
 
+    let urls = [];
+
+    const uploadImage = async (file) => {
+      const formdata = new FormData();
+      formdata.append("file", file);
+      formdata.append("upload_preset", "traceorigin");
+      formdata.append("resource_type", "auto");
+
+      const res = await fetch(
+        "https://api.cloudinary.com/v1_1/dafreak/upload",
+        { method: "POST", body: formdata }
+      );
+      const { secure_url } = await res.json();
+      return secure_url;
+    };
+
+    // Loop through each image then upload
+    for (let i = 0; i < files.length; i++) {
+      if (files[i] === "") {
+        urls.push(fileUrls[i]);
+      } else {
+        let data = await uploadImage(files[i]);
+        urls.push(data);
+      }
+    }
+
+    values.hinhAnh = urls;
+
     try {
       let res = await fetch("/api/processingfacility", {
         method: "POST",
         body: values,
         headers: {
           "Content-Type": "application/json",
-          Authorization:
-            // BUSINESS ACCOUNT USER TOKEN
-            process.browser ? localStorage.getItem("token") : null,
-          // "eyJhbGciOiJIUzI1NiJ9.NWZkYjFiOWM0MjRkYjUwM2E0OTdjN2Iy.5rpAKpQJ35fR9F_bWwW4vZQc-rRPPqHO_ABVG6Hk9Ao",
+          Authorization: process.browser ? localStorage.getItem("token") : null,
         },
         body: JSON.stringify(values),
       });
@@ -55,9 +84,7 @@ const AddProcessingFacility = () => {
       mutate(
         [
           "/api/processingfacility",
-          // BUSINESS ACCOUNT USER TOKEN
           process.browser ? localStorage.getItem("token") : null,
-          // "eyJhbGciOiJIUzI1NiJ9.NWZkYjFiOWM0MjRkYjUwM2E0OTdjN2Iy.5rpAKpQJ35fR9F_bWwW4vZQc-rRPPqHO_ABVG6Hk9Ao",
         ],
         async (cachedData) => [...cachedData, data],
         false
@@ -86,6 +113,9 @@ const AddProcessingFacility = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          background:
+            "linear-gradient(90deg, rgba(35,144,246,1) 0%, rgba(11,90,191,1) 100%)",
+          boxShadow: "0 15px 30px rgb(23 65 187 / 34%)",
         }}
       >
         <HiPlus fontSize="28px" />
@@ -121,6 +151,39 @@ const AddProcessingFacility = () => {
               ref={register({
                 required: "Required",
               })}
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel htmlFor="diaChiCoSoCheBien">Tọa độ</FormLabel>
+            <Input
+              type="text"
+              id="toaDo"
+              name="toaDo"
+              ref={register({
+                required: "Required",
+              })}
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel htmlFor="diaChiCoSoCheBien">Bản đồ</FormLabel>
+            <Input
+              type="text"
+              id="banDo"
+              name="banDo"
+              ref={register({
+                required: "Required",
+              })}
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel htmlFor="diaChiCoSoCheBien">
+              Hình ảnh cơ sở chế biến
+            </FormLabel>
+            <UploadPreview
+              files={files}
+              setFiles={setFiles}
+              fileUrls={fileUrls}
+              setFileUrls={setFileUrls}
             />
           </FormControl>
 

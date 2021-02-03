@@ -91,7 +91,7 @@ const Navbar = ({ float, showDrawer }) => {
 
   if (float) {
     return (
-      <Box boxShadow="0 2px 3px rgba(0,0,0,.1)">
+      <Box boxShadow="0 2px 3px rgba(0,0,0,.1)" position="relative">
         <Grid
           backgroundColor="#fff"
           height="6rem"

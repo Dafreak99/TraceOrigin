@@ -1,16 +1,22 @@
 import React, { useState, useRef, useCallback } from "react";
-import MapGL, { Marker, Popup, FullscreenControl } from "react-map-gl";
+import MapGL, { Marker, FullscreenControl, Source, Layer } from "react-map-gl";
+
 import dynamic from "next/dynamic";
 
 const Map = ({ entry, setEntry }) => {
   const [viewport, setViewport] = useState({
-    latitude: 10.030145,
-    longitude: 105.770519,
-    zoom: 15,
+    latitude: 10.116909867369422,
+    longitude: 105.69673645530685,
+    zoom: 12,
     width: "100vw",
     height: "100vh",
   });
   const mapRef = useRef();
+
+  const marker = {
+    latitude: 10.116909867369422,
+    longitude: 105.69673645530685,
+  };
 
   const handleViewportChange = (newViewport) => {
     setViewport(newViewport);
@@ -35,6 +41,32 @@ const Map = ({ entry, setEntry }) => {
 
     setEntry({ latitude, longitude });
   };
+
+  const geojson = {
+    type: "FeatureCollection",
+    features: [
+      {
+        type: "Feature",
+        geometry: {
+          type: "LineString",
+          coordinates: [
+            [10.035283028197332, 105.78883526060861],
+            [10.030197814377123, 105.77062602647128],
+          ],
+        },
+      },
+    ],
+  };
+
+  const layerStyle = {
+    id: "point",
+    type: "circle",
+    paint: {
+      "circle-radius": 10,
+      "circle-color": "#007cbf",
+    },
+  };
+
   return (
     <div style={{ height: "100%", width: "100%" }}>
       <MapGL
@@ -49,30 +81,30 @@ const Map = ({ entry, setEntry }) => {
         onDblClick={onClick}
       >
         <FullscreenControl />
-        <Geocoder
+        <Source id="my-data" type="geojson" data={geojson}>
+          <Layer {...layerStyle} />
+        </Source>
+        {/* <Geocoder
           mapRef={mapRef}
           onViewportChange={handleGeocoderViewportChange}
           mapboxApiAccessToken="pk.eyJ1IjoiaGFpdHJhbjk5IiwiYSI6ImNrMmtlNnhlbjB6Y2kzY29oc2Q2YnRlOXoifQ.ZwtkHfNjr_Ltp39bQj8hSg"
           position="top-left"
         />
-        {entry && (
-          <>
-            <Marker
-              latitude={entry.latitude}
-              longitude={entry.longitude}
-              offsetLeft={-40}
-              offsetTop={-60}
-            >
-              <div className="marker-wrapper">
-                <img
-                  className="marker"
-                  src="https://img.icons8.com/officel/x/marker.png"
-                  alt="marker"
-                />
-              </div>
-            </Marker>
-          </>
-        )}
+       
+        <Marker
+          latitude={marker.latitude}
+          longitude={marker.longitude}
+          offsetLeft={-40}
+          offsetTop={-60}
+        >
+          <div className="marker-wrapper">
+            <img
+              className="marker"
+              src="https://img.icons8.com/officel/x/marker.png"
+              alt="marker"
+            />
+          </div>
+        </Marker> */}
       </MapGL>
     </div>
   );

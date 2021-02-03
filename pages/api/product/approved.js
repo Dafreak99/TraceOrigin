@@ -29,7 +29,7 @@ export default async (req, res) => {
     case "GET":
       let products = await Product.find({
         farm: farm._id,
-        duyetDangKy: true,
+        duyetDangKy: "true",
         duyetThuHoach: null,
       }).populate({
         path: "pond",
@@ -44,7 +44,7 @@ export default async (req, res) => {
 
       await Product.findOneAndUpdate(
         { _id: id },
-        { duyetDangKy: true, qrCode: id }
+        { duyetDangKy: "true", qrCode: id }
       );
 
       res.send({ message: "OK" });

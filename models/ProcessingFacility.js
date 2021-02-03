@@ -3,7 +3,10 @@ const mongoose = require("mongoose");
 const ProcessingFacilitySchema = new mongoose.Schema({
   tenCoSoCheBien: String,
   diaChiCoSoCheBien: String,
-  businessId: String,
+  toaDo: String,
+  banDo: String,
+  hinhAnh: [{ type: String }],
+  farmId: String,
 });
 
 module.exports =

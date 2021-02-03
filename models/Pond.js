@@ -8,6 +8,7 @@ const PondSchema = new mongoose.Schema({
   maAo: String,
   farmId: String,
   seed: { type: mongoose.Schema.Types.ObjectId, ref: Seed },
+  luuTru: { type: Boolean, default: false },
 });
 
 module.exports = mongoose.models.Pond || mongoose.model("Pond", PondSchema);

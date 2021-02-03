@@ -3,10 +3,8 @@ import MapGL, { Marker, FullscreenControl } from "react-map-gl";
 
 const DisplayMap = ({ entry }) => {
   const [viewport, setViewport] = useState({
-    // latitude: entry.latitude,
-    // longitude: entry.longitude,
-    latitude: 10.030145,
-    longitude: 105.770519,
+    latitude: entry.latitude,
+    longitude: entry.longitude,
     zoom: 1,
     width: "100vw",
     height: "100vh",

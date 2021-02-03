@@ -9,7 +9,6 @@ const SeedSchema = new mongoose.Schema({
   pondId: String,
   traiGiong: { type: mongoose.Schema.Types.ObjectId, ref: Hatchery },
   isDone: Boolean,
-  isRegistered: Boolean,
 });
 
 module.exports = mongoose.models.Seed || mongoose.model("Seed", SeedSchema);

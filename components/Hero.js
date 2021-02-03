@@ -36,7 +36,11 @@ const Hero = () => {
   return (
     <Slider {...settings}>
       {data.map(({ heading, text, background }, i) => (
-        <Box background="#0089ff">
+        <Box
+          // background="#0089ff"
+
+          background="linear-gradient(90deg, rgba(35,144,246,1) 0%, rgba(11,90,191,1) 100%)"
+        >
           <Box
             className="container"
             key={i}

@@ -268,3 +268,8 @@ aside.ant-layout-sider.ant-layout-sider-dark.ant-layout-sider-collapsed.ant-layo
 .ant-layout-sider-collapsed .logout__text {
   display: none;
 }
+
+.ant-tabs > .ant-tabs-nav,
+.ant-tabs > div > .ant-tabs-nav {
+  margin-bottom: 0;
+}

@@ -3,23 +3,25 @@ import { Timeline } from "antd";
 import { Box, Flex, Heading, Image } from "@chakra-ui/core";
 import GreenDot from "./GreenDot";
 
-const FoodChainTimeline = ({ setEntry }) => {
+const FoodChainTimeline = ({ data }) => {
+  const {
+    seed: { ngayThaGiong },
+    ngayThuHoach,
+  } = data;
   const [mode, setMode] = useState("left");
 
   return (
-    <Box gridColumn={{ xl: "span 6" }}>
+    <Box gridColumn={{ base: "span 12", xl: "span 6" }}>
       <Flex alignItems="center">
         <GreenDot />
         <Heading size="md">Timeline</Heading>
       </Flex>
       <Timeline mode={mode} style={{ marginTop: "2rem" }}>
-        <Timeline.Item
-          label="2015-09-01 09:12:11"
-          onClick={() => setEntry({ longitude: 10, latitude: 20 })}
-        >
+        <Timeline.Item label={ngayThaGiong}>
           Thả giống xuống ao nuôi <Image src="/pond.svg" h="40px" />
         </Timeline.Item>
-        <Timeline.Item label="2015-09-01 09:12:11">
+        <Timeline.Item label={ngayThuHoach}>
+          {/* TODO: Add new item from the begining */}
           Thu hoạch
           <Image src="/ice-fishing.svg" h="40px" />
         </Timeline.Item>

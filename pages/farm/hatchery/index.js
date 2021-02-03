@@ -11,6 +11,7 @@ import {
   Button,
   Alert,
   AlertIcon,
+  Text,
 } from "@chakra-ui/core";
 import useSWR, { mutate } from "swr";
 import { useRouter } from "next/router";
@@ -150,7 +151,7 @@ const Hatchery = () => {
         ) : (
           <Alert status="info" fontSize="md" w="30rem">
             <AlertIcon />
-            Chưa có trại giống
+            <Text fontSize="md">Chưa có trại giống</Text>
           </Alert>
         )}
       </Box>

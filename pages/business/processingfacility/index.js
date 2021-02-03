@@ -35,10 +35,7 @@ const ProcessingFacility = () => {
   const { data, error } = useSWR(
     [
       "/api/processingfacility",
-      // BUSINESS ACCOUNT USER TOKEN
       process.browser ? localStorage.getItem("token") : null,
-
-      // "eyJhbGciOiJIUzI1NiJ9.NWZkYjFiOWM0MjRkYjUwM2E0OTdjN2Iy.5rpAKpQJ35fR9F_bWwW4vZQc-rRPPqHO_ABVG6Hk9Ao",
     ],
     fetcher
   );
@@ -139,7 +136,7 @@ const ProcessingFacility = () => {
                   </AlertDialogHeader>
 
                   <AlertDialogBody>
-                    Bạn có chắc rằng sẽ xóa sản phẩm này ?
+                    Bạn có chắc rằng sẽ xóa cơ sở chế biến này không ?
                   </AlertDialogBody>
 
                   <AlertDialogFooter>
@@ -157,7 +154,7 @@ const ProcessingFacility = () => {
         ) : (
           <Alert status="info" fontSize="md" w="30rem">
             <AlertIcon />
-            Chưa có cơ sở chế biến
+            <Text fontSize="md">Chưa có cơ sở chế biến</Text>
           </Alert>
         )}
       </Box>

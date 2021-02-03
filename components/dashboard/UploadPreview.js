@@ -33,7 +33,7 @@ const UploadPreview = ({ files, setFiles, fileUrls, setFileUrls }) => {
   };
 
   return (
-    <Flex>
+    <Flex flexWrap="wrap">
       <FormLabel
         htmlFor="image"
         h="100px"
@@ -44,7 +44,6 @@ const UploadPreview = ({ files, setFiles, fileUrls, setFileUrls }) => {
         alignItems="center"
         p="0"
         borderRadius="3px"
-        marginRight="1rem"
       >
         <AiOutlinePlus fontSize="40px" />
       </FormLabel>
@@ -59,15 +58,15 @@ const UploadPreview = ({ files, setFiles, fileUrls, setFileUrls }) => {
       />
       {fileUrls.length > 0 &&
         fileUrls.map((url, i) => (
-          <div className={styles.uploadPreview}>
-            <div className={styles.overlay} />
+          <Box className={styles.uploadPreview}>
+            <Box className={styles.overlay} />
             <Image
               src={url}
               id="ok"
               h="100px"
               w="100px"
               objectFit="contain"
-              border="3px solid #f7f6f6"
+              border="3px solid #ebedf1"
               borderRadius="3px"
               marginRight="1rem"
             />
@@ -78,7 +77,7 @@ const UploadPreview = ({ files, setFiles, fileUrls, setFileUrls }) => {
               className={styles.close}
               onClick={onDeselectImage}
             />
-          </div>
+          </Box>
         ))}
     </Flex>
   );

@@ -199,7 +199,9 @@ const FeedingDiaryModal = ({ bg, color, icon }) => {
         ) : (
           <Alert status="warning">
             <AlertIcon />
-            Vui lòng đảm bảo rằng dữ liệu của thức ăn hoặc ao không bị rỗng
+            <Text fontSize="md">
+              Vui lòng đảm bảo rằng dữ liệu của thức ăn hoặc ao không bị rỗng
+            </Text>
           </Alert>
         )}
       </Modal>

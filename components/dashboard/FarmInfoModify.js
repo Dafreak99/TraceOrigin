@@ -7,6 +7,7 @@ import {
   Flex,
   Button,
   Spinner,
+  Textarea,
 } from "@chakra-ui/core";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -76,7 +77,7 @@ const FarmInfoModify = ({ isEdit, setIsEdit, data }) => {
 
         // process.browser ? localStorage.getItem("token") : null,
       },
-      body: JSON.stringify({ ...values, hinhAnh: urls, toaDo: entry }),
+      body: JSON.stringify({ ...values, hinhAnh: urls }),
     });
     let data = await respond.json();
 
@@ -186,6 +187,106 @@ const FarmInfoModify = ({ isEdit, setIsEdit, data }) => {
               required: "Required",
             })}
           />
+        </FormControl>
+        <FormControl gridColumn="span 6">
+          <FormLabel htmlFor="fax">
+            Fax <Asterisk />
+          </FormLabel>
+          <Input
+            type="text"
+            id="fax"
+            name="fax"
+            defaultValue={farmInfo.fax}
+            ref={register({
+              required: "Required",
+            })}
+          />
+        </FormControl>
+        <FormControl gridColumn="span 6">
+          <FormLabel htmlFor="website">
+            Website <Asterisk />
+          </FormLabel>
+          <Input
+            type="text"
+            id="website"
+            name="website"
+            defaultValue={farmInfo.website}
+            ref={register({
+              required: "Required",
+            })}
+          />
+        </FormControl>
+        <FormControl gridColumn="span 6">
+          <FormLabel htmlFor="email">
+            Email <Asterisk />
+          </FormLabel>
+          <Input
+            type="email"
+            id="email"
+            name="email"
+            defaultValue={farmInfo.email}
+            ref={register({
+              required: "Required",
+            })}
+          />
+        </FormControl>
+        <FormControl gridColumn="span 6">
+          <FormLabel htmlFor="toaDo">
+            Tọa độ <Asterisk />
+          </FormLabel>
+          <Input
+            type="text"
+            id="toaDo"
+            name="toaDo"
+            defaultValue={farmInfo.toaDo}
+            ref={register({
+              required: "Required",
+            })}
+          />
+        </FormControl>
+        <FormControl gridColumn="span 6">
+          <FormLabel htmlFor="banDo">
+            Bản đồ <Asterisk />
+          </FormLabel>
+          <Input
+            type="text"
+            id="banDo"
+            name="banDo"
+            defaultValue={farmInfo.banDo}
+            ref={register({
+              required: "Required",
+            })}
+          />
+        </FormControl>
+        <FormControl gridColumn="span 6">
+          <FormLabel htmlFor="mst">
+            Mã số thuế <Asterisk />
+          </FormLabel>
+          <Input
+            type="text"
+            id="mst"
+            name="MST"
+            defaultValue={farmInfo.MST}
+            ref={register({
+              required: "Required",
+            })}
+          />
+        </FormControl>
+        <FormControl gridColumn="span 6">
+          <FormLabel htmlFor="mst">
+            Mô tả <Asterisk />
+          </FormLabel>
+
+          <Textarea
+            type="text"
+            name="moTa"
+            id="moTa"
+            ref={register({
+              required: "Required",
+            })}
+          >
+            {farmInfo.moTa}
+          </Textarea>
         </FormControl>
         <FormControl gridColumn="span 6">
           <FormLabel>

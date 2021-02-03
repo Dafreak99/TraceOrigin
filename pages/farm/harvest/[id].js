@@ -139,11 +139,7 @@ const Index = () => {
               <FormControl>
                 <FormLabel htmlFor="ngayThuHoach">Ngày thu hoạch: </FormLabel>
                 <br />
-                <DatePicker
-                  control={control}
-                  name="ngayThuHoach"
-                  placeholder={format(new Date(), "yyyy-MM-dd")}
-                />
+                <DatePicker control={control} name="ngayThuHoach" />
               </FormControl>
               <FormControl>
                 <FormLabel htmlFor="trongLuong">Trọng lượng: </FormLabel>

@@ -24,3 +24,23 @@
   })}
 />
 ```
+
+3. fallback option
+
+```javascript
+export async function getStaticPaths() {
+  return {
+    paths: [{ params: { id: "a" } }, { params: { id: "b" } }],
+
+    fallback: true,
+  };
+}
+
+export async function getStaticProps({ params }) {
+  // Params contains id
+  // api/[id]
+  // Default params.id consists of ['a', 'b']; ~ ['api/a', 'api/b']
+  // But with fallback: true if {params: {id: 'c'}} ~ api/c
+  // It still gets pass to getStaticProps
+}
+```

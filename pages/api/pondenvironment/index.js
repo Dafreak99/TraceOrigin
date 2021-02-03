@@ -11,7 +11,7 @@ import jwt from "jsonwebtoken";
 export default async (req, res) => {
   const { method } = req;
   const token = req.headers.authorization;
-  console.log(token);
+
   // if (!token)
   //   return res.status(400).send({ message: "Bạn không có quyền truy cập" });
 

@@ -13,6 +13,7 @@ import {
   Alert,
   AlertIcon,
   Badge,
+  Text,
 } from "@chakra-ui/core";
 import useSWR, { mutate } from "swr";
 import { useRouter } from "next/router";
@@ -25,6 +26,8 @@ import fetcher from "@/utils/fetcher";
 import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
 import { format } from "date-fns";
 import QRCode from "qrcode.react";
+import { FcSerialTasks } from "react-icons/fc";
+import { BiDotsHorizontalRounded } from "react-icons/bi";
 
 const Product = () => {
   const router = useRouter();
@@ -38,7 +41,8 @@ const Product = () => {
 
   const { data, error } = useSWR(
     ["/api/product", process.browser ? localStorage.getItem("token") : null],
-    fetcher
+    fetcher,
+    { refreshInterval: 1000 }
   );
 
   useEffect(() => {
@@ -85,6 +89,64 @@ const Product = () => {
     );
   }
 
+  const productStatus = (duyetDangKy) => {
+    if (duyetDangKy === "false") {
+      return (
+        <Badge
+          ml="1"
+          fontSize="0.8em"
+          background="#f8c3c3f0"
+          color="#794444"
+          borderRadius="10px"
+          padding="10px"
+        >
+          No
+        </Badge>
+      );
+    } else if (duyetDangKy === "true") {
+      return (
+        <Badge
+          ml="1"
+          fontSize="0.8em"
+          background="#20f3b8"
+          color="#fff"
+          borderRadius="10px"
+          padding="10px"
+        >
+          Yes
+        </Badge>
+      );
+    } else if (duyetDangKy === "pending") {
+      return (
+        <Badge
+          ml="1"
+          fontSize="0.8em"
+          background="#d1d8e8"
+          color="#646770"
+          borderRadius="10px"
+          padding="10px"
+        >
+          Pending
+        </Badge>
+      );
+    }
+  };
+
+  const reRegister = async (id) => {
+    try {
+      let res = await fetch(`/api/product/register/reregister`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: process.browser ? localStorage.getItem("token") : null,
+        },
+        body: JSON.stringify({ id }),
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <Layout>
       <Box px={16} py={12} position="relative">
@@ -98,8 +160,9 @@ const Product = () => {
                 <Th>Tên sản phẩm</Th>
                 <Th>Nuôi tại ao</Th>
                 <Th>Ngày thả giống</Th>
-                <Th>Được phê duyệt</Th>
+                <Th>Được duyệt đăng ký</Th>
                 <Th>Mã QR</Th>
+                <Th>{""}</Th>
                 <Th>{""}</Th>
                 <Th>{""}</Th>
               </Tr>
@@ -110,7 +173,9 @@ const Product = () => {
                     pond: {
                       tenAo,
                       seed: { ngayThaGiong },
+                      _id: pondId,
                     },
+                    duyetThuHoach,
                     duyetDangKy,
                     qrCode,
                     _id,
@@ -125,50 +190,37 @@ const Product = () => {
                     <Td>{tenSanPham}</Td>
                     <Td>{tenAo}</Td>
                     <Td>{ngayThaGiong}</Td>
-                    <Td>
-                      {duyetDangKy ? (
-                        <Badge
-                          ml="1"
-                          fontSize="0.8em"
-                          background="#20f3b8"
-                          color="#fff"
-                          borderRadius="3px"
-                        >
-                          Yes
-                        </Badge>
-                      ) : (
-                        <Badge
-                          ml="1"
-                          fontSize="0.8em"
-                          background="red"
-                          color="#fff"
-                          borderRadius="3px"
-                        >
-                          No
-                        </Badge>
-                      )}
-                    </Td>
+                    <Td>{productStatus(duyetDangKy)}</Td>
                     <Td>{qrCode ? qrCode : "Chưa cấp"}</Td>
                     {qrCode && (
                       <Td>
-                        <QRCode value={qrCode} />
+                        <QRCode
+                          value={
+                            "http://traceorigin.vercel.app/product/" + qrCode
+                          }
+                        />
                       </Td>
                     )}
 
                     <Td
-                      borderLeft="1px solid #e8eef3"
                       px={8}
                       onClick={(e) => {
                         e.stopPropagation();
                       }}
                     >
-                      {duyetDangKy && (
+                      {duyetDangKy === "false" ? (
+                        <Button onClick={() => reRegister(_id)}>
+                          Đăng ký lại
+                        </Button>
+                      ) : duyetDangKy === "true" ? (
                         <Button
                           onClick={() => router.push(`/farm/harvest/${_id}`)}
                         >
-                          Thu hoạch
+                          {duyetThuHoach === "false"
+                            ? "Thu hoạch lại"
+                            : "Thu hoạch"}
                         </Button>
-                      )}
+                      ) : null}
                     </Td>
 
                     <Td
@@ -215,7 +267,7 @@ const Product = () => {
         ) : (
           <Alert status="info" fontSize="md" w="30rem">
             <AlertIcon />
-            Hiện không có sản phẩm nào
+            <Text fontSize="md">Hiện không có sản phẩm nào</Text>
           </Alert>
         )}
       </Box>

@@ -1,12 +1,11 @@
 import Layout from "@/components/dashboard/Layout";
 
-import { Box, Alert, AlertIcon, Heading, Image } from "@chakra-ui/core";
+import { Box, Alert, AlertIcon, Heading, Image, Text } from "@chakra-ui/core";
 
 import { Table, Td, Th, Tr } from "@/components/Table";
 
 import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
 import { useRouter } from "next/router";
-import { format } from "date-fns";
 
 import { Popconfirm } from "antd";
 
@@ -21,40 +20,34 @@ const DashBoard = () => {
       "/api/product/harvest/pending",
       process.browser ? localStorage.getItem("token") : null,
     ],
-    fetcher
+    fetcher,
+    { refreshInterval: 1000 }
   );
 
-  const onDelete = async (id) => {
-    // try {
-    //   let res = await fetch(`/api/food/${id}`, {
-    //     method: "DELETE",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Authorization: process.browser ? localStorage.getItem("token") : null,
-    //     },
-    //   });
-    //   mutate(
-    //     ["/api/food", process.browser ? localStorage.getItem("token") : null],
-    //     async (cachedData) => {
-    //       let data = cachedData.filter((each) => each._id !== id);
-    //       return data;
-    //     },
-    //     false
-    //   );
-    // } catch (error) {
-    //   console.log(error.message);
-    // }
-    // setIsOpen(false);
+  const onReject = async (id, pondId) => {
+    try {
+      await fetch(`/api/product/harvest/reject`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: process.browser ? localStorage.getItem("token") : null,
+        },
+        body: JSON.stringify({ id, pond: pondId }),
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
-  const onApprove = async (id) => {
+  const onApprove = async (id, pondId) => {
     // Send ID to change duyetThuHoach -> true
-    let res = await fetch(`/api/product/harvest/${id}`, {
+    let res = await fetch(`/api/product/harvest/approve`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: process.browser ? localStorage.getItem("token") : null,
       },
+      body: JSON.stringify({ id, pond: pondId }),
     });
 
     mutate(
@@ -70,8 +63,6 @@ const DashBoard = () => {
       false
     );
   };
-
-  console.log(products);
 
   return (
     <Layout>
@@ -97,7 +88,7 @@ const DashBoard = () => {
                 (
                   {
                     tenSanPham,
-                    pond: { tenAo },
+                    pond: { tenAo, _id: pondId },
                     hinhAnh,
                     ngayThuHoach,
                     trongLuong,
@@ -117,7 +108,7 @@ const DashBoard = () => {
                     <Td>
                       <Image src={hinhAnh[0]} height="100px" width="auto" />
                     </Td>
-                    <Td>{format(new Date(ngayThuHoach), "dd-MM-yyyy")}</Td>
+                    <Td>{ngayThuHoach}</Td>
                     <Td>{trongLuong}</Td>
                     <Td
                       px={8}
@@ -129,7 +120,7 @@ const DashBoard = () => {
                         title="Bạn có chắc sẽ duyệt sản phẩm này？"
                         okText="Có"
                         cancelText="Không"
-                        onConfirm={() => onApprove(_id)}
+                        onConfirm={() => onApprove(_id, pondId)}
                       >
                         <Box
                           as={AiFillCheckCircle}
@@ -149,7 +140,7 @@ const DashBoard = () => {
                         title="Bạn có chắc sẽ không duyệt sản phẩm này？"
                         okText="Có"
                         cancelText="Không"
-                        onConfirm={() => onDelete(_id)}
+                        onConfirm={() => onReject(_id, pondId)}
                       >
                         <Box as={AiFillCloseCircle} size="32px"></Box>
                       </Popconfirm>
@@ -162,7 +153,7 @@ const DashBoard = () => {
         ) : (
           <Alert status="info" fontSize="md" w="30rem">
             <AlertIcon />
-            Tất cả đã được phê duyệt
+            <Text fontSize="md">Tất cả đều đã được phê duyệt</Text>
           </Alert>
         )}
       </Box>

@@ -1,8 +1,8 @@
 import dbConnect from "../../../lib/dbConnect";
 
 import jwt from "jsonwebtoken";
-import Business from "models/Business";
 import ProcessingFacility from "models/ProcessingFacility";
+import Farm from "models/Farm";
 
 dbConnect();
 
@@ -17,12 +17,12 @@ export default async (req, res) => {
 
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-  let business = await Business.findOne({ themVaoBoi: decoded });
+  let farm = await Farm.findOne({ themVaoBoi: decoded });
 
   switch (method) {
     case "GET":
       let processingFacilities = await ProcessingFacility.find({
-        businessId: business._id,
+        farmId: farm._id,
       });
       res.send(processingFacilities);
       break;
@@ -30,7 +30,7 @@ export default async (req, res) => {
       try {
         let processingFacility = new ProcessingFacility({
           ...req.body,
-          businessId: business._id,
+          farmId: farm._id,
         });
         await processingFacility.save();
         res.send(processingFacility);

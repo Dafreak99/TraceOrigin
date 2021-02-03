@@ -1,4 +1,4 @@
-import { Alert, AlertIcon, Box, Heading, Image } from "@chakra-ui/core";
+import { Alert, AlertIcon, Box, Heading, Image, Text } from "@chakra-ui/core";
 import Layout from "@/components/dashboard/Layout";
 import { Table, Tr, Td, Th } from "@/components/Table";
 import { FaTrash } from "react-icons/fa";
@@ -91,7 +91,7 @@ const feedingdiary = () => {
         ) : (
           <Alert status="info" fontSize="md" w="30rem">
             <AlertIcon />
-            Chưa có lịch sử cho ăn
+            <Text fontSize="md">Chưa có lịch sử cho ăn</Text>
           </Alert>
         )}
       </Box>

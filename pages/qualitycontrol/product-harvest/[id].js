@@ -103,7 +103,10 @@ const Index = () => {
                   <List>
                     <ListItem>
                       <Text fontSize="md" fontWeight="bold">
-                        QR: <QRCode value={data.qrCode} />
+                        QR:{" "}
+                        <QRCodevalue
+                          value={"http://traceorigin.vercel.app" + data.qrCode}
+                        />
                       </Text>
                     </ListItem>
                   </List>

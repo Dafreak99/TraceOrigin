@@ -84,7 +84,7 @@ const FarmSidebar = () => {
           <a style={{ fontWeight: "bold" }}>Ao</a>
         </Link>
       </Menu.Item>
-
+      {/* TODO: Why pond haven't unlink to seed after harvest? */}
       <SubMenu
         icon={<Icon component={FiAperture} />}
         key="product"
@@ -96,12 +96,12 @@ const FarmSidebar = () => {
       >
         <Menu.Item key="product-follow" icon={<DesktopOutlined />}>
           <Link href="/farm/product-follow">
-            <a style={{ fontWeight: "bold" }}>Đang theo dõi</a>
+            <a style={{ fontWeight: "bold" }}>`Đăng ký`</a>
           </Link>
         </Menu.Item>
         <Menu.Item key="product" icon={<DesktopOutlined />}>
           <Link href="/farm/product">
-            <a style={{ fontWeight: "bold" }}> Đã thu hoạch</a>
+            <a style={{ fontWeight: "bold" }}> Thu hoạch</a>
           </Link>
         </Menu.Item>
       </SubMenu>
@@ -178,6 +178,11 @@ const FarmSidebar = () => {
       <Menu.Item key="hatchery" icon={<Icon component={FiUsers} />}>
         <Link href="/farm/hatchery">
           <a style={{ fontWeight: "bold" }}>Trại giống</a>
+        </Link>
+      </Menu.Item>
+      <Menu.Item key="processingfacilitty" icon={<Icon component={FiUsers} />}>
+        <Link href="/farm/processingfacility">
+          <a style={{ fontWeight: "bold" }}>Cơ sở chế biến</a>
         </Link>
       </Menu.Item>
     </Menu>
@@ -267,19 +272,19 @@ const QualityControlSidebar = () => {
         key="product"
         title={
           <span>
-            <span>Chờ duyệt</span>
+            <span style={{ fontWeight: "bold" }}>Chờ duyệt</span>
           </span>
         }
       >
         <Menu.Item key="register" icon={<DesktopOutlined />}>
           <Link href="/qualitycontrol/register">
-            <a>Đăng ký</a>
+            <a style={{ fontWeight: "bold" }}>Đăng ký</a>
           </Link>
         </Menu.Item>
 
         <Menu.Item key="harvest" icon={<Icon component={FiUsers} />}>
           <Link href="/qualitycontrol/harvest">
-            <a>Thu hoạch</a>
+            <a style={{ fontWeight: "bold" }}>Thu hoạch</a>
           </Link>
         </Menu.Item>
       </SubMenu>

@@ -28,7 +28,7 @@ export default async (req, res) => {
       // Get harvested products
       const products = await Product.find({
         farm: farm._id,
-        duyetThuHoach: "true",
+        duyetThuHoach: ["true", "pending"],
       }).populate({ path: "seed", populate: "traiGiong" });
 
       res.send(products);
@@ -39,6 +39,7 @@ export default async (req, res) => {
           ao: req.body.pond,
           isDone: false,
         });
+
         const usingMedicine = await UsingMedicine.find({
           ao: req.body.pond,
           isDone: false,
@@ -58,7 +59,7 @@ export default async (req, res) => {
           }
         );
 
-        // // Unlink to refresh data
+        // Unlink to refresh data
         await FeedingDiary.updateMany({ ao: req.body.pond }, { isDone: true });
         await UsingMedicine.updateMany({ ao: req.body.pond }, { isDone: true });
         await Pond.findOneAndUpdate({ _id: req.body.pond }, { seed: null });
