@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const EnterpriseAuthenticationSchema = new mongoose.Schema({
-  hinhAnh: [{ type: String }],
+  images: [{ type: String }],
 });
 
 module.exports =

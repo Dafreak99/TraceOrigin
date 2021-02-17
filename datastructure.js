@@ -1,40 +1,40 @@
 const product = {
-  tenSanPham: "",
-  giaSanPham: "",
-  khoiLuong: "",
+  name: "",
+  price: "",
+  weight: "",
   phuongThucDongGoi: "",
-  hinhAnh: [""],
+  images: [""],
 
   pond: {
-    tenAo: "",
-    dienTich: "",
-    matDoTha: "", // mat do tha
-    maAo: "",
+    name: "",
+    area: "",
+    stockingDensity: "", // mat do tha
+    code: "",
     seed: {
       tenCongiong: "",
-      soLuongConGiong: "",
-      tenTraiGiong: "",
-      diaChiTraiGiong: "",
-      ngayThaGiong: "",
-      ngayThuHoach: "",
-      ngayTuoiGiong: "",
+      quantity: "",
+      name: "",
+      address: "",
+      stockingDate: "",
+      harvestedDate: "",
+      seedAge: "",
       pondId: "", // thả tại ao nào
     },
     farm: {
-      tenCoSoNuoi: "",
-      tenChuCoSoNuoi: "",
-      hinhAnh: [""],
-      diaChi: "",
-      dienTich: "",
-      sdt: "",
-      themVaoBoi: "",
+      name: "",
+      owner: "",
+      images: [""],
+      address: "",
+      area: "",
+      phone: "",
+      createdBy: "",
     },
   },
 
   feedingDiary: [
     {
-      tenAo: "",
-      tenThucAn: "",
+      name: "",
+      name: "",
       ngayChoAn: "",
       khoiLuongChoAn: "",
     },
@@ -42,13 +42,13 @@ const product = {
 };
 
 const farm = {
-  tenCoSoNuoi: "",
-  tenChuCoSoNuoi: "",
-  hinhAnh: [""],
-  diaChi: "",
-  dienTich: "",
-  sdt: "",
-  themVaoBoi: "",
+  name: "",
+  owner: "",
+  images: [""],
+  address: "",
+  area: "",
+  phone: "",
+  createdBy: "",
 };
 
 

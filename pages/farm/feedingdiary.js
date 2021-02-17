@@ -54,11 +54,11 @@ const feedingdiary = () => {
             {data.map(
               (
                 {
-                  ngayThangNam,
-                  khoiLuong,
-                  ghiChu,
-                  thucAn: { tenThucAn, hinhAnh },
-                  ao: { tenAo },
+                  createdDate,
+                  weight,
+                  note,
+                  food: { name, images },
+                  pond: { pondName },
                 },
                 i
               ) => (
@@ -67,14 +67,14 @@ const feedingdiary = () => {
                   cursor="pointer"
                   onClick={() => router.push(`./medicine/${_id}`)}
                 >
-                  <Td>{format(new Date(ngayThangNam), "dd/MM/yyyy")}</Td>
-                  <Td>{tenThucAn}</Td>
+                  <Td>{format(new Date(createdDate), "dd/MM/yyyy")}</Td>
+                  <Td>{name}</Td>
                   <Td>
-                    <Image src={hinhAnh[0]} height="5rem" />
+                    <Image src={images[0]} height="5rem" />
                   </Td>
-                  <Td>{khoiLuong}</Td>
-                  <Td>{ghiChu}</Td>
-                  <Td>{tenAo}</Td>
+                  <Td>{weight}</Td>
+                  <Td>{note}</Td>
+                  <Td>{pondName}</Td>
                   <Td
                     borderLeft="1px solid #e8eef3"
                     px={8}

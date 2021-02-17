@@ -67,7 +67,7 @@ const AddProcessingFacility = () => {
       }
     }
 
-    values.hinhAnh = urls;
+    values.images = urls;
 
     try {
       let res = await fetch("/api/processingfacility", {
@@ -130,55 +130,51 @@ const AddProcessingFacility = () => {
         {/* Modal Body */}
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl>
-            <FormLabel htmlFor="tenTraiGiong">Tên cơ sở chế biến</FormLabel>
+            <FormLabel htmlFor="name">Tên cơ sở chế biến</FormLabel>
             <Input
               type="text"
-              id="tenCoSoCheBien"
-              name="tenCoSoCheBien"
+              id="name"
+              name="name"
               ref={register({
                 required: "Required",
               })}
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="diaChiCoSoCheBien">
-              Địa chỉ cơ sở chế biến
-            </FormLabel>
+            <FormLabel htmlFor="address">Địa chỉ cơ sở chế biến</FormLabel>
             <Input
               type="text"
-              id="diaChiCoSoCheBien"
-              name="diaChiCoSoCheBien"
+              id="address"
+              name="address"
               ref={register({
                 required: "Required",
               })}
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="diaChiCoSoCheBien">Tọa độ</FormLabel>
+            <FormLabel htmlFor="address">Tọa độ</FormLabel>
             <Input
               type="text"
-              id="toaDo"
-              name="toaDo"
+              id="coordinate"
+              name="coordinate"
               ref={register({
                 required: "Required",
               })}
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="diaChiCoSoCheBien">Bản đồ</FormLabel>
+            <FormLabel htmlFor="address">Bản đồ</FormLabel>
             <Input
               type="text"
-              id="banDo"
-              name="banDo"
+              id="map"
+              name="map"
               ref={register({
                 required: "Required",
               })}
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="diaChiCoSoCheBien">
-              Hình ảnh cơ sở chế biến
-            </FormLabel>
+            <FormLabel htmlFor="address">Hình ảnh cơ sở chế biến</FormLabel>
             <UploadPreview
               files={files}
               setFiles={setFiles}

@@ -73,8 +73,8 @@ export const AddMedicineModal = () => {
       }
     }
 
-    values.hinhAnh = urls;
-    values.soLuong = +values.soLuong;
+    values.images = urls;
+    values.weight = +values.weight;
 
     try {
       let res = await fetch("/api/medicine", {
@@ -156,85 +156,85 @@ export const AddMedicineModal = () => {
           }}
         >
           <FormControl gridColumn="span 6">
-            <FormLabel htmlFor="tenThuoc">Tên thuốc</FormLabel>
+            <FormLabel htmlFor="name">Tên thuốc</FormLabel>
             <Input
               type="text"
-              id="tenThuoc"
-              name="tenThuoc"
+              id="name"
+              name="name"
               ref={register({
                 required: "Required",
               })}
             />
           </FormControl>
           <FormControl gridColumn="span 6">
-            <FormLabel htmlFor="donViCungCapThuoc">
+            <FormLabel htmlFor="medicineSupplier">
               Tên người/cửa hàng đại lý bán:{" "}
             </FormLabel>
             <Input
               type="text"
-              id="donViCungCapThuoc"
-              name="donViCungCapThuoc"
+              id="medicineSupplier"
+              name="medicineSupplier"
               ref={register({
                 required: "Required",
               })}
             />
           </FormControl>
           <FormControl gridColumn="span 6">
-            <FormLabel htmlFor="diaChiDonViCungCapThuoc">
+            <FormLabel htmlFor="medicineSupplierAddress">
               Địa chỉ đơn vị bán:{" "}
             </FormLabel>
             <Input
               type="text"
-              id="diaChiDonViCungCapThuoc"
-              name="diaChiDonViCungCapThuoc"
+              id="medicineSupplierAddress"
+              name="medicineSupplierAddress"
               ref={register({
                 required: "Required",
               })}
             />
           </FormControl>
           <FormControl gridColumn="span 6">
-            <FormLabel htmlFor="soLuong">Số lượng(kg):{""}</FormLabel>
+            <FormLabel htmlFor="weight">Số lượng(kg):{""}</FormLabel>
             <Input
               type="number"
-              id="soLuong"
-              name="soLuong"
+              id="weight"
+              name="weight"
               ref={register({
                 required: "Required",
               })}
             />
           </FormControl>
           <FormControl gridColumn="span 6">
-            <FormLabel htmlFor="ngayNhap">Ngày nhập thuốc: </FormLabel>
-            <DatePicker control={control} name="ngayNhap" />
-            {errors.ngayNhap?.type === "required" && (
+            <FormLabel htmlFor="importDate">Ngày nhập thuốc: </FormLabel>
+            <DatePicker control={control} name="importDate" />
+            {errors.importDate?.type === "required" && (
               <Text fontSize="md" fontStyle="italic" color="red.300">
                 Vui lòng nhập ngày
               </Text>
             )}
           </FormControl>
           <FormControl gridColumn="span 6">
-            <FormLabel htmlFor="ngaySanXuat">Ngày sản xuất</FormLabel>
-            <DatePicker control={control} name="ngaySanXuat" />
-            {errors.ngaySanXuat?.type === "required" && (
+            <FormLabel htmlFor="manufactureDate">Ngày sản xuất</FormLabel>
+            <DatePicker control={control} name="manufactureDate" />
+            {errors.manufactureDate?.type === "required" && (
               <Text fontSize="md" fontStyle="italic" color="red.300">
                 Vui lòng nhập ngày
               </Text>
             )}
           </FormControl>
           <FormControl gridColumn="span 6">
-            <FormLabel htmlFor="hanSuDung">Hạn sử dụng</FormLabel>
-            <DatePicker control={control} name="hanSuDung" />
-            {errors.hanSuDung?.type === "required" && (
+            <FormLabel htmlFor="expiryDate">Hạn sử dụng</FormLabel>
+            <DatePicker control={control} name="expiryDate" />
+            {errors.expiryDate?.type === "required" && (
               <Text fontSize="md" fontStyle="italic" color="red.300">
                 Vui lòng nhập ngày
               </Text>
             )}
           </FormControl>
           <FormControl gridColumn="span 6">
-            <FormLabel htmlFor="soLuong">Cách bảo quản:</FormLabel>
+            <FormLabel htmlFor="weight">Cách bảo quản:</FormLabel>
 
             <Controller
-              name="cachBaoQuan"
+              name="preservationMethod"
               defaultValue="Tủ lạnh"
               control={control}
               rules={{ required: true }}

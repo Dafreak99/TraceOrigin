@@ -68,7 +68,7 @@ const EnterpriseAuthenticationModal = ({ visible, setVisible }) => {
       }
     }
 
-    values.hinhAnh = urls;
+    values.images = urls;
 
     try {
       await fetch("/api/enterpriseauthentication", {

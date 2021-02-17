@@ -95,22 +95,22 @@ const AddPackingModal = () => {
         {/* Modal Body */}
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl>
-            <FormLabel htmlFor="quyCachDongGoi">Quy cách đóng gói</FormLabel>
+            <FormLabel htmlFor="packingMethod">Quy cách đóng gói</FormLabel>
             <Input
               type="text"
-              id="quyCachDongGoi"
-              name="quyCachDongGoi"
+              id="packingMethod"
+              name="packingMethod"
               ref={register({
                 required: "Required",
               })}
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="moTa">Mô tả: </FormLabel>
+            <FormLabel htmlFor="description">Mô tả: </FormLabel>
             <Input
               type="text"
-              id="moTa"
-              name="moTa"
+              id="description"
+              name="description"
               ref={register({
                 required: "Required",
               })}

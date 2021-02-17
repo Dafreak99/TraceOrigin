@@ -105,18 +105,15 @@ const Packing = () => {
                 <Th>{""}</Th>
               </Tr>
               {data.map(
-                (
-                  { maLoHang, ngaySanXuat, sanPham: { tenSanPham }, _id },
-                  i
-                ) => (
+                ({ maLoHang, manufactureDate, sanPham: { name }, _id }, i) => (
                   <Tr
                     backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
                     cursor="pointer"
                     onClick={() => router.push(`./food/${_id}`)}
                   >
                     <Td>{maLoHang}</Td>
-                    <Td>{ngaySanXuat}</Td>
-                    <Td>{tenSanPham}</Td>
+                    <Td>{manufactureDate}</Td>
+                    <Td>{name}</Td>
 
                     <Td
                       borderLeft="1px solid #e8eef3"

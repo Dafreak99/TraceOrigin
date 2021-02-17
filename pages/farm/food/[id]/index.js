@@ -47,7 +47,7 @@ const Index = ({}) => {
                     </BreadcrumbLink>
                   </BreadcrumbItem>
                   <BreadcrumbItem isCurrentPage>
-                    <BreadcrumbLink>{data.tenThucAn}</BreadcrumbLink>
+                    <BreadcrumbLink>{data.name}</BreadcrumbLink>
                   </BreadcrumbItem>
                 </Breadcrumb>
               </Flex>
@@ -70,13 +70,13 @@ const Index = ({}) => {
               boxShadow="0 15px 30px rgba(0,0,0,.05)"
               background="#fff"
             >
-              <Image src={data.hinhAnh[0]} h="20rem" mr="8rem" />
+              <Image src={data.images[0]} h="20rem" mr="8rem" />
               <List spacing={4}>
                 <ListItem>
                   <Text fontSize="md" fontWeight="bold">
                     Tên thức ăn:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.tenThucAn}
+                      {data.name}
                     </Box>
                   </Text>
                 </ListItem>
@@ -84,7 +84,7 @@ const Index = ({}) => {
                   <Text fontSize="md" fontWeight="bold">
                     Đơn vị cung cấp thức ăn:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.donViCungCapThucAn}
+                      {data.foodSupplier}
                     </Box>
                   </Text>
                 </ListItem>
@@ -92,7 +92,7 @@ const Index = ({}) => {
                   <Text fontSize="md" fontWeight="bold">
                     Ngày sản xuất:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.ngaySanXuat}
+                      {data.manufactureDate}
                     </Box>
                   </Text>
                 </ListItem>
@@ -100,7 +100,7 @@ const Index = ({}) => {
                   <Text fontSize="md" fontWeight="bold">
                     Ngày nhập:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.ngayNhap}
+                      {data.importDate}
                     </Box>
                   </Text>
                 </ListItem>
@@ -108,7 +108,7 @@ const Index = ({}) => {
                   <Text fontSize="md" fontWeight="bold">
                     Ngày hết hạn:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.hanSuDung}
+                      {data.expiryDate}
                     </Box>
                   </Text>
                 </ListItem>
@@ -116,7 +116,7 @@ const Index = ({}) => {
                   <Text fontSize="md" fontWeight="bold">
                     Số lượng:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.soLuong} kg
+                      {data.weight} kg
                     </Box>
                   </Text>
                 </ListItem>

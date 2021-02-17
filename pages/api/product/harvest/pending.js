@@ -17,12 +17,12 @@ export default async (req, res) => {
     return res.status(400).send({ message: "Bạn không có quyền truy cập" });
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-  const farm = await Farm.findOne({ themVaoBoi: decoded });
+  const farm = await Farm.findOne({ createdBy: decoded });
 
   switch (method) {
     case "GET":
       let products = await Product.find({
-        duyetThuHoach: "pending",
+        isHarvested: "pending",
       }).populate({
         path: "pond",
         populate: { path: "seed" },

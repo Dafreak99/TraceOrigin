@@ -2,21 +2,22 @@ const mongoose = require("mongoose");
 const EnterpriseAuthentication = require("./EnterpriseAuthentication");
 
 const FarmSchema = new mongoose.Schema({
-  tenCoSoNuoi: String,
-  tenChuCoSoNuoi: String,
-  hinhAnh: [{ type: String }],
-  diaChi: String,
-  dienTich: String,
-  sdt: String,
-  themVaoBoi: String,
-  toaDo: String,
-  banDo: String,
+  name: String,
+  owner: String,
+  images: [{ type: String }],
+  address: String,
+  area: String,
+  phone: String,
+  createdBy: String,
+  coordinate: String,
+  map: String,
   email: String,
   fax: String,
   website: String,
   MST: String,
-  moTa: String,
-  chungThuc: {
+  description: String,
+  isAuthenticated: { type: String, default: "" },
+  authentication: {
     type: mongoose.Schema.Types.ObjectId,
     ref: EnterpriseAuthentication,
     default: null,

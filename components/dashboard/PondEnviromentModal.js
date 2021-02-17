@@ -28,7 +28,7 @@ const PondEnvironmentModal = ({ bg, color, icon }) => {
   const [isSave, setIsSave] = useState(false);
   const [visible, setVisible] = useState(false);
 
-  const { data: ponds } = useSWR(
+  const { data } = useSWR(
     ["/api/pond", process.browser ? localStorage.getItem("token") : null],
     fetcher
   );
@@ -36,11 +36,11 @@ const PondEnvironmentModal = ({ bg, color, icon }) => {
   const [values, setValues] = useState({
     oxy: null,
     ph: null,
-    doTrong: null,
-    doMan: null,
+    clarity: null,
+    salinity: null,
     H2S: null,
     NH3: null,
-    doKiem: null,
+    alkalinity: null,
   });
 
   const showModal = () => setVisible(true);
@@ -66,8 +66,6 @@ const PondEnvironmentModal = ({ bg, color, icon }) => {
 
     setIsSave(false);
 
-    console.log(values);
-
     reset();
     setVisible(false);
   };
@@ -76,11 +74,11 @@ const PondEnvironmentModal = ({ bg, color, icon }) => {
     setValues({
       oxy: Math.floor(Math.random() * (10 - 1 + 1)) + 1,
       ph: Math.floor(Math.random() * (10 - 1 + 1)) + 1,
-      doTrong: Math.floor(Math.random() * (10 - 1 + 1)) + 1,
-      doMan: Math.floor(Math.random() * (10 - 1 + 1)) + 1,
+      clarity: Math.floor(Math.random() * (10 - 1 + 1)) + 1,
+      salinity: Math.floor(Math.random() * (10 - 1 + 1)) + 1,
       H2S: Math.floor(Math.random() * (10 - 1 + 1)) + 1,
       NH3: Math.floor(Math.random() * (10 - 1 + 1)) + 1,
-      doKiem: Math.floor(Math.random() * (10 - 1 + 1)) + 1,
+      alkalinity: Math.floor(Math.random() * (10 - 1 + 1)) + 1,
     });
   };
 
@@ -118,13 +116,13 @@ const PondEnvironmentModal = ({ bg, color, icon }) => {
             gridColumnGap: "2rem",
           }}
         >
-          {ponds && ponds.length > 0 ? (
+          {/* {data && data.ponds.length > 0 ? (
             <>
               <FormControl>
-                <FormLabel htmlFor="ao">Ao sử dụng:</FormLabel>
+                <FormLabel htmlFor="pond">Ao sử dụng:</FormLabel>
 
                 <Controller
-                  name="ao"
+                  name="pond"
                   control={control}
                   defaultValue={ponds[0]._id}
                   rules={{ required: true }}
@@ -132,10 +130,10 @@ const PondEnvironmentModal = ({ bg, color, icon }) => {
                     <Select
                       onChange={onChange}
                       style={{ width: "100%" }}
-                      defaultValue={ponds[0].tenAo}
+                      defaultValue={ponds[0].name}
                     >
                       {ponds.map((pond) => (
-                        <Option value={pond._id}>{pond.tenAo}</Option>
+                        <Option value={pond._id}>{pond.name}</Option>
                       ))}
                     </Select>
                   )}
@@ -143,9 +141,9 @@ const PondEnvironmentModal = ({ bg, color, icon }) => {
               </FormControl>
 
               <FormControl>
-                <FormLabel htmlFor="ngayThangNam">Ngày ghi: </FormLabel>
-                <DatePicker control={control} name="ngayThangNam" />
-                {errors.ngayThangNam?.type === "required" && (
+                <FormLabel htmlFor="createdDate">Ngày ghi: </FormLabel>
+                <DatePicker control={control} name="createdDate" />
+                {errors.createdDate?.type === "required" && (
                   <Text fontSize="md" fontStyle="italic" color="red.300">
                     Vui lòng nhập ngày
                   </Text>
@@ -177,24 +175,24 @@ const PondEnvironmentModal = ({ bg, color, icon }) => {
                 />
               </FormControl>
               <FormControl>
-                <FormLabel htmlFor="doTrong">Độ trong(cm): </FormLabel>
+                <FormLabel htmlFor="clarity">Độ trong(cm): </FormLabel>
                 <Input
                   type="number"
-                  id="doTrong"
-                  name="doTrong"
-                  value={values.doTrong}
+                  id="clarity"
+                  name="clarity"
+                  value={values.clarity}
                   ref={register({
                     required: "Required",
                   })}
                 />
               </FormControl>
               <FormControl>
-                <FormLabel htmlFor="doMan">Độ mặn(o/ oo): </FormLabel>
+                <FormLabel htmlFor="salinity">Độ mặn(o/ oo): </FormLabel>
                 <Input
                   type="number"
-                  id="doMan"
-                  name="doMan"
-                  value={values.doMan}
+                  id="salinity"
+                  name="salinity"
+                  value={values.salinity}
                   ref={register({
                     required: "Required",
                   })}
@@ -226,12 +224,12 @@ const PondEnvironmentModal = ({ bg, color, icon }) => {
                 />
               </FormControl>
               <FormControl>
-                <FormLabel htmlFor="doKiem">Độ kiểm(mg/l): </FormLabel>
+                <FormLabel htmlFor="alkalinity">Độ kiểm(mg/l): </FormLabel>
                 <Input
                   type="number"
-                  id="doKiem"
-                  name="doKiem"
-                  value={values.doKiem}
+                  id="alkalinity"
+                  name="alkalinity"
+                  value={values.alkalinity}
                   ref={register({
                     required: "Required",
                   })}
@@ -272,7 +270,7 @@ const PondEnvironmentModal = ({ bg, color, icon }) => {
                 Vui lòng đảm bảo rằng dữ liệu ao không bị trống
               </Text>
             </Alert>
-          )}
+          )} */}
         </form>
       </Modal>
     </>

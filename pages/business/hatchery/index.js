@@ -100,14 +100,14 @@ const AddFood = () => {
 
                 <Th>{""}</Th>
               </Tr>
-              {data.map(({ tenTraiGiong, diaChiTraiGiong, _id }, i) => (
+              {data.map(({ name, address, _id }, i) => (
                 <Tr
                   backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
                   cursor="pointer"
                   onClick={() => router.push(`./food/${_id}`)}
                 >
-                  <Td>{tenTraiGiong}</Td>
-                  <Td>{diaChiTraiGiong}</Td>
+                  <Td>{name}</Td>
+                  <Td>{address}</Td>
 
                   <Td
                     borderLeft="1px solid #e8eef3"

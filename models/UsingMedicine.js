@@ -5,13 +5,13 @@ const Pond = require("./Pond");
 const Worker = require("./Worker");
 
 const UsingMedicineSchema = new mongoose.Schema({
-  ngayThangNam: String,
-  thuoc: { type: mongoose.Schema.Types.ObjectId, ref: Medicine },
-  thucAn: { type: mongoose.Schema.Types.ObjectId, ref: Food },
-  nguoiTron: { type: mongoose.Schema.Types.ObjectId, ref: Worker },
-  ao: { type: mongoose.Schema.Types.ObjectId, ref: Pond },
-  tyLePhoiTron: String,
-  khoiLuongThuoc: Number,
+  createdDate: String,
+  medicine: { type: mongoose.Schema.Types.ObjectId, ref: Medicine },
+  food: { type: mongoose.Schema.Types.ObjectId, ref: Food },
+  worker: { type: mongoose.Schema.Types.ObjectId, ref: Worker },
+  pond: { type: mongoose.Schema.Types.ObjectId, ref: Pond },
+  mixingRatio: String,
+  weight: Number,
   farmId: String,
   isDone: Boolean,
 });

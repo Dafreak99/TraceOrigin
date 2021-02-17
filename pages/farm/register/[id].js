@@ -95,11 +95,11 @@ const Index = () => {
               mt="2rem"
             >
               <FormControl>
-                <FormLabel htmlFor="tenSanPham">Tên sản phẩm: </FormLabel>
+                <FormLabel htmlFor="name">Tên sản phẩm: </FormLabel>
                 <Input
                   type="text"
-                  id="tenSanPham"
-                  name="tenSanPham"
+                  id="name"
+                  name="name"
                   ref={register({
                     required: "Required",
                   })}
@@ -123,7 +123,7 @@ const Index = () => {
                   <Text fontSize="md" fontWeight="bold">
                     Ngày thả giống:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.seed.ngayThaGiong}
+                      {data.seed.stockingDate}
                     </Box>
                   </Text>
                 </ListItem>
@@ -131,7 +131,7 @@ const Index = () => {
                   <Text fontSize="md" fontWeight="bold">
                     Số lượng:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.seed.soLuongConGiong}
+                      {data.seed.quantity}
                     </Box>
                   </Text>
                 </ListItem>
@@ -139,7 +139,7 @@ const Index = () => {
                   <Text fontSize="md" fontWeight="bold">
                     Ngày tuổi của giống:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.seed.ngayTuoiGiong}
+                      {data.seed.seedAge}
                     </Box>
                   </Text>
                 </ListItem>
@@ -147,7 +147,7 @@ const Index = () => {
                   <Text fontSize="md" fontWeight="bold">
                     Tên trại giống:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.seed.traiGiong.tenTraiGiong}
+                      {data.seed.hatchery.name}
                     </Box>
                   </Text>
                 </ListItem>
@@ -155,7 +155,7 @@ const Index = () => {
                   <Text fontSize="md" fontWeight="bold">
                     Địa chỉ trại giống:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.seed.traiGiong.diaChiTraiGiong}
+                      {data.seed.hatchery.address}
                     </Box>
                   </Text>
                 </ListItem>
@@ -168,7 +168,7 @@ const Index = () => {
                   <Text fontSize="md" fontWeight="bold">
                     Tên ao:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.tenAo}
+                      {data.name}
                     </Box>
                   </Text>
                 </ListItem>
@@ -176,7 +176,7 @@ const Index = () => {
                   <Text fontSize="md" fontWeight="bold">
                     Mã ao:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.maAo}
+                      {data.code}
                     </Box>
                   </Text>
                 </ListItem>
@@ -184,7 +184,7 @@ const Index = () => {
                   <Text fontSize="md" fontWeight="bold">
                     Diện tích ao (hecta):{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.dienTich}
+                      {data.area}
                     </Box>
                   </Text>
                 </ListItem>

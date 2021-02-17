@@ -1,6 +1,7 @@
+import dbConnect from "../../../lib/dbConnect";
+
 import Farm from "../../../models/Farm";
 import Medicine from "../../../models/Medicine";
-import dbConnect from "../../../lib/dbConnect";
 
 import jwt from "jsonwebtoken";
 
@@ -15,12 +16,13 @@ export default async (req, res) => {
     return res.status(400).send({ message: "Bạn không có quyền truy cập" });
 
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
-  let farm = await Farm.findOne({ themVaoBoi: decoded });
+  let farm = await Farm.findOne({ createdBy: decoded });
 
   switch (method) {
     case "GET":
       try {
         let medicines = await Medicine.find({ farmId: farm._id });
+
         res.send(medicines);
       } catch (error) {
         res.send({ message: error.message });

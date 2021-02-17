@@ -28,9 +28,9 @@ const FarmInfoModify = ({ isEdit, setIsEdit, data }) => {
   let a = [],
     b = [];
 
-  if (farmInfo.hinhAnh) {
-    a = Array(farmInfo.hinhAnh.length).fill("");
-    b = farmInfo.hinhAnh;
+  if (farmInfo.images) {
+    a = Array(farmInfo.images.length).fill("");
+    b = farmInfo.images;
   }
 
   const [files, setFiles] = useState(a);
@@ -77,7 +77,7 @@ const FarmInfoModify = ({ isEdit, setIsEdit, data }) => {
 
         // process.browser ? localStorage.getItem("token") : null,
       },
-      body: JSON.stringify({ ...values, hinhAnh: urls }),
+      body: JSON.stringify({ ...values, images: urls }),
     });
     let data = await respond.json();
 
@@ -118,71 +118,71 @@ const FarmInfoModify = ({ isEdit, setIsEdit, data }) => {
         boxShadow="0 4px 10px rgba(0,0,0,.1)"
       >
         <FormControl gridColumn="span 6">
-          <FormLabel htmlFor="tenCoSoNuoi">
+          <FormLabel htmlFor="name">
             Tên cơ sở nuôi
             <Asterisk />
           </FormLabel>
           <Input
             type="text"
-            id="tenCoSoNuoi"
-            name="tenCoSoNuoi"
-            defaultValue={farmInfo.tenCoSoNuoi}
+            id="name"
+            name="name"
+            defaultValue={farmInfo.name}
             ref={register({
               required: "Required",
             })}
           />
         </FormControl>
         <FormControl gridColumn="span 6">
-          <FormLabel htmlFor="tenChuCoSoNuoi">
+          <FormLabel htmlFor="owner">
             Họ tên chủ cơ sở nuôi <Asterisk />
           </FormLabel>
           <Input
             type="text"
-            id="tenChuCoSoNuoi"
-            name="tenChuCoSoNuoi"
-            defaultValue={farmInfo.tenChuCoSoNuoi}
+            id="owner"
+            name="owner"
+            defaultValue={farmInfo.owner}
             ref={register({
               required: "Required",
             })}
           />
         </FormControl>
         <FormControl gridColumn="span 6">
-          <FormLabel htmlFor="diaChi">
+          <FormLabel htmlFor="address">
             Địa chỉ <Asterisk />
           </FormLabel>
           <Input
             type="text"
-            id="diaChi"
-            name="diaChi"
-            defaultValue={farmInfo.diaChi}
+            id="address"
+            name="address"
+            defaultValue={farmInfo.address}
             ref={register({
               required: "Required",
             })}
           />
         </FormControl>
         <FormControl gridColumn="span 6">
-          <FormLabel htmlFor="dienTich">
+          <FormLabel htmlFor="area">
             Tổng diện tích cơ sở nuôi <Asterisk />
           </FormLabel>
           <Input
             type="text"
-            id="dienTich"
-            name="dienTich"
-            defaultValue={farmInfo.dienTich}
+            id="area"
+            name="area"
+            defaultValue={farmInfo.area}
             ref={register({
               required: "Required",
             })}
           />
         </FormControl>
         <FormControl gridColumn="span 6">
-          <FormLabel htmlFor="sdt">
+          <FormLabel htmlFor="phone">
             SĐT liên lạc <Asterisk />
           </FormLabel>
           <Input
             type="text"
-            id="sdt"
-            name="sdt"
-            defaultValue={farmInfo.sdt}
+            id="phone"
+            name="phone"
+            defaultValue={farmInfo.phone}
             ref={register({
               required: "Required",
             })}
@@ -231,28 +231,28 @@ const FarmInfoModify = ({ isEdit, setIsEdit, data }) => {
           />
         </FormControl>
         <FormControl gridColumn="span 6">
-          <FormLabel htmlFor="toaDo">
+          <FormLabel htmlFor="coordinate">
             Tọa độ <Asterisk />
           </FormLabel>
           <Input
             type="text"
-            id="toaDo"
-            name="toaDo"
-            defaultValue={farmInfo.toaDo}
+            id="coordinate"
+            name="coordinate"
+            defaultValue={farmInfo.coordinate}
             ref={register({
               required: "Required",
             })}
           />
         </FormControl>
         <FormControl gridColumn="span 6">
-          <FormLabel htmlFor="banDo">
+          <FormLabel htmlFor="map">
             Bản đồ <Asterisk />
           </FormLabel>
           <Input
             type="text"
-            id="banDo"
-            name="banDo"
-            defaultValue={farmInfo.banDo}
+            id="map"
+            name="map"
+            defaultValue={farmInfo.map}
             ref={register({
               required: "Required",
             })}
@@ -279,13 +279,13 @@ const FarmInfoModify = ({ isEdit, setIsEdit, data }) => {
 
           <Textarea
             type="text"
-            name="moTa"
-            id="moTa"
+            name="description"
+            id="description"
             ref={register({
               required: "Required",
             })}
           >
-            {farmInfo.moTa}
+            {farmInfo.description}
           </Textarea>
         </FormControl>
         <FormControl gridColumn="span 6">

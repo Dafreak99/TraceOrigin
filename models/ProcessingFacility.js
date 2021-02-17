@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 
 const ProcessingFacilitySchema = new mongoose.Schema({
-  tenCoSoCheBien: String,
-  diaChiCoSoCheBien: String,
-  toaDo: String,
-  banDo: String,
-  hinhAnh: [{ type: String }],
+  name: String,
+  address: String,
+  coordinate: String,
+  map: String,
+  images: [{ type: String }],
   farmId: String,
 });
 

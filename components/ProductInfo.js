@@ -61,7 +61,7 @@ const ProductInfo = ({ data }) => {
               p={8}
               borderBottom="3px solid #007bff"
             >
-              {data.farm.chungThuc.hinhAnh.map((image) => (
+              {data.farm.authentication.images.map((image) => (
                 <Image src={image} w="80%" />
               ))}
             </Box>
@@ -73,12 +73,12 @@ const ProductInfo = ({ data }) => {
 };
 
 const Tab1 = ({
-  tenSanPham,
-  hinhAnh,
-  donvi,
-  trongLuong,
-  ngayThuHoach,
-  seed: { ngayThaGiong, traiGiong },
+  name,
+  images,
+  unit,
+  weight,
+  harvestedDate,
+  seed: { stockingDate, hatchery },
 }) => {
   return (
     <Grid gridTemplateColumns="repeat(12, 1fr)">
@@ -95,7 +95,7 @@ const Tab1 = ({
             <Text fontWeight="bold">
               Tên sản phẩm:{" "}
               <Text as="span" fontWeight="normal">
-                {tenSanPham}
+                {name}
               </Text>
             </Text>
           </Flex>
@@ -107,7 +107,7 @@ const Tab1 = ({
             <Text fontWeight="bold">
               Ngày thu hoạch:{" "}
               <Text as="span" fontWeight="normal">
-                {ngayThuHoach}
+                {harvestedDate}
               </Text>
             </Text>
           </Flex>
@@ -118,7 +118,7 @@ const Tab1 = ({
             <Text fontWeight="bold">
               Đơn vị:{" "}
               <Text as="span" fontWeight="normal">
-                {donvi}
+                {unit}
               </Text>
             </Text>
           </Flex>
@@ -129,7 +129,7 @@ const Tab1 = ({
             <Text fontWeight="bold">
               Trọng lượng:{" "}
               <Text as="span" fontWeight="normal">
-                {trongLuong}
+                {weight}
               </Text>
             </Text>
           </Flex>
@@ -154,7 +154,7 @@ const Tab1 = ({
             <Text fontWeight="bold">
               Tên trại giống:{" "}
               <Text as="span" fontWeight="normal">
-                {traiGiong.tenTraiGiong}
+                {hatchery.name}
               </Text>
             </Text>
           </Flex>
@@ -165,7 +165,7 @@ const Tab1 = ({
             <Text fontWeight="bold">
               Địa chỉ trại giống:{" "}
               <Text as="span" fontWeight="normal">
-                {traiGiong.diaChiTraiGiong}
+                {hatchery.address}
               </Text>
             </Text>
           </Flex>
@@ -175,7 +175,7 @@ const Tab1 = ({
           <Text fontWeight="bold">
             Ngày thả giống:{" "}
             <Text as="span" fontWeight="normal">
-              {ngayThaGiong}
+              {stockingDate}
             </Text>
           </Text>
         </Flex>
@@ -230,10 +230,10 @@ const Tab2 = ({ data }) => {
     //       {data.feeding.map(
     //         (
     //           {
-    //             ngayThangNam,
-    //             ghiChu,
-    //             khoiLuong,
-    //             thucAn: { tenThucAn, hinhAnh },
+    //             createdDate,
+    //             note,
+    //             weight,
+    //             food: { name, images },
     //           },
     //           i
     //         ) => (
@@ -242,12 +242,12 @@ const Tab2 = ({ data }) => {
     //             cursor="pointer"
     //             // onClick={() => router.push(`./product/${_id}`)}
     //           >
-    //             <Td>{ngayThangNam}</Td>
-    //             <Td>{ghiChu}</Td>
-    //             <Td>{khoiLuong}</Td>
-    //             <Td>{tenThucAn}</Td>
+    //             <Td>{createdDate}</Td>
+    //             <Td>{note}</Td>
+    //             <Td>{weight}</Td>
+    //             <Td>{name}</Td>
     //             <Td>
-    //               <Image src={hinhAnh[0]} h="100px" w="100px" />
+    //               <Image src={images[0]} h="100px" w="100px" />
     //             </Td>
     //           </Tr>
     //         )
@@ -265,7 +265,7 @@ const Tab2 = ({ data }) => {
     //       </Tr>
     //       {data.usingMedicine.map(
     //         (
-    //           { ngayThangNam, khoiLuongThuoc, thuoc: { tenThuoc, hinhAnh } },
+    //           { createdDate, weight, medicine: { name, images } },
     //           i
     //         ) => (
     //           <Tr
@@ -273,11 +273,11 @@ const Tab2 = ({ data }) => {
     //             cursor="pointer"
     //             // onClick={() => router.push(`./product/${_id}`)}
     //           >
-    //             <Td>{ngayThangNam}</Td>
-    //             <Td>{khoiLuongThuoc}</Td>
-    //             <Td>{tenThuoc}</Td>
+    //             <Td>{createdDate}</Td>
+    //             <Td>{weight}</Td>
+    //             <Td>{name}</Td>
     //             <Td>
-    //               <Image src={hinhAnh[0]} h="100px" w="100px" />
+    //               <Image src={images[0]} h="100px" w="100px" />
     //             </Td>
     //           </Tr>
     //         )
@@ -294,25 +294,20 @@ const Tab2 = ({ data }) => {
       >
         <Panel header="Nhật ký cho ăn" key="1">
           {data.feeding.map(
-            ({
-              ngayThangNam,
-              ghiChu,
-              khoiLuong,
-              thucAn: { tenThucAn, hinhAnh },
-            }) => (
+            ({ createdDate, note, weight, food: { name, images } }) => (
               <Descriptions>
                 <Descriptions.Item label="Ngày tháng năm">
-                  {ngayThangNam}
+                  {createdDate}
                 </Descriptions.Item>
-                <Descriptions.Item label="Ghi chú">{ghiChu}</Descriptions.Item>
+                <Descriptions.Item label="Ghi chú">{note}</Descriptions.Item>
                 <Descriptions.Item label="Tên thức ăn">
-                  {tenThucAn}
+                  {name}
                 </Descriptions.Item>
                 <Descriptions.Item label="Khối lượng">
-                  {khoiLuong}
+                  {weight}
                 </Descriptions.Item>
                 <Descriptions.Item label="Hình ảnh">
-                  <Image src={hinhAnh[0]} h="100px" />
+                  <Image src={images[0]} h="100px" />
                 </Descriptions.Item>
               </Descriptions>
             )
@@ -321,23 +316,19 @@ const Tab2 = ({ data }) => {
 
         <Panel header="Nhật ký sử dụng thuốc" key="2">
           {data.usingMedicine.map(
-            ({
-              ngayThangNam,
-              khoiLuongThuoc,
-              thuoc: { tenThuoc, hinhAnh },
-            }) => (
+            ({ createdDate, weight, medicine: { name, images } }) => (
               <Descriptions>
                 <Descriptions.Item label="Ngày tháng năm">
-                  {ngayThangNam}
+                  {createdDate}
                 </Descriptions.Item>
                 <Descriptions.Item label="Tên thức ăn">
-                  {tenThuoc}
+                  {name}
                 </Descriptions.Item>
                 <Descriptions.Item label="Khối lượng">
-                  {khoiLuongThuoc}
+                  {weight}
                 </Descriptions.Item>
                 <Descriptions.Item label="Hình ảnh">
-                  <Image src={hinhAnh[0]} h="100px" />
+                  <Image src={images[0]} h="100px" />
                 </Descriptions.Item>
               </Descriptions>
             )

@@ -11,22 +11,23 @@ import { useRouter } from "next/router";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { Pagination } from "antd";
 
-import WorkerModal from "@/components/dashboard/WorkerModal";
 import Layout from "@/components/dashboard/Layout";
 import { Table, Th, Td, Tr } from "@/components/Table";
 import fetcher from "@/utils/fetcher";
 import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
 import Modal from "antd/lib/modal/Modal";
 import { useForm } from "react-hook-form";
+
+import WorkerModal from "@/components/dashboard/WorkerModal";
 import EditWorkerModal from "@/components/dashboard/EditWorkerModal";
 
 const Worker = () => {
   const router = useRouter();
 
   const [visible, setVisible] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
 
   const [deleteId, setDeleteId] = useState(null);
-  const [isEdit, setIsEdit] = useState(false);
 
   const [editIndex, setEditIndex] = useState(0);
 
@@ -53,13 +54,7 @@ const Worker = () => {
     }
 
     mutate(
-      [
-        "/api/worker",
-        // REPLACE TOKEN
-        process.browser ? localStorage.getItem("token") : null,
-
-        // process.browser ? localStorage.getItem("token") : null,
-      ],
+      ["/api/worker", process.browser ? localStorage.getItem("token") : null],
       async (cachedData) => {
         let data = cachedData.filter((each) => each._id !== deleteId);
 
@@ -106,14 +101,14 @@ const Worker = () => {
               {data.map(
                 (
                   {
-                    hoTen,
-                    diaChi,
-                    soCMND,
-                    namSinh,
-                    gioiTinh,
-                    bangCap,
-                    nhiemVu,
-                    sdt,
+                    name,
+                    address,
+                    idCard,
+                    dateOfBorn,
+                    gender,
+                    degree,
+                    responsibility,
+                    phone,
                     _id,
                   },
                   i
@@ -124,14 +119,14 @@ const Worker = () => {
                     onClick={() => router.push(`./food/${_id}`)}
                   >
                     <Td>{i + 1}</Td>
-                    <Td>{hoTen}</Td>
-                    <Td>{diaChi}</Td>
-                    <Td>{soCMND}</Td>
-                    <Td>{sdt}</Td>
-                    <Td>{namSinh}</Td>
-                    <Td>{gioiTinh}</Td>
-                    <Td>{bangCap}</Td>
-                    <Td>{nhiemVu}</Td>
+                    <Td>{name}</Td>
+                    <Td>{address}</Td>
+                    <Td>{idCard}</Td>
+                    <Td>{phone}</Td>
+                    <Td>{dateOfBorn}</Td>
+                    <Td>{gender}</Td>
+                    <Td>{degree}</Td>
+                    <Td>{responsibility}</Td>
 
                     <Td
                       borderLeft="1px solid #e8eef3"

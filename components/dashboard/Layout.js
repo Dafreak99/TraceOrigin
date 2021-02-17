@@ -13,6 +13,7 @@ import Header from "./Header";
 import Icon from "@ant-design/icons";
 import { FiAperture, FiPackage, FiUsers } from "react-icons/fi";
 import {
+  FaBattleNet,
   FaBorderAll,
   FaChartBar,
   FaStickyNote,
@@ -21,6 +22,7 @@ import {
 import { useRouter } from "next/router";
 import { RiBuilding4Fill, RiBuildingFill } from "react-icons/ri";
 import { AiOutlineLogout } from "react-icons/ai";
+import { MdSecurity } from "react-icons/md";
 
 const { Content, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -96,7 +98,7 @@ const FarmSidebar = () => {
       >
         <Menu.Item key="product-follow" icon={<DesktopOutlined />}>
           <Link href="/farm/product-follow">
-            <a style={{ fontWeight: "bold" }}>`Đăng ký`</a>
+            <a style={{ fontWeight: "bold" }}>Đăng ký</a>
           </Link>
         </Menu.Item>
         <Menu.Item key="product" icon={<DesktopOutlined />}>
@@ -255,39 +257,24 @@ const QualityControlSidebar = () => {
     key = params[2];
   }
 
-  let predefinedKey = {
-    register: "product",
-    harvest: "product",
-  };
-
   return (
-    <Menu
-      theme="light"
-      mode="inline"
-      defaultSelectedKeys={[key]}
-      defaultOpenKeys={[predefinedKey[key] ? predefinedKey[key] : null]}
-    >
-      <SubMenu
-        icon={<Icon component={FaChartBar} />}
-        key="product"
-        title={
-          <span>
-            <span style={{ fontWeight: "bold" }}>Chờ duyệt</span>
-          </span>
-        }
-      >
-        <Menu.Item key="register" icon={<DesktopOutlined />}>
-          <Link href="/qualitycontrol/register">
-            <a style={{ fontWeight: "bold" }}>Đăng ký</a>
-          </Link>
-        </Menu.Item>
+    <Menu theme="light" mode="inline" defaultSelectedKeys={[key]}>
+      <Menu.Item key="default" icon={<Icon component={MdSecurity} />}>
+        <Link href="/qualitycontrol/authentication">
+          <a style={{ fontWeight: "bold" }}>Xác thực</a>
+        </Link>
+      </Menu.Item>
+      <Menu.Item key="register" icon={<Icon component={FaBattleNet} />}>
+        <Link href="/qualitycontrol/register">
+          <a style={{ fontWeight: "bold" }}>Đăng ký</a>
+        </Link>
+      </Menu.Item>
 
-        <Menu.Item key="harvest" icon={<Icon component={FiUsers} />}>
-          <Link href="/qualitycontrol/harvest">
-            <a style={{ fontWeight: "bold" }}>Thu hoạch</a>
-          </Link>
-        </Menu.Item>
-      </SubMenu>
+      <Menu.Item key="harvest" icon={<Icon component={FiUsers} />}>
+        <Link href="/qualitycontrol/harvest">
+          <a style={{ fontWeight: "bold" }}>Thu hoạch</a>
+        </Link>
+      </Menu.Item>
     </Menu>
   );
 };

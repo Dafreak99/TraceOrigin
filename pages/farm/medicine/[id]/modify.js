@@ -31,13 +31,13 @@ const Modify = () => {
 
   const currentDate = format(new Date(), "dd/MM/yyyy");
 
-  const [ngayNhap, setNgayNhap] = useState(currentDate);
-  const [ngaySanXuat, setNgaySanXuat] = useState(currentDate);
-  const [hanSuDung, setHanSuDung] = useState(currentDate);
+  const [importDate, setNgayNhap] = useState(currentDate);
+  const [manufactureDate, setNgaySanXuat] = useState(currentDate);
+  const [expiryDate, setHanSuDung] = useState(currentDate);
 
   const [generalData, setGeneralData] = useState(null);
 
-  const [cachBaoQuan, setCachBaoQuan] = useState(null);
+  const [preservationMethod, setCachBaoQuan] = useState(null);
 
   const [files, setFiles] = useState([]);
   const [fileUrls, setFileUrls] = useState([]);
@@ -55,13 +55,13 @@ const Modify = () => {
   useEffect(() => {
     if (data) {
       setGeneralData(data);
-      setNgayNhap(data.ngayNhap);
-      setNgaySanXuat(data.ngaySanXuat);
-      setHanSuDung(data.hanSuDung);
-      setCachBaoQuan(data.cachBaoQuan);
-      if (data.hinhAnh) {
-        setFiles(Array(data.hinhAnh.length).fill(""));
-        setFileUrls(data.hinhAnh);
+      setNgayNhap(data.importDate);
+      setNgaySanXuat(data.manufactureDate);
+      setHanSuDung(data.expiryDate);
+      setCachBaoQuan(data.preservationMethod);
+      if (data.images) {
+        setFiles(Array(data.images.length).fill(""));
+        setFileUrls(data.images);
       }
     }
   }, [data]);
@@ -97,7 +97,7 @@ const Modify = () => {
       }
     }
 
-    values.hinhAnh = urls;
+    values.images = urls;
 
     try {
       let res = await fetch(`/api/medicine/${router.query.id}`, {
@@ -174,93 +174,95 @@ const Modify = () => {
               mt="2rem"
             >
               <FormControl>
-                <FormLabel htmlFor="ngayNhap">Ngày nhập: </FormLabel>
+                <FormLabel htmlFor="importDate">Ngày nhập: </FormLabel>
                 <br />
                 <DatePicker
                   control={control}
-                  name="ngayNhap"
-                  placeholder={ngayNhap}
+                  name="importDate"
+                  placeholder={importDate}
                 />
               </FormControl>
               <FormControl>
-                <FormLabel htmlFor="tenThucAn">Tên thuốc</FormLabel>
+                <FormLabel htmlFor="name">Tên thuốc</FormLabel>
                 <Input
                   type="text"
-                  id="tenThuoc"
-                  name="tenThuoc"
+                  id="name"
+                  name="name"
                   onChange={onChange}
-                  value={generalData.tenThuoc}
+                  value={generalData.name}
                   ref={register({
                     required: "Required",
                   })}
                 />
               </FormControl>
               <FormControl>
-                <FormLabel htmlFor="donViCungCapThuoc">
+                <FormLabel htmlFor="medicineSupplier">
                   Tên người/cửa hàng cung cấp thuốc:{" "}
                 </FormLabel>
                 <Input
                   type="text"
-                  id="donViCungCapThuoc"
-                  name="donViCungCapThuoc"
+                  id="medicineSupplier"
+                  name="medicineSupplier"
                   onChange={onChange}
-                  value={generalData.donViCungCapThuoc}
+                  value={generalData.medicineSupplier}
                   ref={register({
                     required: "Required",
                   })}
                 />
               </FormControl>
               <FormControl>
-                <FormLabel htmlFor="diaChiDonViCungCapThuoc">
+                <FormLabel htmlFor="medicineSupplierAddress">
                   Địa chỉ đơn vị cung cấp thuốc:{" "}
                 </FormLabel>
                 <Input
                   type="text"
-                  id="diaChiDonViCungCapThuoc"
-                  name="diaChiDonViCungCapThuoc"
+                  id="medicineSupplierAddress"
+                  name="medicineSupplierAddress"
                   onChange={onChange}
-                  value={generalData.diaChiDonViCungCapThuoc}
+                  value={generalData.medicineSupplierAddress}
                   ref={register({
                     required: "Required",
                   })}
                 />
               </FormControl>
               <FormControl>
-                <FormLabel htmlFor="soLuong">Số lượng(kg): </FormLabel>
+                <FormLabel htmlFor="weight">Số lượng(kg): </FormLabel>
                 <Input
                   type="number"
-                  id="soLuong"
-                  name="soLuong"
+                  id="weight"
+                  name="weight"
                   onChange={onChange}
-                  value={generalData.soLuong}
+                  value={generalData.weight}
                   ref={register({
                     required: "Required",
                   })}
                 />
               </FormControl>
               <FormControl>
-                <FormLabel htmlFor="ngaySanXuat">Ngày sản xuất</FormLabel>
+                <FormLabel htmlFor="manufactureDate">Ngày sản xuất</FormLabel>
                 <br />
                 <DatePicker
                   control={control}
-                  name="ngaySanXuat"
-                  placeholder={ngaySanXuat}
+                  name="manufactureDate"
+                  placeholder={manufactureDate}
                 />
               </FormControl>
               <FormControl>
-                <FormLabel htmlFor="hanSuDung">Hạn sử dụng</FormLabel>
+                <FormLabel htmlFor="expiryDate">Hạn sử dụng</FormLabel>
                 <br />
                 <DatePicker
                   control={control}
-                  name="hanSuDung"
-                  placeholder={hanSuDung}
+                  name="expiryDate"
+                  placeholder={expiryDate}
                 />
               </FormControl>
               <FormControl>
-                <FormLabel htmlFor="cachBaoQuan">Cách bảo quản</FormLabel>
+                <FormLabel htmlFor="preservationMethod">
+                  Cách bảo quản
+                </FormLabel>
 
                 <Controller
-                  name="cachBaoQuan"
+                  name="preservationMethod"
                   defaultValue="Tủ lạnh"
                   control={control}
                   rules={{ required: true }}

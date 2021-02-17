@@ -16,9 +16,7 @@ import GreenDot from "@/components/GreenDot";
 import Navbar from "@/components/Navbar";
 import ProductInfo from "@/components/ProductInfo";
 import Footer from "@/components/Footer";
-import { useRouter } from "next/router";
-import useSWR from "swr";
-import fetcher from "@/utils/fetcher";
+
 import { useState } from "react";
 import NavbarDrawer from "@/components/NavbarDrawer";
 import { HiUser } from "react-icons/hi";
@@ -52,7 +50,7 @@ const Product = ({ data }) => {
               <Breadcrumb>
                 <Breadcrumb.Item>Sản phẩm</Breadcrumb.Item>
                 <Breadcrumb.Item>
-                  <a href="">{data.tenSanPham}</a>
+                  <a href="">{data.name}</a>
                 </Breadcrumb.Item>
               </Breadcrumb>
               <Grid
@@ -62,7 +60,7 @@ const Product = ({ data }) => {
               >
                 <Box gridColumn={{ base: "span 12", xl: "span 6" }}>
                   <Image
-                    src={data.hinhAnh[0]}
+                    src={data.images[0]}
                     borderRadius="10px"
                     boxShadow="0 10px 10px rgba(0,0,0,.1)"
                   />
@@ -77,7 +75,7 @@ const Product = ({ data }) => {
                   </Flex>
                   <List spacing={3} mt={4}>
                     <ListItem>
-                      <Image src={data.farm.hinhAnh[0]} />
+                      <Image src={data.farm.images[0]} />
                     </ListItem>
                     <ListItem>
                       <Text
@@ -85,7 +83,7 @@ const Product = ({ data }) => {
                         textTransform="uppercase"
                         mt="2rem"
                       >
-                        {data.farm.tenCoSoNuoi}
+                        {data.farm.name}
                       </Text>
                     </ListItem>
 
@@ -95,7 +93,7 @@ const Product = ({ data }) => {
                         <Text fontWeight="bold">
                           Chủ cơ sở:{" "}
                           <Text as="span" fontWeight="normal">
-                            {data.farm.tenChuCoSoNuoi}
+                            {data.farm.owner}
                           </Text>
                         </Text>
                       </Flex>
@@ -106,7 +104,7 @@ const Product = ({ data }) => {
                         <Text fontWeight="bold">
                           Địa chỉ:{" "}
                           <Text as="span" fontWeight="normal">
-                            {data.farm.diaChi}
+                            {data.farm.address}
                           </Text>
                         </Text>
                       </Flex>
@@ -117,7 +115,7 @@ const Product = ({ data }) => {
                         <Text fontWeight="bold">
                           Số điện thoại:{" "}
                           <Text as="span" fontWeight="normal">
-                            {data.farm.sdt}
+                            {data.farm.phone}
                           </Text>
                         </Text>
                       </Flex>
@@ -128,7 +126,7 @@ const Product = ({ data }) => {
                         <Text fontWeight="bold">
                           Diện tích cơ sở:{" "}
                           <Text as="span" fontWeight="normal">
-                            {data.farm.dienTich} m2
+                            {data.farm.area} m2
                           </Text>
                         </Text>
                       </Flex>
@@ -208,7 +206,6 @@ export async function getStaticPaths() {
   };
 }
 
-// This also gets called at build time
 export async function getStaticProps({ params }) {
   const res = await fetch(
     `https://traceorigin.vercel.app/api/product/${params.id}`

@@ -18,32 +18,46 @@ export default async (req, res) => {
 
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-  let farm = await Farm.findOne({ themVaoBoi: decoded });
+  let farm = await Farm.findOne({ createdBy: decoded });
 
   switch (method) {
     case "GET":
       let all = await UsingMedicine.find({
         farmId: farm._id,
         isDone: false,
-      }).populate(["ao", "nguoiTron", "thucAn", "thuoc"]);
+      }).populate(["pond", "worker", "food", "medicine"]);
       res.send(all);
       break;
     case "POST":
-      const { thuoc, khoiLuongThuoc, sanPham } = req.body;
+      const {
+        productId,
+        medicineId,
+        foodId,
+        weight,
+        createdDate,
+        mixingRatio,
+        workerId,
+      } = req.body;
 
       try {
-        let product = await Product.findById(sanPham);
+        let product = await Product.findById(productId);
+
         // Reduce medicine quantity after using
-        let medicine = await Medicine.findOne({ _id: thuoc });
+        let medicine = await Medicine.findById(medicineId);
 
         await Medicine.findOneAndUpdate(
-          { _id: req.body.thuoc },
-          { soLuong: medicine.soLuong - khoiLuongThuoc }
+          { _id: medicineId },
+          { weight: medicine.weight - weight }
         );
 
         let usingMedicine = new UsingMedicine({
-          ...req.body,
-          ao: product.pond,
+          createdDate,
+          medicine: medicineId,
+          food: foodId,
+          worker: workerId,
+          pond: product.pond,
+          mixingRatio,
+          weight,
           farmId: farm._id,
           isDone: false,
         });
@@ -52,6 +66,7 @@ export default async (req, res) => {
 
         res.send(usingMedicine);
       } catch (error) {
+        console.log(error);
         res.send({ message: error.message });
       }
 

@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
 
 const WorkerSchema = new mongoose.Schema({
-  hoTen: String,
-  diaChi: String,
-  soCMND: String,
-  sdt: String,
-  namSinh: String,
-  gioiTinh: String,
-  bangCap: String,
-  nhiemVu: String,
+  name: String,
+  address: String,
+  idCard: String,
+  phone: String,
+  dateOfBorn: String,
+  gender: String,
+  degree: String,
+  responsibility: String,
   farmId: String,
 });
 

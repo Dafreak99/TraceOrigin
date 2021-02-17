@@ -56,7 +56,7 @@ const Index = ({}) => {
                     </BreadcrumbLink>
                   </BreadcrumbItem>
                   <BreadcrumbItem isCurrentPage>
-                    <BreadcrumbLink>{data.tenSanPham}</BreadcrumbLink>
+                    <BreadcrumbLink>{data.name}</BreadcrumbLink>
                   </BreadcrumbItem>
                 </Breadcrumb>
               </Flex>
@@ -72,7 +72,7 @@ const Index = ({}) => {
               boxShadow="0 15px 30px rgba(0,0,0,.05)"
               background="#fff"
             >
-              <Image src={data.hinhAnh[0]} h="20rem" mr="8rem" />
+              <Image src={data.images[0]} h="20rem" mr="8rem" />
               <List spacing={4}>
                 <Heading fontSize="xl" mb={6}>
                   Thông tin sản phẩm
@@ -81,7 +81,7 @@ const Index = ({}) => {
                   <Text fontSize="md" fontWeight="medium">
                     Tên sản phẩm:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.tenSanPham}
+                      {data.name}
                     </Box>
                   </Text>
                 </ListItem>
@@ -89,7 +89,7 @@ const Index = ({}) => {
                   <Text fontSize="md" fontWeight="medium">
                     Trọng lượng:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.trongLuong}
+                      {data.weight}
                     </Box>
                   </Text>
                 </ListItem>
@@ -97,7 +97,7 @@ const Index = ({}) => {
                   <Text fontSize="md" fontWeight="medium">
                     Đơn vị:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.donvi}
+                      {data.unit}
                     </Box>
                   </Text>
                 </ListItem>
@@ -105,7 +105,7 @@ const Index = ({}) => {
                   <Text fontSize="md" fontWeight="medium">
                     Ngày thu hoạch:{" "}
                     <Box as="span" fontWeight="normal">
-                      {format(new Date(data.ngayThuHoach), "dd/MM/yyyy")}
+                      {format(new Date(data.harvestedDate), "dd/MM/yyyy")}
                     </Box>
                   </Text>
                 </ListItem>
@@ -123,12 +123,7 @@ const Index = ({}) => {
                       </Tr>
                       {data.feeding.map(
                         (
-                          {
-                            ngayThangNam,
-                            ghiChu,
-                            khoiLuong,
-                            thucAn: { tenThucAn, hinhAnh },
-                          },
+                          { createdDate, note, weight, food: { name, images } },
                           i
                         ) => (
                           <Tr
@@ -137,13 +132,13 @@ const Index = ({}) => {
                             onClick={() => router.push(`./product/${_id}`)}
                           >
                             <Td>
-                              {format(new Date(ngayThangNam), "dd/MM/yyyy")}
+                              {format(new Date(createdDate), "dd/MM/yyyy")}
                             </Td>
-                            <Td>{ghiChu}</Td>
-                            <Td>{khoiLuong}</Td>
-                            <Td>{tenThucAn}</Td>
+                            <Td>{note}</Td>
+                            <Td>{weight}</Td>
+                            <Td>{name}</Td>
                             <Td>
-                              <Image src={hinhAnh[0]} h="100px" w="100px" />
+                              <Image src={images[0]} h="100px" w="100px" />
                             </Td>
                           </Tr>
                         )
@@ -161,11 +156,7 @@ const Index = ({}) => {
                       </Tr>
                       {data.usingMedicine.map(
                         (
-                          {
-                            ngayThangNam,
-                            khoiLuongThuoc,
-                            thuoc: { tenThuoc, hinhAnh },
-                          },
+                          { createdDate, weight, medicine: { name, images } },
                           i
                         ) => (
                           <Tr
@@ -174,12 +165,12 @@ const Index = ({}) => {
                             onClick={() => router.push(`./product/${_id}`)}
                           >
                             <Td>
-                              {format(new Date(ngayThangNam), "dd/MM/yyyy")}
+                              {format(new Date(createdDate), "dd/MM/yyyy")}
                             </Td>
-                            <Td>{khoiLuongThuoc}</Td>
-                            <Td>{tenThuoc}</Td>
+                            <Td>{weight}</Td>
+                            <Td>{name}</Td>
                             <Td>
-                              <Image src={hinhAnh[0]} h="100px" w="100px" />
+                              <Image src={images[0]} h="100px" w="100px" />
                             </Td>
                           </Tr>
                         )

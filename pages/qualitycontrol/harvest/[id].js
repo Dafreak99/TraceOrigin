@@ -41,7 +41,7 @@ const Index = () => {
       <Box px={16} py={12}>
         <Flex alignItems="center">
           <BackButton />
-          <Heading>{data && data.tenSanPham}</Heading>
+          <Heading>{data && data.name}</Heading>
         </Flex>
         <Grid
           px="4rem"
@@ -66,7 +66,7 @@ const Index = () => {
                       <Text fontSize="md" fontWeight="bold">
                         Tên sản phẩm:{" "}
                         <Box as="span" fontWeight="normal">
-                          {data.tenSanPham}
+                          {data.name}
                         </Box>
                       </Text>
                     </ListItem>
@@ -74,7 +74,7 @@ const Index = () => {
                       <Text fontSize="md" fontWeight="bold">
                         Trọng lượng:{" "}
                         <Box as="span" fontWeight="normal">
-                          {data.trongLuong}
+                          {data.weight}
                         </Box>
                       </Text>
                     </ListItem>
@@ -82,7 +82,7 @@ const Index = () => {
                       <Text fontSize="md" fontWeight="bold">
                         Đơn vị:{" "}
                         <Box as="span" fontWeight="normal">
-                          {data.donvi}
+                          {data.unit}
                         </Box>
                       </Text>
                     </ListItem>
@@ -90,13 +90,13 @@ const Index = () => {
                       <Text fontSize="md" fontWeight="bold">
                         Ngày thu hoạch:{" "}
                         <Box as="span" fontWeight="normal">
-                          {format(new Date(data.ngayThuHoach), "dd-MM-yyyy")}
+                          {format(new Date(data.harvestedDate), "dd-MM-yyyy")}
                         </Box>
                       </Text>
                     </ListItem>
                     <ListItem>
                       <Text fontSize="md" fontWeight="bold">
-                        Hình ảnh sản phẩm: <Image src={data.hinhAnh[0]} />
+                        Hình ảnh sản phẩm: <Image src={data.images[0]} />
                       </Text>
                     </ListItem>
                   </List>
@@ -104,7 +104,7 @@ const Index = () => {
                     <ListItem>
                       <Text fontSize="md" fontWeight="bold">
                         QR:{" "}
-                        <QRCodevalue
+                        <QRCode
                           value={"http://traceorigin.vercel.app" + data.qrCode}
                         />
                       </Text>
@@ -122,7 +122,7 @@ const Index = () => {
                     <Text fontSize="md" fontWeight="bold">
                       Tên cơ sở nuôi:{" "}
                       <Box as="span" fontWeight="normal">
-                        {data.farm.tenCoSoNuoi}
+                        {data.farm.name}
                       </Box>
                     </Text>
                   </ListItem>
@@ -130,7 +130,7 @@ const Index = () => {
                     <Text fontSize="md" fontWeight="bold">
                       Tên chủ cơ sở nuôi:{" "}
                       <Box as="span" fontWeight="normal">
-                        {data.farm.tenChuCoSoNuoi}
+                        {data.farm.owner}
                       </Box>
                     </Text>
                   </ListItem>
@@ -138,7 +138,7 @@ const Index = () => {
                     <Text fontSize="md" fontWeight="bold">
                       Địa chỉ:{" "}
                       <Box as="span" fontWeight="normal">
-                        {data.farm.diaChi}
+                        {data.farm.address}
                       </Box>
                     </Text>
                   </ListItem>
@@ -146,13 +146,13 @@ const Index = () => {
                     <Text fontSize="md" fontWeight="bold">
                       SĐT:{" "}
                       <Box as="span" fontWeight="normal">
-                        {data.farm.sdt}
+                        {data.farm.phone}
                       </Box>
                     </Text>
                   </ListItem>
                   <ListItem>
                     <Text fontSize="md" fontWeight="bold">
-                      Hình ảnh cơ sở: <Image src={data.farm.hinhAnh[0]} />
+                      Hình ảnh cơ sở: <Image src={data.farm.images[0]} />
                     </Text>
                   </ListItem>
                 </List>
@@ -167,7 +167,7 @@ const Index = () => {
                     <Text fontSize="md" fontWeight="bold">
                       Tên ao:{" "}
                       <Box as="span" fontWeight="normal">
-                        {data.pond.tenAo}
+                        {data.pond.name}
                       </Box>
                     </Text>
                   </ListItem>
@@ -175,7 +175,7 @@ const Index = () => {
                     <Text fontSize="md" fontWeight="bold">
                       Mã ao:{" "}
                       <Box as="span" fontWeight="normal">
-                        {data.pond.maAo}
+                        {data.pond.code}
                       </Box>
                     </Text>
                   </ListItem>
@@ -183,7 +183,7 @@ const Index = () => {
                     <Text fontSize="md" fontWeight="bold">
                       Mật độ thả:{" "}
                       <Box as="span" fontWeight="normal">
-                        {data.pond.matDoTha}
+                        {data.pond.stockingDensity}
                       </Box>
                     </Text>
                   </ListItem>
@@ -191,7 +191,7 @@ const Index = () => {
                     <Text fontSize="md" fontWeight="bold">
                       Ngày thả giống:{" "}
                       <Box as="span" fontWeight="normal">
-                        {data.seed.ngayThaGiong}
+                        {data.seed.stockingDate}
                       </Box>
                     </Text>
                   </ListItem>
@@ -199,7 +199,7 @@ const Index = () => {
                     <Text fontSize="md" fontWeight="bold">
                       Ngày tuổi giống:{" "}
                       <Box as="span" fontWeight="normal">
-                        {data.seed.ngayTuoiGiong}
+                        {data.seed.seedAge}
                       </Box>
                     </Text>
                   </ListItem>
@@ -207,7 +207,7 @@ const Index = () => {
                     <Text fontSize="md" fontWeight="bold">
                       Tên trại giống:{" "}
                       <Box as="span" fontWeight="normal">
-                        {data.seed.traiGiong.tenTraiGiong}
+                        {data.seed.hatchery.name}
                       </Box>
                     </Text>
                   </ListItem>
@@ -215,7 +215,7 @@ const Index = () => {
                     <Text fontSize="md" fontWeight="bold">
                       Địa chỉ trại giống:{" "}
                       <Box as="span" fontWeight="normal">
-                        {data.seed.traiGiong.diaChiTraiGiong}
+                        {data.seed.hatchery.address}
                       </Box>
                     </Text>
                   </ListItem>
@@ -239,12 +239,7 @@ const Index = () => {
                     </Tr>
                     {data.feeding.map(
                       (
-                        {
-                          ngayThangNam,
-                          ghiChu,
-                          khoiLuong,
-                          thucAn: { tenThucAn, hinhAnh },
-                        },
+                        { createdDate, note, weight, food: { name, images } },
                         i
                       ) => (
                         <Tr
@@ -252,14 +247,12 @@ const Index = () => {
                           cursor="pointer"
                           // onClick={() => router.push(`./product/${_id}`)}
                         >
+                          <Td>{format(new Date(createdDate), "dd/MM/yyyy")}</Td>
+                          <Td>{note}</Td>
+                          <Td>{weight}</Td>
+                          <Td>{name}</Td>
                           <Td>
-                            {format(new Date(ngayThangNam), "dd/MM/yyyy")}
-                          </Td>
-                          <Td>{ghiChu}</Td>
-                          <Td>{khoiLuong}</Td>
-                          <Td>{tenThucAn}</Td>
-                          <Td>
-                            <Image src={hinhAnh[0]} h="100px" w="100px" />
+                            <Image src={images[0]} h="100px" w="100px" />
                           </Td>
                         </Tr>
                       )
@@ -277,11 +270,7 @@ const Index = () => {
                     </Tr>
                     {data.usingMedicine.map(
                       (
-                        {
-                          ngayThangNam,
-                          khoiLuongThuoc,
-                          thuoc: { tenThuoc, hinhAnh },
-                        },
+                        { createdDate, weight, medicine: { name, images } },
                         i
                       ) => (
                         <Tr
@@ -289,13 +278,11 @@ const Index = () => {
                           cursor="pointer"
                           // onClick={() => router.push(`./product/${_id}`)}
                         >
+                          <Td>{format(new Date(createdDate), "dd/MM/yyyy")}</Td>
+                          <Td>{weight}</Td>
+                          <Td>{name}</Td>
                           <Td>
-                            {format(new Date(ngayThangNam), "dd/MM/yyyy")}
-                          </Td>
-                          <Td>{khoiLuongThuoc}</Td>
-                          <Td>{tenThuoc}</Td>
-                          <Td>
-                            <Image src={hinhAnh[0]} h="100px" w="100px" />
+                            <Image src={images[0]} h="100px" w="100px" />
                           </Td>
                         </Tr>
                       )

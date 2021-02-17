@@ -3,12 +3,12 @@ const Farm = require("./Farm");
 
 const BusinessSchema = new mongoose.Schema({
   tenDoanhNghiep: String,
-  diaChi: String,
-  hinhAnh: [{ type: String }],
-  sdt: String,
-  toaDo: Object,
+  address: String,
+  images: [{ type: String }],
+  phone: String,
+  coordinate: Object,
   farm: { type: mongoose.Schema.Types.ObjectId, ref: Farm },
-  themVaoBoi: String,
+  createdBy: String,
 });
 
 module.exports =

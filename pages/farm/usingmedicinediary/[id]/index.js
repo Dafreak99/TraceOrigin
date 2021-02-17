@@ -44,7 +44,7 @@ const Index = () => {
                     onClick={() => router.push("/dashboard/medicine")}
                   />
                   <Heading size="xl" fontWeight="medium" color="gray.800">
-                    Thuốc / {data.tenThuoc}
+                    Thuốc / {data.name}
                   </Heading>
                 </Flex>
                 <Button
@@ -64,7 +64,7 @@ const Index = () => {
                   <Text fontSize="md" fontWeight="medium">
                     Tên thuốc:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.tenThuoc}
+                      {data.name}
                     </Box>
                   </Text>
                 </ListItem>
@@ -72,7 +72,7 @@ const Index = () => {
                   <Text fontSize="md" fontWeight="medium">
                     Đơn vị cung cấp thuốc:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.donViCungCapThuoc}
+                      {data.medicineSupplier}
                     </Box>
                   </Text>
                 </ListItem>
@@ -81,7 +81,7 @@ const Index = () => {
                   <Text fontSize="md" fontWeight="medium">
                     Địa chỉ đơn vị cung cấp thuốc:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.diaChiDonViCungCapThuoc}
+                      {data.medicineSupplierAddress}
                     </Box>
                   </Text>
                 </ListItem>
@@ -89,7 +89,7 @@ const Index = () => {
                   <Text fontSize="md" fontWeight="medium">
                     Ngày nhập thuốc:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.ngayNhap}
+                      {data.importDate}
                     </Box>
                   </Text>
                 </ListItem>
@@ -97,7 +97,7 @@ const Index = () => {
                   <Text fontSize="md" fontWeight="medium">
                     Ngày sản xuất:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.ngaySanXuat}
+                      {data.manufactureDate}
                     </Box>
                   </Text>
                 </ListItem>
@@ -105,7 +105,7 @@ const Index = () => {
                   <Text fontSize="md" fontWeight="medium">
                     Ngày hết hạn:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.hanSuDung}
+                      {data.expiryDate}
                     </Box>
                   </Text>
                 </ListItem>
@@ -113,7 +113,7 @@ const Index = () => {
                   <Text fontSize="md" fontWeight="medium">
                     Số lượng:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.soLuong} kg
+                      {data.weight} kg
                     </Box>
                   </Text>
                 </ListItem>
@@ -121,7 +121,7 @@ const Index = () => {
                   <Text fontSize="md" fontWeight="medium">
                     Cách bảo quản:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.cachBaoQuan}
+                      {data.preservationMethod}
                     </Box>
                   </Text>
                 </ListItem>
@@ -129,7 +129,7 @@ const Index = () => {
                   <Text fontSize="md" fontWeight="medium">
                     Hình ảnh:
                   </Text>
-                  <Image src={data.hinhAnh[0]} height="30rem" mt={6} />
+                  <Image src={data.images[0]} height="30rem" mt={6} />
                 </ListItem>
               </List>
             </>

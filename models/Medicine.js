@@ -1,15 +1,15 @@
 const mongoose = require("mongoose");
 
 const MedicineSchema = new mongoose.Schema({
-  tenThuoc: String,
-  donViCungCapThuoc: String,
-  hinhAnh: [String],
-  soLuong: Number,
-  cachBaoQuan: String,
-  diaChiDonViCungCapThuoc: String,
-  ngayNhap: String,
-  ngaySanXuat: String,
-  hanSuDung: String,
+  name: String,
+  medicineSupplier: String,
+  images: [String],
+  weight: Number,
+  preservationMethod: String,
+  medicineSupplierAddress: String,
+  importDate: String,
+  manufactureDate: String,
+  expiryDate: String,
   farmId: String,
 });
 

@@ -72,8 +72,8 @@ const Index = () => {
       }
     }
 
-    values.hinhAnh = urls;
-    values.trongLuong = +values.trongLuong;
+    values.images = urls;
+    values.weight = +values.weight;
     values.productId = data.product._id;
     values.pond = data.pond._id;
 
@@ -112,7 +112,7 @@ const Index = () => {
                     <BreadcrumbLink>Thu hoạch sản phẩm</BreadcrumbLink>
                   </BreadcrumbItem>
                   <BreadcrumbItem isCurrentPage>
-                    <BreadcrumbLink>{data.product.tenSanPham}</BreadcrumbLink>
+                    <BreadcrumbLink>{data.product.name}</BreadcrumbLink>
                   </BreadcrumbItem>
                 </Breadcrumb>
               </Flex>
@@ -137,25 +137,30 @@ const Index = () => {
               mt="2rem"
             >
               <FormControl>
-                <FormLabel htmlFor="ngayThuHoach">Ngày thu hoạch: </FormLabel>
+                <FormLabel htmlFor="harvestedDate">Ngày thu hoạch: </FormLabel>
                 <br />
-                <DatePicker control={control} name="ngayThuHoach" />
+                <DatePicker control={control} name="harvestedDate" />
+                {errors.harvestedDate?.type === "required" && (
+                  <Text fontSize="md" fontStyle="italic" color="red.300">
+                    Vui lòng nhập ngày
+                  </Text>
+                )}
               </FormControl>
               <FormControl>
-                <FormLabel htmlFor="trongLuong">Trọng lượng: </FormLabel>
+                <FormLabel htmlFor="weight">Trọng lượng: </FormLabel>
                 <Input
                   type="number"
-                  id="trongLuong"
-                  name="trongLuong"
+                  id="weight"
+                  name="weight"
                   ref={register({
                     required: "Required",
                   })}
                 />
               </FormControl>
               <FormControl>
-                <FormLabel htmlFor="trongLuong">Đơn vị: </FormLabel>
+                <FormLabel htmlFor="weight">Đơn vị: </FormLabel>
                 <Controller
-                  name="donvi"
+                  name="unit"
                   defaultValue="KG"
                   control={control}
                   rules={{ required: true }}
@@ -172,7 +177,7 @@ const Index = () => {
                 />
               </FormControl>
               <FormControl>
-                <FormLabel htmlFor="hinhAnh">Hình ảnh: </FormLabel>
+                <FormLabel htmlFor="images">Hình ảnh: </FormLabel>
                 <UploadPreview
                   files={files}
                   setFiles={setFiles}
@@ -198,7 +203,7 @@ const Index = () => {
                   <Text fontSize="md" fontWeight="bold">
                     Ngày thả giống:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.pond.seed.ngayThaGiong}
+                      {data.pond.seed.stockingDate}
                     </Box>
                   </Text>
                 </ListItem>
@@ -206,7 +211,7 @@ const Index = () => {
                   <Text fontSize="md" fontWeight="bold">
                     Số lượng:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.pond.seed.soLuongConGiong}
+                      {data.pond.seed.quantity}
                     </Box>
                   </Text>
                 </ListItem>
@@ -214,7 +219,7 @@ const Index = () => {
                   <Text fontSize="md" fontWeight="bold">
                     Ngày tuổi của giống:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.pond.seed.ngayTuoiGiong}
+                      {data.pond.seed.seedAge}
                     </Box>
                   </Text>
                 </ListItem>
@@ -222,7 +227,7 @@ const Index = () => {
                   <Text fontSize="md" fontWeight="bold">
                     Tên trại giống:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.pond.seed.traiGiong.tenTraiGiong}
+                      {data.pond.seed.hatchery.name}
                     </Box>
                   </Text>
                 </ListItem>
@@ -230,7 +235,7 @@ const Index = () => {
                   <Text fontSize="md" fontWeight="bold">
                     Địa chỉ trại giống:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.pond.seed.traiGiong.diaChiTraiGiong}
+                      {data.pond.seed.hatchery.address}
                     </Box>
                   </Text>
                 </ListItem>
@@ -243,7 +248,7 @@ const Index = () => {
                   <Text fontSize="md" fontWeight="bold">
                     Tên ao:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.pond.tenAo}
+                      {data.pond.name}
                     </Box>
                   </Text>
                 </ListItem>
@@ -251,7 +256,7 @@ const Index = () => {
                   <Text fontSize="md" fontWeight="bold">
                     Mã ao:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.pond.maAo}
+                      {data.pond.code}
                     </Box>
                   </Text>
                 </ListItem>
@@ -259,7 +264,7 @@ const Index = () => {
                   <Text fontSize="md" fontWeight="bold">
                     Diện tích ao (hecta):{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.pond.dienTich}
+                      {data.pond.area}
                     </Box>
                   </Text>
                 </ListItem>

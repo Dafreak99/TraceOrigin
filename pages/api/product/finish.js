@@ -15,13 +15,13 @@ export default async (req, res) => {
   switch (method) {
     case "GET":
       let products = await Product.find({
-        duyetThuHoach: "true",
+        isHarvested: "true",
       })
         .populate({ path: "pond", populate: { path: "seed" } })
-        .populate({ path: "seed", populate: { path: "traiGiong" } })
+        .populate({ path: "seed", populate: { path: "hatchery" } })
         .populate({ path: "farm" })
         .populate({ path: "feeding" })
-        .populate({ path: "usingMedicine", populate: { path: "thuoc" } });
+        .populate({ path: "usingMedicine", populate: { path: "medicine" } });
       res.send(products);
 
       break;

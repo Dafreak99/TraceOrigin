@@ -16,7 +16,7 @@ export default async (req, res) => {
     return res.status(400).send({ message: "Bạn không có quyền truy cập" });
 
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
-  let farm = await Farm.findOne({ themVaoBoi: decoded });
+  let farm = await Farm.findOne({ createdBy: decoded });
 
   switch (method) {
     case "GET":

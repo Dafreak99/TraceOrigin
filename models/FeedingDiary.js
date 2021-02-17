@@ -5,12 +5,12 @@ const Pond = require("./Pond");
 const Product = require("./Product");
 
 const FeedingDiarySchema = new mongoose.Schema({
-  ghiChu: String,
-  ngayThangNam: String,
-  khoiLuong: Number,
-  ao: { type: mongoose.Schema.Types.ObjectId, ref: Pond },
-  thucAn: { type: mongoose.Schema.Types.ObjectId, ref: Food },
-  coSoNuoi: { type: mongoose.Schema.Types.ObjectId, ref: Farm },
+  note: String,
+  createdDate: String,
+  weight: Number,
+  pond: { type: mongoose.Schema.Types.ObjectId, ref: Pond },
+  food: { type: mongoose.Schema.Types.ObjectId, ref: Food },
+  farm: { type: mongoose.Schema.Types.ObjectId, ref: Farm },
   isDone: Boolean,
 });
 

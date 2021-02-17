@@ -61,13 +61,13 @@ const UsingMedicineDiary = () => {
             {data.map(
               (
                 {
-                  ngayThangNam,
-                  thuoc: { tenThuoc, hinhAnh: hinhAnhThuoc },
-                  thucAn: { tenThucAn, hinhAnh: hinhAnhThucAn },
-                  ao: { tenAo },
-                  tyLePhoiTron,
-                  khoiLuongThuoc,
-                  nguoiTron: { hoTen },
+                  createdDate,
+                  medicine: { name, images: hinhAnhThuoc },
+                  food: { name: foodName, images: hinhAnhThucAn },
+                  pond: { name: pondName },
+                  mixingRatio,
+                  weight,
+                  worker: { name: workerName },
                   _id,
                 },
                 i
@@ -77,19 +77,19 @@ const UsingMedicineDiary = () => {
                   cursor="pointer"
                   onClick={() => router.push(`./usingmedicinediary/${_id}`)}
                 >
-                  <Td>{format(new Date(ngayThangNam), "dd/MM/yyyy")}</Td>
-                  <Td>{tenThuoc}</Td>
+                  <Td>{format(new Date(createdDate), "dd/MM/yyyy")}</Td>
+                  <Td>{name}</Td>
                   <Td>
                     <Image src={hinhAnhThuoc[0]} height="5rem" />
                   </Td>
-                  <Td>{tenThucAn}</Td>
+                  <Td>{foodName}</Td>
                   <Td>
                     <Image src={hinhAnhThucAn[0]} height="5rem" />
                   </Td>
-                  <Td>{tenAo}</Td>
-                  <Td>{khoiLuongThuoc}</Td>
-                  <Td>{tyLePhoiTron}</Td>
-                  <Td>{hoTen}</Td>
+                  <Td>{pondName}</Td>
+                  <Td>{weight}</Td>
+                  <Td>{mixingRatio}</Td>
+                  <Td>{workerName}</Td>
                   <Td
                     borderLeft="1px solid #e8eef3"
                     px={8}

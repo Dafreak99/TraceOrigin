@@ -16,12 +16,12 @@ export default async (req, res) => {
 
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-  let farm = await Farm.findOne({ themVaoBoi: decoded });
+  let farm = await Farm.findOne({ createdBy: decoded });
 
   if (farm) {
     // Update farm info
     try {
-      await Farm.updateOne({ themVaoBoi: decoded }, req.body);
+      await Farm.updateOne({ createdBy: decoded }, req.body);
       res.send({ message: "OK", status: "200" });
     } catch (error) {
       res.send({ message: error.message, status: "500" });
@@ -30,7 +30,7 @@ export default async (req, res) => {
     // Add new farm info
 
     try {
-      let farm = new Farm({ ...req.body, themVaoBoi: decoded });
+      let farm = new Farm({ ...req.body, createdBy: decoded });
       farm.save();
       res.send({ message: "OK", status: "201" });
     } catch (error) {

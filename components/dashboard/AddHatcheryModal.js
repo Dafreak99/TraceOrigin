@@ -94,24 +94,22 @@ const AddHatchery = () => {
         {/* Modal Body */}
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl>
-            <FormLabel htmlFor="tenTraiGiong">Tên trại giống</FormLabel>
+            <FormLabel htmlFor="name">Tên trại giống</FormLabel>
             <Input
               type="text"
-              id="tenTraiGiong"
-              name="tenTraiGiong"
+              id="name"
+              name="name"
               ref={register({
                 required: "Required",
               })}
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="diaChiTraiGiong">
-              Địa chỉ trại giống:{" "}
-            </FormLabel>
+            <FormLabel htmlFor="address">Địa chỉ trại giống: </FormLabel>
             <Input
               type="text"
-              id="diaChiTraiGiong"
-              name="diaChiTraiGiong"
+              id="address"
+              name="address"
               ref={register({
                 required: "Required",
               })}

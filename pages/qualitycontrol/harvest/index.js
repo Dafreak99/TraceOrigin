@@ -1,6 +1,6 @@
 import Layout from "@/components/dashboard/Layout";
 
-import { Box, Alert, AlertIcon, Heading, Text } from "@chakra-ui/core";
+import { Box, Alert, AlertIcon, Heading, Image, Text } from "@chakra-ui/core";
 
 import { Table, Td, Th, Tr } from "@/components/Table";
 
@@ -17,54 +17,42 @@ const DashBoard = () => {
 
   const { data: products } = useSWR(
     [
-      "/api/product/unapproved",
+      "/api/product/harvest/pending",
       process.browser ? localStorage.getItem("token") : null,
     ],
     fetcher,
     { refreshInterval: 1000 }
   );
 
-  const onReject = async (id) => {
+  const onReject = async (id, pondId) => {
     try {
-      await fetch(`/api/product/register/reject`, {
+      await fetch(`/api/product/harvest/reject`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: process.browser ? localStorage.getItem("token") : null,
         },
-        body: JSON.stringify({ id }),
+        body: JSON.stringify({ id, pond: pondId }),
       });
-
-      mutate(
-        [
-          "/api/product/unapproved",
-          process.browser ? localStorage.getItem("token") : null,
-        ],
-        async (cachedData) => {
-          let data = cachedData.filter((each) => each._id !== id);
-          return data;
-        },
-        false
-      );
     } catch (error) {
       console.log(error.message);
     }
   };
 
-  const onApprove = async (id) => {
-    // Send ID to change duyetDangKy -> true
-    let res = await fetch(`/api/product/approved`, {
+  const onApprove = async (id, pondId) => {
+    // Send ID to change isHarvested -> true
+    let res = await fetch(`/api/product/harvest/approve`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: process.browser ? localStorage.getItem("token") : null,
       },
-      body: JSON.stringify({ id }),
+      body: JSON.stringify({ id, pond: pondId }),
     });
 
     mutate(
       [
-        "/api/product/unapproved",
+        "/api/product/harvest/pending",
         process.browser ? localStorage.getItem("token") : null,
       ],
       async (cachedData) => {
@@ -87,20 +75,24 @@ const DashBoard = () => {
           <>
             <Table>
               <Tr>
+                <Th>#</Th>
                 <Th>Tên sản phẩm</Th>
+                <Th>Hình ảnh</Th>
                 <Th>Nuôi tại ao</Th>
-                <Th>Ngày thả giống</Th>
+                <Th>Ngày thu hoạch</Th>
+                <Th>Trọng lượng</Th>
                 <Th>{""}</Th>
                 <Th>{""}</Th>
               </Tr>
               {products.map(
                 (
                   {
-                    tenSanPham,
-                    pond: {
-                      tenAo,
-                      seed: { ngayThaGiong },
-                    },
+                    name,
+                    pond: { name: pondName, _id: pondId },
+                    images,
+                    harvestedDate,
+                    weight,
+
                     _id,
                   },
                   i
@@ -108,14 +100,16 @@ const DashBoard = () => {
                   <Tr
                     backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
                     cursor="pointer"
-                    onClick={() =>
-                      router.push(`./qualitycontrol/product-register/${_id}`)
-                    }
+                    onClick={() => router.push(`./harvest/${_id}`)}
                   >
-                    <Td>{tenSanPham}</Td>
-                    <Td>{tenAo}</Td>
-                    <Td>{ngayThaGiong}</Td>
-
+                    <Td>{i + 1}</Td>
+                    <Td>{name}</Td>
+                    <Td>{pondName}</Td>
+                    <Td>
+                      <Image src={images[0]} height="100px" width="auto" />
+                    </Td>
+                    <Td>{harvestedDate}</Td>
+                    <Td>{weight}</Td>
                     <Td
                       px={8}
                       onClick={(e) => {
@@ -126,7 +120,7 @@ const DashBoard = () => {
                         title="Bạn có chắc sẽ duyệt sản phẩm này？"
                         okText="Có"
                         cancelText="Không"
-                        onConfirm={() => onApprove(_id)}
+                        onConfirm={() => onApprove(_id, pondId)}
                       >
                         <Box
                           as={AiFillCheckCircle}
@@ -146,7 +140,7 @@ const DashBoard = () => {
                         title="Bạn có chắc sẽ không duyệt sản phẩm này？"
                         okText="Có"
                         cancelText="Không"
-                        onConfirm={() => onReject(_id)}
+                        onConfirm={() => onReject(_id, pondId)}
                       >
                         <Box as={AiFillCloseCircle} size="32px"></Box>
                       </Popconfirm>

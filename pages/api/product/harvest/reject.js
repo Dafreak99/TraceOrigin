@@ -20,7 +20,7 @@ export default async (req, res) => {
     return res.status(400).send({ message: "Bạn không có quyền truy cập" });
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-  const farm = await Farm.findOne({ themVaoBoi: decoded });
+  const farm = await Farm.findOne({ createdBy: decoded });
 
   switch (method) {
     case "POST":
@@ -41,10 +41,10 @@ export default async (req, res) => {
           feeding: [],
           seed: null,
           donVi: null,
-          ngayThuHoach: null,
-          trongLuong: null,
-          hinhAnh: [],
-          duyetThuHoach: "false",
+          harvestedDate: null,
+          weight: null,
+          images: [],
+          isHarvested: "false",
         }
       );
 

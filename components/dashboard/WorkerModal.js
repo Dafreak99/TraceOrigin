@@ -16,6 +16,7 @@ import { HiPlus } from "react-icons/hi";
 import FormControl from "./FormControl";
 import useSWR, { mutate } from "swr";
 import fetcher from "@/utils/fetcher";
+import DatePicker from "../DatePicker";
 
 const { Option } = Select;
 
@@ -23,7 +24,7 @@ const WorkerModal = () => {
   const [visible, setVisible] = useState(false);
 
   const [isSave, setIsSave] = useState(false);
-  const { handleSubmit, register, errors } = useForm();
+  const { handleSubmit, register, errors, control } = useForm();
 
   const showModal = () => setVisible(true);
 
@@ -77,6 +78,9 @@ const WorkerModal = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          background:
+            "linear-gradient(90deg, rgba(35,144,246,1) 0%, rgba(11,90,191,1) 100%)",
+          boxShadow: "0 15px 30px rgb(23 65 187 / 34%)",
         }}
       >
         <HiPlus fontSize="28px" />
@@ -98,56 +102,33 @@ const WorkerModal = () => {
           }}
         >
           <FormControl>
-            <FormLabel htmlFor="hoTen">Họ và tên</FormLabel>
+            <FormLabel htmlFor="name">Họ và tên</FormLabel>
             <Input
               type="text"
-              id="hoTen"
-              name="hoTen"
+              id="name"
+              name="name"
               ref={register({
                 required: "Required",
               })}
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="diaChi">Địa chỉ</FormLabel>
+            <FormLabel htmlFor="address">Địa chỉ</FormLabel>
             <Input
               type="text"
-              id="diaChi"
-              name="diaChi"
+              id="address"
+              name="address"
               ref={register({
                 required: "Required",
               })}
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="sdt">SĐT</FormLabel>
+            <FormLabel htmlFor="phone">SĐT</FormLabel>
             <Input
               type="text"
-              id="sdt"
-              name="sdt"
-              ref={register({
-                required: "Required",
-              })}
-            />
-          </FormControl>
-
-          <FormControl>
-            <FormLabel htmlFor="soCMND">CMND</FormLabel>
-            <Input
-              type="text"
-              id="soCMND"
-              name="soCMND"
-              ref={register({
-                required: "Required",
-              })}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="namSinh">Năm sinh</FormLabel>
-            <Input
-              type="text"
-              id="namSinh"
-              name="namSinh"
+              id="phone"
+              name="phone"
               ref={register({
                 required: "Required",
               })}
@@ -155,16 +136,37 @@ const WorkerModal = () => {
           </FormControl>
 
           <FormControl>
-            <FormLabel htmlFor="gioiTinh">Giới tính</FormLabel>
+            <FormLabel htmlFor="idCard">CMND</FormLabel>
+            <Input
+              type="text"
+              id="idCard"
+              name="idCard"
+              ref={register({
+                required: "Required",
+              })}
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel htmlFor="dateOfBorn">Năm sinh</FormLabel>
+            <DatePicker control={control} name="dateOfBorn" />
+            {errors.dateOfBorn?.type === "required" && (
+              <Text fontSize="md" fontStyle="italic" color="red.300">
+                Vui lòng nhập ngày
+              </Text>
+            )}
+          </FormControl>
+
+          <FormControl>
+            <FormLabel htmlFor="gender">Giới tính</FormLabel>
             <br />
-            <Select name="gioiTinh" ref={register()}>
+            <Select name="gender" ref={register()}>
               <option value="Nam">Nam</option>
               <option value="Nữ">Nữ</option>
             </Select>
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="bangCap">Bằng cấp</FormLabel>
-            <Select name="bangCap" ref={register()}>
+            <FormLabel htmlFor="degree">Bằng cấp</FormLabel>
+            <Select name="degree" ref={register()}>
               <option value="Thạc sĩ">Thạc sĩ</option>
               <option value="Cử nhân">Cử nhân</option>
               <option value="Cấp 3">Cấp 3</option>
@@ -172,11 +174,11 @@ const WorkerModal = () => {
             </Select>
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="nhiemVu">Nhiệm vụ</FormLabel>
+            <FormLabel htmlFor="responsibility">Nhiệm vụ</FormLabel>
             <Input
               type="text"
-              id="nhiemVu"
-              name="nhiemVu"
+              id="responsibility"
+              name="responsibility"
               ref={register({
                 required: "Required",
               })}

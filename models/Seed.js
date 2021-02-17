@@ -2,13 +2,14 @@ const mongoose = require("mongoose");
 const Hatchery = require("./Hatchery");
 
 const SeedSchema = new mongoose.Schema({
-  soLuongConGiong: String,
-  ngayNhapGiong: String,
-  ngayThaGiong: String,
-  ngayTuoiGiong: String,
+  quantity: String,
+  importDate: String,
+  stockingDate: String,
+  seedAge: String,
   pondId: String,
-  traiGiong: { type: mongoose.Schema.Types.ObjectId, ref: Hatchery },
+  hatchery: { type: mongoose.Schema.Types.ObjectId, ref: Hatchery },
   isDone: Boolean,
+  isRegistered: { type: Boolean, default: false },
 });
 
 module.exports = mongoose.models.Seed || mongoose.model("Seed", SeedSchema);

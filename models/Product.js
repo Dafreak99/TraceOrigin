@@ -6,14 +6,14 @@ const Seed = require("./Seed");
 const UsingMedicine = require("./UsingMedicine");
 
 const ProductSchema = new mongoose.Schema({
-  tenSanPham: String,
-  giaSanPham: String,
-  donvi: String,
-  hinhAnh: [String],
-  trongLuong: String,
-  ngayThuHoach: String,
-  duyetDangKy: String,
-  duyetThuHoach: String,
+  name: String,
+  price: String,
+  unit: String,
+  images: [String],
+  weight: String,
+  harvestedDate: String,
+  isRegistered: String,
+  isHarvested: String,
   pond: {
     type: mongoose.Schema.Types.ObjectId,
     ref: Pond,

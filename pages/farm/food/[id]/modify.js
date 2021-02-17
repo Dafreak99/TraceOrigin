@@ -27,9 +27,9 @@ const Modify = () => {
   const [isSave, setIsSave] = useState(false);
   const { handleSubmit, register, errors, control, reset } = useForm();
 
-  const [ngayNhap, setNgayNhap] = useState(null);
-  const [ngaySanXuat, setNgaySanXuat] = useState(null);
-  const [hanSuDung, setHanSuDung] = useState(null);
+  const [importDate, setNgayNhap] = useState(null);
+  const [manufactureDate, setNgaySanXuat] = useState(null);
+  const [expiryDate, setHanSuDung] = useState(null);
 
   const [generalData, setGeneralData] = useState(null);
 
@@ -49,13 +49,13 @@ const Modify = () => {
   useEffect(() => {
     if (data) {
       setGeneralData(data);
-      setNgayNhap(data.ngayNhap);
-      setNgaySanXuat(data.ngaySanXuat);
-      setHanSuDung(data.hanSuDung);
+      setNgayNhap(data.importDate);
+      setNgaySanXuat(data.manufactureDate);
+      setHanSuDung(data.expiryDate);
 
-      if (data.hinhAnh) {
-        setFiles(Array(data.hinhAnh.length).fill(""));
-        setFileUrls(data.hinhAnh);
+      if (data.images) {
+        setFiles(Array(data.images.length).fill(""));
+        setFileUrls(data.images);
       }
     }
   }, [data]);
@@ -91,7 +91,7 @@ const Modify = () => {
       }
     }
 
-    values.hinhAnh = urls;
+    values.images = urls;
 
     try {
       let res = await fetch(`/api/food/${router.query.id}`, {
@@ -146,73 +146,73 @@ const Modify = () => {
               mt="2rem"
             >
               <FormControl>
-                <FormLabel htmlFor="ngayNhap">Ngày nhập: </FormLabel>
+                <FormLabel htmlFor="importDate">Ngày nhập: </FormLabel>
                 <br />
                 <DatePicker
                   control={control}
-                  name="ngayNhap"
-                  placeholder={ngayNhap}
+                  name="importDate"
+                  placeholder={importDate}
                 />
               </FormControl>
               <FormControl>
-                <FormLabel htmlFor="tenThucAn">Tên thức ăn</FormLabel>
+                <FormLabel htmlFor="name">Tên thức ăn</FormLabel>
                 <Input
                   type="text"
-                  id="tenThucAn"
-                  name="tenThucAn"
-                  defaultValue={generalData.tenThucAn}
+                  id="name"
+                  name="name"
+                  defaultValue={generalData.name}
                   ref={register({
                     required: "Required",
                   })}
                 />
               </FormControl>
               <FormControl>
-                <FormLabel htmlFor="donViCungCapThucAn">
+                <FormLabel htmlFor="foodSupplier">
                   Tên người/cửa hàng đại lý thức ăn:{" "}
                 </FormLabel>
                 <Input
                   type="text"
-                  id="donViCungCapThucAn"
-                  name="donViCungCapThucAn"
-                  defaultValue={generalData.donViCungCapThucAn}
+                  id="foodSupplier"
+                  name="foodSupplier"
+                  defaultValue={generalData.foodSupplier}
                   ref={register({
                     required: "Required",
                   })}
                 />
               </FormControl>
               <FormControl>
-                <FormLabel htmlFor="soLuong">Số lượng(kg): </FormLabel>
+                <FormLabel htmlFor="weight">Số lượng(kg): </FormLabel>
                 <Input
                   type="text"
-                  id="soLuong"
-                  name="soLuong"
-                  defaultValue={generalData.soLuong}
+                  id="weight"
+                  name="weight"
+                  defaultValue={generalData.weight}
                   ref={register({
                     required: "Required",
                   })}
                 />
               </FormControl>
               <FormControl>
-                <FormLabel htmlFor="ngaySanXuat">Ngày sản xuất</FormLabel>
+                <FormLabel htmlFor="manufactureDate">Ngày sản xuất</FormLabel>
                 <br />
                 <DatePicker
                   control={control}
-                  name="ngaySanXuat"
-                  placeholder={ngaySanXuat}
+                  name="manufactureDate"
+                  placeholder={manufactureDate}
                 />
-                {errors.ngaySanXuat?.type === "required" && (
+                {errors.manufactureDate?.type === "required" && (
                   <Text fontSize="md" fontStyle="italic" color="red.300">
                     Vui lòng nhập ngày
                   </Text>
                 )}
               </FormControl>
               <FormControl>
-                <FormLabel htmlFor="hanSuDung">Hạn sử dụng</FormLabel>
+                <FormLabel htmlFor="expiryDate">Hạn sử dụng</FormLabel>
                 <br />
                 <DatePicker
                   control={control}
-                  name="hanSuDung"
-                  placeholder={hanSuDung}
+                  name="expiryDate"
+                  placeholder={expiryDate}
                 />
               </FormControl>
               <FormControl>

@@ -22,7 +22,7 @@ export default async (req, res) => {
     return res.status(400).send({ message: "Bạn không có quyền truy cập" });
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-  const farm = await Farm.findOne({ themVaoBoi: decoded });
+  const farm = await Farm.findOne({ createdBy: decoded });
 
   switch (method) {
     case "GET":
@@ -30,7 +30,7 @@ export default async (req, res) => {
 
       let pond = await Pond.findOne({ _id: product.pond }).populate({
         path: "seed",
-        populate: { path: "traiGiong" },
+        populate: { path: "hatchery" },
       });
       res.send({ pond, product });
 
@@ -38,7 +38,7 @@ export default async (req, res) => {
 
     // case "POST":
 
-    //   await Product.findOneAndUpdate({ _id: id }, { duyetThuHoach: "true" });
+    //   await Product.findOneAndUpdate({ _id: id }, { isHarvested: "true" });
     //   res.send({ message: "OK" });
     //   break;
     default:

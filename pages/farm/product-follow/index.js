@@ -89,8 +89,8 @@ const Product = () => {
     );
   }
 
-  const productStatus = (duyetDangKy) => {
-    if (duyetDangKy === "false") {
+  const productStatus = (isRegistered) => {
+    if (isRegistered === "false") {
       return (
         <Badge
           ml="1"
@@ -103,7 +103,7 @@ const Product = () => {
           No
         </Badge>
       );
-    } else if (duyetDangKy === "true") {
+    } else if (isRegistered === "true") {
       return (
         <Badge
           ml="1"
@@ -116,7 +116,7 @@ const Product = () => {
           Yes
         </Badge>
       );
-    } else if (duyetDangKy === "pending") {
+    } else if (isRegistered === "pending") {
       return (
         <Badge
           ml="1"
@@ -169,14 +169,14 @@ const Product = () => {
               {data.map(
                 (
                   {
-                    tenSanPham,
+                    name,
                     pond: {
-                      tenAo,
-                      seed: { ngayThaGiong },
+                      name: pondName,
+                      seed: { stockingDate },
                       _id: pondId,
                     },
-                    duyetThuHoach,
-                    duyetDangKy,
+                    isHarvested,
+                    isRegistered,
                     qrCode,
                     _id,
                   },
@@ -187,12 +187,12 @@ const Product = () => {
                     cursor="pointer"
                     onClick={() => router.push(`./food/${_id}`)}
                   >
-                    <Td>{tenSanPham}</Td>
-                    <Td>{tenAo}</Td>
-                    <Td>{ngayThaGiong}</Td>
-                    <Td>{productStatus(duyetDangKy)}</Td>
+                    <Td>{name}</Td>
+                    <Td>{pondName}</Td>
+                    <Td>{stockingDate}</Td>
+                    <Td>{productStatus(isRegistered)}</Td>
                     <Td>{qrCode ? qrCode : "Chưa cấp"}</Td>
-                    {qrCode && (
+                    {qrCode ? (
                       <Td>
                         <QRCode
                           value={
@@ -200,6 +200,8 @@ const Product = () => {
                           }
                         />
                       </Td>
+                    ) : (
+                      <Td></Td>
                     )}
 
                     <Td
@@ -208,15 +210,15 @@ const Product = () => {
                         e.stopPropagation();
                       }}
                     >
-                      {duyetDangKy === "false" ? (
+                      {isRegistered === "false" ? (
                         <Button onClick={() => reRegister(_id)}>
                           Đăng ký lại
                         </Button>
-                      ) : duyetDangKy === "true" ? (
+                      ) : isRegistered === "true" ? (
                         <Button
                           onClick={() => router.push(`/farm/harvest/${_id}`)}
                         >
-                          {duyetThuHoach === "false"
+                          {isHarvested === "false"
                             ? "Thu hoạch lại"
                             : "Thu hoạch"}
                         </Button>

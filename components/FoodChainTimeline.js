@@ -5,8 +5,8 @@ import GreenDot from "./GreenDot";
 
 const FoodChainTimeline = ({ data }) => {
   const {
-    seed: { ngayThaGiong },
-    ngayThuHoach,
+    seed: { stockingDate },
+    harvestedDate,
   } = data;
   const [mode, setMode] = useState("left");
 
@@ -17,10 +17,10 @@ const FoodChainTimeline = ({ data }) => {
         <Heading size="md">Timeline</Heading>
       </Flex>
       <Timeline mode={mode} style={{ marginTop: "2rem" }}>
-        <Timeline.Item label={ngayThaGiong}>
+        <Timeline.Item label={stockingDate}>
           Thả giống xuống ao nuôi <Image src="/pond.svg" h="40px" />
         </Timeline.Item>
-        <Timeline.Item label={ngayThuHoach}>
+        <Timeline.Item label={harvestedDate}>
           {/* TODO: Add new item from the begining */}
           Thu hoạch
           <Image src="/ice-fishing.svg" h="40px" />

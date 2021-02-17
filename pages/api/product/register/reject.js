@@ -21,7 +21,7 @@ export default async (req, res) => {
     return res.status(400).send({ message: "Bạn không có quyền truy cập" });
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-  const farm = await Farm.findOne({ themVaoBoi: decoded });
+  const farm = await Farm.findOne({ createdBy: decoded });
 
   switch (method) {
     case "POST":
@@ -29,7 +29,7 @@ export default async (req, res) => {
       try {
         const { id } = req.body;
 
-        await Product.findByIdAndUpdate(id, { duyetDangKy: "false" });
+        await Product.findByIdAndUpdate(id, { isRegistered: "false" });
 
         res.send({ message: "OK" });
       } catch (error) {

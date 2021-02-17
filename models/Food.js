@@ -1,13 +1,14 @@
 const mongoose = require("mongoose");
 
 const FoodSchema = new mongoose.Schema({
-  tenThucAn: String,
-  ngayNhap: String,
-  donViCungCapThucAn: String,
-  soLuong: Number,
-  ngaySanXuat: String,
-  hanSuDung: String,
-  hinhAnh: [String],
+  name: String,
+  importDate: String,
+  foodSupplier: String,
+  foodSupplierAddress: String,
+  weight: Number,
+  manufactureDate: String,
+  expiryDate: String,
+  images: [String],
   farmId: String,
 });
 

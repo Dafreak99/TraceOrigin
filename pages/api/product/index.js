@@ -18,19 +18,19 @@ export default async (req, res) => {
     return res.status(400).send({ message: "Bạn không có quyền truy cập" });
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-  const farm = await Farm.findOne({ themVaoBoi: decoded });
+  const farm = await Farm.findOne({ createdBy: decoded });
 
   switch (method) {
     case "GET":
       let products = await Product.find({
         farm: farm.id,
-        duyetThuHoach: [null, "false"],
+        isHarvested: [null, "false"],
       })
         .populate({ path: "pond", populate: { path: "seed" } })
-        .populate({ path: "seed", populate: { path: "traiGiong" } })
+        .populate({ path: "seed", populate: { path: "hatchery" } })
         .populate({ path: "farm" })
         .populate({ path: "feeding" })
-        .populate({ path: "usingMedicine", populate: { path: "thuoc" } });
+        .populate({ path: "usingMedicine", populate: { path: "medicine" } });
       res.send(products);
 
       break;
@@ -43,8 +43,8 @@ export default async (req, res) => {
         const product = new Product({
           ...req.body,
           farm: farm.id,
-          duyetDangKy: "pending",
-          duyetThuHoach: null,
+          isRegistered: "pending",
+          isHarvested: null,
           seed,
         });
 

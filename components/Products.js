@@ -9,7 +9,9 @@ const Products = ({ data }) => {
       <Heading
         className="heading"
         marginBottom={16}
-        fontSize={{ base: "xl", xl: "3xl" }}
+        fontSize={{ base: "xl", xl: "4xl" }}
+        fontFamily="Inter, sans-serif"
+        color="#373535"
       >
         Sản Phẩm Thủy Sản
       </Heading>

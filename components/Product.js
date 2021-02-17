@@ -2,7 +2,7 @@ import { Image, Text, Flex, Link as ChakraLink, Box } from "@chakra-ui/core";
 import Link from "next/link";
 import { AiOutlineQrcode } from "react-icons/ai";
 
-const Product = ({ hinhAnh, tenSanPham, _id }) => {
+const Product = ({ images, name, _id }) => {
   return (
     <Flex
       justify="center"
@@ -12,7 +12,7 @@ const Product = ({ hinhAnh, tenSanPham, _id }) => {
       <Link href={`/product/${_id}`}>
         <a>
           <Image
-            src={hinhAnh[0]}
+            src={images[0]}
             w="100%"
             objectFit="cover"
             height="300px"
@@ -26,7 +26,7 @@ const Product = ({ hinhAnh, tenSanPham, _id }) => {
               marginRight="30px"
             />
             <Text color="gray.600" fontSize="md">
-              {tenSanPham}
+              {name}
             </Text>
           </Flex>
         </a>

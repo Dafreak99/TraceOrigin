@@ -24,12 +24,12 @@ export default async (req, res) => {
       const product = await Product.findOne({ _id: id })
         .populate({
           path: "pond",
-          populate: { path: "seed", populate: "traiGiong" },
+          populate: { path: "seed", populate: "hatchery" },
         })
-        .populate({ path: "farm", populate: "chungThuc" })
-        .populate({ path: "feeding", populate: "thucAn" })
-        .populate({ path: "usingMedicine", populate: { path: "thuoc" } })
-        .populate({ path: "seed", populate: "traiGiong" });
+        .populate({ path: "farm", populate: "authentication" })
+        .populate({ path: "feeding", populate: "food" })
+        .populate({ path: "usingMedicine", populate: { path: "medicine" } })
+        .populate({ path: "seed", populate: "hatchery" });
 
       res.send(product);
 

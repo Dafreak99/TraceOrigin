@@ -35,7 +35,7 @@ const Index = () => {
       <Box px={16} py={12}>
         <Flex alignItems="center">
           <BackButton />
-          <Heading>{data && data.tenSanPham}</Heading>
+          <Heading>{data && data.name}</Heading>
         </Flex>
         <Flex
           px="4rem"
@@ -55,7 +55,7 @@ const Index = () => {
                     <Text fontSize="md" fontWeight="bold">
                       Tên cơ sở nuôi:{" "}
                       <Box as="span" fontWeight="normal">
-                        {data.farm.tenCoSoNuoi}
+                        {data.farm.name}
                       </Box>
                     </Text>
                   </ListItem>
@@ -63,7 +63,7 @@ const Index = () => {
                     <Text fontSize="md" fontWeight="bold">
                       Tên chủ cơ sở nuôi:{" "}
                       <Box as="span" fontWeight="normal">
-                        {data.farm.tenChuCoSoNuoi}
+                        {data.farm.owner}
                       </Box>
                     </Text>
                   </ListItem>
@@ -71,7 +71,7 @@ const Index = () => {
                     <Text fontSize="md" fontWeight="bold">
                       Địa chỉ:{" "}
                       <Box as="span" fontWeight="normal">
-                        {data.farm.diaChi}
+                        {data.farm.address}
                       </Box>
                     </Text>
                   </ListItem>
@@ -79,13 +79,13 @@ const Index = () => {
                     <Text fontSize="md" fontWeight="bold">
                       SĐT:{" "}
                       <Box as="span" fontWeight="normal">
-                        {data.farm.sdt}
+                        {data.farm.phone}
                       </Box>
                     </Text>
                   </ListItem>
                   <ListItem>
                     <Text fontSize="md" fontWeight="bold">
-                      Hình ảnh: <Image src={data.farm.hinhAnh[0]} />
+                      Hình ảnh: <Image src={data.farm.images[0]} />
                     </Text>
                   </ListItem>
                 </List>
@@ -99,7 +99,7 @@ const Index = () => {
                     <Text fontSize="md" fontWeight="bold">
                       Tên ao:{" "}
                       <Box as="span" fontWeight="normal">
-                        {data.pond.tenAo}
+                        {data.pond.name}
                       </Box>
                     </Text>
                   </ListItem>
@@ -107,7 +107,7 @@ const Index = () => {
                     <Text fontSize="md" fontWeight="bold">
                       Mã ao:{" "}
                       <Box as="span" fontWeight="normal">
-                        {data.pond.maAo}
+                        {data.pond.code}
                       </Box>
                     </Text>
                   </ListItem>
@@ -115,7 +115,7 @@ const Index = () => {
                     <Text fontSize="md" fontWeight="bold">
                       Mật độ thả:{" "}
                       <Box as="span" fontWeight="normal">
-                        {data.pond.matDoTha}
+                        {data.pond.stockingDensity}
                       </Box>
                     </Text>
                   </ListItem>
@@ -123,7 +123,7 @@ const Index = () => {
                     <Text fontSize="md" fontWeight="bold">
                       Ngày thả giống:{" "}
                       <Box as="span" fontWeight="normal">
-                        {data.pond.seed.ngayThaGiong}
+                        {data.pond.seed.stockingDate}
                       </Box>
                     </Text>
                   </ListItem>
@@ -131,7 +131,7 @@ const Index = () => {
                     <Text fontSize="md" fontWeight="bold">
                       Ngày tuổi giống:{" "}
                       <Box as="span" fontWeight="normal">
-                        {data.pond.seed.ngayTuoiGiong}
+                        {data.pond.seed.seedAge}
                       </Box>
                     </Text>
                   </ListItem>
@@ -139,7 +139,7 @@ const Index = () => {
                     <Text fontSize="md" fontWeight="bold">
                       Tên trại giống:{" "}
                       <Box as="span" fontWeight="normal">
-                        {data.pond.seed.traiGiong.tenTraiGiong}
+                        {data.pond.seed.hatchery.name}
                       </Box>
                     </Text>
                   </ListItem>
@@ -147,7 +147,7 @@ const Index = () => {
                     <Text fontSize="md" fontWeight="bold">
                       Địa chỉ trại giống:{" "}
                       <Box as="span" fontWeight="normal">
-                        {data.pond.seed.traiGiong.diaChiTraiGiong}
+                        {data.pond.seed.hatchery.address}
                       </Box>
                     </Text>
                   </ListItem>

@@ -21,27 +21,27 @@ export default async (req, res) => {
     return res.status(400).send({ message: "Bạn không có quyền truy cập" });
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-  const farm = await Farm.findOne({ themVaoBoi: decoded });
+  const farm = await Farm.findOne({ createdBy: decoded });
 
   switch (method) {
     case "GET":
       // Get harvested products
       const products = await Product.find({
         farm: farm._id,
-        duyetThuHoach: ["true", "pending"],
-      }).populate({ path: "seed", populate: "traiGiong" });
+        isHarvested: ["true", "pending"],
+      }).populate({ path: "seed", populate: "hatchery" });
 
       res.send(products);
       break;
     case "POST":
       try {
         const feeding = await FeedingDiary.find({
-          ao: req.body.pond,
+          pond: req.body.pond,
           isDone: false,
         });
 
         const usingMedicine = await UsingMedicine.find({
-          ao: req.body.pond,
+          pond: req.body.pond,
           isDone: false,
         });
 
@@ -55,7 +55,7 @@ export default async (req, res) => {
             feeding,
             seed,
             processingFacility: null,
-            duyetThuHoach: "pending",
+            isHarvested: "pending",
           }
         );
 

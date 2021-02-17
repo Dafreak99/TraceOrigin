@@ -4,7 +4,7 @@ const Product = require("./Product");
 const ConsignmentSchema = new mongoose.Schema({
   maLoHang: String,
   sanPham: { type: mongoose.Schema.Types.ObjectId, ref: Product },
-  ngaySanXuat: String,
+  manufactureDate: String,
   businessId: String,
 });
 

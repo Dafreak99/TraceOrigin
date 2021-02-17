@@ -100,33 +100,33 @@ const AddWarehouse = () => {
         {/* Modal Body */}
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl>
-            <FormLabel htmlFor="maKho">Mã kho</FormLabel>
+            <FormLabel htmlFor="code">Mã kho</FormLabel>
             <Input
               type="text"
-              id="maKho"
-              name="maKho"
+              id="code"
+              name="code"
               ref={register({
                 required: "Required",
               })}
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="tenKho">Tên kho: </FormLabel>
+            <FormLabel htmlFor="name">Tên kho: </FormLabel>
             <Input
               type="text"
-              id="tenKho"
-              name="tenKho"
+              id="name"
+              name="name"
               ref={register({
                 required: "Required",
               })}
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="sdt">SĐT liên hệ: </FormLabel>
+            <FormLabel htmlFor="phone">SĐT liên hệ: </FormLabel>
             <Input
               type="text"
-              id="sdt"
-              name="sdt"
+              id="phone"
+              name="phone"
               ref={register({
                 required: "Required",
               })}
@@ -144,11 +144,11 @@ const AddWarehouse = () => {
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="diaChi">Địa chỉ: </FormLabel>
+            <FormLabel htmlFor="address">Địa chỉ: </FormLabel>
             <Input
               type="text"
-              id="diaChi"
-              name="diaChi"
+              id="address"
+              name="address"
               ref={register({
                 required: "Required",
               })}

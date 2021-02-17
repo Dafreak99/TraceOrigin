@@ -22,8 +22,6 @@ import { mutate } from "swr";
 import FormControl from "./FormControl";
 
 export const AddPondModal = () => {
-  // ADD them phan nhan dien ao nao da va dang duoc nuoi trong giong nhu booking ve theater
-
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { handleSubmit, register, errors } = useForm();
 
@@ -40,10 +38,13 @@ export const AddPondModal = () => {
       });
 
       let data = await res.json();
+
       mutate(
         ["/api/pond", process.browser ? localStorage.getItem("token") : null],
         async (cachedData) => {
-          return [...cachedData, data];
+          let ponds = [...cachedData.ponds, data];
+
+          return { ponds, isAuthenticated: cachedData.isAuthenticated };
         },
         false
       );
@@ -66,46 +67,46 @@ export const AddPondModal = () => {
           <ModalCloseButton />
           <ModalBody>
             <FormControl>
-              <FormLabel htmlFor="tenAo">Tên ao: </FormLabel>
+              <FormLabel htmlFor="name">Tên ao: </FormLabel>
               <Input
                 type="text"
-                id="tenAo"
-                name="tenAo"
+                id="name"
+                name="name"
                 ref={register({
                   required: "Required",
                 })}
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="dienTich">Diện tích ao: </FormLabel>
+              <FormLabel htmlFor="area">Diện tích ao: </FormLabel>
               <Input
                 type="text"
-                id="dienTich"
-                name="dienTich"
+                id="area"
+                name="area"
                 ref={register({
                   required: "Required",
                 })}
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="maAo">Mã số ao: </FormLabel>
+              <FormLabel htmlFor="code">Mã số ao: </FormLabel>
               <Input
                 type="text"
-                id="maAo"
-                name="maAo"
+                id="code"
+                name="code"
                 ref={register({
                   required: "Required",
                 })}
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="matDoTha">
+              <FormLabel htmlFor="stockingDensity">
                 Mật độ thả(Ước lượng số con thả/m3):
               </FormLabel>
               <Input
                 type="text"
-                id="matDoTha"
-                name="matDoTha"
+                id="stockingDensity"
+                name="stockingDensity"
                 ref={register({
                   required: "Required",
                 })}

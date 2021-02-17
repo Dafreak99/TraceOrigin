@@ -20,15 +20,15 @@ export default async (req, res) => {
 
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-  let farm = await Farm.findOne({ themVaoBoi: decoded });
+  let farm = await Farm.findOne({ createdBy: decoded });
 
   switch (method) {
     case "GET":
       try {
         let feedingDiaries = await FeedingDiary.find({
-          coSoNuoi: farm._id,
+          farm: farm._id,
           isDone: false,
-        }).populate(["ao", "thucAn", "coSoNuoi"]);
+        }).populate(["pond", "food", "farm"]);
 
         res.send(feedingDiaries);
       } catch (error) {
@@ -41,19 +41,19 @@ export default async (req, res) => {
 
         let feedingDiary = new FeedingDiary({
           ...req.body,
-          ao: product.pond,
-          coSoNuoi: farm._id,
+          pond: product.pond,
+          farm: farm._id,
           isDone: false,
         });
 
         await feedingDiary.save();
 
         // Reducing food quantity after feeding
-        let food = await Food.findOne({ _id: req.body.thucAn });
+        let food = await Food.findOne({ _id: req.body.food });
 
         await Food.findOneAndUpdate(
-          { _id: req.body.thucAn },
-          { soLuong: food.soLuong - req.body.khoiLuong }
+          { _id: req.body.food },
+          { weight: food.weight - req.body.weight }
         );
 
         res.send({ message: "OK" });

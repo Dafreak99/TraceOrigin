@@ -38,7 +38,9 @@ const IndexPage = () => {
           <Heading
             className="heading"
             marginBottom="10rem"
-            fontSize={{ base: "xl", xl: "3xl" }}
+            fontSize={{ base: "xl", xl: "4xl" }}
+            fontFamily="Inter, sans-serif"
+            color="#373535"
           >
             Tính Năng Của TraceOrigin
           </Heading>

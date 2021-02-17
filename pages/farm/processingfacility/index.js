@@ -103,33 +103,31 @@ const ProcessingFacility = () => {
 
                 <Th>{""}</Th>
               </Tr>
-              {data.map(
-                ({ tenCoSoCheBien, diaChiCoSoCheBien, hinhAnh, _id }, i) => (
-                  <Tr
-                    backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
-                    cursor="pointer"
-                    onClick={() => router.push(`./food/${_id}`)}
-                  >
-                    <Td>{tenCoSoCheBien}</Td>
-                    <Td>{diaChiCoSoCheBien}</Td>
-                    <Td>
-                      <Image src={hinhAnh[0]} h="100px" />
-                    </Td>
+              {data.map(({ name, address, images, _id }, i) => (
+                <Tr
+                  backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
+                  cursor="pointer"
+                  onClick={() => router.push(`./food/${_id}`)}
+                >
+                  <Td>{name}</Td>
+                  <Td>{address}</Td>
+                  <Td>
+                    <Image src={images[0]} h="100px" />
+                  </Td>
 
-                    <Td
-                      borderLeft="1px solid #e8eef3"
-                      px={8}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setIsOpen(true);
-                        setId(_id);
-                      }}
-                    >
-                      <Box as={FaTrash}></Box>
-                    </Td>
-                  </Tr>
-                )
-              )}
+                  <Td
+                    borderLeft="1px solid #e8eef3"
+                    px={8}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsOpen(true);
+                      setId(_id);
+                    }}
+                  >
+                    <Box as={FaTrash}></Box>
+                  </Td>
+                </Tr>
+              ))}
               <AlertDialog
                 isOpen={isOpen}
                 leastDestructiveRef={cancelRef}

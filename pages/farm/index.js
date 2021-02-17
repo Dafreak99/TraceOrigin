@@ -17,7 +17,6 @@ import useSWR from "swr";
 import FarmInfoModify from "@/components/dashboard/FarmInfoModify";
 import Layout from "@/components/dashboard/Layout";
 import fetcher from "@/utils/fetcher";
-import DisplayMap from "@/components/DisplayMap";
 import { AiFillEdit } from "react-icons/ai";
 import EnterpriseAuthenticationModal from "@/components/dashboard/EntepriseAuthenticationModal";
 
@@ -78,28 +77,101 @@ const Iframe = (props) => {
 
 // const iframe = `<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3927.785577468377!2d105.69452631525809!3d10.11662997378989!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31a0869bb424d2f7%3A0x1b4ec7478c19ba31!2zQ8O0bmcgdHkgVE5ISCBDw7RuZyBuZ2hp4buHcCBUaOG7p3kgc-G6o24gTWnhu4FuIE5hbQ!5e0!3m2!1svi!2s!4v1612017259330!5m2!1svi!2s" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="true" aria-hidden="false" tabindex="0"></iframe>`;
 
+const enterpriseAuthentication = (
+  isAuthenticated,
+  rejectMessage,
+  visible,
+  setVisible
+) => {
+  console.log(isAuthenticated);
+
+  if (isAuthenticated === "") {
+    return (
+      <Alert status="error" mt="2rem" w="max-content">
+        <AlertIcon />
+        Chưa chứng thực doanh nghiệp.{" "}
+        <Box
+          as="span"
+          ml="3px"
+          textDecoration="underline"
+          cursor="pointer"
+          onClick={() => setVisible(true)}
+        >
+          {" "}
+          Chứng thực ngay bây giờ.
+        </Box>
+      </Alert>
+    );
+  } else if (isAuthenticated === "pending") {
+    return (
+      <Alert status="warning" mt="2rem" w="max-content">
+        <AlertIcon />
+        Đang chờ xác thực doanh nghiệp
+      </Alert>
+    );
+  } else if (isAuthenticated === "false" && rejectMessage) {
+    return (
+      <Alert status="error" mt="2rem" w="max-content">
+        <AlertIcon />
+        <Box>
+          <Box>
+            Không được duyệt chứng thực.{" "}
+            <Box
+              cursor="pointer"
+              textDecoration="underline"
+              as="span"
+              onClick={() => setVisible(true)}
+            >
+              Chứng thực lại
+            </Box>{" "}
+          </Box>
+          <Box>Lý do: {rejectMessage.message}</Box>
+        </Box>
+      </Alert>
+    );
+  } else {
+    return (
+      <Alert status="success" mt="2rem" w="max-content">
+        <AlertIcon />
+        Đã chứng thực doanh nghiệp
+      </Alert>
+    );
+  }
+};
+
 const Content = ({
   data: {
-    tenCoSoNuoi,
-    tenChuCoSoNuoi,
-    hinhAnh,
-    diaChi,
-    dienTich,
-    sdt,
-    themVaoBoi,
-    toaDo,
+    name,
+    owner,
+    images,
+    address,
+    area,
+    phone,
+    createdBy,
+    coordinate,
     fax,
     email,
     website,
-    banDo,
-    chungThuc,
+    map,
+    authentication,
+    isAuthenticated,
   },
+
   isEdit,
   setIsEdit,
 }) => {
-  console.log(chungThuc);
-
   const [visible, setVisible] = useState(false);
+
+  // Get Reject Message from Enterprise Authentication
+  const { data: message, error } = useSWR(
+    isAuthenticated === "false"
+      ? [
+          "/api/rejectmessage",
+          process.browser ? localStorage.getItem("token") : null,
+        ]
+      : null,
+    fetcher
+  );
 
   return (
     <Box px={16} py={12}>
@@ -115,31 +187,12 @@ const Content = ({
           <span>Chỉnh sửa thông tin</span>
         </Button>
       </Flex>
-      {chungThuc ? (
-        <Alert status="success" mt="2rem" w="max-content">
-          <AlertIcon />
-          Đã chứng thực doanh nghiệp
-        </Alert>
-      ) : (
-        <Alert status="error" mt="2rem" w="max-content">
-          <AlertIcon />
-          Chưa chứng thực doanh nghiệp.{" "}
-          <Box
-            as="span"
-            ml="3px"
-            textDecoration="underline"
-            cursor="pointer"
-            onClick={() => setVisible(true)}
-          >
-            {" "}
-            Chứng thực ngay bây giờ.
-          </Box>
-          <EnterpriseAuthenticationModal
-            visible={visible}
-            setVisible={setVisible}
-          />
-        </Alert>
-      )}
+
+      {enterpriseAuthentication(isAuthenticated, message, visible, setVisible)}
+      <EnterpriseAuthenticationModal
+        visible={visible}
+        setVisible={setVisible}
+      />
       <Flex paddingTop={12}>
         <List
           spacing={2}
@@ -153,12 +206,12 @@ const Content = ({
         >
           <ListItem>
             <Text fontSize="md" fontWeight="bold">
-              {tenCoSoNuoi}
+              {name}
             </Text>
           </ListItem>
           <ListItem>
             <Image
-              src={hinhAnh[0]}
+              src={images[0]}
               height="10rem"
               width="15rem"
               objectFit="contain"
@@ -172,7 +225,7 @@ const Content = ({
             <Text fontSize="md" fontWeight="bold">
               Họ và tên chủ cơ sở:{" "}
               <Box as="span" fontWeight="normal">
-                {tenChuCoSoNuoi}
+                {owner}
               </Box>
             </Text>
           </ListItem>
@@ -189,7 +242,7 @@ const Content = ({
             <Text fontSize="md" fontWeight="bold">
               Diện tích trang trại:{" "}
               <Box as="span" fontWeight="normal">
-                {dienTich}
+                {area}
               </Box>
             </Text>
           </ListItem>
@@ -197,7 +250,7 @@ const Content = ({
             <Text fontSize="md" fontWeight="bold">
               Địa chỉ trang trại:{" "}
               <Box as="span" fontWeight="normal">
-                {diaChi}
+                {address}
               </Box>
             </Text>
           </ListItem>
@@ -205,7 +258,7 @@ const Content = ({
             <Text fontSize="md" fontWeight="bold">
               SĐT liên hệ:{" "}
               <Box as="span" fontWeight="normal">
-                {sdt}
+                {phone}
               </Box>
             </Text>
           </ListItem>
@@ -234,7 +287,7 @@ const Content = ({
             </Text>
           </ListItem>
         </List>
-        <Iframe iframe={banDo} />
+        <Iframe iframe={map} />
       </Flex>
 
       {/* <Box mt={12}>
@@ -242,7 +295,7 @@ const Content = ({
           Hình ảnh trang trại của bạn
         </Heading>
         <Flex>
-          {hinhAnh.map((image, i) => (
+          {images.map((image, i) => (
             <Image
               key={i}
               src={image}

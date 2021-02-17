@@ -89,8 +89,8 @@ const Product = () => {
     );
   }
 
-  const productStatus = (duyetDangKy) => {
-    if (duyetDangKy === "false") {
+  const productStatus = (isRegistered) => {
+    if (isRegistered === "false") {
       return (
         <Badge
           ml="1"
@@ -103,7 +103,7 @@ const Product = () => {
           No
         </Badge>
       );
-    } else if (duyetDangKy === "true") {
+    } else if (isRegistered === "true") {
       return (
         <Badge
           ml="1"
@@ -116,7 +116,7 @@ const Product = () => {
           Yes
         </Badge>
       );
-    } else if (duyetDangKy === "pending") {
+    } else if (isRegistered === "pending") {
       return (
         <Badge
           ml="1"
@@ -153,14 +153,7 @@ const Product = () => {
               </Tr>
               {data.map(
                 (
-                  {
-                    tenSanPham,
-                    duyetThuHoach,
-                    ngayThuHoach,
-                    qrCode,
-                    hinhAnh,
-                    _id,
-                  },
+                  { name, isHarvested, harvestedDate, qrCode, images, _id },
                   i
                 ) => (
                   <Tr
@@ -168,11 +161,11 @@ const Product = () => {
                     cursor="pointer"
                     onClick={() => router.push(`./food/${_id}`)}
                   >
-                    <Td>{tenSanPham}</Td>
+                    <Td>{name}</Td>
                     <Td>
-                      <Image src={hinhAnh[0]} height="100px" width="auto" />
+                      <Image src={images[0]} height="100px" width="auto" />
                     </Td>
-                    <Td>{ngayThuHoach}</Td>
+                    <Td>{harvestedDate}</Td>
                     <Td>{qrCode}</Td>
                     <Td>
                       {" "}
@@ -182,7 +175,7 @@ const Product = () => {
                         }
                       />
                     </Td>
-                    <Td>{productStatus(duyetThuHoach)}</Td>
+                    <Td>{productStatus(isHarvested)}</Td>
 
                     <Td
                       borderLeft="1px solid #e8eef3"
@@ -191,7 +184,7 @@ const Product = () => {
                         e.stopPropagation();
                       }}
                     >
-                      {duyetThuHoach === "true" && (
+                      {isHarvested === "true" && (
                         <Button
                         // onClick={() => router.push(`/farm/harvest/${_id}`)}
                         >

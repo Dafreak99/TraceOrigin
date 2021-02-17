@@ -21,7 +21,7 @@ export default async (req, res) => {
       farmOwner,
       farmImage,
       address,
-      acreage,
+      area,
       seedSellerCompanyName,
       seedSellerAddress,
       seedImportDate,
@@ -38,7 +38,7 @@ export default async (req, res) => {
         farmOwner,
         farmImage,
         address,
-        acreage,
+        area,
       });
 
       await farm.save();

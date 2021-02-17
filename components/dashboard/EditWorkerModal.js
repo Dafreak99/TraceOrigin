@@ -21,14 +21,14 @@ const { Option } = Select;
 
 const EditWorkerModal = ({ visible, setVisible, data }) => {
   const {
-    hoTen,
-    diaChi,
-    soCMND,
-    namSinh,
-    gioiTinh,
-    bangCap,
-    nhiemVu,
-    sdt,
+    name,
+    address,
+    idCard,
+    dateOfBorn,
+    gender,
+    degree,
+    responsibility,
+    phone,
     _id,
   } = data;
 
@@ -81,24 +81,6 @@ const EditWorkerModal = ({ visible, setVisible, data }) => {
   };
   return (
     <>
-      <AntdButton
-        type="primary"
-        shape="circle"
-        onClick={showModal}
-        style={{
-          position: "fixed",
-          bottom: "4rem",
-          right: "5%",
-          height: "3rem",
-          width: "3rem",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <HiPlus fontSize="28px" />
-      </AntdButton>
-
       <Modal
         visible={visible}
         title="Chỉnh sửa nhân công"
@@ -115,61 +97,36 @@ const EditWorkerModal = ({ visible, setVisible, data }) => {
           }}
         >
           <FormControl>
-            <FormLabel htmlFor="hoTen">Họ và tên</FormLabel>
+            <FormLabel htmlFor="name">Họ và tên</FormLabel>
             <Input
               type="text"
-              id="hoTen"
-              name="hoTen"
-              defaultValue={hoTen}
+              id="name"
+              name="name"
+              defaultValue={name}
               ref={register({
                 required: "Required",
               })}
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="diaChi">Địa chỉ</FormLabel>
+            <FormLabel htmlFor="address">Địa chỉ</FormLabel>
             <Input
               type="text"
-              id="diaChi"
-              name="diaChi"
-              defaultValue={diaChi}
+              id="address"
+              name="address"
+              defaultValue={address}
               ref={register({
                 required: "Required",
               })}
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="sdt">SĐT</FormLabel>
+            <FormLabel htmlFor="phone">SĐT</FormLabel>
             <Input
               type="text"
-              id="sdt"
-              name="sdt"
-              defaultValue={sdt}
-              ref={register({
-                required: "Required",
-              })}
-            />
-          </FormControl>
-
-          <FormControl>
-            <FormLabel htmlFor="soCMND">CMND</FormLabel>
-            <Input
-              type="text"
-              id="soCMND"
-              name="soCMND"
-              defaultValue={soCMND}
-              ref={register({
-                required: "Required",
-              })}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="namSinh">Năm sinh</FormLabel>
-            <Input
-              type="text"
-              id="namSinh"
-              name="namSinh"
-              defaultValue={namSinh}
+              id="phone"
+              name="phone"
+              defaultValue={phone}
               ref={register({
                 required: "Required",
               })}
@@ -177,17 +134,42 @@ const EditWorkerModal = ({ visible, setVisible, data }) => {
           </FormControl>
 
           <FormControl>
-            <FormLabel htmlFor="gioiTinh">Giới tính</FormLabel>
+            <FormLabel htmlFor="idCard">CMND</FormLabel>
+            <Input
+              type="text"
+              id="idCard"
+              name="idCard"
+              defaultValue={idCard}
+              ref={register({
+                required: "Required",
+              })}
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel htmlFor="dateOfBorn">Năm sinh</FormLabel>
+            <Input
+              type="text"
+              id="dateOfBorn"
+              name="dateOfBorn"
+              defaultValue={dateOfBorn}
+              ref={register({
+                required: "Required",
+              })}
+            />
+          </FormControl>
+
+          <FormControl>
+            <FormLabel htmlFor="gender">Giới tính</FormLabel>
             <br />
 
             <Controller
-              name="gioiTinh"
-              defaultValue={gioiTinh}
+              name="gender"
+              defaultValue={gender}
               control={control}
               rules={{ required: true }}
               render={({ onChange }) => (
                 <Select
-                  defaultValue={gioiTinh}
+                  defaultValue={gender}
                   onChange={onChange}
                   style={{ width: "100%" }}
                 >
@@ -198,16 +180,16 @@ const EditWorkerModal = ({ visible, setVisible, data }) => {
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="bangCap">Bằng cấp</FormLabel>
+            <FormLabel htmlFor="degree">Bằng cấp</FormLabel>
 
             <Controller
-              name="bangCap"
-              defaultValue={bangCap}
+              name="degree"
+              defaultValue={degree}
               control={control}
               rules={{ required: true }}
               render={({ onChange }) => (
                 <Select
-                  defaultValue={bangCap}
+                  defaultValue={degree}
                   onChange={onChange}
                   style={{ width: "100%" }}
                 >
@@ -221,12 +203,12 @@ const EditWorkerModal = ({ visible, setVisible, data }) => {
           </FormControl>
 
           <FormControl>
-            <FormLabel htmlFor="nhiemVu">Nhiệm vụ</FormLabel>
+            <FormLabel htmlFor="responsibility">Nhiệm vụ</FormLabel>
             <Input
               type="text"
-              id="nhiemVu"
-              name="nhiemVu"
-              defaultValue={nhiemVu}
+              id="responsibility"
+              name="responsibility"
+              defaultValue={responsibility}
               ref={register({
                 required: "Required",
               })}

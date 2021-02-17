@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import {
+  Alert,
+  AlertIcon,
   Box,
   Button,
   Drawer,
@@ -24,7 +26,6 @@ import { useRouter } from "next/router";
 import AddPondModal from "./AddPondModal";
 import fetcher from "../../utils/fetcher";
 import AddSeedModal from "./AddSeedModal";
-import DisplayMap from "../DisplayMap";
 
 const Ponds = () => {
   const router = useRouter();
@@ -53,7 +54,12 @@ const Ponds = () => {
     mutate(
       ["/api/pond", process.browser ? localStorage.getItem("token") : null],
       async (cachedData) => {
-        return [...cachedData.slice(0, index), ...cachedData.slice(index + 1)];
+        let ponds = [
+          ...cachedData.ponds.slice(0, index),
+          ...cachedData.ponds.slice(index + 1),
+        ];
+
+        return { ponds, isAuthenticated: cachedData.isAuthenticated };
       },
       false
     );
@@ -73,57 +79,69 @@ const Ponds = () => {
         px={4}
         py={8}
       >
-        <AddPondModal />
-        {data && data.length === 0 && (
-          <Text fontSize="xl">Bạn chưa thêm mô hình ao!</Text>
+        {data && data.isAuthenticated !== "true" ? (
+          <Alert status="warning">
+            <AlertIcon />
+            <Text fontSize="md">
+              Chỉ có thể tiến hành sử dụng ao khi đã chứng thực
+            </Text>
+          </Alert>
+        ) : (
+          <>
+            <AddPondModal />
+            {data && data.length === 0 && (
+              <Text fontSize="xl">Bạn chưa thêm mô hình ao!</Text>
+            )}
+            <Grid
+              gridTemplateColumns="repeat(2, 1fr)"
+              w="100%"
+              columnGap="1rem"
+              flex="1"
+            >
+              {data &&
+                data.ponds.map((pond, i) => (
+                  <PseudoBox
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    backgroundColor="#fff"
+                    boxShadow="0 4px 8px rgb(220 229 236)"
+                    borderRadius="5px"
+                    height="5rem"
+                    backgroundColor={pond.seed ? "#b4b4b4" : "#48e2b0"}
+                    color="#fff"
+                    mb={4}
+                    ref={btnRef}
+                    role="group"
+                    _hover={{ opacity: 0.5 }}
+                    transition="350ms all"
+                    cursor="pointer"
+                    onClick={() => {
+                      setIndex(i);
+                      setSelectedPond(pond);
+                      onOpen();
+                    }}
+                  >
+                    <PseudoBox fontSize="xl" _groupHover={{ color: "#fff" }}>
+                      {pond.name}
+                    </PseudoBox>
+                  </PseudoBox>
+                ))}
+            </Grid>
+            <Heading size="md">Chú thích</Heading>
+            <Box mb={8}>
+              <Flex alignItems="center" mb={4}>
+                <Box height="3rem" width="3rem" background="#b4b4b4" mr={4} />
+                <Text fontSize="1rem">: ao đang được sử dụng</Text>
+              </Flex>
+              <Flex alignItems="center">
+                <Box height="3rem" width="3rem" background="#48e2b0" mr={4} />
+                <Text fontSize="1rem">: ao còn trống</Text>
+              </Flex>
+            </Box>
+          </>
         )}
-        <Grid
-          gridTemplateColumns="repeat(2, 1fr)"
-          w="100%"
-          columnGap="1rem"
-          flex="1"
-        >
-          {data &&
-            data.map((pond, i) => (
-              <PseudoBox
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                backgroundColor="#fff"
-                boxShadow="0 4px 8px rgb(220 229 236)"
-                borderRadius="5px"
-                height="5rem"
-                backgroundColor={pond.seed ? "#b4b4b4" : "#48e2b0"}
-                color="#fff"
-                mb={4}
-                ref={btnRef}
-                role="group"
-                _hover={{ opacity: 0.5 }}
-                transition="350ms all"
-                cursor="pointer"
-                onClick={() => {
-                  setIndex(i);
-                  setSelectedPond(pond);
-                  onOpen();
-                }}
-              >
-                <PseudoBox fontSize="xl" _groupHover={{ color: "#fff" }}>
-                  {pond.tenAo}
-                </PseudoBox>
-              </PseudoBox>
-            ))}
-        </Grid>
-        <Heading size="md">Chú thích</Heading>
-        <Box mb={8}>
-          <Flex alignItems="center" mb={4}>
-            <Box height="3rem" width="3rem" background="#b4b4b4" mr={4} />
-            <Text fontSize="1rem">: ao đang được sử dụng</Text>
-          </Flex>
-          <Flex alignItems="center">
-            <Box height="3rem" width="3rem" background="#48e2b0" mr={4} />
-            <Text fontSize="1rem">: ao còn trống</Text>
-          </Flex>
-        </Box>
+
         <Drawer
           isOpen={isOpen}
           placement="right"
@@ -144,7 +162,7 @@ const Ponds = () => {
               justifyContent="center"
               alignItems="center"
             >
-              Tên ao: {selectedPond.tenAo}
+              Tên ao: {selectedPond.name}
             </DrawerHeader>
 
             <DrawerBody>
@@ -157,7 +175,7 @@ const Ponds = () => {
                   <Text fontSize="md" fontWeight="medium">
                     Tên ao:{" "}
                     <Box as="span" fontWeight="normal">
-                      {selectedPond.tenAo}
+                      {selectedPond.name}
                     </Box>
                   </Text>
                 </ListItem>
@@ -165,7 +183,7 @@ const Ponds = () => {
                   <Text fontSize="md" fontWeight="medium">
                     Mã ao:{" "}
                     <Box as="span" fontWeight="normal">
-                      {selectedPond.maAo}
+                      {selectedPond.code}
                     </Box>
                   </Text>
                 </ListItem>
@@ -173,7 +191,7 @@ const Ponds = () => {
                   <Text fontSize="md" fontWeight="medium">
                     Diện tích ao (hecta):{" "}
                     <Box as="span" fontWeight="normal">
-                      {selectedPond.dienTich}
+                      {selectedPond.area}
                     </Box>
                   </Text>
                 </ListItem>
@@ -216,7 +234,7 @@ const Ponds = () => {
                       <Text fontSize="md" fontWeight="medium">
                         Số lượng:{" "}
                         <Box as="span" fontWeight="normal">
-                          {selectedPond.seed.soLuongConGiong}
+                          {selectedPond.seed.quantity}
                         </Box>
                       </Text>
                     </ListItem>
@@ -224,7 +242,7 @@ const Ponds = () => {
                       <Text fontSize="md" fontWeight="medium">
                         Ngày tuổi của giống:{" "}
                         <Box as="span" fontWeight="normal">
-                          {selectedPond.seed.ngayTuoiGiong}
+                          {selectedPond.seed.seedAge}
                         </Box>
                       </Text>
                     </ListItem>
@@ -232,7 +250,7 @@ const Ponds = () => {
                       <Text fontSize="md" fontWeight="medium">
                         Tên trại giống:{" "}
                         <Box as="span" fontWeight="normal">
-                          {selectedPond.seed.traiGiong.tenTraiGiong}
+                          {selectedPond.seed.hatchery.name}
                         </Box>
                       </Text>
                     </ListItem>
@@ -240,7 +258,7 @@ const Ponds = () => {
                       <Text fontSize="md" fontWeight="medium">
                         Địa chỉ trại giống:{" "}
                         <Box as="span" fontWeight="normal">
-                          {selectedPond.seed.traiGiong.diaChiTraiGiong}
+                          {selectedPond.seed.hatchery.address}
                         </Box>
                       </Text>
                     </ListItem>
@@ -261,7 +279,7 @@ const Ponds = () => {
                 Xóa
               </Button>
 
-              {selectedPond.seed && (
+              {!selectedPond?.seed?.isRegistered && (
                 <Button
                   onClick={() =>
                     router.push(`/farm/register/${selectedPond._id}`)
@@ -274,8 +292,9 @@ const Ponds = () => {
           </DrawerContent>
         </Drawer>
       </Flex>
+
       <Box height="calc(100vh - 64px)" width="100%">
-        <DisplayMap entry={{ latitude: 10, longitude: 29 }} />
+        {/* <DisplayMap entry={{ latitude: 10, longitude: 29 }} /> */}
       </Box>
     </Flex>
   );

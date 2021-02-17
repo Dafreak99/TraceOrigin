@@ -67,8 +67,8 @@ const AddFood = () => {
       }
     }
 
-    values.hinhAnh = urls;
-    values.soLuong = +values.soLuong;
+    values.images = urls;
+    values.weight = +values.weight;
 
     try {
       let res = await fetch("/api/food", {
@@ -133,51 +133,51 @@ const AddFood = () => {
         {/* Modal Body */}
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl>
-            <FormLabel htmlFor="ngayNhap">Ngày nhập: </FormLabel>
-            <DatePicker control={control} name="ngayNhap" />
+            <FormLabel htmlFor="importDate">Ngày nhập: </FormLabel>
+            <DatePicker control={control} name="importDate" />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="tenThucAn">Tên thức ăn</FormLabel>
+            <FormLabel htmlFor="name">Tên thức ăn</FormLabel>
             <Input
               type="text"
-              id="tenThucAn"
-              name="tenThucAn"
+              id="name"
+              name="name"
               ref={register({
                 required: "Required",
               })}
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="donViCungCapThucAn">
+            <FormLabel htmlFor="foodSupplier">
               Tên người/cửa hàng đại lý thức ăn:{" "}
             </FormLabel>
             <Input
               type="text"
-              id="donViCungCapThucAn"
-              name="donViCungCapThucAn"
+              id="foodSupplier"
+              name="foodSupplier"
               ref={register({
                 required: "Required",
               })}
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="soLuong">Số lượng(kg): </FormLabel>
+            <FormLabel htmlFor="weight">Số lượng(kg): </FormLabel>
             <Input
               type="number"
-              id="soLuong"
-              name="soLuong"
+              id="weight"
+              name="weight"
               ref={register({
                 required: "Required",
               })}
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="ngaySanXuat">Ngày sản xuất</FormLabel>
-            <DatePicker control={control} name="ngaySanXuat" />
+            <FormLabel htmlFor="manufactureDate">Ngày sản xuất</FormLabel>
+            <DatePicker control={control} name="manufactureDate" />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="hanSuDung">Hạn sử dụng</FormLabel>
-            <DatePicker control={control} name="hanSuDung" />
+            <FormLabel htmlFor="expiryDate">Hạn sử dụng</FormLabel>
+            <DatePicker control={control} name="expiryDate" />
           </FormControl>
           <FormControl>
             <FormLabel>Hình ảnh thức ăn</FormLabel>

@@ -1,8 +1,11 @@
 const mongoose = require("mongoose");
 
 const HatcherySchema = new mongoose.Schema({
-  tenTraiGiong: String,
-  diaChiTraiGiong: String,
+  name: String,
+  address: String,
+  coordinate: String,
+  map: String,
+  images: [{ type: String }],
   farmId: String,
 });
 

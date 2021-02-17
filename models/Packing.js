@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
 const PackingSchema = new mongoose.Schema({
-  quyCachDongGoi: String,
-  moTa: String,
+  packingMethod: String,
+  description: String,
   businessId: String,
 });
 

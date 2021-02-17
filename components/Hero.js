@@ -59,6 +59,7 @@ const Hero = () => {
                 fontSize={{ base: "3xl", xl: "6xl" }}
                 className={i === index ? "fadeIn" : "preFadeIn"}
                 textAlign={{ sx: "center" }}
+                fontFamily="Inter, sans-serif"
               >
                 {heading}
               </Heading>
@@ -68,6 +69,7 @@ const Hero = () => {
                 fontSize={{ base: "xl", xl: "3xl" }}
                 color="#f9fafa"
                 fontWeight="normal"
+                fontFamily="Inter, sans-serif"
               >
                 {text}
               </Text>

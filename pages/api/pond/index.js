@@ -21,18 +21,19 @@ export default async (req, res) => {
 
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-  const farm = await Farm.findOne({ themVaoBoi: decoded });
+  const farm = await Farm.findOne({ createdBy: decoded });
 
   switch (method) {
     case "GET":
-      let ponds = await Pond.find({ farmId: farm._id, luuTru: false }).populate(
-        {
-          path: "seed",
-          populate: { path: "traiGiong" },
-        }
-      );
+      let ponds = await Pond.find({
+        farmId: farm._id,
+        isArchived: false,
+      }).populate({
+        path: "seed",
+        populate: { path: "hatchery" },
+      });
 
-      res.send(ponds);
+      res.send({ ponds, isAuthenticated: farm.isAuthenticated });
 
       break;
     case "POST":
@@ -51,8 +52,7 @@ export default async (req, res) => {
 
         // How to know which Product is linked to this pond ?
         // For each pond, only one product can be register at a time
-        // Find a product which has that pondId and duyetThuHoach !== 'true'
-        console.log("Run");
+        // Find a product which has that pondId and isHarvested !== 'true'
 
         let product = await Product.findOne({
           pond: pondId,
@@ -67,9 +67,9 @@ export default async (req, res) => {
           return res.send({ message: "Đã xóa thành công ao !" });
         }
 
-        if (product.duyetThuHoach === "true") {
+        if (product.isHarvested === "true") {
           // Archive to keep the link from Product to Pond after harvested
-          await Pond.findByIdAndUpdate(pondId, { luuTru: true });
+          await Pond.findByIdAndUpdate(pondId, { isArchived: true });
           await Seed.findOneAndUpdate({ pondId }, { isDone: true });
         } else {
           // When deleting a pond make sure to perform cascade delete in Product, Seed, FeedingDiary and UsingMediicne

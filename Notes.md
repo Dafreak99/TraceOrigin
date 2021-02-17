@@ -13,12 +13,12 @@
 // const [data, setData] = useState([]);
 <Input
   type="text"
-  id="soLuong"
-  name="soLuong"
-  value={data.soLuong}
-  // update based on data.soLuong
-  defaultValue={data.soLuong}
-  // retain the intial value of data.soLuong
+  id="weight"
+  name="weight"
+  value={data.weight}
+  // update based on data.weight
+  defaultValue={data.weight}
+  // retain the intial value of data.weight
   ref={register({
     required: "Required",
   })}

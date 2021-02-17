@@ -98,23 +98,20 @@ const Product = () => {
               <Th>{""}</Th>
             </Tr>
             {data.product.map(
-              (
-                { donvi, ngayThuHoach, tenSanPham, trongLuong, hinhAnh, _id },
-                i
-              ) => (
+              ({ unit, harvestedDate, name, weight, images, _id }, i) => (
                 <Tr
                   backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
                   cursor="pointer"
                   onClick={() => router.push(`./product/${_id}`)}
                 >
-                  <Td>{format(new Date(ngayThuHoach), "dd/MM/yyyy")}</Td>
+                  <Td>{format(new Date(harvestedDate), "dd/MM/yyyy")}</Td>
 
-                  <Td>{tenSanPham}</Td>
+                  <Td>{name}</Td>
                   <Td>
-                    <Image src={hinhAnh[0]} height="5rem" />
+                    <Image src={images[0]} height="5rem" />
                   </Td>
-                  <Td>{trongLuong}</Td>
-                  <Td>{donvi}</Td>
+                  <Td>{weight}</Td>
+                  <Td>{unit}</Td>
                   <Td>
                     <Badge p="5px 10px" borderRadius="3px">
                       Pending
@@ -158,11 +155,11 @@ const Product = () => {
                         <Select
                           onChange={onChange}
                           style={{ width: "100%" }}
-                          defaultValue={processingFacilties[0].tenCoSoCheBien}
+                          defaultValue={processingFacilties[0].name}
                         >
                           {processingFacilties.map((facility) => (
                             <Option value={facility._id}>
-                              {facility.tenCoSoCheBien}
+                              {facility.name}
                             </Option>
                           ))}
                         </Select>

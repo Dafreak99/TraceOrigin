@@ -119,12 +119,12 @@ const AddFood = () => {
               {currentData.map(
                 (
                   {
-                    ngayNhap,
-                    tenThucAn,
-                    hinhAnh,
-                    soLuong,
-                    ngaySanXuat,
-                    hanSuDung,
+                    importDate,
+                    name,
+                    images,
+                    weight,
+                    manufactureDate,
+                    expiryDate,
                     _id,
                   },
                   i
@@ -134,14 +134,14 @@ const AddFood = () => {
                     cursor="pointer"
                     onClick={() => router.push(`./food/${_id}`)}
                   >
-                    <Td>{format(new Date(ngayNhap), "dd/MM/yyyy")}</Td>
-                    <Td>{tenThucAn}</Td>
+                    <Td>{format(new Date(importDate), "dd/MM/yyyy")}</Td>
+                    <Td>{name}</Td>
                     <Td>
-                      <Image src={hinhAnh[0]} height="5rem" />
+                      <Image src={images[0]} height="5rem" />
                     </Td>
-                    <Td>{soLuong}</Td>
-                    <Td>{format(new Date(ngaySanXuat), "dd/MM/yyyy")}</Td>
-                    <Td>{format(new Date(hanSuDung), "dd/MM/yyyy")}</Td>
+                    <Td>{weight}</Td>
+                    <Td>{format(new Date(manufactureDate), "dd/MM/yyyy")}</Td>
+                    <Td>{format(new Date(expiryDate), "dd/MM/yyyy")}</Td>
                     <Td
                       borderLeft="1px solid #e8eef3"
                       px={8}

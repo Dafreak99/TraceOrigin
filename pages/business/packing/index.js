@@ -96,14 +96,14 @@ const Packing = () => {
                 <Th>{""}</Th>
                 <Th>{""}</Th>
               </Tr>
-              {data.map(({ quyCachDongGoi, moTa, _id }, i) => (
+              {data.map(({ packingMethod, description, _id }, i) => (
                 <Tr
                   backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
                   cursor="pointer"
                   onClick={() => router.push(`./food/${_id}`)}
                 >
-                  <Td>{quyCachDongGoi}</Td>
-                  <Td>{moTa}</Td>
+                  <Td>{packingMethod}</Td>
+                  <Td>{description}</Td>
 
                   <Td
                     borderLeft="1px solid #e8eef3"

@@ -112,17 +112,17 @@ const Warehouse = () => {
                 <Th>Địa chỉ</Th>
                 <Th>{""}</Th>
               </Tr>
-              {data.map(({ maKho, tenKho, sdt, email, diaChi, _id }, i) => (
+              {data.map(({ code, name, phone, email, address, _id }, i) => (
                 <Tr
                   backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
                   cursor="pointer"
                   onClick={() => router.push(`./food/${_id}`)}
                 >
-                  <Td>{maKho}</Td>
-                  <Td>{tenKho}</Td>
-                  <Td>{sdt}</Td>
+                  <Td>{code}</Td>
+                  <Td>{name}</Td>
+                  <Td>{phone}</Td>
                   <Td>{email}</Td>
-                  <Td>{diaChi}</Td>
+                  <Td>{address}</Td>
 
                   <Td
                     borderLeft="1px solid #e8eef3"

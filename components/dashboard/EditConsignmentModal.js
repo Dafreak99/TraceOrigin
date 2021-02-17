@@ -19,7 +19,7 @@ import DatePicker from "../DatePicker";
 import fetcher from "@/utils/fetcher";
 
 const EditConsignment = ({ visible, setVisible, data }) => {
-  const { maLoHang, ngaySanXuat, sanPham, _id } = data;
+  const { maLoHang, manufactureDate, sanPham, _id } = data;
 
   const { data: products, error } = useSWR(
     [
@@ -113,13 +113,13 @@ const EditConsignment = ({ visible, setVisible, data }) => {
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="ngaySanXuat">Ngày sản xuất</FormLabel>
+            <FormLabel htmlFor="manufactureDate">Ngày sản xuất</FormLabel>
             <DatePicker
               control={control}
-              name="ngaySanXuat"
-              placeholder={ngaySanXuat}
+              name="manufactureDate"
+              placeholder={manufactureDate}
             />
-            {errors.ngaySanXuat?.type === "required" && (
+            {errors.manufactureDate?.type === "required" && (
               <Text fontSize="md" fontStyle="italic" color="red.300">
                 Vui lòng nhập ngày
               </Text>
@@ -139,10 +139,10 @@ const EditConsignment = ({ visible, setVisible, data }) => {
                   <Select
                     onChange={onChange}
                     style={{ width: "100%" }}
-                    defaultValue={sanPham.tenSanPham}
+                    defaultValue={sanPham.name}
                   >
                     {products.map((each) => (
-                      <Option value={each._id}>{each.tenSanPham}</Option>
+                      <Option value={each._id}>{each.name}</Option>
                     ))}
                   </Select>
                 )}

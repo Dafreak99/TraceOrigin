@@ -74,7 +74,7 @@ const CheckupModal = ({ bg, color, icon }) => {
   const onSubmit = async (values) => {
     setIsSave(true);
 
-    values.khoiLuongThuoc = +values.khoiLuongThuoc;
+    values.weight = +values.weight;
 
     try {
       await fetch("/api/usingmedicine", {
@@ -148,10 +148,10 @@ const CheckupModal = ({ bg, color, icon }) => {
                   <Select
                     onChange={onChange}
                     style={{ width: "100%" }}
-                    defaultValue={products[0].tenSanPham}
+                    defaultValue={products[0].name}
                   >
                     {products.map((product) => (
-                      <Option value={product._id}>{product.tenSanPham}</Option>
+                      <Option value={product._id}>{product.name}</Option>
                     ))}
                   </Select>
                 )}
@@ -159,16 +159,16 @@ const CheckupModal = ({ bg, color, icon }) => {
             </FormControl>
 
             <FormControl>
-              <FormLabel htmlFor="thuoc">Tên thuốc:</FormLabel>
+              <FormLabel htmlFor="medicine">Tên thuốc:</FormLabel>
               {medicines && medicines.length > 0 && (
                 <Controller
-                  name="thuoc"
+                  name="medicine"
                   defaultValue={medicines[0]._id}
                   control={control}
                   rules={{ required: true }}
                   render={({ onChange }) => (
                     <Select
-                      defaultValue={medicines[0].tenThuoc}
+                      defaultValue={medicines[0].name}
                       onChange={(id) => {
                         handleChangeMedicine(id);
                         onChange(id);
@@ -176,9 +176,7 @@ const CheckupModal = ({ bg, color, icon }) => {
                       style={{ width: "100%" }}
                     >
                       {medicines.map((medicine) => (
-                        <Option value={medicine._id}>
-                          {medicine.tenThuoc}
-                        </Option>
+                        <Option value={medicine._id}>{medicine.name}</Option>
                       ))}
                     </Select>
                   )}
@@ -186,50 +184,50 @@ const CheckupModal = ({ bg, color, icon }) => {
               )}
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="khoiLuongThuoc">
+              <FormLabel htmlFor="weight">
                 Khối lượng thuốc(gam):
                 <Input
                   type="number"
-                  name="khoiLuongThuoc"
+                  name="weight"
                   ref={register({
                     required: "Required",
                     max: selectedMedicine
-                      ? selectedMedicine.soLuong
-                      : medicines && medicines[0].soLuong,
+                      ? selectedMedicine.weight
+                      : medicines && medicines[0].weight,
                   })}
                 />
-                {errors.khoiLuongThuoc?.type === "max" && (
+                {errors.weight?.type === "max" && (
                   <Text fontSize="md" fontStyle="italic" color="red.300">
                     Tối đa là{" "}
                     {selectedMedicine
-                      ? selectedMedicine.soLuong
-                      : medicines && medicines[0].soLuong}{" "}
+                      ? selectedMedicine.weight
+                      : medicines && medicines[0].weight}{" "}
                     kg
                   </Text>
                 )}
                 {selectedMedicine
-                  ? selectedMedicine.soLuong
-                  : medicines && medicines[0].soLuong}
+                  ? selectedMedicine.weight
+                  : medicines && medicines[0].weight}
               </FormLabel>
             </FormControl>
 
             <FormControl>
-              <FormLabel htmlFor="ngayThangNam">Ngày tháng năm:</FormLabel>
+              <FormLabel htmlFor="createdDate">Ngày tháng năm:</FormLabel>
               <br />
 
-              <DatePicker control={control} name="ngayThangNam" />
+              <DatePicker control={control} name="createdDate" />
 
-              {errors.ngayThangNam?.type === "required" && (
+              {errors.createdDate?.type === "required" && (
                 <Text fontSize="md" fontStyle="italic" color="red.300">
                   Vui lòng nhập ngày
                 </Text>
               )}
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="thucAn">Thức ăn:</FormLabel>
+              <FormLabel htmlFor="food">Thức ăn:</FormLabel>
               {foods && foods.length > 0 && (
                 <Controller
-                  name="thucAn"
+                  name="food"
                   control={control}
                   defaultValue={foods[0]._id}
                   rules={{ required: true }}
@@ -237,10 +235,10 @@ const CheckupModal = ({ bg, color, icon }) => {
                     <Select
                       onChange={onChange}
                       style={{ width: "100%" }}
-                      defaultValue={foods[0].tenThucAn}
+                      defaultValue={foods[0].name}
                     >
                       {foods.map((food) => (
-                        <Option value={food._id}>{food.tenThucAn}</Option>
+                        <Option value={food._id}>{food.name}</Option>
                       ))}
                     </Select>
                   )}
@@ -248,24 +246,24 @@ const CheckupModal = ({ bg, color, icon }) => {
               )}
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="tyLePhoiTron">Tỷ lệ phối trộn(%):</FormLabel>
+              <FormLabel htmlFor="mixingRatio">Tỷ lệ phối trộn(%):</FormLabel>
               {foods && foods.length > 0 && (
                 <>
                   <Input
                     type="number"
-                    name="tyLePhoiTron"
+                    name="mixingRatio"
                     ref={register({
                       required: "Required",
                       max: 100,
                       min: 5,
                     })}
                   />
-                  {errors.tyLePhoiTron?.type === "max" && (
+                  {errors.mixingRatio?.type === "max" && (
                     <Text fontSize="md" fontStyle="italic" color="red.300">
                       Tối đa là 100%
                     </Text>
                   )}
-                  {errors.tyLePhoiTron?.type === "min" && (
+                  {errors.mixingRatio?.type === "min" && (
                     <Text fontSize="md" fontStyle="italic" color="red.300">
                       Tối thiểu là 5%
                     </Text>
@@ -274,10 +272,10 @@ const CheckupModal = ({ bg, color, icon }) => {
               )}
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="nguoiTron">Người trộn:</FormLabel>
+              <FormLabel htmlFor="worker">Người trộn:</FormLabel>
               {workers && workers.length > 0 && (
                 <Controller
-                  name="nguoiTron"
+                  name="worker"
                   control={control}
                   defaultValue={workers[0]._id}
                   rules={{ required: true }}
@@ -285,10 +283,10 @@ const CheckupModal = ({ bg, color, icon }) => {
                     <Select
                       onChange={onChange}
                       style={{ width: "100%" }}
-                      defaultValue={workers[0].hoTen}
+                      defaultValue={workers[0].name}
                     >
                       {workers.map((worker) => (
-                        <Option value={worker._id}>{worker.hoTen}</Option>
+                        <Option value={worker._id}>{worker.name}</Option>
                       ))}
                     </Select>
                   )}

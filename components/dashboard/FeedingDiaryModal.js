@@ -106,10 +106,10 @@ const FeedingDiaryModal = ({ bg, color, icon }) => {
                   <Select
                     onChange={onChange}
                     style={{ width: "100%" }}
-                    defaultValue={products[0].tenSanPham}
+                    defaultValue={products[0].name}
                   >
                     {products.map((product) => (
-                      <Option value={product._id}>{product.tenSanPham}</Option>
+                      <Option value={product._id}>{product.name}</Option>
                     ))}
                   </Select>
                 )}
@@ -119,7 +119,7 @@ const FeedingDiaryModal = ({ bg, color, icon }) => {
               <FormLabel htmlFor="note">Thức ăn: </FormLabel>
 
               <Controller
-                name="thucAn"
+                name="food"
                 control={control}
                 defaultValue={data[0]._id}
                 rules={{ required: true }}
@@ -127,51 +127,49 @@ const FeedingDiaryModal = ({ bg, color, icon }) => {
                   <Select
                     onChange={onChange}
                     style={{ width: "100%" }}
-                    defaultValue={data[0].tenThucAn}
+                    defaultValue={data[0].name}
                   >
                     {data.map((each) => (
-                      <Option value={each._id}>{each.tenThucAn}</Option>
+                      <Option value={each._id}>{each.name}</Option>
                     ))}
                   </Select>
                 )}
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="khoiLuong">Khối lượng(kg): </FormLabel>
+              <FormLabel htmlFor="weight">Khối lượng(kg): </FormLabel>
               <Input
                 type="number"
-                id="khoiLuong"
-                name="khoiLuong"
+                id="weight"
+                name="weight"
                 ref={register({
                   required: "Required",
                   max: selectedFood
-                    ? selectedFood.soLuong
-                    : data && data[0].soLuong,
+                    ? selectedFood.weight
+                    : data && data[0].weight,
                 })}
               />
-              {errors.khoiLuong?.type === "required" && (
+              {errors.weight?.type === "required" && (
                 <Text fontSize="md" fontStyle="italic" color="red.300">
                   Vui lòng nhập vào khối lượng thức ăn !
                 </Text>
               )}
 
-              {errors.khoiLuong?.type === "max" && (
+              {errors.weight?.type === "max" && (
                 <Text fontSize="md" fontStyle="italic" color="red.300">
                   Tối đa là{" "}
-                  {selectedFood
-                    ? selectedFood.soLuong
-                    : data && data[0].soLuong}{" "}
+                  {selectedFood ? selectedFood.weight : data && data[0].weight}{" "}
                   kg
                 </Text>
               )}
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="ngayThangNam">Ngày tháng năm: </FormLabel>
-              <DatePicker control={control} name="ngayThangNam" />
+              <FormLabel htmlFor="createdDate">Ngày tháng năm: </FormLabel>
+              <DatePicker control={control} name="createdDate" />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="ghiChu">Ghi chú: </FormLabel>
-              <Input type="text" id="ghiChu" name="ghiChu" ref={register()} />
+              <FormLabel htmlFor="note">Ghi chú: </FormLabel>
+              <Input type="text" id="note" name="note" ref={register()} />
             </FormControl>
             <ModalFooter>
               <Button

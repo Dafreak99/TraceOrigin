@@ -16,7 +16,7 @@ export default async (req, res) => {
 
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-  let business = await Business.findOne({ themVaoBoi: decoded });
+  let business = await Business.findOne({ createdBy: decoded });
 
   const {
     query: { id },

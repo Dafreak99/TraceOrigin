@@ -77,10 +77,10 @@ const Index = () => {
     setIsOpen(false);
   };
 
-  const medicineCondition = (soLuong, hanSuDung) => {
-    let expired = isBefore(new Date(hanSuDung), new Date());
+  const medicineCondition = (weight, expiryDate) => {
+    let expired = isBefore(new Date(expiryDate), new Date());
 
-    if (soLuong === 0) {
+    if (weight === 0) {
       return (
         <Tooltip title="Số lượng còn lại là 0" color="#007bff">
           <Badge
@@ -162,13 +162,13 @@ const Index = () => {
             {data.map(
               (
                 {
-                  tenThuoc,
-                  hinhAnh,
-                  soLuong,
-                  cachBaoQuan,
-                  ngayNhap,
-                  ngaySanXuat,
-                  hanSuDung,
+                  name,
+                  images,
+                  weight,
+                  preservationMethod,
+                  importDate,
+                  manufactureDate,
+                  expiryDate,
                   _id,
                 },
                 i
@@ -178,18 +178,18 @@ const Index = () => {
                   cursor="pointer"
                   onClick={() => router.push(`./medicine/${_id}`)}
                 >
-                  <Td>{ngayNhap}</Td>
+                  <Td>{importDate}</Td>
 
-                  <Td>{tenThuoc}</Td>
+                  <Td>{name}</Td>
                   <Td>
-                    <Image src={hinhAnh[0]} height="5rem" />
+                    <Image src={images[0]} height="5rem" />
                   </Td>
-                  <Td>{soLuong}</Td>
-                  <Td>{cachBaoQuan}</Td>
-                  <Td>{ngaySanXuat}</Td>
-                  <Td>{hanSuDung}</Td>
+                  <Td>{weight}</Td>
+                  <Td>{preservationMethod}</Td>
+                  <Td>{manufactureDate}</Td>
+                  <Td>{expiryDate}</Td>
 
-                  <Td>{medicineCondition(soLuong, hanSuDung)}</Td>
+                  <Td>{medicineCondition(weight, expiryDate)}</Td>
                   <Td
                     borderLeft="1px solid #e8eef3"
                     px={8}

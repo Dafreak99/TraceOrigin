@@ -117,9 +117,9 @@ const AddConsignmentModal = () => {
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="ngaySanXuat">Ngày sản xuất</FormLabel>
-            <DatePicker control={control} name="ngaySanXuat" />
-            {errors.ngaySanXuat?.type === "required" && (
+            <FormLabel htmlFor="manufactureDate">Ngày sản xuất</FormLabel>
+            <DatePicker control={control} name="manufactureDate" />
+            {errors.manufactureDate?.type === "required" && (
               <Text fontSize="md" fontStyle="italic" color="red.300">
                 Vui lòng nhập ngày
               </Text>
@@ -139,10 +139,10 @@ const AddConsignmentModal = () => {
                   <Select
                     onChange={onChange}
                     style={{ width: "100%" }}
-                    defaultValue={data[0].tenSanPham}
+                    defaultValue={data[0].name}
                   >
                     {data.map((each) => (
-                      <Option value={each._id}>{each.tenSanPham}</Option>
+                      <Option value={each._id}>{each.name}</Option>
                     ))}
                   </Select>
                 )}

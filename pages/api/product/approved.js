@@ -23,14 +23,14 @@ export default async (req, res) => {
     return res.status(400).send({ message: "Bạn không có quyền truy cập" });
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-  const farm = await Farm.findOne({ themVaoBoi: decoded });
+  const farm = await Farm.findOne({ createdBy: decoded });
 
   switch (method) {
     case "GET":
       let products = await Product.find({
         farm: farm._id,
-        duyetDangKy: "true",
-        duyetThuHoach: null,
+        isRegistered: "true",
+        isHarvested: null,
       }).populate({
         path: "pond",
         populate: { path: "seed" },
@@ -44,7 +44,7 @@ export default async (req, res) => {
 
       await Product.findOneAndUpdate(
         { _id: id },
-        { duyetDangKy: "true", qrCode: id }
+        { isRegistered: "true", qrCode: id }
       );
 
       res.send({ message: "OK" });

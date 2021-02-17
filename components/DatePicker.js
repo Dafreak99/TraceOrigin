@@ -17,7 +17,7 @@ const DatePicker = ({ control, name, placeholder }) => {
       defaultValue={defaultDate}
       render={({ onChange }) => (
         <AntdPicker
-          id="ngayThangNam"
+          id="createdDate"
           placeholder={placeholder ? placeholder : "Chọn ngày"}
           onChange={(_, dateString) => onChange(dateString)}
           format="DD/MM/YYYY"
@@ -41,4 +41,4 @@ export default DatePicker;
 // );
 
 // Wrapped inside controller to retain the name attribute
-// {ngayThangNam: "2020-01-01"} when submitting form
+// {createdDate: "2020-01-01"} when submitting form

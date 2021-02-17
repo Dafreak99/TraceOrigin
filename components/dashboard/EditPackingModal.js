@@ -17,7 +17,7 @@ import FormControl from "./FormControl";
 import { mutate } from "swr";
 
 const EditPackingModal = ({ visible, setVisible, data }) => {
-  const { quyCachDongGoi, moTa, _id } = data;
+  const { packingMethod, description, _id } = data;
 
   const [isSave, setIsSave] = useState(false);
   const { handleSubmit, register, errors, control, reset } = useForm();
@@ -93,12 +93,12 @@ const EditPackingModal = ({ visible, setVisible, data }) => {
         {/* Modal Body */}
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl>
-            <FormLabel htmlFor="hoTen">Quy cách đóng gói</FormLabel>
+            <FormLabel htmlFor="name">Quy cách đóng gói</FormLabel>
             <Input
               type="text"
-              id="quyCachDongGoi"
-              name="quyCachDongGoi"
-              defaultValue={quyCachDongGoi}
+              id="packingMethod"
+              name="packingMethod"
+              defaultValue={packingMethod}
               ref={register({
                 required: "Required",
               })}
@@ -106,12 +106,12 @@ const EditPackingModal = ({ visible, setVisible, data }) => {
           </FormControl>
 
           <FormControl>
-            <FormLabel htmlFor="moTa">Mô tả</FormLabel>
+            <FormLabel htmlFor="description">Mô tả</FormLabel>
             <Input
               type="text"
-              id="moTa"
-              name="moTa"
-              defaultValue={moTa}
+              id="description"
+              name="description"
+              defaultValue={description}
               ref={register({
                 required: "Required",
               })}

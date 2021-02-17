@@ -16,7 +16,7 @@ export default async (req, res) => {
     return res.status(400).send({ message: "Bạn không có quyền truy cập" });
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-  let business = await Business.findOne({ themVaoBoi: decoded });
+  let business = await Business.findOne({ createdBy: decoded });
 
   switch (method) {
     case "GET":

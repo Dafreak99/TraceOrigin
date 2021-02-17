@@ -36,7 +36,7 @@ export const AddSeedModal = ({ pondId, onCloseDrawer }) => {
   const [isSave, setIsSave] = useState(false);
 
   const onSubmit = async (values) => {
-    if (!values.traiGiong) return;
+    if (!values.hatchery) return;
 
     setIsSave(true);
     try {
@@ -55,13 +55,17 @@ export const AddSeedModal = ({ pondId, onCloseDrawer }) => {
       mutate(
         ["/api/pond", process.browser ? localStorage.getItem("token") : null],
         async (cachedData) => {
-          let index = cachedData.findIndex((each) => each._id === data._id);
+          let index = cachedData.ponds.findIndex(
+            (each) => each._id === data._id
+          );
 
-          return [
-            ...cachedData.slice(0, index),
+          let ponds = [
+            ...cachedData.ponds.slice(0, index),
             data,
-            ...cachedData.slice(index + 1),
+            ...cachedData.ponds.slice(index + 1),
           ];
+
+          return { ponds, isAuthenticated: cachedData.isAuthenticated };
         },
         false
       );
@@ -88,22 +92,22 @@ export const AddSeedModal = ({ pondId, onCloseDrawer }) => {
           <ModalCloseButton />
           <ModalBody>
             <FormControl>
-              <FormLabel htmlFor="soLuongConGiong">Số lượng: </FormLabel>
+              <FormLabel htmlFor="quantity">Số lượng: </FormLabel>
               <Input
                 type="text"
-                id="soLuongConGiong"
-                name="soLuongConGiong"
+                id="quantity"
+                name="quantity"
                 ref={register({
                   required: "Required",
                 })}
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="ngayThaGiong">Ngày thả giống: </FormLabel>
+              <FormLabel htmlFor="stockingDate">Ngày thả giống: </FormLabel>
               <Input
                 type="text"
-                id="ngayThaGiong"
-                name="ngayThaGiong"
+                id="stockingDate"
+                name="stockingDate"
                 defaultValue={format(new Date(), "dd/MM/yyyy")}
                 ref={register({
                   required: "Required",
@@ -112,30 +116,28 @@ export const AddSeedModal = ({ pondId, onCloseDrawer }) => {
             </FormControl>
 
             <FormControl>
-              <FormLabel htmlFor="ngayTuoiGiong">
-                Ngày tuổi của con giống:
-              </FormLabel>
+              <FormLabel htmlFor="seedAge">Ngày tuổi của con giống:</FormLabel>
               <Input
                 type="text"
-                id="ngayTuoiGiong"
-                name="ngayTuoiGiong"
+                id="seedAge"
+                name="seedAge"
                 ref={register({
                   required: "Required",
                 })}
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="traiGiong">Trại giống:</FormLabel>
+              <FormLabel htmlFor="hatchery">Trại giống:</FormLabel>
               {data && data.length > 0 ? (
                 <Select
-                  id="traiGiong"
-                  name="traiGiong"
+                  id="hatchery"
+                  name="hatchery"
                   ref={register({
                     required: "Required",
                   })}
                 >
                   {data.map((each) => (
-                    <option value={each._id}>{each.tenTraiGiong}</option>
+                    <option value={each._id}>{each.name}</option>
                   ))}
                 </Select>
               ) : (
