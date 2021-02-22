@@ -13,6 +13,7 @@ import { GiPencil } from "react-icons/gi";
 import Footer from "@/components/Footer";
 import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
+import Chatbot from "@/components/Chatbot";
 
 const IndexPage = () => {
   const { data, error } = useSWR("/api/product/finish", fetcher);
@@ -173,6 +174,7 @@ const IndexPage = () => {
       <SectionPadding>
         <Products data={data} />
       </SectionPadding>
+      <Chatbot />
       <Footer />
     </>
   );
