@@ -48,11 +48,11 @@ const UsingMedicineDiary = () => {
           <Table>
             <Tr>
               <Th>Ngày sử dung</Th>
+              <Th>Tên Ao</Th>
               <Th>Tên thuốc</Th>
               <Th>Hình ảnh thuốc</Th>
               <Th>Tên thức ăn</Th>
               <Th>Hình ảnh thức ăn</Th>
-              <Th>Tên Ao</Th>
               <Th>Khối lượng thuốc(kg)</Th>
               <Th>Tỷ lệ phối trộn(%)</Th>
               <Th>Người trộn</Th>
@@ -78,6 +78,7 @@ const UsingMedicineDiary = () => {
                   onClick={() => router.push(`./usingmedicinediary/${_id}`)}
                 >
                   <Td>{format(new Date(createdDate), "dd/MM/yyyy")}</Td>
+                  <Td>{pondName}</Td>
                   <Td>{name}</Td>
                   <Td>
                     <Image src={hinhAnhThuoc[0]} height="5rem" />
@@ -86,7 +87,6 @@ const UsingMedicineDiary = () => {
                   <Td>
                     <Image src={hinhAnhThucAn[0]} height="5rem" />
                   </Td>
-                  <Td>{pondName}</Td>
                   <Td>{weight}</Td>
                   <Td>{mixingRatio}</Td>
                   <Td>{workerName}</Td>

@@ -7,7 +7,8 @@ import { Controller } from "react-hook-form";
  */
 
 const DatePicker = ({ control, name, placeholder }) => {
-  const defaultDate = placeholder ? format(placeholder, "dd/MM/yyyy") : null;
+  // const defaultDate = placeholder ? format(placeholder, "dd/MM/yyyy") : null;
+  const defaultDate = placeholder ? placeholder : null;
 
   return (
     <Controller

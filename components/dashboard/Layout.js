@@ -279,6 +279,33 @@ const QualityControlSidebar = () => {
   );
 };
 
+const AdminSidebar = () => {
+  const { route } = useRouter();
+
+  let params = route.split("/");
+  let key;
+  if (params.length === 2) {
+    key = "default";
+  } else if (params.length === 3) {
+    key = params[2];
+  }
+
+  return (
+    <Menu theme="light" mode="inline" defaultSelectedKeys={[key]}>
+      <Menu.Item key="default" icon={<Icon component={MdSecurity} />}>
+        <Link href="/admin">
+          <a style={{ fontWeight: "bold" }}>Người dùng</a>
+        </Link>
+      </Menu.Item>
+      <Menu.Item key="posts" icon={<Icon component={FaBattleNet} />}>
+        <Link href="/admin/posts">
+          <a style={{ fontWeight: "bold" }}>Bài viết</a>
+        </Link>
+      </Menu.Item>
+    </Menu>
+  );
+};
+
 const Sidebar = () => {
   const router = useRouter();
 
@@ -335,6 +362,8 @@ const Sidebar = () => {
 
       {user && user.type === "farm" ? (
         <FarmSidebar />
+      ) : user && user.type === "admin" ? (
+        <AdminSidebar />
       ) : (
         <QualityControlSidebar />
       )}

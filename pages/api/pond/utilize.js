@@ -2,8 +2,6 @@ import Pond from "../../../models/Pond";
 import dbConnect from "../../../lib/dbConnect";
 import Seed from "../../../models/Seed";
 
-import jwt from "jsonwebtoken";
-
 dbConnect();
 
 // @route /api/pond/utillize
@@ -25,7 +23,8 @@ export default async (req, res) => {
 
     const pond = await Pond.findOneAndUpdate(
       { _id: pondId },
-      { seed: seed._id }
+      { seed: seed._id, stockingDensity: "400" },
+      { new: true }
     );
 
     res.send(pond);

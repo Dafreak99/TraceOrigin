@@ -24,7 +24,6 @@ import Layout from "@/components/dashboard/Layout";
 import { Table, Th, Td, Tr } from "@/components/Table";
 import fetcher from "@/utils/fetcher";
 import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
-import { format } from "date-fns";
 
 const AddFood = () => {
   const router = useRouter();
@@ -134,14 +133,14 @@ const AddFood = () => {
                     cursor="pointer"
                     onClick={() => router.push(`./food/${_id}`)}
                   >
-                    <Td>{format(new Date(importDate), "dd/MM/yyyy")}</Td>
+                    <Td>{importDate}</Td>
                     <Td>{name}</Td>
                     <Td>
                       <Image src={images[0]} height="5rem" />
                     </Td>
                     <Td>{weight}</Td>
-                    <Td>{format(new Date(manufactureDate), "dd/MM/yyyy")}</Td>
-                    <Td>{format(new Date(expiryDate), "dd/MM/yyyy")}</Td>
+                    <Td>{manufactureDate}</Td>
+                    <Td>{expiryDate}</Td>
                     <Td
                       borderLeft="1px solid #e8eef3"
                       px={8}

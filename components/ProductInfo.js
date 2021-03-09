@@ -82,7 +82,7 @@ const Tab1 = ({
 }) => {
   return (
     <Grid gridTemplateColumns="repeat(12, 1fr)">
-      <List spacing={3} mt={4} gridColumn={{ base: "span 12", md: "span 6" }}>
+      <List spacing={3} gridColumn={{ base: "span 12", md: "span 6" }}>
         <Flex mb={6}>
           <GreenDot />
           <Heading fontWeight="bold" fontSize="20px">
@@ -170,17 +170,19 @@ const Tab1 = ({
             </Text>
           </Flex>
         </ListItem>
-        <Flex align="center">
-          <Box as={MdDateRange} mr="0.5rem" />
-          <Text fontWeight="bold">
-            Ngày thả giống:{" "}
-            <Text as="span" fontWeight="normal">
-              {stockingDate}
-            </Text>
-          </Text>
-        </Flex>
-
         <ListItem>
+          <Flex align="center">
+            <Box as={MdDateRange} mr="0.5rem" />
+            <Text fontWeight="bold">
+              Ngày thả giống:{" "}
+              <Text as="span" fontWeight="normal">
+                {stockingDate}
+              </Text>
+            </Text>
+          </Flex>
+        </ListItem>
+
+        <ListItem mt={4}>
           <Image
             src="http://portal1.traceverified.com/Images/Certificates/organica-logo.png"
             h="5rem"
@@ -192,7 +194,6 @@ const Tab1 = ({
 };
 
 const Tab2 = ({ data }) => {
-  console.log(data);
   return (
     // <Comment
     //   avatar={
@@ -211,80 +212,6 @@ const Tab2 = ({ data }) => {
     //   }
     // />
 
-    // <Collapse
-    //   defaultActiveKey={["1"]}
-    //   // TODO: Display full information of Product before harvest
-    //   ghost
-    //   style={{ marginTop: "2rem", gridColumn: "span 12" }}
-    // >
-    //   <Panel header="Nhật ký cho ăn" key="1">
-    //     <Table>
-    //       <Tr>
-    //         <Th>Ngày cho ăn</Th>
-    //         <Th>Ghi chú</Th>
-    //         <Th>Khối lượng</Th>
-    //         <Th>Thức ăn</Th>
-    //         <Th>Hình ảnh</Th>
-    //         <Th>{""}</Th>
-    //       </Tr>
-    //       {data.feeding.map(
-    //         (
-    //           {
-    //             createdDate,
-    //             note,
-    //             weight,
-    //             food: { name, images },
-    //           },
-    //           i
-    //         ) => (
-    //           <Tr
-    //             backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
-    //             cursor="pointer"
-    //             // onClick={() => router.push(`./product/${_id}`)}
-    //           >
-    //             <Td>{createdDate}</Td>
-    //             <Td>{note}</Td>
-    //             <Td>{weight}</Td>
-    //             <Td>{name}</Td>
-    //             <Td>
-    //               <Image src={images[0]} h="100px" w="100px" />
-    //             </Td>
-    //           </Tr>
-    //         )
-    //       )}
-    //     </Table>
-    //   </Panel>
-    //   <Panel header="Nhật ký sử dụng thuốc" key="2">
-    //     <Table>
-    //       <Tr>
-    //         <Th>Ngày sử dụng</Th>
-    //         <Th>Khối lượng</Th>
-    //         <Th>Thức ăn</Th>
-    //         <Th>Hình ảnh</Th>
-    //         <Th>{""}</Th>
-    //       </Tr>
-    //       {data.usingMedicine.map(
-    //         (
-    //           { createdDate, weight, medicine: { name, images } },
-    //           i
-    //         ) => (
-    //           <Tr
-    //             backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
-    //             cursor="pointer"
-    //             // onClick={() => router.push(`./product/${_id}`)}
-    //           >
-    //             <Td>{createdDate}</Td>
-    //             <Td>{weight}</Td>
-    //             <Td>{name}</Td>
-    //             <Td>
-    //               <Image src={images[0]} h="100px" w="100px" />
-    //             </Td>
-    //           </Tr>
-    //         )
-    //       )}
-    //     </Table>
-    //   </Panel>
-    // </Collapse>
     <>
       <Collapse
         defaultActiveKey={["1"]}

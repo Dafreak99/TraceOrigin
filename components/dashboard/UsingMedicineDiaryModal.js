@@ -197,20 +197,27 @@ const UsingMedicineDiaryModal = ({ bg, color, icon }) => {
                     max: selectedMedicine
                       ? selectedMedicine.weight
                       : medicines && medicines[0].weight,
+                    min: 1,
                   })}
                 />
                 {errors.weight?.type === "max" && (
                   <Text fontSize="md" fontStyle="italic" color="red.300">
-                    Tối đa là{" "}
+                    Chỉ còn tối đa là{" "}
+                    {selectedMedicine
+                      ? selectedMedicine.weight
+                      : medicines && medicines[0].weight}{" "}
+                    kg. Vui lòng nhập thêm thuốc
+                  </Text>
+                )}
+                {errors.weight?.type === "min" && (
+                  <Text fontSize="md" fontStyle="italic" color="red.300">
+                    Tối thiểu là 1 kg . Còn lại{" "}
                     {selectedMedicine
                       ? selectedMedicine.weight
                       : medicines && medicines[0].weight}{" "}
                     kg
                   </Text>
                 )}
-                {selectedMedicine
-                  ? selectedMedicine.weight
-                  : medicines && medicines[0].weight}
               </FormLabel>
             </FormControl>
 

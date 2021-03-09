@@ -290,3 +290,10 @@ aside.ant-layout-sider.ant-layout-sider-dark.ant-layout-sider-collapsed.ant-layo
 .lightbox-container {
   display: flex;
 }
+
+.user__setting li {
+  transition: 350ms all;
+}
+.user__setting li:hover {
+  background-color: #edf3fe;
+}

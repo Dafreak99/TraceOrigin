@@ -147,6 +147,7 @@ const FeedingDiaryModal = ({ bg, color, icon }) => {
                   max: selectedFood
                     ? selectedFood.weight
                     : data && data[0].weight,
+                  min: 1,
                 })}
               />
               {errors.weight?.type === "required" && (
@@ -157,7 +158,14 @@ const FeedingDiaryModal = ({ bg, color, icon }) => {
 
               {errors.weight?.type === "max" && (
                 <Text fontSize="md" fontStyle="italic" color="red.300">
-                  Tối đa là{" "}
+                  Chỉ còn tối đa là{" "}
+                  {selectedFood ? selectedFood.weight : data && data[0].weight}{" "}
+                  kg. Vui lòng nhập thêm thức ăn
+                </Text>
+              )}
+              {errors.weight?.type === "min" && (
+                <Text fontSize="md" fontStyle="italic" color="red.300">
+                  Tối thiểu là 1 kg . Còn lại{" "}
                   {selectedFood ? selectedFood.weight : data && data[0].weight}{" "}
                   kg
                 </Text>

@@ -3,16 +3,17 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { Spin } from "antd";
 const Dashboard = () => {
-  const a = "farmer";
   const router = useRouter();
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (!user) {
-      router.push("/");
+      router.push("/signin");
     } else if (user.type === "qualitycontrol") {
       router.push("/qualitycontrol/authentication");
+    } else if (user.type === "admin") {
+      router.push("/admin");
     } else {
       router.push("/farm");
     }

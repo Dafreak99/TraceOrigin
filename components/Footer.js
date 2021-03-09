@@ -55,7 +55,7 @@ const Footer = () => {
             </Heading>
             <Box position="relative">
               <Input />
-              <Button position="absolute" top="0" right="0" zIndex="100">
+              <Button position="absolute" top="0" right="0" zIndex="2">
                 <Box as={RiSendPlaneFill} />
               </Button>
             </Box>

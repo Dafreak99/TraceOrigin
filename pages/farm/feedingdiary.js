@@ -6,7 +6,6 @@ import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
 import { useEffect, useState } from "react";
 import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
-import { format } from "date-fns";
 
 const feedingdiary = () => {
   const [loading, setLoading] = useState(true);
@@ -35,6 +34,7 @@ const feedingdiary = () => {
       </Layout>
     );
   }
+  console.log(data);
 
   return (
     <Layout>
@@ -44,11 +44,11 @@ const feedingdiary = () => {
           <Table>
             <Tr>
               <Th>Ngày cho ăn</Th>
+              <Th>Tên Ao</Th>
               <Th>Tên thức ăn</Th>
               <Th>Hình ảnh</Th>
               <Th>Khối lượng(kg)</Th>
               <Th>Ghi chú</Th>
-              <Th>Tên Ao</Th>
               <Th>{""}</Th>
             </Tr>
             {data.map(
@@ -58,7 +58,7 @@ const feedingdiary = () => {
                   weight,
                   note,
                   food: { name, images },
-                  pond: { pondName },
+                  pond: { name: pondName },
                 },
                 i
               ) => (
@@ -67,14 +67,14 @@ const feedingdiary = () => {
                   cursor="pointer"
                   onClick={() => router.push(`./medicine/${_id}`)}
                 >
-                  <Td>{format(new Date(createdDate), "dd/MM/yyyy")}</Td>
-                  <Td>{name}</Td>
+                  <Td>{createdDate}</Td>
+                  <Td>{pondName}</Td>
                   <Td>
                     <Image src={images[0]} height="5rem" />
                   </Td>
                   <Td>{weight}</Td>
                   <Td>{note}</Td>
-                  <Td>{pondName}</Td>
+                  <Td>{name}</Td>
                   <Td
                     borderLeft="1px solid #e8eef3"
                     px={8}

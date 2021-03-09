@@ -16,7 +16,7 @@ import {
   AlertIcon,
   Text,
 } from "@chakra-ui/core";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { format } from "date-fns";
 
 import FormControl from "./FormControl";

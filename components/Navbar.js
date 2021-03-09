@@ -84,7 +84,7 @@ const Navbar = ({ float, showDrawer }) => {
         cursor="pointer"
         onClick={() => router.push("/signin")}
       >
-        <HiUserCircle size="3rem" />
+        <Box as={HiUserCircle} size="3rem" color="gray.600" />
       </Box>
     </>
   );

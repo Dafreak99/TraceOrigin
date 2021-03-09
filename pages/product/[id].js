@@ -37,8 +37,6 @@ const Product = ({ data }) => {
     setVisible(false);
   };
 
-  console.log(data);
-
   return (
     <>
       <Navbar float showDrawer={showDrawer} />
