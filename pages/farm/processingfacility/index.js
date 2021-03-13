@@ -1,28 +1,16 @@
 import { useEffect, useState } from "react";
-import {
-  Box,
-  Heading,
-  Text,
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogContent,
-  AlertDialogOverlay,
-  Button,
-  Alert,
-  AlertIcon,
-  Image,
-} from "@chakra-ui/core";
+import { Box, Heading, Text, Image } from "@chakra-ui/core";
 import useSWR, { mutate } from "swr";
 import { useRouter } from "next/router";
 import { FaTrash } from "react-icons/fa";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import Layout from "@/components/dashboard/Layout";
 import { Table, Th, Td, Tr } from "@/components/Table";
 import fetcher from "@/utils/fetcher";
 import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
 import AddProcessingFacility from "@/components/dashboard/AddProcessingFaclity";
+import { Popconfirm } from "antd";
 
 const ProcessingFacility = () => {
   const router = useRouter();
@@ -47,18 +35,22 @@ const ProcessingFacility = () => {
     }
   }, [data]);
 
-  const onDelete = async () => {
+  const onDelete = async (id) => {
     try {
-      let res = await fetch(`/api/food/${id}`, {
+      await fetch(`/api/processingfacility`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
           Authorization: process.browser ? localStorage.getItem("token") : null,
         },
+        body: JSON.stringify({ id }),
       });
 
       mutate(
-        ["/api/food", process.browser ? localStorage.getItem("token") : null],
+        [
+          "/api/processingfacility",
+          process.browser ? localStorage.getItem("token") : null,
+        ],
         async (cachedData) => {
           let data = cachedData.filter((each) => each._id !== id);
           return data;
@@ -100,59 +92,45 @@ const ProcessingFacility = () => {
               <Tr>
                 <Th>Tên cơ sở chế biến</Th>
                 <Th>Địa chỉ cơ sở chế biến</Th>
-
+                <Th>Hình ảnh</Th>
                 <Th>{""}</Th>
               </Tr>
-              {data.map(({ name, address, images, _id }, i) => (
-                <Tr
-                  backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
-                  cursor="pointer"
-                  onClick={() => router.push(`./food/${_id}`)}
-                >
-                  <Td>{name}</Td>
-                  <Td>{address}</Td>
-                  <Td>
-                    <Image src={images[0]} h="100px" />
-                  </Td>
+              <TransitionGroup component="tbody">
+                {data.map(({ name, address, images, _id }, i) => (
+                  <CSSTransition key={i} timeout={500} classNames="item">
+                    <Tr
+                      backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
+                      cursor="pointer"
+                    >
+                      <Td>{name}</Td>
+                      <Td>{address}</Td>
+                      <Td>
+                        <Image src={images[0]} h="100px" />
+                      </Td>
 
-                  <Td
-                    borderLeft="1px solid #e8eef3"
-                    px={8}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setIsOpen(true);
-                      setId(_id);
-                    }}
-                  >
-                    <Box as={FaTrash}></Box>
-                  </Td>
-                </Tr>
-              ))}
-              <AlertDialog
-                isOpen={isOpen}
-                leastDestructiveRef={cancelRef}
-                onClose={onClose}
-              >
-                <AlertDialogOverlay />
-                <AlertDialogContent>
-                  <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                    Xóa
-                  </AlertDialogHeader>
-
-                  <AlertDialogBody>
-                    Bạn có chắc rằng sẽ xóa cơ sở chế biến này không ?
-                  </AlertDialogBody>
-
-                  <AlertDialogFooter>
-                    <Button ref={cancelRef} onClick={onClose}>
-                      Hủy bỏ
-                    </Button>
-                    <Button variantColor="red" onClick={onDelete} ml={3}>
-                      Xóa
-                    </Button>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
+                      <Popconfirm
+                        style={{ fontSize: "16px" }}
+                        title="Bạn có sẽ xóa cơ sở chế biến này hay không？"
+                        okText="Có"
+                        cancelText="Không"
+                        onConfirm={() => onDelete(_id)}
+                      >
+                        <Td
+                          borderLeft="1px solid #e8eef3"
+                          px={8}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIsOpen(true);
+                            setId(_id);
+                          }}
+                        >
+                          <Box as={FaTrash}></Box>
+                        </Td>
+                      </Popconfirm>
+                    </Tr>
+                  </CSSTransition>
+                ))}
+              </TransitionGroup>
             </Table>
           </>
         ) : (

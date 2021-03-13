@@ -55,6 +55,18 @@ export default async (req, res) => {
         console.log(error.message);
         res.send({ message: error.message });
       }
+      break;
+    case "DELETE":
+      try {
+        console.log(req.body.id);
+
+        await Product.findByIdAndDelete(req.body.id);
+
+        res.send({ message: "OK" });
+      } catch (error) {
+        console.log(error.message);
+        res.send({ message: error.message });
+      }
 
       break;
     default:

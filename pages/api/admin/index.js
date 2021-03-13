@@ -37,6 +37,7 @@ export default async (req, res) => {
       } catch (error) {
         res.end({ message: error.message });
       }
+      break;
     case "DELETE":
       try {
         await User.findByIdAndRemove(req.body.id);
@@ -44,6 +45,17 @@ export default async (req, res) => {
       } catch (error) {
         console.log(error.message);
       }
+      break;
+    case "PUT":
+      try {
+        const { password, id } = req.body;
+
+        await User.updateOne({ _id: id }, { password });
+        res.send({ message: "OK" });
+      } catch (error) {
+        console.log(error.message);
+      }
+      break;
 
     default:
       break;

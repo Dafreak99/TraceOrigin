@@ -2,12 +2,14 @@ import { AlertIcon, Box, Heading, Image, Alert, Text } from "@chakra-ui/core";
 import Layout from "@/components/dashboard/Layout";
 import { Table, Tr, Td, Th } from "@/components/Table";
 import { FaTrash } from "react-icons/fa";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import fetcher from "@/utils/fetcher";
 import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { Popconfirm } from "antd";
 
 const UsingMedicineDiary = () => {
   const router = useRouter();
@@ -27,6 +29,34 @@ const UsingMedicineDiary = () => {
       setLoading(false);
     }
   }, [data]);
+
+  const onDelete = async (id) => {
+    try {
+      // await fetch("/api/usingmedicine", {
+      //   method: "DELETE",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Authorization: process.browser ? localStorage.getItem("token") : null,
+      //   },
+      //   body: JSON.stringify({ id }),
+      // });
+
+      mutate(
+        [
+          "/api/hatchery",
+          process.browser ? localStorage.getItem("token") : null,
+        ],
+        async (cachedData) => {
+          // let data = cachedData.filter((each) => each._id !== id);
+          // return data;
+          console.log(cachedData);
+        },
+        false
+      );
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   if (loading) {
     return (
@@ -58,50 +88,62 @@ const UsingMedicineDiary = () => {
               <Th>Người trộn</Th>
               <Th>{""}</Th>
             </Tr>
-            {data.map(
-              (
-                {
-                  createdDate,
-                  medicine: { name, images: hinhAnhThuoc },
-                  food: { name: foodName, images: hinhAnhThucAn },
-                  pond: { name: pondName },
-                  mixingRatio,
-                  weight,
-                  worker: { name: workerName },
-                  _id,
-                },
-                i
-              ) => (
-                <Tr
-                  backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
-                  cursor="pointer"
-                  onClick={() => router.push(`./usingmedicinediary/${_id}`)}
-                >
-                  <Td>{format(new Date(createdDate), "dd/MM/yyyy")}</Td>
-                  <Td>{pondName}</Td>
-                  <Td>{name}</Td>
-                  <Td>
-                    <Image src={hinhAnhThuoc[0]} height="5rem" />
-                  </Td>
-                  <Td>{foodName}</Td>
-                  <Td>
-                    <Image src={hinhAnhThucAn[0]} height="5rem" />
-                  </Td>
-                  <Td>{weight}</Td>
-                  <Td>{mixingRatio}</Td>
-                  <Td>{workerName}</Td>
-                  <Td
-                    borderLeft="1px solid #e8eef3"
-                    px={8}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                    }}
-                  >
-                    <Box as={FaTrash}></Box>
-                  </Td>
-                </Tr>
-              )
-            )}
+            <TransitionGroup component="tbody">
+              {data.map(
+                (
+                  {
+                    createdDate,
+                    medicine: { name, images: hinhAnhThuoc },
+                    food: { name: foodName, images: hinhAnhThucAn },
+                    pond: { name: pondName },
+                    mixingRatio,
+                    weight,
+                    worker: { name: workerName },
+                    _id,
+                  },
+                  i
+                ) => (
+                  <CSSTransition key={i} timeout={500} classNames="item">
+                    <Tr
+                      backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
+                      cursor="pointer"
+                      onClick={() => router.push(`./usingmedicinediary/${_id}`)}
+                    >
+                      <Td>{format(new Date(createdDate), "dd/MM/yyyy")}</Td>
+                      <Td>{pondName}</Td>
+                      <Td>{name}</Td>
+                      <Td>
+                        <Image src={hinhAnhThuoc[0]} height="5rem" />
+                      </Td>
+                      <Td>{foodName}</Td>
+                      <Td>
+                        <Image src={hinhAnhThucAn[0]} height="5rem" />
+                      </Td>
+                      <Td>{weight}</Td>
+                      <Td>{mixingRatio}</Td>
+                      <Td>{workerName}</Td>
+                      <Td
+                        borderLeft="1px solid #e8eef3"
+                        px={8}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                      >
+                        <Popconfirm
+                          style={{ fontSize: "16px" }}
+                          title="Bạn có sẽ xóa trại giống này hay không？"
+                          okText="Có"
+                          cancelText="Không"
+                          onConfirm={() => onDelete(_id)}
+                        >
+                          <Box as={FaTrash}></Box>
+                        </Popconfirm>
+                      </Td>
+                    </Tr>
+                  </CSSTransition>
+                )
+              )}
+            </TransitionGroup>
           </Table>
         ) : (
           <Alert status="info" fontSize="md" w="30rem">

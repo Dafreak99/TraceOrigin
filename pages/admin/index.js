@@ -1,57 +1,55 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Navbar from "@/components/Navbar";
 import NavbarDrawer from "@/components/NavbarDrawer";
 import { Box, Heading, List, ListIcon, ListItem } from "@chakra-ui/core";
 import { Table, Th, Td, Tr } from "@/components/Table";
-import Products from "@/components/Products";
+
 import { BiDotsVerticalRounded } from "react-icons/bi";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import useSWR, { mutate } from "swr";
 import fetcher from "@/utils/fetcher";
 import Layout from "@/components/dashboard/Layout";
 import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
 import AddUserModal from "@/components/dashboard/AddUserModal";
-import { AiTwotoneEdit } from "react-icons/ai";
+import ChangePasswordModal from "@/components/dashboard/ChangePasswordModal";
 import { FaTrash } from "react-icons/fa";
 import { Popconfirm } from "antd";
-import { set } from "js-cookie";
+import { AiTwotoneEdit } from "react-icons/ai";
 
-const Setting = () => {
-  const [openSetting, setOpenSetting] = useState(false);
+function useOutsideAlerter(ref, setRowIndex) {
+  useEffect(() => {
+    /**
+     * Alert if clicked on outside of element
+     */
+    function handleClickOutside(event) {
+      if (
+        ref.current &&
+        !ref.current.contains(event.target) &&
+        event.target.outerHTML !== "<span>Có</span>"
+      ) {
+        setRowIndex(null);
+      }
+    }
+    // Bind the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref]);
+}
 
-  return (
-    <>
-      <Box
-        as={BiDotsVerticalRounded}
-        h="24px"
-        w="24px"
-        color="#939caa"
-        onClick={() => setOpenSetting(!openSetting)}
-      />
-      {openSetting && (
-        <List
-          spacing={3}
-          position="absolute"
-          padding="20px 30px"
-          background="#fff"
-          boxShadow="0 15px 30px rgb(0 0 0 / 5%)"
-        >
-          <ListItem>
-            <ListIcon as={AiTwotoneEdit} color="#738cc7" />
-            Edit
-          </ListItem>
-          <ListItem>
-            <ListIcon as={FaTrash} color="#738cc7" />
-            Remove
-          </ListItem>
-        </List>
-      )}
-    </>
-  );
-};
+function OutsideAlerter(props) {
+  const wrapperRef = useRef(null);
+  useOutsideAlerter(wrapperRef, props.setRowIndex);
+
+  return <div ref={wrapperRef}>{props.children}</div>;
+}
 
 const Admin = () => {
   const [rowIndex, setRowIndex] = useState(null);
+  const [visible, setVisible] = useState(false);
 
   const [loading, setLoading] = useState(true);
 
@@ -68,7 +66,7 @@ const Admin = () => {
 
   const onDelete = async (id) => {
     try {
-      let res = await fetch("/api/admin", {
+      await fetch("/api/admin", {
         method: "DELETE",
         body: JSON.stringify({ id }),
         headers: {
@@ -89,7 +87,7 @@ const Admin = () => {
       console.log(error.message);
     }
 
-    setRowIndex(null);
+    // setRowIndex(null);
   };
 
   if (loading) {
@@ -123,56 +121,77 @@ const Admin = () => {
 
                 <Th>{""}</Th>
               </Tr>
-              {data.map(({ username, type, _id }, i) => (
-                <Tr
-                  backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
-                  cursor="pointer"
-                >
-                  <Td>{i + 1}</Td>
-                  <Td>{username}</Td>
-                  <Td>{type}</Td>
-                  <Td>{_id}</Td>
-                  <Td>
-                    {/* <Setting /> */}
-                    <Box
-                      as={BiDotsVerticalRounded}
-                      h="24px"
-                      w="24px"
-                      color="#939caa"
-                      onClick={() => {
-                        if (i + 1 === rowIndex) setRowIndex(null);
-                        else setRowIndex(i + 1);
-                      }}
-                    />
-                    {i + 1 === rowIndex && (
-                      <List
-                        spacing={3}
-                        position="absolute"
-                        background="#fff"
-                        boxShadow="0 15px 30px rgb(0 0 0 / 5%)"
-                        className="user__setting"
+              <TransitionGroup component="tbody">
+                {data.map(({ username, type, _id }, i) => (
+                  <CSSTransition key={i} timeout={500} classNames="item">
+                    <>
+                      <Tr
+                        backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
+                        cursor="pointer"
                       >
-                        <ListItem padding="15px 30px 5px 30px">
-                          <ListIcon as={AiTwotoneEdit} color="#738cc7" />
-                          Edit
-                        </ListItem>
-                        <ListItem padding="5px 30px 15px 30px">
-                          <Popconfirm
-                            style={{ fontSize: "16px" }}
-                            title="Bạn có sẽ xóa tài khoản này hay không？"
-                            okText="Có"
-                            cancelText="Không"
-                            onConfirm={() => onDelete(_id)}
-                          >
-                            <ListIcon as={FaTrash} color="#738cc7" />
-                            Remove
-                          </Popconfirm>
-                        </ListItem>
-                      </List>
-                    )}
-                  </Td>
-                </Tr>
-              ))}
+                        <Td>{i + 1}</Td>
+                        <Td>{username}</Td>
+                        <Td>{type}</Td>
+                        <Td>{_id}</Td>
+                        <Td>
+                          <Box
+                            as={BiDotsVerticalRounded}
+                            h="24px"
+                            w="24px"
+                            color="#939caa"
+                            onClick={() => {
+                              if (i + 1 === rowIndex) setRowIndex(null);
+                              else setRowIndex(i + 1);
+                            }}
+                          />
+                          {i + 1 === rowIndex && (
+                            <OutsideAlerter setRowIndex={setRowIndex}>
+                              <List
+                                spacing={3}
+                                position="absolute"
+                                background="#fff"
+                                boxShadow="0 15px 30px rgb(0 0 0 / 5%)"
+                                className="user__setting"
+                                borderRadius="3px"
+                              >
+                                <ListItem
+                                  padding="15px 30px 15px 30px"
+                                  onClick={() => setVisible(true)}
+                                >
+                                  <ListIcon
+                                    as={AiTwotoneEdit}
+                                    color="#738cc7"
+                                  />
+                                  Đổi mật khẩu
+                                </ListItem>
+
+                                <ListItem padding="15px 30px 15px 30px">
+                                  <Popconfirm
+                                    style={{ fontSize: "16px" }}
+                                    title="Bạn có chắc sẽ xóa tài khoản này hay không ?"
+                                    okText="Có"
+                                    cancelText="Không"
+                                    onConfirm={() => onDelete(_id)}
+                                  >
+                                    <ListIcon as={FaTrash} color="#738cc7" />
+                                    Xoá tài khoản
+                                  </Popconfirm>
+                                </ListItem>
+                              </List>
+                            </OutsideAlerter>
+                          )}
+                        </Td>
+                      </Tr>
+                      <ChangePasswordModal
+                        visible={visible}
+                        setVisible={setVisible}
+                        id={_id}
+                        setRowIndex={setRowIndex}
+                      />
+                    </>
+                  </CSSTransition>
+                ))}
+              </TransitionGroup>
             </Table>
           </>
         ) : (
@@ -187,3 +206,7 @@ const Admin = () => {
 };
 
 export default Admin;
+
+// TODO: Toggle Setting On/Off
+
+// Determine this codesanbox: https://codesandbox.io/s/outside-alerter-hooks-lmr2y?module=/src/OutsideAlerter.js&file=/src/index.js

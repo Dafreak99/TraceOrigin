@@ -18,12 +18,16 @@ export default async (req, res) => {
       let user = await User.findOne({ username });
 
       if (!user)
-        return res.send({ message: "Thông tin đăng nhập không hợp lệ !" });
+        return res
+          .status(400)
+          .send({ message: "Thông tin đăng nhập không hợp lệ !" });
 
       let match = await bcrypt.compare(password, user.password);
 
       if (!match)
-        return res.send({ message: "Thông tin đăng nhập không hợp lệ !" });
+        return res
+          .status(400)
+          .send({ message: "Thông tin đăng nhập không hợp lệ !" });
 
       let token = jwt.sign(user.id, process.env.SECRET_KEY);
 

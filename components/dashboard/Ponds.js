@@ -22,6 +22,7 @@ import {
 } from "@chakra-ui/core";
 import useSWR, { mutate } from "swr";
 import { useRouter } from "next/router";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import AddPondModal from "./AddPondModal";
 import fetcher from "../../utils/fetcher";
@@ -34,6 +35,8 @@ const Ponds = () => {
     ["/api/pond", process.browser ? localStorage.getItem("token") : null],
     fetcher
   );
+
+  console.log(data);
 
   let [index, setIndex] = useState(0);
   let [selectedPond, setSelectedPond] = useState({});
@@ -92,42 +95,50 @@ const Ponds = () => {
             {data && data.length === 0 && (
               <Text fontSize="xl">Bạn chưa thêm mô hình ao!</Text>
             )}
-            <Grid
-              gridTemplateColumns="repeat(2, 1fr)"
-              w="100%"
-              columnGap="1rem"
-              flex="1"
+
+            <TransitionGroup
+              className="grid"
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(2, 1fr)",
+                width: "100%",
+                columnGap: "1rem",
+                flex: 1,
+              }}
             >
               {data &&
                 data.ponds.map((pond, i) => (
-                  <PseudoBox
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                    backgroundColor="#fff"
-                    boxShadow="0 4px 8px rgb(220 229 236)"
-                    borderRadius="5px"
-                    height="5rem"
-                    backgroundColor={pond.seed ? "#b4b4b4" : "#48e2b0"}
-                    color="#fff"
-                    mb={4}
-                    ref={btnRef}
-                    role="group"
-                    _hover={{ opacity: 0.5 }}
-                    transition="350ms all"
-                    cursor="pointer"
-                    onClick={() => {
-                      setIndex(i);
-                      setSelectedPond(pond);
-                      onOpen();
-                    }}
-                  >
-                    <PseudoBox fontSize="xl" _groupHover={{ color: "#fff" }}>
-                      {pond.name}
+                  <CSSTransition key={i} timeout={500} classNames="item">
+                    <PseudoBox
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
+                      backgroundColor="#fff"
+                      boxShadow="0 4px 8px rgb(220 229 236)"
+                      borderRadius="5px"
+                      height="5rem"
+                      backgroundColor={pond.seed ? "#b4b4b4" : "#48e2b0"}
+                      color="#fff"
+                      mb={4}
+                      ref={btnRef}
+                      role="group"
+                      _hover={{ opacity: 0.5 }}
+                      transition="350ms all"
+                      cursor="pointer"
+                      onClick={() => {
+                        setIndex(i);
+                        setSelectedPond(pond);
+                        onOpen();
+                      }}
+                    >
+                      <PseudoBox fontSize="xl" _groupHover={{ color: "#fff" }}>
+                        {pond.name}
+                      </PseudoBox>
                     </PseudoBox>
-                  </PseudoBox>
+                  </CSSTransition>
                 ))}
-            </Grid>
+            </TransitionGroup>
+
             <Heading size="md">Chú thích</Heading>
             <Box mb={8}>
               <Flex alignItems="center" mb={4}>

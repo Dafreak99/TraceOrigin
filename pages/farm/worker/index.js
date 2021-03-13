@@ -9,13 +9,14 @@ import {
 import useSWR, { mutate } from "swr";
 import { useRouter } from "next/router";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import { Pagination } from "antd";
+import { Pagination, Popconfirm } from "antd";
 
 import Layout from "@/components/dashboard/Layout";
 import { Table, Th, Td, Tr } from "@/components/Table";
 import fetcher from "@/utils/fetcher";
 import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
 import Modal from "antd/lib/modal/Modal";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { useForm } from "react-hook-form";
 
 import WorkerModal from "@/components/dashboard/WorkerModal";
@@ -24,10 +25,7 @@ import EditWorkerModal from "@/components/dashboard/EditWorkerModal";
 const Worker = () => {
   const router = useRouter();
 
-  const [visible, setVisible] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-
-  const [deleteId, setDeleteId] = useState(null);
 
   const [editIndex, setEditIndex] = useState(0);
 
@@ -36,13 +34,9 @@ const Worker = () => {
     fetcher
   );
 
-  const showModal = () => setVisible(true);
-
-  const hideModal = () => setVisible(false);
-
-  const onOK = async () => {
+  const onDelete = async (id) => {
     try {
-      let res = await fetch(`/api/worker/${deleteId}`, {
+      let res = await fetch(`/api/worker/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -56,14 +50,12 @@ const Worker = () => {
     mutate(
       ["/api/worker", process.browser ? localStorage.getItem("token") : null],
       async (cachedData) => {
-        let data = cachedData.filter((each) => each._id !== deleteId);
+        let data = cachedData.filter((each) => each._id !== id);
 
         return data;
       },
       false
     );
-
-    hideModal();
   };
 
   return (
@@ -98,75 +90,73 @@ const Worker = () => {
                 <Th>{""}</Th>
                 <Th>{""}</Th>
               </Tr>
-              {data.map(
-                (
-                  {
-                    name,
-                    address,
-                    idCard,
-                    dateOfBorn,
-                    gender,
-                    degree,
-                    responsibility,
-                    phone,
-                    _id,
-                  },
-                  i
-                ) => (
-                  <Tr
-                    backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
-                    cursor="pointer"
-                    onClick={() => router.push(`./food/${_id}`)}
-                  >
-                    <Td>{i + 1}</Td>
-                    <Td>{name}</Td>
-                    <Td>{address}</Td>
-                    <Td>{idCard}</Td>
-                    <Td>{phone}</Td>
-                    <Td>{dateOfBorn}</Td>
-                    <Td>{gender}</Td>
-                    <Td>{degree}</Td>
-                    <Td>{responsibility}</Td>
+              <TransitionGroup component="tbody">
+                {data.map(
+                  (
+                    {
+                      name,
+                      address,
+                      idCard,
+                      dateOfBorn,
+                      gender,
+                      degree,
+                      responsibility,
+                      phone,
+                      _id,
+                    },
+                    i
+                  ) => (
+                    <CSSTransition key={i} timeout={500} classNames="item">
+                      <Tr
+                        backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
+                        cursor="pointer"
+                      >
+                        <Td>{i + 1}</Td>
+                        <Td>{name}</Td>
+                        <Td>{address}</Td>
+                        <Td>{idCard}</Td>
+                        <Td>{phone}</Td>
+                        <Td>{dateOfBorn}</Td>
+                        <Td>{gender}</Td>
+                        <Td>{degree}</Td>
+                        <Td>{responsibility}</Td>
 
-                    <Td
-                      borderLeft="1px solid #e8eef3"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setIsEdit(!isEdit);
-                        setEditIndex(i);
-                      }}
-                    >
-                      <Box as={FaEdit} />
-                    </Td>
-                    <Td
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setDeleteId(_id);
-                        showModal();
-                      }}
-                    >
-                      <Box as={FaTrash} />
-                    </Td>
-                  </Tr>
-                )
-              )}
+                        <Td
+                          borderLeft="1px solid #e8eef3"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIsEdit(!isEdit);
+                            setEditIndex(i);
+                          }}
+                        >
+                          <Box as={FaEdit} />
+                        </Td>
+                        <Popconfirm
+                          style={{ fontSize: "16px" }}
+                          title="Bạn có sẽ xóa nhân công này hay không？"
+                          okText="Có"
+                          cancelText="Không"
+                          onConfirm={() => onDelete(_id)}
+                        >
+                          <Td
+                            onClick={(e) => {
+                              e.stopPropagation();
+                            }}
+                          >
+                            <Box as={FaTrash} />
+                          </Td>
+                        </Popconfirm>
+                      </Tr>
+                    </CSSTransition>
+                  )
+                )}
 
-              <Modal
-                title={null}
-                visible={visible}
-                onOk={onOK}
-                onCancel={hideModal}
-                okText="Yes"
-                cancelText="No"
-              >
-                <p>Xóa nhân công này ?</p>
-              </Modal>
-
-              <EditWorkerModal
-                visible={isEdit}
-                setVisible={setIsEdit}
-                data={data[editIndex]}
-              />
+                <EditWorkerModal
+                  visible={isEdit}
+                  setVisible={setIsEdit}
+                  data={data[editIndex]}
+                />
+              </TransitionGroup>
             </Table>
             <Pagination
               defaultCurrent={1}

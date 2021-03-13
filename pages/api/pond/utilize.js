@@ -23,9 +23,9 @@ export default async (req, res) => {
 
     const pond = await Pond.findOneAndUpdate(
       { _id: pondId },
-      { seed: seed._id, stockingDensity: "400" },
+      { seed: seed._id },
       { new: true }
-    );
+    ).populate("seed");
 
     res.send(pond);
   } catch (error) {

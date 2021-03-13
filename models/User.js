@@ -17,6 +17,15 @@ UserSchema.pre("save", async function (next) {
   next();
 });
 
+UserSchema.pre("updateOne", async function (next) {
+  const data = this.getUpdate();
+
+  data.password = await bcrypt.hash(data.password, 8);
+  this.update({}, data).exec();
+  next();
+  next();
+});
+
 // Password will be cut out
 UserSchema.methods.toJSON = function () {
   const user = this;

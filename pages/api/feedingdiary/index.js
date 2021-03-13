@@ -61,6 +61,16 @@ export default async (req, res) => {
         res.status(500).send({ message: error.message });
       }
       break;
+    case "DELETE":
+      try {
+        await FeedingDiary.findByIdAndDelete(req.body.id);
+
+        res.send({ message: "OK" });
+      } catch (error) {
+        console.log(error.message);
+        res.send({ messagee: error.message });
+      }
+      break;
     default:
       break;
   }

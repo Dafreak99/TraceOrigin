@@ -1,13 +1,19 @@
 import { Alert, AlertIcon, Box, Heading, Image, Text } from "@chakra-ui/core";
-import Layout from "@/components/dashboard/Layout";
-import { Table, Tr, Td, Th } from "@/components/Table";
+
 import { FaTrash } from "react-icons/fa";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import fetcher from "@/utils/fetcher";
 import { useEffect, useState } from "react";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { Popconfirm } from "antd";
+import { useRouter } from "next/router";
+
 import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
+import Layout from "@/components/dashboard/Layout";
+import { Table, Tr, Td, Th } from "@/components/Table";
 
 const feedingdiary = () => {
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const { data, error } = useSWR(
     [
@@ -24,6 +30,38 @@ const feedingdiary = () => {
     }
   }, [data]);
 
+  console.log(data);
+
+  const onDelete = async (id) => {
+    try {
+      // await fetch("/api/feedingdiary", {
+      //   method: "DELETE",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Authorization: process.browser ? localStorage.getItem("token") : null,
+      //   },
+      //   body: JSON.stringify({ id }),
+      // });
+
+      mutate(
+        [
+          "/api/feedingdiary",
+          process.browser ? localStorage.getItem("token") : null,
+        ],
+        async (cachedData) => {
+          // TODO: Why null here
+          console.log(cachedData);
+          let data = cachedData.filter((each) => each._id !== id);
+
+          return data;
+        },
+        false
+      );
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   if (loading) {
     return (
       <Layout>
@@ -34,7 +72,6 @@ const feedingdiary = () => {
       </Layout>
     );
   }
-  console.log(data);
 
   return (
     <Layout>
@@ -51,42 +88,54 @@ const feedingdiary = () => {
               <Th>Ghi chú</Th>
               <Th>{""}</Th>
             </Tr>
-            {data.map(
-              (
-                {
-                  createdDate,
-                  weight,
-                  note,
-                  food: { name, images },
-                  pond: { name: pondName },
-                },
-                i
-              ) => (
-                <Tr
-                  backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
-                  cursor="pointer"
-                  onClick={() => router.push(`./medicine/${_id}`)}
-                >
-                  <Td>{createdDate}</Td>
-                  <Td>{pondName}</Td>
-                  <Td>
-                    <Image src={images[0]} height="5rem" />
-                  </Td>
-                  <Td>{weight}</Td>
-                  <Td>{note}</Td>
-                  <Td>{name}</Td>
-                  <Td
-                    borderLeft="1px solid #e8eef3"
-                    px={8}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                    }}
-                  >
-                    <Box as={FaTrash}></Box>
-                  </Td>
-                </Tr>
-              )
-            )}
+
+            <TransitionGroup component="tbody">
+              {data.map(
+                (
+                  {
+                    createdDate,
+                    weight,
+                    note,
+                    food: { name, images },
+                    pond: { name: pondName },
+                    _id,
+                  },
+                  i
+                ) => (
+                  <CSSTransition key={i} timeout={500} classNames="item">
+                    <Tr
+                      backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
+                      cursor="pointer"
+                      onClick={() => router.push(`./feedingdiary/${_id}`)}
+                    >
+                      <Td>{createdDate}</Td>
+                      <Td>{pondName}</Td>
+                      <Td>
+                        <Image src={images[0]} height="5rem" />
+                      </Td>
+                      <Td>{weight}</Td>
+                      <Td>{note}</Td>
+                      <Td>{name}</Td>
+                      <Td
+                        borderLeft="1px solid #e8eef3"
+                        px={8}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <Popconfirm
+                          style={{ fontSize: "16px" }}
+                          title="Bạn có chắc sẽ xóa ghi chép này hay không？"
+                          okText="Có"
+                          cancelText="Không"
+                          onConfirm={() => onDelete(_id)}
+                        >
+                          <Box as={FaTrash}></Box>
+                        </Popconfirm>
+                      </Td>
+                    </Tr>
+                  </CSSTransition>
+                )
+              )}
+            </TransitionGroup>
           </Table>
         ) : (
           <Alert status="info" fontSize="md" w="30rem">

@@ -20,7 +20,7 @@ import Map from "../Map";
 import FormControl from "./FormControl";
 import BackButton from "./BackButton";
 
-const FarmInfoModify = ({ isEdit, setIsEdit, data }) => {
+const FarmInfoModify = ({ isEdit, setIsEdit, data = {} }) => {
   const [farmInfo, setData] = useState(data);
   const [isSave, setIsSave] = useState(false);
   const [entry, setEntry] = useState(null);
@@ -28,7 +28,7 @@ const FarmInfoModify = ({ isEdit, setIsEdit, data }) => {
   let a = [],
     b = [];
 
-  if (farmInfo.images) {
+  if (farmInfo?.images) {
     a = Array(farmInfo.images.length).fill("");
     b = farmInfo.images;
   }

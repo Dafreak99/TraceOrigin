@@ -1,12 +1,30 @@
-import { Box, Flex, Image, Input, Grid } from "@chakra-ui/core";
+import {
+  Box,
+  Flex,
+  Image,
+  Input,
+  Grid,
+  Text,
+  List,
+  ListItem,
+} from "@chakra-ui/core";
 import { HiUserCircle } from "react-icons/hi";
 import { useRouter } from "next/router";
 
 import Link from "next/link";
 import { RiMenu2Fill } from "react-icons/ri";
+import { IoMdArrowDropdown } from "react-icons/io";
+import { useEffect, useState } from "react";
 
 const Navbar = ({ float, showDrawer }) => {
   const router = useRouter();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setUser(JSON.parse(localStorage.getItem("user")));
+    }
+  }, []);
 
   const Content = () => (
     <>
@@ -77,15 +95,58 @@ const Navbar = ({ float, showDrawer }) => {
         />
       </Box>
 
-      <Box
+      <Flex
+        className="account"
         gridColumn={{ base: "span 1", md: "span 4", xl: "span 2" }}
         alignSelf="center"
         justifySelf="flex-end"
+        flexDirection="row"
         cursor="pointer"
-        onClick={() => router.push("/signin")}
+        fontWeight="bold"
+        position="relative"
+        onClick={() => (user ? null : router.push("/signin"))}
       >
-        <Box as={HiUserCircle} size="3rem" color="gray.600" />
-      </Box>
+        <Box as={HiUserCircle} size="1.5rem" color="gray.600" mr="0.5rem" />
+        {user ? (
+          <>
+            <Text>{user.username}</Text>
+            <Box
+              as={IoMdArrowDropdown}
+              size="1.5rem"
+              color="#b8bfcb"
+              mr="0.5rem"
+            />
+            <Box
+              className="dropdown"
+              position="absolute"
+              top="130%"
+              background="#fff"
+              right="0"
+              boxShadow="0 15px 30px rgb(0 0 0 / 10%)"
+              width="max-content"
+              fontWeight="500"
+            >
+              <List>
+                <ListItem p="20px 30px 20px 30px">Xem thông tin</ListItem>
+                <ListItem
+                  p="20px 30px 20px 30px"
+                  color="red.500"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    window.localStorage.removeItem("token");
+                    window.localStorage.removeItem("user");
+                    setUser(null);
+                  }}
+                >
+                  Đăng xuất
+                </ListItem>
+              </List>
+            </Box>
+          </>
+        ) : (
+          <Text>Đăng nhập</Text>
+        )}
+      </Flex>
     </>
   );
 

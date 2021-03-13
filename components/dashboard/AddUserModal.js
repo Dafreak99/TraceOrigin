@@ -58,12 +58,9 @@ const AddUser = () => {
       console.log(error.message);
     }
 
-    console.log(values);
-
     setVisible(false);
 
-    // router.push("/farm/food");
-    // reset();
+    reset();
     setIsSave(false);
   };
   return (

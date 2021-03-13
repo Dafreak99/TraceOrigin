@@ -18,7 +18,8 @@ import {
 import useSWR, { mutate } from "swr";
 import { useRouter } from "next/router";
 import { FaTrash } from "react-icons/fa";
-import { Pagination } from "antd";
+import { Pagination, Popconfirm } from "antd";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import Layout from "@/components/dashboard/Layout";
 import { Table, Th, Td, Tr } from "@/components/Table";
@@ -29,12 +30,7 @@ import QRCode from "qrcode.react";
 
 const Product = () => {
   const router = useRouter();
-  const [isOpen, setIsOpen] = useState();
-  const [id, setId] = useState();
   const [loading, setLoading] = useState(true);
-
-  const onClose = () => setIsOpen(false);
-  const cancelRef = React.useRef();
 
   const { data, error } = useSWR(
     [
@@ -51,19 +47,24 @@ const Product = () => {
     }
   }, [data]);
 
-  const onDelete = async () => {
+  const onDelete = async (id) => {
     try {
-      let res = await fetch(`/api/food/${id}`, {
+      await fetch("/api/product", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
           Authorization: process.browser ? localStorage.getItem("token") : null,
         },
+        body: JSON.stringify({ id }),
       });
 
       mutate(
-        ["/api/food", process.browser ? localStorage.getItem("token") : null],
+        [
+          "/api/product/harvest",
+          process.browser ? localStorage.getItem("token") : null,
+        ],
         async (cachedData) => {
+          console.log(cachedData);
           let data = cachedData.filter((each) => each._id !== id);
           return data;
         },
@@ -72,8 +73,6 @@ const Product = () => {
     } catch (error) {
       console.log(error.message);
     }
-
-    setIsOpen(false);
   };
 
   if (loading) {
@@ -151,87 +150,68 @@ const Product = () => {
                 <Th>{""}</Th>
                 <Th>{""}</Th>
               </Tr>
-              {data.map(
-                (
-                  { name, isHarvested, harvestedDate, qrCode, images, _id },
-                  i
-                ) => (
-                  <Tr
-                    backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
-                    cursor="pointer"
-                    onClick={() => router.push(`./food/${_id}`)}
-                  >
-                    <Td>{name}</Td>
-                    <Td>
-                      <Image src={images[0]} height="100px" width="auto" />
-                    </Td>
-                    <Td>{harvestedDate}</Td>
-                    <Td>{qrCode}</Td>
-                    <Td>
-                      {" "}
-                      <QRCode
-                        value={
-                          "http://traceorigin.vercel.app/product/" + qrCode
-                        }
-                      />
-                    </Td>
-                    <Td>{productStatus(isHarvested)}</Td>
+              <TransitionGroup component="tbody">
+                {data.map(
+                  (
+                    { name, isHarvested, harvestedDate, qrCode, images, _id },
+                    i
+                  ) => (
+                    <CSSTransition key={i} timeout={500} classNames="item">
+                      <Tr
+                        backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
+                        cursor="pointer"
+                        onClick={() => router.push(`./food/${_id}`)}
+                      >
+                        <Td>{name}</Td>
+                        <Td>
+                          <Image src={images[0]} height="100px" width="auto" />
+                        </Td>
+                        <Td>{harvestedDate}</Td>
+                        <Td>{qrCode}</Td>
+                        <Td>
+                          {" "}
+                          <QRCode
+                            value={
+                              "http://traceorigin.vercel.app/product/" + qrCode
+                            }
+                          />
+                        </Td>
+                        <Td>{productStatus(isHarvested)}</Td>
 
-                    <Td
-                      borderLeft="1px solid #e8eef3"
-                      px={8}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                      }}
-                    >
-                      {isHarvested === "true" && (
-                        <Button
-                        // onClick={() => router.push(`/farm/harvest/${_id}`)}
+                        <Td
+                          borderLeft="1px solid #e8eef3"
+                          px={8}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
                         >
-                          Thêm đóng gói
-                        </Button>
-                      )}
-                    </Td>
+                          {isHarvested === "true" && (
+                            <Button>Thêm đóng gói</Button>
+                          )}
+                        </Td>
 
-                    <Td
-                      borderLeft="1px solid #e8eef3"
-                      px={8}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setIsOpen(true);
-                        setId(_id);
-                      }}
-                    >
-                      <Box as={FaTrash}></Box>
-                    </Td>
-                  </Tr>
-                )
-              )}
-              <AlertDialog
-                isOpen={isOpen}
-                leastDestructiveRef={cancelRef}
-                onClose={onClose}
-              >
-                <AlertDialogOverlay />
-                <AlertDialogContent>
-                  <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                    Xóa
-                  </AlertDialogHeader>
-
-                  <AlertDialogBody>
-                    Bạn có chắc rằng sẽ xóa sản phẩm này ?
-                  </AlertDialogBody>
-
-                  <AlertDialogFooter>
-                    <Button ref={cancelRef} onClick={onClose}>
-                      Hủy bỏ
-                    </Button>
-                    <Button variantColor="red" onClick={onDelete} ml={3}>
-                      Xóa
-                    </Button>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
+                        <Td
+                          borderLeft="1px solid #e8eef3"
+                          px={8}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                        >
+                          <Popconfirm
+                            style={{ fontSize: "16px" }}
+                            title="Bạn có sẽ xóa sản phẩm này hay không？"
+                            okText="Có"
+                            cancelText="Không"
+                            onConfirm={() => onDelete(_id)}
+                          >
+                            <Box as={FaTrash}></Box>
+                          </Popconfirm>
+                        </Td>
+                      </Tr>
+                    </CSSTransition>
+                  )
+                )}
+              </TransitionGroup>
             </Table>
           </>
         ) : (

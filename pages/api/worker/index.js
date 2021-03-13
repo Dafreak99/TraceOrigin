@@ -31,6 +31,7 @@ export default async (req, res) => {
       } catch (error) {
         res.send({ message: error.message });
       }
+
       break;
     default:
       break;

@@ -34,6 +34,17 @@ export default async (req, res) => {
         res.send({ message: error.message });
       }
       break;
+    case "DELETE":
+      try {
+        await Hatchery.findByIdAndDelete(req.body.id);
+
+        res.send({ message: "OK" });
+      } catch (error) {
+        console.log(error.message);
+        res.send({ messagee: error.message });
+      }
+      break;
+
     default:
       break;
   }

@@ -10,6 +10,7 @@ import "react-lightbox-component/build/css/index.css";
 import theme from "../styles/theme";
 
 import "../styles/globals.css";
+import "../styles/animation.css";
 
 import { AuthProvider } from "../lib/AuthContext";
 

@@ -1,36 +1,21 @@
 import { useEffect, useState } from "react";
-import {
-  Box,
-  Heading,
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogContent,
-  AlertDialogOverlay,
-  Button,
-  Alert,
-  AlertIcon,
-  Text,
-} from "@chakra-ui/core";
+import { Box, Heading, Alert, AlertIcon, Text } from "@chakra-ui/core";
 import useSWR, { mutate } from "swr";
 import { useRouter } from "next/router";
 import { FaTrash } from "react-icons/fa";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import Layout from "@/components/dashboard/Layout";
 import { Table, Th, Td, Tr } from "@/components/Table";
 import fetcher from "@/utils/fetcher";
 import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
 import AddHatcheryModal from "@/components/dashboard/AddHatcheryModal";
+import { Popconfirm } from "antd";
 
 const Hatchery = () => {
   const router = useRouter();
-  const [isOpen, setIsOpen] = useState();
-  const [id, setId] = useState();
-  const [loading, setLoading] = useState(true);
 
-  const onClose = () => setIsOpen(false);
-  const cancelRef = React.useRef();
+  const [loading, setLoading] = useState(true);
 
   const { data, error } = useSWR(
     ["/api/hatchery", process.browser ? localStorage.getItem("token") : null],
@@ -43,18 +28,22 @@ const Hatchery = () => {
     }
   }, [data]);
 
-  const onDelete = async () => {
+  const onDelete = async (id) => {
     try {
-      await fetch(`/api/food/${id}`, {
+      await fetch("/api/hatchery", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
           Authorization: process.browser ? localStorage.getItem("token") : null,
         },
+        body: JSON.stringify({ id }),
       });
 
       mutate(
-        ["/api/food", process.browser ? localStorage.getItem("token") : null],
+        [
+          "/api/hatchery",
+          process.browser ? localStorage.getItem("token") : null,
+        ],
         async (cachedData) => {
           let data = cachedData.filter((each) => each._id !== id);
           return data;
@@ -64,8 +53,6 @@ const Hatchery = () => {
     } catch (error) {
       console.log(error.message);
     }
-
-    setIsOpen(false);
   };
 
   if (loading) {
@@ -90,6 +77,7 @@ const Hatchery = () => {
         <Heading mt={10} mb={5}>
           Danh sách trại giống
         </Heading>
+
         {data && data.length > 0 ? (
           <>
             <Table>
@@ -99,53 +87,36 @@ const Hatchery = () => {
 
                 <Th>{""}</Th>
               </Tr>
-              {data.map(({ name, address, _id }, i) => (
-                <Tr
-                  backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
-                  cursor="pointer"
-                  onClick={() => router.push(`./food/${_id}`)}
-                >
-                  <Td>{name}</Td>
-                  <Td>{address}</Td>
-
-                  <Td
-                    borderLeft="1px solid #e8eef3"
-                    px={8}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setIsOpen(true);
-                      setId(_id);
-                    }}
-                  >
-                    <Box as={FaTrash}></Box>
-                  </Td>
-                </Tr>
-              ))}
-              <AlertDialog
-                isOpen={isOpen}
-                leastDestructiveRef={cancelRef}
-                onClose={onClose}
-              >
-                <AlertDialogOverlay />
-                <AlertDialogContent>
-                  <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                    Xóa
-                  </AlertDialogHeader>
-
-                  <AlertDialogBody>
-                    Bạn có chắc rằng sẽ xóa sản phẩm này ?
-                  </AlertDialogBody>
-
-                  <AlertDialogFooter>
-                    <Button ref={cancelRef} onClick={onClose}>
-                      Hủy bỏ
-                    </Button>
-                    <Button variantColor="red" onClick={onDelete} ml={3}>
-                      Xóa
-                    </Button>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
+              <TransitionGroup component="tbody">
+                {data.map(({ name, address, _id }, i) => (
+                  <CSSTransition key={i} timeout={500} classNames="item">
+                    <Tr
+                      backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
+                      cursor="pointer"
+                    >
+                      <Td>{name}</Td>
+                      <Td>{address}</Td>
+                      <Td
+                        borderLeft="1px solid #e8eef3"
+                        px={8}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                      >
+                        <Popconfirm
+                          style={{ fontSize: "16px" }}
+                          title="Bạn có sẽ xóa trại giống này hay không？"
+                          okText="Có"
+                          cancelText="Không"
+                          onConfirm={() => onDelete(_id)}
+                        >
+                          <Box as={FaTrash}></Box>
+                        </Popconfirm>
+                      </Td>
+                    </Tr>
+                  </CSSTransition>
+                ))}
+              </TransitionGroup>
             </Table>
           </>
         ) : (

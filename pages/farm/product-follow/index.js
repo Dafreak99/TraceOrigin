@@ -19,15 +19,14 @@ import useSWR, { mutate } from "swr";
 import { useRouter } from "next/router";
 import { FaTrash } from "react-icons/fa";
 import { Pagination } from "antd";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import Layout from "@/components/dashboard/Layout";
 import { Table, Th, Td, Tr } from "@/components/Table";
 import fetcher from "@/utils/fetcher";
 import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
-import { format } from "date-fns";
+
 import QRCode from "qrcode.react";
-import { FcSerialTasks } from "react-icons/fc";
-import { BiDotsHorizontalRounded } from "react-icons/bi";
 
 const Product = () => {
   const router = useRouter();
@@ -166,104 +165,111 @@ const Product = () => {
                 <Th>{""}</Th>
                 <Th>{""}</Th>
               </Tr>
-              {data.map(
-                (
-                  {
-                    name,
-                    pond: {
-                      name: pondName,
-                      seed: { stockingDate },
-                      _id: pondId,
+              <TransitionGroup component="tbody">
+                {data.map(
+                  (
+                    {
+                      name,
+                      pond: {
+                        name: pondName,
+                        seed: { stockingDate },
+                        _id: pondId,
+                      },
+                      isHarvested,
+                      isRegistered,
+                      qrCode,
+                      _id,
                     },
-                    isHarvested,
-                    isRegistered,
-                    qrCode,
-                    _id,
-                  },
-                  i
-                ) => (
-                  <Tr
-                    backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
-                    cursor="pointer"
-                    onClick={() => router.push(`./food/${_id}`)}
-                  >
-                    <Td>{name}</Td>
-                    <Td>{pondName}</Td>
-                    <Td>{stockingDate}</Td>
-                    <Td>{productStatus(isRegistered)}</Td>
-                    <Td>{qrCode ? qrCode : "Chưa cấp"}</Td>
-                    {qrCode ? (
-                      <Td>
-                        <QRCode
-                          value={
-                            "http://traceorigin.vercel.app/product/" + qrCode
-                          }
-                        />
-                      </Td>
-                    ) : (
-                      <Td></Td>
-                    )}
+                    i
+                  ) => (
+                    <CSSTransition key={i} timeout={500} classNames="item">
+                      <Tr
+                        backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
+                        cursor="pointer"
+                        onClick={() => router.push(`./food/${_id}`)}
+                      >
+                        <Td>{name}</Td>
+                        <Td>{pondName}</Td>
+                        <Td>{stockingDate}</Td>
+                        <Td>{productStatus(isRegistered)}</Td>
+                        <Td>{qrCode ? qrCode : "Chưa cấp"}</Td>
+                        {qrCode ? (
+                          <Td>
+                            <QRCode
+                              value={
+                                "http://traceorigin.vercel.app/product/" +
+                                qrCode
+                              }
+                            />
+                          </Td>
+                        ) : (
+                          <Td></Td>
+                        )}
 
-                    <Td
-                      px={8}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                      }}
-                    >
-                      {isRegistered === "false" ? (
-                        <Button onClick={() => reRegister(_id)}>
-                          Đăng ký lại
-                        </Button>
-                      ) : isRegistered === "true" ? (
-                        <Button
-                          onClick={() => router.push(`/farm/harvest/${_id}`)}
+                        <Td
+                          px={8}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
                         >
-                          {isHarvested === "false"
-                            ? "Thu hoạch lại"
-                            : "Thu hoạch"}
-                        </Button>
-                      ) : null}
-                    </Td>
+                          {isRegistered === "false" ? (
+                            <Button onClick={() => reRegister(_id)}>
+                              Đăng ký lại
+                            </Button>
+                          ) : isRegistered === "true" ? (
+                            <Button
+                              onClick={() =>
+                                router.push(`/farm/harvest/${_id}`)
+                              }
+                            >
+                              {isHarvested === "false"
+                                ? "Thu hoạch lại"
+                                : "Thu hoạch"}
+                            </Button>
+                          ) : null}
+                        </Td>
 
-                    <Td
-                      borderLeft="1px solid #e8eef3"
-                      px={8}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setIsOpen(true);
-                        setId(_id);
-                      }}
-                    >
-                      <Box as={FaTrash}></Box>
-                    </Td>
-                  </Tr>
-                )
-              )}
-              <AlertDialog
-                isOpen={isOpen}
-                leastDestructiveRef={cancelRef}
-                onClose={onClose}
-              >
-                <AlertDialogOverlay />
-                <AlertDialogContent>
-                  <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                    Xóa
-                  </AlertDialogHeader>
-
-                  <AlertDialogBody>
-                    Bạn có chắc rằng sẽ xóa sản phẩm này ?
-                  </AlertDialogBody>
-
-                  <AlertDialogFooter>
-                    <Button ref={cancelRef} onClick={onClose}>
-                      Hủy bỏ
-                    </Button>
-                    <Button variantColor="red" onClick={onDelete} ml={3}>
+                        <Td
+                          borderLeft="1px solid #e8eef3"
+                          px={8}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIsOpen(true);
+                            setId(_id);
+                          }}
+                        >
+                          <Box as={FaTrash}></Box>
+                        </Td>
+                      </Tr>
+                    </CSSTransition>
+                  )
+                )}
+                <AlertDialog
+                  isOpen={isOpen}
+                  leastDestructiveRef={cancelRef}
+                  onClose={onClose}
+                >
+                  <AlertDialogOverlay />
+                  <AlertDialogContent>
+                    <AlertDialogHeader fontSize="lg" fontWeight="bold">
                       Xóa
-                    </Button>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
+                    </AlertDialogHeader>
+
+                    <AlertDialogBody>
+                      Bạn có chắc rằng sẽ xóa sản phẩm này ?
+                    </AlertDialogBody>
+
+                    <AlertDialogFooter>
+                      <Button ref={cancelRef} onClick={onClose}>
+                        Hủy bỏ
+                      </Button>
+                      <Button variantColor="red" onClick={onDelete} ml={3}>
+                        Xóa
+                      </Button>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </TransitionGroup>
             </Table>
           </>
         ) : (

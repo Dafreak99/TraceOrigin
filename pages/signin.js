@@ -1,7 +1,8 @@
 import { Box, Flex, Heading, Text } from "@chakra-ui/core";
-import { Form, Input, Button, Image } from "antd";
+import { Form, Input, Button, Image, Alert } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useState } from "react";
 
 const layout = {
   labelCol: { span: 8 },
@@ -12,6 +13,7 @@ const tailLayout = {
 };
 
 const SignIn = () => {
+  const [error, setError] = useState(null);
   const router = useRouter();
 
   const ISSERVER = typeof window === "undefined";
@@ -37,6 +39,8 @@ const SignIn = () => {
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
         router.push("/");
+      } else {
+        setError(data.message);
       }
     } catch (error) {
       console.log(error.message);
@@ -72,6 +76,15 @@ const SignIn = () => {
           </Heading>
         </Box>
 
+        {error && (
+          <Alert
+            message={error}
+            type="error"
+            showIcon
+            style={{ marginBottom: "2rem" }}
+          />
+        )}
+
         <Form
           {...layout}
           name="basic"
@@ -86,7 +99,11 @@ const SignIn = () => {
               { required: true, message: "Vui lòng nhập vào tên đăng nhập!" },
             ]}
           >
-            <Input size="large" name="username" />
+            <Input
+              size="large"
+              name="username"
+              onFocus={() => setError(null)}
+            />
           </Form.Item>
 
           <Form.Item
@@ -94,7 +111,11 @@ const SignIn = () => {
             name="password"
             rules={[{ required: true, message: "Vui lòng nhập vào mật khẩu!" }]}
           >
-            <Input.Password size="large" name="password" />
+            <Input.Password
+              size="large"
+              name="password"
+              onFocus={() => setError(null)}
+            />
           </Form.Item>
 
           <Form.Item {...tailLayout}>
