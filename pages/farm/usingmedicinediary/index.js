@@ -7,7 +7,6 @@ import fetcher from "@/utils/fetcher";
 import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { format } from "date-fns";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { Popconfirm } from "antd";
 
@@ -32,27 +31,29 @@ const UsingMedicineDiary = () => {
 
   const onDelete = async (id) => {
     try {
-      // await fetch("/api/usingmedicine", {
-      //   method: "DELETE",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Authorization: process.browser ? localStorage.getItem("token") : null,
-      //   },
-      //   body: JSON.stringify({ id }),
-      // });
-
-      mutate(
-        [
-          "/api/hatchery",
-          process.browser ? localStorage.getItem("token") : null,
-        ],
-        async (cachedData) => {
-          // let data = cachedData.filter((each) => each._id !== id);
-          // return data;
-          console.log(cachedData);
+      await fetch("/api/usingmedicine", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: process.browser ? localStorage.getItem("token") : null,
         },
-        false
-      );
+        body: JSON.stringify({ id }),
+      });
+
+      // mutate(
+      //   [
+      //     "/api/usingmedicine",
+      //     process.browser ? localStorage.getItem("token") : null,
+      //   ],
+      //   async (cachedData) => {
+      //     // let data = cachedData.filter((each) => each._id !== id);
+      //     // return data;
+      //     console.log(cachedData);
+      //   },
+      //   false
+      // );
+
+      router.reload();
     } catch (error) {
       console.log(error.message);
     }
@@ -109,7 +110,7 @@ const UsingMedicineDiary = () => {
                       cursor="pointer"
                       onClick={() => router.push(`./usingmedicinediary/${_id}`)}
                     >
-                      <Td>{format(new Date(createdDate), "dd/MM/yyyy")}</Td>
+                      <Td>{createdDate}</Td>
                       <Td>{pondName}</Td>
                       <Td>{name}</Td>
                       <Td>

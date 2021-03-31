@@ -6,7 +6,6 @@ export const Th = (props) => (
     textTransform="uppercase"
     fontSize="xs"
     color="gray.500"
-    // color="#2573e6"
     fontWeight="bold"
     px={4}
     {...props}
@@ -18,7 +17,7 @@ export const Td = (props) => (
     as="td"
     color="gray.900"
     p={4}
-    fontSize="md"
+    fontSize={{ base: "xs", xl: "md" }}
     borderBottom="1px solid"
     borderBottomColor="gray.100"
     {...props}

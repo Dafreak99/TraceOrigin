@@ -1,20 +1,20 @@
-import { Grid, Heading } from "@chakra-ui/core";
+import { Grid, Heading, Image } from "@chakra-ui/core";
 import Product from "./Product";
-import useSWR from "swr";
-import fetcher from "@/utils/fetcher";
+import SectionPadding from "./SectionPadding";
 
 const Products = ({ data }) => {
   return (
-    <>
+    <SectionPadding>
       <Heading
         className="heading"
         marginBottom={16}
         fontSize={{ base: "xl", xl: "4xl" }}
-        fontFamily="Inter, sans-serif"
+        fontFamily="Nunito, sans-serif"
         color="#373535"
       >
         Sản Phẩm Thủy Sản
       </Heading>
+      <Image src="/blob/2.svg" className="blob product" />
 
       <Grid
         gridTemplateColumns="repeat(12, 1fr)"
@@ -30,7 +30,7 @@ const Products = ({ data }) => {
           </>
         )}
       </Grid>
-    </>
+    </SectionPadding>
   );
 };
 

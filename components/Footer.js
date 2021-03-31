@@ -36,16 +36,16 @@ const Footer = () => {
           <Box gridColumn={{ base: "span 12", xl: "span 3" }}>
             <ul style={{ listStyle: "none" }}>
               <li href="" style={{ marginBottom: "1rem" }}>
-                <a style={{ color: "#fff" }}>Giới thiệu</a>
+                <a style={{ color: "#fff", fontSize: "16px" }}>Giới thiệu</a>
               </li>
               <li href="" style={{ marginBottom: "1rem" }}>
-                <a style={{ color: "#fff" }}>Sản phẩm</a>
+                <a style={{ color: "#fff", fontSize: "16px" }}>Sản phẩm</a>
               </li>
               <li href="" style={{ marginBottom: "1rem" }}>
-                <a style={{ color: "#fff" }}>Tin tức</a>
+                <a style={{ color: "#fff", fontSize: "16px" }}>Tin tức</a>
               </li>
               <li href="">
-                <a style={{ color: "#fff" }}>Liên hệ</a>
+                <a style={{ color: "#fff", fontSize: "16px" }}>Liên hệ</a>
               </li>
             </ul>
           </Box>

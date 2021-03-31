@@ -37,18 +37,18 @@ const Hero = () => {
     <Slider {...settings}>
       {data.map(({ heading, text, background }, i) => (
         <Box
-          // background="#0089ff"
-
           background="linear-gradient(90deg, rgba(35,144,246,1) 0%, rgba(11,90,191,1) 100%)"
+          position="relative"
         >
+          <Image src="./wave-haikei.svg" className="wave" />
           <Box
             className="container"
             key={i}
             display="flex !important"
             justifyContent={{ xl: "space-between", base: "center" }}
             alignItems="center"
-            height="100vh"
             justify="center"
+            height="100vh"
             position="relative"
             flexDir={{ base: "column", xl: "row" }}
           >
@@ -56,20 +56,20 @@ const Hero = () => {
               <Heading
                 color="#fff"
                 mb={8}
-                fontSize={{ base: "3xl", xl: "6xl" }}
+                fontSize={{ base: "3xl", xl: "5xl" }}
                 className={i === index ? "fadeIn" : "preFadeIn"}
                 textAlign={{ sx: "center" }}
-                fontFamily="Inter, sans-serif"
+                fontFamily="Nunito, sans-serif"
               >
                 {heading}
               </Heading>
 
               <Text
                 className={i === index ? "fadeIn" : "preFadeIn"}
-                fontSize={{ base: "xl", xl: "3xl" }}
+                fontSize={{ base: "xl", xl: "2xl" }}
                 color="#f9fafa"
                 fontWeight="normal"
-                fontFamily="Inter, sans-serif"
+                fontFamily="Nunito, sans-serif"
               >
                 {text}
               </Text>
@@ -77,7 +77,7 @@ const Hero = () => {
             <Image
               mt={{ sx: "2rem", xl: 0 }}
               src={background}
-              height={["10rem", "15rem", "20rem", "30rem"]}
+              height={{ base: "10rem", lg: "15rem", xl: "30rem" }}
               className={i === index ? "fadeInLeft" : "preFadeInLeft"}
             />
           </Box>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import NavbarDrawer from "@/components/NavbarDrawer";
-import { Box, Heading } from "@chakra-ui/core";
+import { Box, Heading, Image } from "@chakra-ui/core";
 import Products from "@/components/Products";
 import useSWR from "swr";
 import fetcher from "@/utils/fetcher";

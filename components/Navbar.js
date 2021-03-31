@@ -61,22 +61,42 @@ const Navbar = ({ float, showDrawer }) => {
         fontWeight="bold"
         display={{ sx: "none", xl: "flex" }}
       >
-        <Box mr="2rem">
+        <Box
+          mr="2rem"
+          fontSize="1rem"
+          color="#4e5256"
+          fontFamily="'Nunito', sans-serif"
+        >
           <Link href="/">
             <a>Giới thiệu</a>
           </Link>
         </Box>
-        <Box mr="2rem">
+        <Box
+          mr="2rem"
+          fontSize="1rem"
+          color="#4e5256"
+          fontFamily="'Nunito', sans-serif"
+        >
           <Link href="/product">
             <a>Sản phẩm</a>
           </Link>
         </Box>
-        <Box mr="2rem">
+        <Box
+          mr="2rem"
+          fontSize="1rem"
+          color="#4e5256"
+          fontFamily="'Nunito', sans-serif"
+        >
           <Link href="/dashboard">
             <a>Dashboard</a>
           </Link>
         </Box>
-        <Box mr="2rem">
+        <Box
+          mr="2rem"
+          fontSize="1rem"
+          color="#4e5256"
+          fontFamily="'Nunito', sans-serif"
+        >
           <Link href="/">
             <a>Liên hệ</a>
           </Link>
@@ -109,7 +129,7 @@ const Navbar = ({ float, showDrawer }) => {
         <Box as={HiUserCircle} size="1.5rem" color="gray.600" mr="0.5rem" />
         {user ? (
           <>
-            <Text>{user.username}</Text>
+            <Text fontSize="1rem">{user.username}</Text>
             <Box
               as={IoMdArrowDropdown}
               size="1.5rem"

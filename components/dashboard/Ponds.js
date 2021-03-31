@@ -1,24 +1,15 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import {
   Alert,
   AlertIcon,
   Box,
   Button,
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
   Flex,
-  Grid,
   Heading,
   List,
   ListItem,
   PseudoBox,
   Text,
-  useDisclosure,
 } from "@chakra-ui/core";
 import useSWR, { mutate } from "swr";
 import { useRouter } from "next/router";
@@ -36,12 +27,9 @@ const Ponds = () => {
     fetcher
   );
 
-  console.log(data);
-
   let [index, setIndex] = useState(0);
-  let [selectedPond, setSelectedPond] = useState({});
+  let [selectedPond, setSelectedPond] = useState(null);
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef();
 
   const onDelete = async () => {
@@ -67,8 +55,7 @@ const Ponds = () => {
       false
     );
 
-    setSelectedPond({});
-    onClose();
+    setSelectedPond(null);
   };
 
   return (
@@ -128,7 +115,6 @@ const Ponds = () => {
                       onClick={() => {
                         setIndex(i);
                         setSelectedPond(pond);
-                        onOpen();
                       }}
                     >
                       <PseudoBox fontSize="xl" _groupHover={{ color: "#fff" }}>
@@ -152,133 +138,112 @@ const Ponds = () => {
             </Box>
           </>
         )}
+      </Flex>
 
-        <Drawer
-          isOpen={isOpen}
-          placement="right"
-          onClose={onClose}
-          finalFocusRef={btnRef}
-        >
-          <DrawerOverlay />
-          <DrawerContent>
-            <DrawerCloseButton color="#fff" />
+      <Box height="calc(100vh - 64px)" width="100%" p="3rem 4rem">
+        {selectedPond ? (
+          <Box background="#fff" p="3rem">
+            <Heading>{selectedPond.name}</Heading>
+            <Heading size="md" mb={4} mt={4}>
+              Thông tin về ao nuôi
+            </Heading>
 
-            <DrawerHeader
-              background="linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-          url(/pexels-photo-3731945.jpeg)"
-              height="10rem"
-              backgroundSize="cover"
-              color="#fff"
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-            >
-              Tên ao: {selectedPond.name}
-            </DrawerHeader>
-
-            <DrawerBody>
-              <Heading size="md" mb={4} mt={4}>
-                Thông tin về ao nuôi
-              </Heading>
-
-              <List spacing={2}>
+            <List spacing={2}>
+              <ListItem>
+                <Text fontSize="md" fontWeight="medium">
+                  Tên ao:{" "}
+                  <Box as="span" fontWeight="normal">
+                    {selectedPond.name}
+                  </Box>
+                </Text>
+              </ListItem>
+              <ListItem>
+                <Text fontSize="md" fontWeight="medium">
+                  Mã ao:{" "}
+                  <Box as="span" fontWeight="normal">
+                    {selectedPond.code}
+                  </Box>
+                </Text>
+              </ListItem>
+              <ListItem>
+                <Text fontSize="md" fontWeight="medium">
+                  Diện tích ao (hecta):{" "}
+                  <Box as="span" fontWeight="normal">
+                    {selectedPond.area}
+                  </Box>
+                </Text>
+              </ListItem>
+              {selectedPond.seed ? (
                 <ListItem>
                   <Text fontSize="md" fontWeight="medium">
-                    Tên ao:{" "}
-                    <Box as="span" fontWeight="normal">
-                      {selectedPond.name}
+                    Trạng thái:{" "}
+                    <Box as="span" fontWeight="normal" color="#2dcc84">
+                      Đang được sử dụng
                     </Box>
                   </Text>
                 </ListItem>
-                <ListItem>
-                  <Text fontSize="md" fontWeight="medium">
-                    Mã ao:{" "}
-                    <Box as="span" fontWeight="normal">
-                      {selectedPond.code}
-                    </Box>
-                  </Text>
-                </ListItem>
-                <ListItem>
-                  <Text fontSize="md" fontWeight="medium">
-                    Diện tích ao (hecta):{" "}
-                    <Box as="span" fontWeight="normal">
-                      {selectedPond.area}
-                    </Box>
-                  </Text>
-                </ListItem>
-                {selectedPond.seed ? (
+              ) : (
+                <>
                   <ListItem>
                     <Text fontSize="md" fontWeight="medium">
                       Trạng thái:{" "}
-                      <Box as="span" fontWeight="normal" color="#2dcc84">
-                        Đang được sử dụng
+                      <Box as="span" fontWeight="normal" color="#cc2d48">
+                        Trống
                       </Box>
                     </Text>
                   </ListItem>
-                ) : (
-                  <>
-                    <ListItem>
-                      <Text fontSize="md" fontWeight="medium">
-                        Trạng thái:{" "}
-                        <Box as="span" fontWeight="normal" color="#cc2d48">
-                          Trống
-                        </Box>
-                      </Text>
-                    </ListItem>
 
-                    <AddSeedModal
-                      pondId={selectedPond._id}
-                      onCloseDrawer={onClose}
-                    />
-                  </>
-                )}
-              </List>
-
-              {selectedPond.seed && (
-                <>
-                  <Heading size="md" mt={4} mb={4}>
-                    Thông tin con giống
-                  </Heading>
-
-                  <List spacing={2}>
-                    <ListItem>
-                      <Text fontSize="md" fontWeight="medium">
-                        Số lượng:{" "}
-                        <Box as="span" fontWeight="normal">
-                          {selectedPond.seed.quantity}
-                        </Box>
-                      </Text>
-                    </ListItem>
-                    <ListItem>
-                      <Text fontSize="md" fontWeight="medium">
-                        Ngày tuổi của giống:{" "}
-                        <Box as="span" fontWeight="normal">
-                          {selectedPond.seed.seedAge}
-                        </Box>
-                      </Text>
-                    </ListItem>
-                    <ListItem>
-                      <Text fontSize="md" fontWeight="medium">
-                        Tên trại giống:{" "}
-                        <Box as="span" fontWeight="normal">
-                          {selectedPond.seed.hatchery.name}
-                        </Box>
-                      </Text>
-                    </ListItem>
-                    <ListItem>
-                      <Text fontSize="md" fontWeight="medium">
-                        Địa chỉ trại giống:{" "}
-                        <Box as="span" fontWeight="normal">
-                          {selectedPond.seed.hatchery.address}
-                        </Box>
-                      </Text>
-                    </ListItem>
-                  </List>
+                  <AddSeedModal
+                    pondId={selectedPond._id}
+                    setSelectedPond={setSelectedPond}
+                  />
                 </>
               )}
-            </DrawerBody>
+            </List>
 
-            <DrawerFooter>
+            {selectedPond.seed && (
+              <>
+                <Heading size="md" mt={4} mb={4}>
+                  Thông tin con giống
+                </Heading>
+
+                <List spacing={2}>
+                  <ListItem>
+                    <Text fontSize="md" fontWeight="medium">
+                      Số lượng:{" "}
+                      <Box as="span" fontWeight="normal">
+                        {selectedPond.seed.quantity}
+                      </Box>
+                    </Text>
+                  </ListItem>
+                  <ListItem>
+                    <Text fontSize="md" fontWeight="medium">
+                      Ngày tuổi của giống:{" "}
+                      <Box as="span" fontWeight="normal">
+                        {selectedPond.seed.seedAge}
+                      </Box>
+                    </Text>
+                  </ListItem>
+                  <ListItem>
+                    <Text fontSize="md" fontWeight="medium">
+                      Tên trại giống:{" "}
+                      <Box as="span" fontWeight="normal">
+                        {selectedPond.seed.hatchery.name}
+                      </Box>
+                    </Text>
+                  </ListItem>
+                  <ListItem>
+                    <Text fontSize="md" fontWeight="medium">
+                      Địa chỉ trại giống:{" "}
+                      <Box as="span" fontWeight="normal">
+                        {selectedPond.seed.hatchery.address}
+                      </Box>
+                    </Text>
+                  </ListItem>
+                </List>
+              </>
+            )}
+            <Box mt="8rem">
               <Button
                 backgroundColor="red"
                 color="red.400"
@@ -299,13 +264,15 @@ const Ponds = () => {
                   Đăng ký
                 </Button>
               )}
-            </DrawerFooter>
-          </DrawerContent>
-        </Drawer>
-      </Flex>
-
-      <Box height="calc(100vh - 64px)" width="100%">
-        {/* <DisplayMap entry={{ latitude: 10, longitude: 29 }} /> */}
+            </Box>
+          </Box>
+        ) : (
+          <Box background="#fff" p="3rem">
+            <Heading size="md">
+              Click vào các ao cụ thể để xem thông tin từng ao
+            </Heading>
+          </Box>
+        )}
       </Box>
     </Flex>
   );

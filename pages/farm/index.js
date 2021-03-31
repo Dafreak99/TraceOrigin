@@ -28,8 +28,6 @@ const Info = () => {
     fetcher
   );
 
-  console.log(data);
-
   // First fetch usually returns undefined
   if (!data) {
     return (

@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import Navbar from "@/components/Navbar";
-import NavbarDrawer from "@/components/NavbarDrawer";
+
 import { Box, Heading, List, ListIcon, ListItem } from "@chakra-ui/core";
 import { Table, Th, Td, Tr } from "@/components/Table";
 
@@ -16,36 +15,7 @@ import ChangePasswordModal from "@/components/dashboard/ChangePasswordModal";
 import { FaTrash } from "react-icons/fa";
 import { Popconfirm } from "antd";
 import { AiTwotoneEdit } from "react-icons/ai";
-
-function useOutsideAlerter(ref, setRowIndex) {
-  useEffect(() => {
-    /**
-     * Alert if clicked on outside of element
-     */
-    function handleClickOutside(event) {
-      if (
-        ref.current &&
-        !ref.current.contains(event.target) &&
-        event.target.outerHTML !== "<span>Có</span>"
-      ) {
-        setRowIndex(null);
-      }
-    }
-    // Bind the event listener
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      // Unbind the event listener on clean up
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [ref]);
-}
-
-function OutsideAlerter(props) {
-  const wrapperRef = useRef(null);
-  useOutsideAlerter(wrapperRef, props.setRowIndex);
-
-  return <div ref={wrapperRef}>{props.children}</div>;
-}
+import OutsideAlerter from "@/components/dashboard/OutsideAlerter";
 
 const Admin = () => {
   const [rowIndex, setRowIndex] = useState(null);
@@ -86,8 +56,6 @@ const Admin = () => {
     } catch (error) {
       console.log(error.message);
     }
-
-    // setRowIndex(null);
   };
 
   if (loading) {
@@ -145,7 +113,7 @@ const Admin = () => {
                             }}
                           />
                           {i + 1 === rowIndex && (
-                            <OutsideAlerter setRowIndex={setRowIndex}>
+                            <OutsideAlerter action={() => setRowIndex(null)}>
                               <List
                                 spacing={3}
                                 position="absolute"
@@ -206,7 +174,5 @@ const Admin = () => {
 };
 
 export default Admin;
-
-// TODO: Toggle Setting On/Off
 
 // Determine this codesanbox: https://codesandbox.io/s/outside-alerter-hooks-lmr2y?module=/src/OutsideAlerter.js&file=/src/index.js

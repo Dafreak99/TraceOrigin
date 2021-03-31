@@ -50,7 +50,6 @@ const AddHatchery = () => {
       mutate(
         [
           "/api/hatchery",
-
           process.browser ? localStorage.getItem("token") : null,
         ],
         async (cachedData) => [...cachedData, data],

@@ -30,33 +30,33 @@ const feedingdiary = () => {
     }
   }, [data]);
 
-  console.log(data);
-
   const onDelete = async (id) => {
     try {
-      // await fetch("/api/feedingdiary", {
-      //   method: "DELETE",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Authorization: process.browser ? localStorage.getItem("token") : null,
-      //   },
-      //   body: JSON.stringify({ id }),
-      // });
-
-      mutate(
-        [
-          "/api/feedingdiary",
-          process.browser ? localStorage.getItem("token") : null,
-        ],
-        async (cachedData) => {
-          // TODO: Why null here
-          console.log(cachedData);
-          let data = cachedData.filter((each) => each._id !== id);
-
-          return data;
+      await fetch("/api/feedingdiary", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: process.browser ? localStorage.getItem("token") : null,
         },
-        false
-      );
+        body: JSON.stringify({ id }),
+      });
+
+      // mutate(
+      //   [
+      //     "/api/feedingdiary",
+      //     process.browser ? localStorage.getItem("token") : null,
+      //   ],
+      //   async (cachedData) => {
+      //     // TODO: Why null here
+      //     console.log(cachedData);
+      //     let data = cachedData.filter((each) => each._id !== id);
+
+      //     return data;
+      //   },
+      //   false
+      // );
+
+      router.reload();
     } catch (error) {
       console.log(error.message);
     }

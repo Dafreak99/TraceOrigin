@@ -19,13 +19,16 @@ export default async (req, res) => {
 
     const seed = new Seed({ ...req.body, isDone: false });
 
+    console.log(seed);
+
     await seed.save();
 
     const pond = await Pond.findOneAndUpdate(
       { _id: pondId },
       { seed: seed._id },
       { new: true }
-    ).populate("seed");
+    )
+    .populate({ path: "seed", populate: { path: "hatchery" } });
 
     res.send(pond);
   } catch (error) {

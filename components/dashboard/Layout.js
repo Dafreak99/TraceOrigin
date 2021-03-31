@@ -327,13 +327,6 @@ const Sidebar = () => {
     setCollapsed(collapsed);
   };
 
-  const logout = () => {
-    window.localStorage.removeItem("token");
-    window.localStorage.removeItem("user");
-
-    router.push("/");
-  };
-
   return (
     <Sider
       collapsible
@@ -367,25 +360,6 @@ const Sidebar = () => {
       ) : (
         <QualityControlSidebar />
       )}
-      <Flex
-        justify="center"
-        align="center"
-        position="absolute"
-        bottom="10%"
-        left="50%"
-        transform="translateX(-50%)"
-        onClick={logout}
-        cursor="pointer"
-        borderRadius="30px"
-        background="#1a9cf7"
-        padding="10px 20px"
-        className="logout__wrapper"
-      >
-        <Box as={AiOutlineLogout} color="#fff" h="32px" w="32px" />
-        <Text color="#fff" ml="10px" className="logout__text">
-          Logout
-        </Text>
-      </Flex>
     </Sider>
   );
 };
