@@ -19,6 +19,8 @@ export default async (req, res) => {
 
   switch (method) {
     case "GET":
+      console.log(req.body.id);
+
       let posts = await Post.find();
 
       res.send(posts);
@@ -29,6 +31,11 @@ export default async (req, res) => {
       await post.save();
 
       res.send(post);
+
+      break;
+    case "PUT":
+      await Post.updateOne({ _id: req.body._id }, req.body);
+      res.send({ message: "OK", status: "200" });
 
       break;
     case "DELETE":

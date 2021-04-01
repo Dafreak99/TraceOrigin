@@ -41,8 +41,6 @@ const Posts = () => {
     }
   }, [data]);
 
-  console.log(data);
-
   if (loading) {
     <Layout>
       <Box px={16} py={12}>
@@ -96,7 +94,6 @@ const Posts = () => {
                 <Tr
                   backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
                   cursor="pointer"
-                  onClick={() => router.push(`./food/${_id}`)}
                 >
                   <Td>{i + 1}</Td>
                   <Td>{name}</Td>
@@ -106,9 +103,7 @@ const Posts = () => {
 
                   <Td
                     borderLeft="1px solid #e8eef3"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                    }}
+                    onClick={(e) => router.push(`./posts/edit/${_id}`)}
                   >
                     <Box as={FaEdit} />
                   </Td>

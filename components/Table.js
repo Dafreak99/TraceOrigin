@@ -8,6 +8,7 @@ export const Th = (props) => (
     color="gray.500"
     fontWeight="bold"
     px={4}
+    border="none"
     {...props}
   />
 );
@@ -20,6 +21,7 @@ export const Td = (props) => (
     fontSize={{ base: "xs", xl: "md" }}
     borderBottom="1px solid"
     borderBottomColor="gray.100"
+    border="none"
     {...props}
   />
 );
@@ -33,6 +35,7 @@ export const Tr = (props) => (
     borderBottom="1px solid"
     borderBottomColor="gray.200"
     height="40px"
+    border="none"
     {...props}
   />
 );
@@ -48,6 +51,7 @@ export const Table = (props) => {
       borderRadius={8}
       boxShadow="0px 4px 10px rgba(0, 0, 0, 0.05)"
       {...props}
+      border="none"
     />
   );
 };

@@ -152,8 +152,8 @@ const Posts = () => {
                     }}
                     defaultValue="Cá biển"
                   >
-                    <Option value="Cá biển">Cá biển</Option>
-                    <Option value="Tôm">Tôm</Option>
+                    <Option value="ca-bien">Cá biển</Option>
+                    <Option value="tom">Tôm</Option>
                   </Select>
                 )}
               />

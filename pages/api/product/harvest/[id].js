@@ -36,11 +36,6 @@ export default async (req, res) => {
 
       break;
 
-    // case "POST":
-
-    //   await Product.findOneAndUpdate({ _id: id }, { isHarvested: "true" });
-    //   res.send({ message: "OK" });
-    //   break;
     default:
       break;
   }

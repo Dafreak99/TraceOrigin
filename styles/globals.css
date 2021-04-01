@@ -593,3 +593,13 @@ table-enter-leave-demo-wrapper {
 .ant-skeleton {
   grid-column: span 12;
 }
+
+th,
+td {
+  padding: 15px;
+}
+table,
+td,
+th {
+  border: 1px solid black;
+}

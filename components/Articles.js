@@ -2,9 +2,13 @@ import fetcher from "@/utils/fetcher";
 import { Box, Grid, Heading, Image, Text } from "@chakra-ui/core";
 import useSWR from "swr";
 import { Skeleton } from "antd";
+
 import SectionPadding from "./SectionPadding";
+import { useRouter } from "next/router";
 
 const Articles = ({ data }) => {
+  const router = useRouter();
+
   return (
     <SectionPadding>
       <Heading
@@ -25,13 +29,15 @@ const Articles = ({ data }) => {
         rowGap={16}
       >
         {data?.length > 0 ? (
-          data.map(({ name, image }) => (
+          data.map(({ name, image, _id }) => (
             <Box
               gridColumn={{ base: "span 12", xl: " span 4" }}
               background="#fff"
               borderRadius="3px"
               boxShadow="0 10px 30px rgb(30 126 245 / 0.2)"
               textAlign="center"
+              cursor="pointer"
+              onClick={() => router.push(`/posts/${_id}`)}
             >
               <Image src={image} minH="350px" maxH="350px" w="100%" />
               <Box padding="3rem 4rem">
