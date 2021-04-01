@@ -8,7 +8,7 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 import Layout from "@/components/dashboard/Layout";
 import { Table, Th, Td, Tr } from "@/components/Table";
 import fetcher from "@/utils/fetcher";
-import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
+import SkeletonTable from "@/components/dashboard/SkeletonTable";
 import AddHatcheryModal from "@/components/dashboard/AddHatcheryModal";
 import { Popconfirm } from "antd";
 
@@ -63,7 +63,7 @@ const Hatchery = () => {
           <Heading mt={10} mb={5}>
             Danh sách trại giống
           </Heading>
-          <FoodTableSkeleton />
+          <SkeletonTable />
         </Box>
       </Layout>
     );

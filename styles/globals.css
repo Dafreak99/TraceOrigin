@@ -579,11 +579,17 @@ table-enter-leave-demo-wrapper {
 }
 
 .blob.product {
-  top: -35%;
+  top: -29%;
   left: -17%;
 }
 
 .blob.article {
   top: -35%;
   right: -17%;
+}
+.ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline.ck-blurred {
+  font-size: 1rem;
+}
+.ant-skeleton {
+  grid-column: span 12;
 }

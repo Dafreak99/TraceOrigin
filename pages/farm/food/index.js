@@ -23,7 +23,7 @@ import AddFoodModal from "@/components/dashboard/AddFoodModal";
 import Layout from "@/components/dashboard/Layout";
 import { Table, Th, Td, Tr } from "@/components/Table";
 import fetcher from "@/utils/fetcher";
-import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
+import SkeletonTable from "@/components/dashboard/SkeletonTable";
 
 const AddFood = () => {
   const router = useRouter();
@@ -90,7 +90,7 @@ const AddFood = () => {
           <Heading mt={10} mb={5}>
             Lịch sử nhập thức ăn
           </Heading>
-          <FoodTableSkeleton />
+          <SkeletonTable />
         </Box>
       </Layout>
     );

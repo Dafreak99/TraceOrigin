@@ -24,7 +24,7 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 import Layout from "@/components/dashboard/Layout";
 import { Table, Th, Td, Tr } from "@/components/Table";
 import fetcher from "@/utils/fetcher";
-import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
+import SkeletonTable from "@/components/dashboard/SkeletonTable";
 
 import QRCode from "qrcode.react";
 
@@ -82,7 +82,7 @@ const Product = () => {
           <Heading mt={10} mb={5}>
             Danh sách sản phẩm đang theo dõi
           </Heading>
-          <FoodTableSkeleton />
+          <SkeletonTable />
         </Box>
       </Layout>
     );

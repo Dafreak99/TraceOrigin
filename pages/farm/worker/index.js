@@ -14,7 +14,7 @@ import { Pagination, Popconfirm } from "antd";
 import Layout from "@/components/dashboard/Layout";
 import { Table, Th, Td, Tr } from "@/components/Table";
 import fetcher from "@/utils/fetcher";
-import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
+import SkeletonTable from "@/components/dashboard/SkeletonTable";
 import Modal from "antd/lib/modal/Modal";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { useForm } from "react-hook-form";
@@ -166,7 +166,7 @@ const Worker = () => {
             />
           </>
         ) : (
-          <FoodTableSkeleton />
+          <SkeletonTable />
         )}
       </Box>
     </Layout>

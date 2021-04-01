@@ -15,7 +15,7 @@ import { FaTrash } from "react-icons/fa";
 import useSWR, { mutate } from "swr";
 
 import AddWarehouseModal from "@/components/dashboard/AddWarehouseModal";
-import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
+import SkeletonTable from "@/components/dashboard/SkeletonTable";
 import Layout from "@/components/dashboard/Layout";
 import { Table, Td, Th, Tr } from "@/components/Table";
 import fetcher from "@/utils/fetcher";
@@ -87,7 +87,7 @@ const Warehouse = () => {
           <Heading mt={10} mb={5}>
             Danh sách kho
           </Heading>
-          <FoodTableSkeleton />
+          <SkeletonTable />
         </Box>
       </Layout>
     );

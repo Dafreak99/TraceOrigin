@@ -9,7 +9,7 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 import useSWR, { mutate } from "swr";
 import fetcher from "@/utils/fetcher";
 import Layout from "@/components/dashboard/Layout";
-import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
+import SkeletonTable from "@/components/dashboard/SkeletonTable";
 import AddUserModal from "@/components/dashboard/AddUserModal";
 import ChangePasswordModal from "@/components/dashboard/ChangePasswordModal";
 import { FaTrash } from "react-icons/fa";
@@ -65,7 +65,7 @@ const Admin = () => {
           <Heading mt={10} mb={5}>
             Danh sách người dùng
           </Heading>
-          <FoodTableSkeleton />
+          <SkeletonTable />
         </Box>
       </Layout>
     );

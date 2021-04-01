@@ -25,7 +25,7 @@ const SkeletonRow = ({ width }) => (
   </Box>
 );
 
-const FoodTableSkeleton = () => {
+const SkeletonTable = ({ tableHeading }) => {
   return (
     <Table>
       <thead>
@@ -47,4 +47,4 @@ const FoodTableSkeleton = () => {
   );
 };
 
-export default FoodTableSkeleton;
+export default SkeletonTable;

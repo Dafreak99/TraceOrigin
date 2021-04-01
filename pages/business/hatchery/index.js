@@ -21,7 +21,7 @@ import { FaTrash } from "react-icons/fa";
 import Layout from "@/components/dashboard/Layout";
 import { Table, Th, Td, Tr } from "@/components/Table";
 import fetcher from "@/utils/fetcher";
-import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
+import SkeletonTable from "@/components/dashboard/SkeletonTable";
 import AddHatcheryModal from "@/components/dashboard/AddHatcheryModal";
 
 const AddFood = () => {
@@ -77,7 +77,7 @@ const AddFood = () => {
           <Heading mt={10} mb={5}>
             Danh sách trại giống
           </Heading>
-          <FoodTableSkeleton />
+          <SkeletonTable />
         </Box>
       </Layout>
     );

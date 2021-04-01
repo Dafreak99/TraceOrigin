@@ -8,7 +8,7 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { Popconfirm } from "antd";
 import { useRouter } from "next/router";
 
-import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
+import SkeletonTable from "@/components/dashboard/SkeletonTable";
 import Layout from "@/components/dashboard/Layout";
 import { Table, Tr, Td, Th } from "@/components/Table";
 
@@ -67,7 +67,7 @@ const feedingdiary = () => {
       <Layout>
         <Box px={16} py={12}>
           <Heading mb={8}>Nhật ký cho ăn</Heading>
-          <FoodTableSkeleton />
+          <SkeletonTable />
         </Box>
       </Layout>
     );

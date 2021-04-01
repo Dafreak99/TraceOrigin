@@ -4,7 +4,7 @@ import { Table, Tr, Td, Th } from "@/components/Table";
 import { FaTrash } from "react-icons/fa";
 import useSWR, { mutate } from "swr";
 import fetcher from "@/utils/fetcher";
-import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
+import SkeletonTable from "@/components/dashboard/SkeletonTable";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
@@ -65,7 +65,7 @@ const UsingMedicineDiary = () => {
         <Box px={16} py={12} position="relative">
           <Heading mb={8}>Nhật ký sử dụng thuốc</Heading>
 
-          <FoodTableSkeleton />
+          <SkeletonTable />
         </Box>
       </Layout>
     );

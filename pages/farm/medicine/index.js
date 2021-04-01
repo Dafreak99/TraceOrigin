@@ -23,7 +23,7 @@ import { Tooltip } from "antd";
 import { Table, Th, Td, Tr } from "@/components/Table";
 import Layout from "@/components/dashboard/Layout";
 import fetcher from "@/utils/fetcher";
-import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
+import SkeletonTable from "@/components/dashboard/SkeletonTable";
 import AddMedicineModal from "@/components/dashboard/AddMedicineModal";
 import { format, isBefore } from "date-fns";
 
@@ -132,7 +132,7 @@ const Index = () => {
           <Heading mt={10} mb={5}>
             Lịch sử nhập thuốc
           </Heading>
-          <FoodTableSkeleton />
+          <SkeletonTable />
         </Box>
       </Layout>
     );

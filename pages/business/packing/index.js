@@ -7,7 +7,7 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import Layout from "@/components/dashboard/Layout";
 import { Table, Th, Td, Tr } from "@/components/Table";
 import fetcher from "@/utils/fetcher";
-import FoodTableSkeleton from "@/components/dashboard/FoodTableSkeleton";
+import SkeletonTable from "@/components/dashboard/SkeletonTable";
 import AddPackingModal from "@/components/dashboard/AddPackingModal";
 import Modal from "antd/lib/modal/Modal";
 import EditPackingModal from "@/components/dashboard/EditPackingModal";
@@ -73,7 +73,7 @@ const Packing = () => {
           <Heading mt={10} mb={5}>
             Danh sách Quy cách đóng gói
           </Heading>
-          <FoodTableSkeleton />
+          <SkeletonTable />
         </Box>
       </Layout>
     );
