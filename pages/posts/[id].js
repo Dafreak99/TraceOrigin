@@ -76,14 +76,11 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  // const res = await fetch(
-  //   `https://traceorigin.vercel.app/api/posts/${params.id}`
-  // );
+  const res = await fetch(
+    `https://traceorigin.vercel.app/api/post/${params.id}`
+  );
 
-  const res = await fetch(`http://localhost:3000/api/post/${params.id}`);
   const data = await res.json();
-
-  console.log(data);
 
   return {
     props: { data },
