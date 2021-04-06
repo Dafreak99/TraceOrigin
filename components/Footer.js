@@ -9,8 +9,11 @@ import {
   Text,
 } from "@chakra-ui/core";
 import { RiSendPlaneFill } from "react-icons/ri";
+import { useRouter } from "next/router";
 
 const Footer = () => {
+  const router = useRouter();
+
   return (
     <Box background="#2F4362" padding="100px 0px">
       <Box className="container">
@@ -20,11 +23,13 @@ const Footer = () => {
         >
           <Box gridColumn={{ base: "span 12", xl: "span 5" }}>
             <Image
+              cursor="pointer"
               src="/water.svg"
               minH="3rem"
               maxH="3rem"
               maxW="3rem"
               minW="3rem"
+              onClick={() => router.push("/")}
             />
             <Heading color="#fff" mt={6} fontSize="xl">
               Khoa CNTT & TT - Đại học Cần Thơ

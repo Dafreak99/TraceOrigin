@@ -129,11 +129,11 @@ const Ponds = () => {
             <Box mb={8}>
               <Flex alignItems="center" mb={4}>
                 <Box height="3rem" width="3rem" background="#b4b4b4" mr={4} />
-                <Text fontSize="1rem">: ao đang được sử dụng</Text>
+                <Text fontSize="1rem">: Ao được sử dụng</Text>
               </Flex>
               <Flex alignItems="center">
                 <Box height="3rem" width="3rem" background="#48e2b0" mr={4} />
-                <Text fontSize="1rem">: ao còn trống</Text>
+                <Text fontSize="1rem">: Ao còn trống</Text>
               </Flex>
             </Box>
           </>
@@ -150,7 +150,7 @@ const Ponds = () => {
 
             <List spacing={2}>
               <ListItem>
-                <Text fontSize="md" fontWeight="medium">
+                <Text fontSize="md" fontWeight="bold">
                   Tên ao:{" "}
                   <Box as="span" fontWeight="normal">
                     {selectedPond.name}
@@ -158,7 +158,7 @@ const Ponds = () => {
                 </Text>
               </ListItem>
               <ListItem>
-                <Text fontSize="md" fontWeight="medium">
+                <Text fontSize="md" fontWeight="bold">
                   Mã ao:{" "}
                   <Box as="span" fontWeight="normal">
                     {selectedPond.code}
@@ -166,7 +166,7 @@ const Ponds = () => {
                 </Text>
               </ListItem>
               <ListItem>
-                <Text fontSize="md" fontWeight="medium">
+                <Text fontSize="md" fontWeight="bold">
                   Diện tích ao (hecta):{" "}
                   <Box as="span" fontWeight="normal">
                     {selectedPond.area}
@@ -175,7 +175,7 @@ const Ponds = () => {
               </ListItem>
               {selectedPond.seed ? (
                 <ListItem>
-                  <Text fontSize="md" fontWeight="medium">
+                  <Text fontSize="md" fontWeight="bold">
                     Trạng thái:{" "}
                     <Box as="span" fontWeight="normal" color="#2dcc84">
                       Đang được sử dụng
@@ -185,7 +185,7 @@ const Ponds = () => {
               ) : (
                 <>
                   <ListItem>
-                    <Text fontSize="md" fontWeight="medium">
+                    <Text fontSize="md" fontWeight="bold">
                       Trạng thái:{" "}
                       <Box as="span" fontWeight="normal" color="#cc2d48">
                         Trống
@@ -209,15 +209,23 @@ const Ponds = () => {
 
                 <List spacing={2}>
                   <ListItem>
-                    <Text fontSize="md" fontWeight="medium">
-                      Số lượng:{" "}
+                    <Text fontSize="md" fontWeight="bold">
+                      Tên con giống :{" "}
+                      <Box as="span" fontWeight="normal">
+                        {selectedPond.seed.name}
+                      </Box>
+                    </Text>
+                  </ListItem>
+                  <ListItem>
+                    <Text fontSize="md" fontWeight="bold">
+                      Số lượng :{" "}
                       <Box as="span" fontWeight="normal">
                         {selectedPond.seed.quantity}
                       </Box>
                     </Text>
                   </ListItem>
                   <ListItem>
-                    <Text fontSize="md" fontWeight="medium">
+                    <Text fontSize="md" fontWeight="bold">
                       Ngày tuổi của giống:{" "}
                       <Box as="span" fontWeight="normal">
                         {selectedPond.seed.seedAge}
@@ -225,7 +233,7 @@ const Ponds = () => {
                     </Text>
                   </ListItem>
                   <ListItem>
-                    <Text fontSize="md" fontWeight="medium">
+                    <Text fontSize="md" fontWeight="bold">
                       Tên trại giống:{" "}
                       <Box as="span" fontWeight="normal">
                         {selectedPond.seed.hatchery.name}
@@ -233,7 +241,7 @@ const Ponds = () => {
                     </Text>
                   </ListItem>
                   <ListItem>
-                    <Text fontSize="md" fontWeight="medium">
+                    <Text fontSize="md" fontWeight="bold">
                       Địa chỉ trại giống:{" "}
                       <Box as="span" fontWeight="normal">
                         {selectedPond.seed.hatchery.address}

@@ -1,4 +1,5 @@
 import { Grid, Heading, Image } from "@chakra-ui/core";
+import { Skeleton } from "antd";
 import Product from "./Product";
 import SectionPadding from "./SectionPadding";
 
@@ -22,12 +23,14 @@ const Products = ({ data }) => {
         columnGap={{ base: 0, xl: 16 }}
         rowGap={16}
       >
-        {data && data.length > 0 && (
+        {data?.length > 0 ? (
           <>
             {data.map((each) => (
               <Product {...each} />
             ))}
           </>
+        ) : (
+          <Skeleton active style={{ gridColumn: "span 12" }} />
         )}
       </Grid>
     </SectionPadding>

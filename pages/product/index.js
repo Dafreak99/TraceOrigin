@@ -20,7 +20,7 @@ const Product = () => {
 
   return (
     <>
-      <Navbar float showDrawer={showDrawer} />
+      <Navbar showDrawer={showDrawer} />
       <NavbarDrawer visible={visible} onClose={onClose} />
       <Box py="5rem">
         <Products data={data} />

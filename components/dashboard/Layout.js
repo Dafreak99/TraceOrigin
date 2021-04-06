@@ -16,6 +16,7 @@ import {
   FaBattleNet,
   FaBorderAll,
   FaChartBar,
+  FaSeedling,
   FaStickyNote,
   FaWarehouse,
 } from "react-icons/fa";
@@ -86,7 +87,6 @@ const FarmSidebar = () => {
           <a style={{ fontWeight: "bold" }}>Ao</a>
         </Link>
       </Menu.Item>
-      {/* TODO: Why pond haven't unlink to seed after harvest? */}
       <SubMenu
         icon={<Icon component={FiAperture} />}
         key="product"
@@ -152,6 +152,11 @@ const FarmSidebar = () => {
         <Menu.Item key="usingmedicinediary" icon={<DesktopOutlined />}>
           <Link href="/farm/usingmedicinediary">
             <a style={{ fontWeight: "bold" }}> Sử dụng thuốc</a>
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="seed" icon={<Icon component={FaSeedling} />}>
+          <Link href="/farm/seed">
+            <a style={{ fontWeight: "bold" }}> Thả giống</a>
           </Link>
         </Menu.Item>
       </SubMenu>

@@ -7,7 +7,7 @@ import Product from "models/Product";
 import Farm from "models/Farm";
 import Seed from "models/Seed";
 
-// @route /api/product
+// @route /api/product/finish
 
 export default async (req, res) => {
   const { method } = req;
@@ -16,12 +16,8 @@ export default async (req, res) => {
     case "GET":
       let products = await Product.find({
         isHarvested: "true",
-      })
-        .populate({ path: "pond", populate: { path: "seed" } })
-        .populate({ path: "seed", populate: { path: "hatchery" } })
-        .populate({ path: "farm" })
-        .populate({ path: "feeding" })
-        .populate({ path: "usingMedicine", populate: { path: "medicine" } });
+      });
+
       res.send(products);
 
       break;

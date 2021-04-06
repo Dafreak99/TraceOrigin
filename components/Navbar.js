@@ -24,6 +24,16 @@ const Navbar = ({ float, showDrawer }) => {
     if (typeof window !== "undefined") {
       setUser(JSON.parse(localStorage.getItem("user")));
     }
+
+    window.addEventListener("scroll", (e) => {
+      console.log(window.pageYOffset);
+
+      if (window.pageYOffset > 200) {
+        document.querySelector(".navbar").classList.add("active");
+      } else {
+        document.querySelector(".navbar").classList.remove("active");
+      }
+    });
   }, []);
 
   const Content = () => (
@@ -44,6 +54,7 @@ const Navbar = ({ float, showDrawer }) => {
         alignSelf="center"
       >
         <Image
+          cursor="pointer"
           src="/water.svg"
           minH="3rem"
           maxH="3rem"
@@ -79,16 +90,6 @@ const Navbar = ({ float, showDrawer }) => {
         >
           <Link href="/product">
             <a>Sản phẩm</a>
-          </Link>
-        </Box>
-        <Box
-          mr="2rem"
-          fontSize="1rem"
-          color="#4e5256"
-          fontFamily="'Nunito', sans-serif"
-        >
-          <Link href="/dashboard">
-            <a>Dashboard</a>
           </Link>
         </Box>
         <Box
@@ -147,7 +148,12 @@ const Navbar = ({ float, showDrawer }) => {
               fontWeight="500"
             >
               <List>
-                <ListItem p="20px 30px 20px 30px">Xem thông tin</ListItem>
+                <ListItem
+                  p="20px 30px 20px 30px"
+                  onClick={() => router.push("/dashboard")}
+                >
+                  Dashboard
+                </ListItem>
                 <ListItem
                   p="20px 30px 20px 30px"
                   color="red.500"
@@ -170,38 +176,10 @@ const Navbar = ({ float, showDrawer }) => {
     </>
   );
 
-  if (float) {
-    return (
-      <Box boxShadow="0 2px 3px rgba(0,0,0,.1)" position="relative">
-        <Grid
-          backgroundColor="#fff"
-          height="6rem"
-          gridTemplateColumns="repeat(12, 1fr)"
-          className="container"
-        >
-          {Content()}
-        </Grid>
-      </Box>
-    );
-  }
-
   return (
-    <Box boxShadow="0 2px 3px rgba(0,0,0,.1)">
-      <Grid
-        px={16}
-        backgroundColor="#fff"
-        height="6rem"
-        position="absolute"
-        top="5%"
-        left="5%"
-        align="center"
-        width="90vw"
-        zIndex="99"
-        gridTemplateColumns="repeat(12, 1fr)"
-      >
-        {Content()}
-      </Grid>
-    </Box>
+    <div className={`navbar ${float && "float"}`}>
+      <div className="container">{Content()}</div>
+    </div>
   );
 };
 

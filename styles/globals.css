@@ -603,3 +603,34 @@ td,
 th {
   border: 1px solid black;
 }
+.navbar{
+  background-color: #fff;
+  transition: 350ms cubic-bezier(.17,.67,.83,.67);
+  box-shadow: 0 0 30px rgba(0,0,0,.1);
+}
+
+.navbar .container{
+  display: grid;
+  height: 6rem;
+  grid-template-columns: repeat(12, 1fr);
+}
+
+
+.navbar.float{
+  grid-template-columns: repeat(12, 1fr);
+  position: absolute;
+  top: 5%;
+  left: 5%;
+  align-items: center;
+  width: 90vw;
+  z-index: 99;
+}
+
+.navbar.active{
+  position: fixed;
+  width: 100%;
+  transition: 350ms cubic-bezier(.17,.67,.83,.67);
+  top: 0;
+  left: 0;
+  z-index: 99;
+}

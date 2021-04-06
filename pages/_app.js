@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 import "antd/dist/antd.min.css";
 import "react-calendar/dist/Calendar.css";
 import "react-lightbox-component/build/css/index.css";
-
+import "react-big-calendar/lib/css/react-big-calendar.css";
 import theme from "../styles/theme";
 
 import "../styles/globals.css";

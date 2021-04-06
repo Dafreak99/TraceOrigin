@@ -7,11 +7,11 @@ import Product from "../../models/Product";
 export default async (req, res) => {
   // Deep population
 
-  let product = await Product.find({ isHarvested: "true" })
+  let products = await Product.find({ isHarvested: "true" })
     .populate({ path: "pond", populate: { path: "seed" } })
     .populate({ path: "seed", populate: { path: "hatchery" } })
     .populate({ path: "farm" })
     .populate({ path: "feeding" })
     .populate({ path: "usingMedicine", populate: { path: "medicine" } });
-  res.send(product);
+  res.send(products);
 };

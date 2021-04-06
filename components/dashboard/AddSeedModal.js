@@ -81,7 +81,7 @@ export const AddSeedModal = ({ pondId, setSelectedPond }) => {
       <Button
         mt={8}
         onClick={() => setVisible(true)}
-        background="linear-gradient(90deg, rgba(35,144,246,1) 0%, rgba(11,90,191,1) 100%)"
+        background="#006aff"
         color="#fff"
       >
         Sử dụng ao
@@ -90,14 +90,25 @@ export const AddSeedModal = ({ pondId, setSelectedPond }) => {
       <Modal
         visible={visible}
         onCancel={handleCancel}
-        title="Dùng con giống"
+        title="Thả con giống xuống ao"
         footer={null}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl>
-            <FormLabel htmlFor="quantity">Số lượng: </FormLabel>
+            <FormLabel htmlFor="name">Tên con giống: </FormLabel>
             <Input
               type="text"
+              id="name"
+              name="name"
+              ref={register({
+                required: "Required",
+              })}
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel htmlFor="quantity">Số lượng: </FormLabel>
+            <Input
+              type="number"
               id="quantity"
               name="quantity"
               ref={register({
@@ -121,7 +132,7 @@ export const AddSeedModal = ({ pondId, setSelectedPond }) => {
           <FormControl>
             <FormLabel htmlFor="seedAge">Ngày tuổi của con giống:</FormLabel>
             <Input
-              type="text"
+              type="number"
               id="seedAge"
               name="seedAge"
               ref={register({

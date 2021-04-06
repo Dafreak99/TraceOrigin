@@ -28,7 +28,7 @@ const IndexPage = () => {
   return (
     <>
       <Box position="relative">
-        <Navbar showDrawer={showDrawer} />
+        <Navbar showDrawer={showDrawer} float />
         <NavbarDrawer visible={visible} onClose={onClose} />
         <Hero />
       </Box>

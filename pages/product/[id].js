@@ -39,7 +39,7 @@ const Product = ({ data }) => {
 
   return (
     <>
-      <Navbar float showDrawer={showDrawer} />
+      <Navbar showDrawer={showDrawer} />
       <NavbarDrawer visible={visible} onClose={onClose} />
       <Box py="5rem">
         <div className="container">

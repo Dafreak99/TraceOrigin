@@ -29,7 +29,7 @@ const DetailPost = ({ data }) => {
 
   return (
     <>
-      <Navbar float showDrawer={showDrawer} />
+      <Navbar showDrawer={showDrawer} />
       <NavbarDrawer visible={visible} onClose={onClose} />
       <Box py="5rem">
         <Box className="container" fontSize="1rem">

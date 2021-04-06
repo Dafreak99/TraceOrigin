@@ -2,7 +2,6 @@ import { Flex, Image, List, ListItem, Text } from "@chakra-ui/core";
 import { Drawer, Button, Divider } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
 
 const NavbarDrawer = ({ visible, onClose }) => {
   const router = useRouter();
@@ -17,6 +16,7 @@ const NavbarDrawer = ({ visible, onClose }) => {
       >
         <Flex justify="center" alignItems="center">
           <Image
+            cursor="pointer"
             src="/water.svg"
             minH="3rem"
             maxH="3rem"
@@ -45,11 +45,6 @@ const NavbarDrawer = ({ visible, onClose }) => {
           <ListItem>
             <Link href="/product">
               <a>Sản phẩm</a>
-            </Link>
-          </ListItem>
-          <ListItem>
-            <Link href="/dashboard">
-              <a>Dashboard</a>
             </Link>
           </ListItem>
           <ListItem>
