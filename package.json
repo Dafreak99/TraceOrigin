@@ -32,7 +32,7 @@
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
     "mongoose": "^5.10.5",
-    "next": "^9.5.4-canary.24",
+    "next": "^10.0.5",
     "node-sass": "^4.14.1",
     "qrcode.react": "^1.0.1",
     "rc-queue-anim": "^1.8.5",

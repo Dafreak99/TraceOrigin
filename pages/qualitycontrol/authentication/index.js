@@ -1,20 +1,14 @@
 import Layout from "@/components/dashboard/Layout";
 
-import { Box, Alert, AlertIcon, Heading, Image, Text } from "@chakra-ui/core";
+import { Box, Alert, AlertIcon, Heading, Text } from "@chakra-ui/core";
 
 import { Table, Td, Th, Tr } from "@/components/Table";
 
-import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
-import { useRouter } from "next/router";
-
-import { Popconfirm } from "antd";
-
 import useSWR, { mutate } from "swr";
 import fetcher from "@/utils/fetcher";
+import Link from "next/link";
 
 const DashBoard = () => {
-  const router = useRouter();
-
   const { data } = useSWR(
     [
       "/api/enterpriseauthentication",
@@ -85,49 +79,16 @@ const DashBoard = () => {
                 <Tr
                   backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
                   cursor="pointer"
-                  onClick={() => router.push(`./authentication/${_id}`)}
                 >
-                  <Td>{i + 1}</Td>
-                  <Td>{name}</Td>
-                  <Td>{phone}</Td>
+                  <Link href={`./authentication/${_id}`}>
+                    <a>
+                      <Td>{i + 1}</Td>
+                      <Td>{name}</Td>
+                      <Td>{phone}</Td>
 
-                  <Td>{createdBy}</Td>
-
-                  {/* <Td
-                    px={8}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                    }}
-                  >
-                    <Popconfirm
-                      title="Bạn có chắc sẽ duyệt cơ sở này？"
-                      okText="Có"
-                      cancelText="Không"
-                      onConfirm={() => onApprove(_id, pondId)}
-                    >
-                      <Box
-                        as={AiFillCheckCircle}
-                        size="32px"
-                        color="#5adba5"
-                      ></Box>
-                    </Popconfirm>
-                  </Td>
-                  <Td
-                    px={8}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                    }}
-                    color="#f72f2f"
-                  >
-                    <Popconfirm
-                      title="Bạn có chắc sẽ không duyệt cơ sở này？"
-                      okText="Có"
-                      cancelText="Không"
-                      onConfirm={() => onReject(_id, pondId)}
-                    >
-                      <Box as={AiFillCloseCircle} size="32px"></Box>
-                    </Popconfirm>
-                  </Td> */}
+                      <Td>{createdBy}</Td>
+                    </a>
+                  </Link>
                 </Tr>
               ))}
             </Table>

@@ -5,7 +5,6 @@ import { Layout, Menu } from "antd";
 import {
   DesktopOutlined,
   InfoCircleOutlined,
-  InsertRowBelowOutlined,
   PlusCircleOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
@@ -22,7 +21,6 @@ import {
 } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { RiBuilding4Fill, RiBuildingFill } from "react-icons/ri";
-import { AiOutlineLogout } from "react-icons/ai";
 import { MdSecurity } from "react-icons/md";
 
 const { Content, Sider } = Layout;
@@ -108,11 +106,11 @@ const FarmSidebar = () => {
         </Menu.Item>
       </SubMenu>
 
-      <Menu.Item key="dairy" icon={<InsertRowBelowOutlined />}>
+      {/* <Menu.Item key="dairy" icon={<InsertRowBelowOutlined />}>
         <Link href="/farm/diary">
           <a style={{ fontWeight: "bold" }}>Ghi chép </a>
         </Link>
-      </Menu.Item>
+      </Menu.Item> */}
 
       <SubMenu
         icon={<PlusCircleOutlined />}
@@ -345,9 +343,14 @@ const Sidebar = () => {
         justify="center"
         height="80px"
         w="100%"
-        // borderBottom="1px solid #353638"
+        cursor="pointer"
       >
-        <Image src="/water.svg" height="32px" mr={2}></Image>
+        <Link href="/">
+          <a>
+            <Image src="/water.svg" height="32px" mr={2} />
+          </a>
+        </Link>
+
         <Text
           color="#2196f3"
           fontWeight="bold"

@@ -48,40 +48,43 @@ export default async (req, res) => {
       break;
     case "DELETE":
       try {
-        const { pondId } = req.body;
+        const { pondId: pond } = req.body;
 
         // How to know which Product is linked to this pond ?
         // For each pond, only one product can be register at a time
         // Find a product which has that pondId and isHarvested !== 'true'
 
         let product = await Product.findOne({
-          pond: pondId,
+          pond,
         }).sort({ _id: -1 });
         // Get lastest one
 
         // Doesn't register for Product yet
 
         if (!product) {
-          await Seed.deleteOne({ pondId });
-          await Pond.findByIdAndDelete(pondId);
+          await Seed.deleteOne({ pond });
+          await Pond.findByIdAndDelete(pond);
           return res.send({ message: "Đã xóa thành công ao !" });
         }
 
         if (product.isHarvested === "true") {
           // Archive to keep the link from Product to Pond after harvested
-          await Pond.findByIdAndUpdate(pondId, { isArchived: true });
-          await Seed.findOneAndUpdate({ pondId }, { isDone: true });
+          await Pond.findByIdAndUpdate(pond, { isArchived: true });
+          await Seed.findOneAndUpdate({ pond }, { isDone: true });
         } else {
           // When deleting a pond make sure to perform cascade delete in Product, Seed, FeedingDiary and UsingMediicne
-          await Product.deleteOne(product._id);
-          await FeedingDiary.deleteMany({ ao: pondId });
-          await UsingMedicine.deleteMany({ ao: pondId });
-          await Seed.deleteOne({ pondId });
-          await Pond.findByIdAndDelete(pondId);
+
+          await Product.findByIdAndRemove(product._id);
+          await FeedingDiary.deleteMany({ pond });
+          await UsingMedicine.deleteMany({ pond });
+          await Seed.deleteOne({ pond });
+          await Pond.findByIdAndDelete(pond);
         }
 
         res.send({ message: "Đã xóa thành công ao !" });
       } catch (error) {
+        console.dir(error);
+        console.log(error.message);
         res.send({ message: error.message });
       }
     default:

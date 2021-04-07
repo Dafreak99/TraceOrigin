@@ -1,14 +1,14 @@
 import { DatePicker as AntdPicker } from "antd";
-import { format } from "date-fns";
-
 import { Controller } from "react-hook-form";
+import moment from "moment";
 /**
  * Passing control, input name and placeholder to this component
  */
 
 const DatePicker = ({ control, name, placeholder }) => {
-  // const defaultDate = placeholder ? format(placeholder, "dd/MM/yyyy") : null;
-  const defaultDate = placeholder ? placeholder : null;
+  const defaultDate = placeholder
+    ? placeholder
+    : moment().format("DD/MM/YYYY, h:mm a");
 
   return (
     <Controller
@@ -19,8 +19,12 @@ const DatePicker = ({ control, name, placeholder }) => {
       render={({ onChange }) => (
         <AntdPicker
           id="createdDate"
-          placeholder={placeholder ? placeholder : "Chọn ngày"}
-          onChange={(_, dateString) => onChange(dateString)}
+          placeholder={
+            placeholder ? placeholder : moment().format("DD/MM/YYYY")
+          }
+          onChange={(momentObj) =>
+            onChange(momentObj.format("DD/MM/YYYY, h:mm a"))
+          }
           format="DD/MM/YYYY"
         />
       )}

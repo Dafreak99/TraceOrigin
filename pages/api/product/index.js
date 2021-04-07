@@ -27,18 +27,18 @@ export default async (req, res) => {
         isHarvested: [null, "false"],
       })
         .populate({ path: "pond", populate: { path: "seed" } })
-        .populate({ path: "seed", populate: { path: "hatchery" } })
-        .populate({ path: "farm" })
-        .populate({ path: "feeding" })
-        .populate({ path: "usingMedicine", populate: { path: "medicine" } });
+        .populate({ path: "seed", populate: { path: "hatchery" } });
+
       res.send(products);
 
       break;
     case "POST":
       try {
-        await Seed.findOneAndUpdate({ pondId: req.body.pond });
+        const { pond } = req.body;
 
-        let seed = await Seed.findOne({ pondId: req.body.pond });
+        await Seed.findOneAndUpdate({ pond }, { isRegistered: "pending" });
+
+        let seed = await Seed.findOne({ pond });
 
         const product = new Product({
           ...req.body,

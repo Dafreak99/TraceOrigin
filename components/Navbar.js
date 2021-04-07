@@ -1,13 +1,4 @@
-import {
-  Box,
-  Flex,
-  Image,
-  Input,
-  Grid,
-  Text,
-  List,
-  ListItem,
-} from "@chakra-ui/core";
+import { Box, Flex, Image, Input, Text, List, ListItem } from "@chakra-ui/core";
 import { HiUserCircle } from "react-icons/hi";
 import { useRouter } from "next/router";
 
@@ -53,15 +44,18 @@ const Navbar = ({ float, showDrawer }) => {
         gridColumn={{ base: "span 1", md: "span 4", xl: "span 1" }}
         alignSelf="center"
       >
-        <Image
-          cursor="pointer"
-          src="/water.svg"
-          minH="3rem"
-          maxH="3rem"
-          maxW="3rem"
-          minW="3rem"
-          onClick={() => router.push("/")}
-        />
+        <Link href="/">
+          <a>
+            <Image
+              cursor="pointer"
+              src="/water.svg"
+              minH="3rem"
+              maxH="3rem"
+              maxW="3rem"
+              minW="3rem"
+            />
+          </a>
+        </Link>
       </Box>
 
       <Flex
@@ -148,11 +142,10 @@ const Navbar = ({ float, showDrawer }) => {
               fontWeight="500"
             >
               <List>
-                <ListItem
-                  p="20px 30px 20px 30px"
-                  onClick={() => router.push("/dashboard")}
-                >
-                  Dashboard
+                <ListItem p="20px 30px 20px 30px">
+                  <Link href="/dashboard">
+                    <a>Dashboard</a>
+                  </Link>
                 </ListItem>
                 <ListItem
                   p="20px 30px 20px 30px"

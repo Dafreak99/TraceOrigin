@@ -83,8 +83,6 @@ const enterpriseAuthentication = (
   visible,
   setVisible
 ) => {
-  console.log(isAuthenticated);
-
   if (isAuthenticated === "") {
     return (
       <Alert status="error" mt="2rem" w="max-content">

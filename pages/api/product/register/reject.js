@@ -29,7 +29,10 @@ export default async (req, res) => {
       try {
         const { id } = req.body;
 
-        await Product.findByIdAndUpdate(id, { isRegistered: "false" });
+        const product = await Product.findByIdAndUpdate(id, {
+          isRegistered: "false",
+        });
+        await Seed.findByIdAndUpdate(product.seed, { isRegistered: "false" });
 
         res.send({ message: "OK" });
       } catch (error) {

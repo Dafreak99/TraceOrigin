@@ -28,7 +28,7 @@ export default async (req, res) => {
       ...req.body,
       isDone: false,
       farmId: farm._id,
-      pondId,
+      pond: pondId,
     });
 
     await seed.save();

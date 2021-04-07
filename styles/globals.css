@@ -207,6 +207,7 @@ aside.ant-layout-sider.ant-layout-sider-dark.ant-layout-sider-collapsed.ant-layo
   background-color: #fff;
   transition: 350ms all;
   text-align: center;
+  height: max-content;
 }
 .diary-boxx:hover {
   transform: translateY(-10px);
@@ -634,3 +635,12 @@ th {
   left: 0;
   z-index: 99;
 }
+
+.ant-picker-content td, .ant-picker-content th, .ant-picker-content table{
+  border: none;
+}
+table.ant-picker-content {
+  border: none;
+}
+
+ 

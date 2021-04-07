@@ -123,26 +123,16 @@ const FeedingChart = () => {
   useEffect(() => {
     var ctx = document.getElementById("myChart");
     var myChart = new Chart(ctx, {
-      type: "bar",
+      type: "line",
       data: {
-        labels: labels.slice((index - 1) * 4, index * 4),
+        labels: labels.slice((index - 1) * 7, index * 7),
         datasets: [
           {
-            label: "# of Votes",
-            data: data.slice((index - 1) * 4, index * 4),
-            backgroundColor: [
-              "rgba(54, 162, 235, 0.2)",
-              "rgba(54, 162, 235, 0.2)",
-              "rgba(54, 162, 235, 0.2)",
-              "rgba(54, 162, 235, 0.2)",
-            ],
-            borderColor: [
-              "rgba(54, 162, 235, 1)",
-              "rgba(54, 162, 235, 1)",
-              "rgba(54, 162, 235, 1)",
-              "rgba(54, 162, 235, 1)",
-            ],
-            borderWidth: 1,
+            label: "Khối lượng cho ăn",
+            data: data.slice((index - 1) * 7, index * 7),
+            fill: false,
+            borderColor: "rgb(75, 192, 192)",
+            borderWidth: 2,
           },
         ],
       },

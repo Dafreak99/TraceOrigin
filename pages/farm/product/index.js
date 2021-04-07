@@ -3,12 +3,6 @@ import {
   Box,
   Heading,
   Image,
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogContent,
-  AlertDialogOverlay,
   Button,
   Alert,
   AlertIcon,
@@ -16,20 +10,18 @@ import {
   Text,
 } from "@chakra-ui/core";
 import useSWR, { mutate } from "swr";
-import { useRouter } from "next/router";
 import { FaTrash } from "react-icons/fa";
-import { Pagination, Popconfirm } from "antd";
+import { Popconfirm } from "antd";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import Layout from "@/components/dashboard/Layout";
 import { Table, Th, Td, Tr } from "@/components/Table";
 import fetcher from "@/utils/fetcher";
 import SkeletonTable from "@/components/dashboard/SkeletonTable";
-import { format } from "date-fns";
 import QRCode from "qrcode.react";
+import Link from "next/link";
 
 const Product = () => {
-  const router = useRouter();
   const [loading, setLoading] = useState(true);
 
   const { data, error } = useSWR(
@@ -88,8 +80,8 @@ const Product = () => {
     );
   }
 
-  const productStatus = (isRegistered) => {
-    if (isRegistered === "false") {
+  const productStatus = (isHarvested) => {
+    if (isHarvested === "false") {
       return (
         <Badge
           ml="1"
@@ -102,7 +94,7 @@ const Product = () => {
           No
         </Badge>
       );
-    } else if (isRegistered === "true") {
+    } else if (isHarvested === "true") {
       return (
         <Badge
           ml="1"
@@ -115,7 +107,7 @@ const Product = () => {
           Yes
         </Badge>
       );
-    } else if (isRegistered === "pending") {
+    } else if (isHarvested === "pending") {
       return (
         <Badge
           ml="1"
@@ -160,53 +152,61 @@ const Product = () => {
                       <Tr
                         backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
                         cursor="pointer"
-                        onClick={() => router.push(`./food/${_id}`)}
                       >
-                        <Td>{name}</Td>
-                        <Td>
-                          <Image src={images[0]} height="100px" width="auto" />
-                        </Td>
-                        <Td>{harvestedDate}</Td>
-                        <Td>{qrCode}</Td>
-                        <Td>
-                          {" "}
-                          <QRCode
-                            value={
-                              "http://traceorigin.vercel.app/product/" + qrCode
-                            }
-                          />
-                        </Td>
-                        <Td>{productStatus(isHarvested)}</Td>
+                        <Link href={`./food/${_id}`}>
+                          <a>
+                            <Td>{name}</Td>
+                            <Td>
+                              <Image
+                                src={images[0]}
+                                height="100px"
+                                width="auto"
+                              />
+                            </Td>
+                            <Td>{harvestedDate}</Td>
+                            <Td>{qrCode}</Td>
+                            <Td>
+                              {" "}
+                              <QRCode
+                                value={
+                                  "http://traceorigin.vercel.app/product/" +
+                                  qrCode
+                                }
+                              />
+                            </Td>
+                            <Td>{productStatus(isHarvested)}</Td>
 
-                        <Td
-                          borderLeft="1px solid #e8eef3"
-                          px={8}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                          }}
-                        >
-                          {isHarvested === "true" && (
-                            <Button>Thêm đóng gói</Button>
-                          )}
-                        </Td>
+                            <Td
+                              borderLeft="1px solid #e8eef3"
+                              px={8}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                              }}
+                            >
+                              {isHarvested === "true" && (
+                                <Button>Thêm đóng gói</Button>
+                              )}
+                            </Td>
 
-                        <Td
-                          borderLeft="1px solid #e8eef3"
-                          px={8}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                          }}
-                        >
-                          <Popconfirm
-                            style={{ fontSize: "16px" }}
-                            title="Bạn có sẽ xóa sản phẩm này hay không？"
-                            okText="Có"
-                            cancelText="Không"
-                            onConfirm={() => onDelete(_id)}
-                          >
-                            <Box as={FaTrash}></Box>
-                          </Popconfirm>
-                        </Td>
+                            <Td
+                              borderLeft="1px solid #e8eef3"
+                              px={8}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                              }}
+                            >
+                              <Popconfirm
+                                style={{ fontSize: "16px" }}
+                                title="Bạn có sẽ xóa sản phẩm này hay không？"
+                                okText="Có"
+                                cancelText="Không"
+                                onConfirm={() => onDelete(_id)}
+                              >
+                                <Box as={FaTrash}></Box>
+                              </Popconfirm>
+                            </Td>
+                          </a>
+                        </Link>
                       </Tr>
                     </CSSTransition>
                   )

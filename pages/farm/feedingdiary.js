@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import SkeletonTable from "@/components/dashboard/SkeletonTable";
 import Layout from "@/components/dashboard/Layout";
 import { Table, Tr, Td, Th } from "@/components/Table";
+import Link from "next/link";
 
 const feedingdiary = () => {
   const router = useRouter();
@@ -106,31 +107,34 @@ const feedingdiary = () => {
                     <Tr
                       backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
                       cursor="pointer"
-                      onClick={() => router.push(`./feedingdiary/${_id}`)}
                     >
-                      <Td>{createdDate}</Td>
-                      <Td>{pondName}</Td>
-                      <Td>
-                        <Image src={images[0]} height="5rem" />
-                      </Td>
-                      <Td>{weight}</Td>
-                      <Td>{note}</Td>
-                      <Td>{name}</Td>
-                      <Td
-                        borderLeft="1px solid #e8eef3"
-                        px={8}
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <Popconfirm
-                          style={{ fontSize: "16px" }}
-                          title="Bạn có chắc sẽ xóa ghi chép này hay không？"
-                          okText="Có"
-                          cancelText="Không"
-                          onConfirm={() => onDelete(_id)}
-                        >
-                          <Box as={FaTrash}></Box>
-                        </Popconfirm>
-                      </Td>
+                      <Link href={`./feedingdiary/${_id}`}>
+                        <a>
+                          <Td>{createdDate}</Td>
+                          <Td>{pondName}</Td>
+                          <Td>
+                            <Image src={images[0]} height="5rem" />
+                          </Td>
+                          <Td>{weight}</Td>
+                          <Td>{note}</Td>
+                          <Td>{name}</Td>
+                          <Td
+                            borderLeft="1px solid #e8eef3"
+                            px={8}
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <Popconfirm
+                              style={{ fontSize: "16px" }}
+                              title="Bạn có chắc sẽ xóa ghi chép này hay không？"
+                              okText="Có"
+                              cancelText="Không"
+                              onConfirm={() => onDelete(_id)}
+                            >
+                              <Box as={FaTrash}></Box>
+                            </Popconfirm>
+                          </Td>
+                        </a>
+                      </Link>
                     </Tr>
                   </CSSTransition>
                 )

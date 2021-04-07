@@ -16,7 +16,6 @@ import {
   Text,
 } from "@chakra-ui/core";
 import useSWR, { mutate } from "swr";
-import { useRouter } from "next/router";
 import { FaTrash } from "react-icons/fa";
 import { Tooltip } from "antd";
 
@@ -25,10 +24,10 @@ import Layout from "@/components/dashboard/Layout";
 import fetcher from "@/utils/fetcher";
 import SkeletonTable from "@/components/dashboard/SkeletonTable";
 import AddMedicineModal from "@/components/dashboard/AddMedicineModal";
-import { format, isBefore } from "date-fns";
+import { isBefore } from "date-fns";
+import Link from "next/link";
 
 const Index = () => {
-  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState();
   const [id, setId] = useState();
@@ -176,31 +175,34 @@ const Index = () => {
                 <Tr
                   backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
                   cursor="pointer"
-                  onClick={() => router.push(`./medicine/${_id}`)}
                 >
-                  <Td>{importDate}</Td>
+                  <Link href={`./medicine/${_id}`}>
+                    <a>
+                      <Td>{importDate}</Td>
 
-                  <Td>{name}</Td>
-                  <Td>
-                    <Image src={images[0]} height="5rem" />
-                  </Td>
-                  <Td>{weight}</Td>
-                  <Td>{preservationMethod}</Td>
-                  <Td>{manufactureDate}</Td>
-                  <Td>{expiryDate}</Td>
+                      <Td>{name}</Td>
+                      <Td>
+                        <Image src={images[0]} height="5rem" />
+                      </Td>
+                      <Td>{weight}</Td>
+                      <Td>{preservationMethod}</Td>
+                      <Td>{manufactureDate}</Td>
+                      <Td>{expiryDate}</Td>
 
-                  <Td>{medicineCondition(weight, expiryDate)}</Td>
-                  <Td
-                    borderLeft="1px solid #e8eef3"
-                    px={8}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setIsOpen(true);
-                      setId(_id);
-                    }}
-                  >
-                    <Box as={FaTrash}></Box>
-                  </Td>
+                      <Td>{medicineCondition(weight, expiryDate)}</Td>
+                      <Td
+                        borderLeft="1px solid #e8eef3"
+                        px={8}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsOpen(true);
+                          setId(_id);
+                        }}
+                      >
+                        <Box as={FaTrash}></Box>
+                      </Td>
+                    </a>
+                  </Link>
                 </Tr>
               )
             )}

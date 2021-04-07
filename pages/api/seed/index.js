@@ -5,7 +5,6 @@ import jwt from "jsonwebtoken";
 
 import Farm from "models/Farm";
 import Seed from "models/Seed";
-import Pond from "models/Pond";
 
 // @route /api/seed
 
@@ -22,13 +21,9 @@ export default async (req, res) => {
 
   switch (method) {
     case "GET":
-      let seeds = await Seed.find({ farmId: farm.id }).populate("hatchery");
-      let ponds = await Pond.find({ farmId: farm.id });
-
-      for (let i = 0; i < seeds.length; i++) {
-        let pond = await Pond.findById(seeds[0].pondId);
-        seeds.pondName = pond.name;
-      }
+      let seeds = await Seed.find({ farmId: farm.id })
+        .populate("hatchery")
+        .populate("pond");
 
       res.send(seeds);
 

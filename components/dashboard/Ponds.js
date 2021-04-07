@@ -1,27 +1,23 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Alert,
   AlertIcon,
   Box,
-  Button,
   Flex,
+  Grid,
   Heading,
-  List,
-  ListItem,
+  Image,
   PseudoBox,
   Text,
 } from "@chakra-ui/core";
-import useSWR, { mutate } from "swr";
-import { useRouter } from "next/router";
+import useSWR from "swr";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import AddPondModal from "./AddPondModal";
 import fetcher from "../../utils/fetcher";
-import AddSeedModal from "./AddSeedModal";
+import PondInfo from "./PondInfo";
 
 const Ponds = () => {
-  const router = useRouter();
-
   const { data, error } = useSWR(
     ["/api/pond", process.browser ? localStorage.getItem("token") : null],
     fetcher
@@ -30,33 +26,13 @@ const Ponds = () => {
   let [index, setIndex] = useState(0);
   let [selectedPond, setSelectedPond] = useState(null);
 
+  useEffect(() => {
+    if (data) {
+      setSelectedPond(data.ponds[index]);
+    }
+  }, [data]);
+
   const btnRef = useRef();
-
-  const onDelete = async () => {
-    let res = await fetch("/api/pond", {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: process.browser ? localStorage.getItem("token") : null,
-      },
-      body: JSON.stringify({ pondId: selectedPond._id }),
-    });
-
-    mutate(
-      ["/api/pond", process.browser ? localStorage.getItem("token") : null],
-      async (cachedData) => {
-        let ponds = [
-          ...cachedData.ponds.slice(0, index),
-          ...cachedData.ponds.slice(index + 1),
-        ];
-
-        return { ponds, isAuthenticated: cachedData.isAuthenticated };
-      },
-      false
-    );
-
-    setSelectedPond(null);
-  };
 
   return (
     <Flex>
@@ -140,148 +116,32 @@ const Ponds = () => {
         )}
       </Flex>
 
-      <Box height="calc(100vh - 64px)" width="100%" p="3rem 4rem">
+      <Grid
+        height="calc(100vh - 64px)"
+        width="100%"
+        p="3rem 4rem"
+        gridTemplateColumns="repeat(12, 1fr)"
+      >
         {selectedPond ? (
-          <Box background="#fff" p="3rem">
-            <Heading>{selectedPond.name}</Heading>
-            <Heading size="md" mb={4} mt={4}>
-              Thông tin về ao nuôi
-            </Heading>
-
-            <List spacing={2}>
-              <ListItem>
-                <Text fontSize="md" fontWeight="bold">
-                  Tên ao:{" "}
-                  <Box as="span" fontWeight="normal">
-                    {selectedPond.name}
-                  </Box>
-                </Text>
-              </ListItem>
-              <ListItem>
-                <Text fontSize="md" fontWeight="bold">
-                  Mã ao:{" "}
-                  <Box as="span" fontWeight="normal">
-                    {selectedPond.code}
-                  </Box>
-                </Text>
-              </ListItem>
-              <ListItem>
-                <Text fontSize="md" fontWeight="bold">
-                  Diện tích ao (hecta):{" "}
-                  <Box as="span" fontWeight="normal">
-                    {selectedPond.area}
-                  </Box>
-                </Text>
-              </ListItem>
-              {selectedPond.seed ? (
-                <ListItem>
-                  <Text fontSize="md" fontWeight="bold">
-                    Trạng thái:{" "}
-                    <Box as="span" fontWeight="normal" color="#2dcc84">
-                      Đang được sử dụng
-                    </Box>
-                  </Text>
-                </ListItem>
-              ) : (
-                <>
-                  <ListItem>
-                    <Text fontSize="md" fontWeight="bold">
-                      Trạng thái:{" "}
-                      <Box as="span" fontWeight="normal" color="#cc2d48">
-                        Trống
-                      </Box>
-                    </Text>
-                  </ListItem>
-
-                  <AddSeedModal
-                    pondId={selectedPond._id}
-                    setSelectedPond={setSelectedPond}
-                  />
-                </>
-              )}
-            </List>
-
-            {selectedPond.seed && (
-              <>
-                <Heading size="md" mt={4} mb={4}>
-                  Thông tin con giống
-                </Heading>
-
-                <List spacing={2}>
-                  <ListItem>
-                    <Text fontSize="md" fontWeight="bold">
-                      Tên con giống :{" "}
-                      <Box as="span" fontWeight="normal">
-                        {selectedPond.seed.name}
-                      </Box>
-                    </Text>
-                  </ListItem>
-                  <ListItem>
-                    <Text fontSize="md" fontWeight="bold">
-                      Số lượng :{" "}
-                      <Box as="span" fontWeight="normal">
-                        {selectedPond.seed.quantity}
-                      </Box>
-                    </Text>
-                  </ListItem>
-                  <ListItem>
-                    <Text fontSize="md" fontWeight="bold">
-                      Ngày tuổi của giống:{" "}
-                      <Box as="span" fontWeight="normal">
-                        {selectedPond.seed.seedAge}
-                      </Box>
-                    </Text>
-                  </ListItem>
-                  <ListItem>
-                    <Text fontSize="md" fontWeight="bold">
-                      Tên trại giống:{" "}
-                      <Box as="span" fontWeight="normal">
-                        {selectedPond.seed.hatchery.name}
-                      </Box>
-                    </Text>
-                  </ListItem>
-                  <ListItem>
-                    <Text fontSize="md" fontWeight="bold">
-                      Địa chỉ trại giống:{" "}
-                      <Box as="span" fontWeight="normal">
-                        {selectedPond.seed.hatchery.address}
-                      </Box>
-                    </Text>
-                  </ListItem>
-                </List>
-              </>
-            )}
-            <Box mt="8rem">
-              <Button
-                backgroundColor="red"
-                color="red.400"
-                _hover={{}}
-                _focus={{}}
-                mr={3}
-                onClick={onDelete}
-              >
-                Xóa
-              </Button>
-
-              {!selectedPond?.seed?.isRegistered && (
-                <Button
-                  onClick={() =>
-                    router.push(`/farm/register/${selectedPond._id}`)
-                  }
-                >
-                  Đăng ký
-                </Button>
-              )}
-            </Box>
-          </Box>
+          <PondInfo
+            index={index}
+            selectedPond={selectedPond}
+            setSelectedPond={setSelectedPond}
+          />
         ) : (
-          <Box background="#fff" p="3rem">
-            <Heading size="md">
+          <Box
+            background="#fff"
+            p="3rem"
+            gridColumn="span 12"
+            textAlign="center"
+          >
+            <Heading size="md" mb="4rem">
               Click vào các ao cụ thể để xem thông tin từng ao
             </Heading>
+            <Image src="/ponds.svg" width="30rem" margin="auto" />
           </Box>
         )}
-      </Box>
+      </Grid>
     </Flex>
   );
 };

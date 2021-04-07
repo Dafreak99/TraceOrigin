@@ -17,6 +17,7 @@ import Layout from "@/components/dashboard/Layout";
 import fetcher from "@/utils/fetcher";
 import useSWR from "swr";
 import BackButton from "@/components/dashboard/BackButton";
+import Link from "next/link";
 
 const Index = ({}) => {
   const router = useRouter();
@@ -42,8 +43,10 @@ const Index = ({}) => {
                 <BackButton />
                 <Breadcrumb fontSize="xl" color="#485B6D">
                   <BreadcrumbItem>
-                    <BreadcrumbLink onClick={() => router.push("/farm/food")}>
-                      Thức ăn
+                    <BreadcrumbLink>
+                      <Link href="/farm/food">
+                        <a>Thức ăn</a>
+                      </Link>
                     </BreadcrumbLink>
                   </BreadcrumbItem>
                   <BreadcrumbItem isCurrentPage>
@@ -51,15 +54,10 @@ const Index = ({}) => {
                   </BreadcrumbItem>
                 </Breadcrumb>
               </Flex>
-              <Button
-                backgroundColor="#098efc"
-                color="#fff"
-                type="submit"
-                onClick={() =>
-                  router.push(`/farm/food/${router.query.id}/modify`)
-                }
-              >
-                Chỉnh sửa thông tin
+              <Button backgroundColor="#098efc" color="#fff" type="submit">
+                <Link href={`/farm/food/${router.query.id}/modify`}>
+                  <a>Chỉnh sửa thông tin</a>
+                </Link>
               </Button>
             </Flex>
 

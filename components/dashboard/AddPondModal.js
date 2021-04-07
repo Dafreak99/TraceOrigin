@@ -71,7 +71,7 @@ export const AddPondModal = () => {
       <Modal
         visible={visible}
         onCancel={handleCancel}
-        title="Nhật ký cho ăn"
+        title="Thêm ao"
         footer={null}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -92,17 +92,6 @@ export const AddPondModal = () => {
               type="number"
               id="area"
               name="area"
-              ref={register({
-                required: "Required",
-              })}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="code">Mã số ao: </FormLabel>
-            <Input
-              type="text"
-              id="code"
-              name="code"
               ref={register({
                 required: "Required",
               })}

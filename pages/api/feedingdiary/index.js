@@ -4,8 +4,6 @@ import dbConnect from "../../../lib/dbConnect";
 import jwt from "jsonwebtoken";
 import Farm from "models/Farm";
 import Food from "models/Food";
-import Pond from "models/Pond";
-import Product from "models/Product";
 
 dbConnect();
 
@@ -37,11 +35,9 @@ export default async (req, res) => {
       break;
     case "POST":
       try {
-        let product = await Product.findById(req.body.sanPham);
-
         let feedingDiary = new FeedingDiary({
           ...req.body,
-          pond: product.pond,
+          pond: req.body.pondId,
           farm: farm._id,
           isDone: false,
         });

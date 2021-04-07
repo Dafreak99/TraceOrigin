@@ -5,16 +5,14 @@ import { Box, Alert, AlertIcon, Heading, Text } from "@chakra-ui/core";
 import { Table, Td, Th, Tr } from "@/components/Table";
 
 import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
-import { useRouter } from "next/router";
 
 import { Popconfirm } from "antd";
 
 import useSWR, { mutate } from "swr";
 import fetcher from "@/utils/fetcher";
+import Link from "next/link";
 
 const DashBoard = () => {
-  const router = useRouter();
-
   const { data: products } = useSWR(
     [
       "/api/product/unapproved",
@@ -108,49 +106,50 @@ const DashBoard = () => {
                   <Tr
                     backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
                     cursor="pointer"
-                    onClick={() =>
-                      router.push(`./qualitycontrol/register/${_id}`)
-                    }
                   >
-                    <Td>{name}</Td>
-                    <Td>{pondName}</Td>
-                    <Td>{stockingDate}</Td>
+                    <Link href={`./register/${_id}`}>
+                      <a>
+                        <Td>{name}</Td>
+                        <Td>{pondName}</Td>
+                        <Td>{stockingDate}</Td>
 
-                    <Td
-                      px={8}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                      }}
-                    >
-                      <Popconfirm
-                        title="Bạn có chắc sẽ duyệt sản phẩm này？"
-                        okText="Có"
-                        cancelText="Không"
-                        onConfirm={() => onApprove(_id)}
-                      >
-                        <Box
-                          as={AiFillCheckCircle}
-                          size="32px"
-                          color="#5adba5"
-                        ></Box>
-                      </Popconfirm>
-                    </Td>
-                    <Td
-                      px={8}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                      }}
-                      color="#f72f2f"
-                    >
-                      <Popconfirm
-                        title="Bạn có chắc sẽ không duyệt sản phẩm này？"
-                        okText="Có"
-                        cancelText="Không"
-                        onConfirm={() => onReject(_id)}
-                      >
-                        <Box as={AiFillCloseCircle} size="32px"></Box>
-                      </Popconfirm>
-                    </Td>
+                        <Td
+                          px={8}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                        >
+                          <Popconfirm
+                            title="Bạn có chắc sẽ duyệt sản phẩm này？"
+                            okText="Có"
+                            cancelText="Không"
+                            onConfirm={() => onApprove(_id)}
+                          >
+                            <Box
+                              as={AiFillCheckCircle}
+                              size="32px"
+                              color="#5adba5"
+                            ></Box>
+                          </Popconfirm>
+                        </Td>
+                        <Td
+                          px={8}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                          color="#f72f2f"
+                        >
+                          <Popconfirm
+                            title="Bạn có chắc sẽ không duyệt sản phẩm này？"
+                            okText="Có"
+                            cancelText="Không"
+                            onConfirm={() => onReject(_id)}
+                          >
+                            <Box as={AiFillCloseCircle} size="32px"></Box>
+                          </Popconfirm>
+                        </Td>
+                      </a>
+                    </Link>
                   </Tr>
                 )
               )}

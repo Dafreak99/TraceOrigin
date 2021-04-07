@@ -39,14 +39,6 @@ const FoodChainTimeline = ({ data }) => {
           <Image src="/store.svg" h="40px" />
         </Timeline.Item>
       </Timeline>
-      <style global jsx>
-        {`
-          .ant-timeline-item-label,
-          .ant-timeline-item-content {
-            font-size: 16px;
-          }
-        `}
-      </style>
     </Box>
   );
 };

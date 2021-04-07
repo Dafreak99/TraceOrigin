@@ -30,7 +30,7 @@ export default async (req, res) => {
       break;
     case "POST":
       const {
-        productId,
+        pondId,
         medicineId,
         foodId,
         weight,
@@ -40,8 +40,6 @@ export default async (req, res) => {
       } = req.body;
 
       try {
-        let product = await Product.findById(productId);
-
         // Reduce medicine quantity after using
         let medicine = await Medicine.findById(medicineId);
 
@@ -55,7 +53,7 @@ export default async (req, res) => {
           medicine: medicineId,
           food: foodId,
           worker: workerId,
-          pond: product.pond,
+          pond: pondId,
           mixingRatio,
           weight,
           farmId: farm._id,

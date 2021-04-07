@@ -19,9 +19,9 @@ import useSWR from "swr";
 import { useState } from "react";
 import DatePicker from "../DatePicker";
 import FormControl from "./FormControl";
-import { Select } from "antd";
+import { message, Select } from "antd";
 
-const FeedingDiaryModal = ({ bg, color, icon }) => {
+const FeedingDiaryModal = ({ bg, color, icon, pondId }) => {
   const [visible, setVisible] = useState(false);
 
   const [isSave, setIsSave] = useState(false);
@@ -34,16 +34,10 @@ const FeedingDiaryModal = ({ bg, color, icon }) => {
     fetcher
   );
 
-  const { data: products } = useSWR(
-    [
-      "/api/product/approved",
-      process.browser ? localStorage.getItem("token") : null,
-    ],
-    fetcher
-  );
-
   const onSubmit = async (values) => {
     setIsSave(true);
+
+    values.pondId = pondId;
     try {
       await fetch("/api/feedingdiary", {
         method: "POST",
@@ -53,10 +47,11 @@ const FeedingDiaryModal = ({ bg, color, icon }) => {
         },
         body: JSON.stringify(values),
       });
+      message.success("Đã ghi nhật ký cho ăn");
     } catch (error) {
+      message.error("Lỗi: " + error.message);
       console.log(error.message);
     }
-
     reset();
     setVisible(false);
     setIsSave(false);
@@ -92,29 +87,8 @@ const FeedingDiaryModal = ({ bg, color, icon }) => {
         title="Nhật ký cho ăn"
         footer={null}
       >
-        {data && data.length > 0 && products && products.length > 0 ? (
+        {data?.length > 0 ? (
           <form onSubmit={handleSubmit(onSubmit)}>
-            <FormControl>
-              <FormLabel htmlFor="sanPham">Sản phẩm: </FormLabel>
-
-              <Controller
-                name="sanPham"
-                control={control}
-                defaultValue={products[0]._id}
-                rules={{ required: true }}
-                render={({ onChange }) => (
-                  <Select
-                    onChange={onChange}
-                    style={{ width: "100%" }}
-                    defaultValue={products[0].name}
-                  >
-                    {products.map((product) => (
-                      <Option value={product._id}>{product.name}</Option>
-                    ))}
-                  </Select>
-                )}
-              />
-            </FormControl>
             <FormControl>
               <FormLabel htmlFor="note">Thức ăn: </FormLabel>
 

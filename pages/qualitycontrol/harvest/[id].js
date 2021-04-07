@@ -36,6 +36,8 @@ const Index = () => {
     fetcher
   );
 
+  console.log(data);
+
   return (
     <Layout>
       <Box px={16} py={12}>
@@ -245,7 +247,6 @@ const Index = () => {
                         <Tr
                           backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
                           cursor="pointer"
-                          // onClick={() => router.push(`./product/${_id}`)}
                         >
                           <Td>{format(new Date(createdDate), "dd/MM/yyyy")}</Td>
                           <Td>{note}</Td>
@@ -276,7 +277,6 @@ const Index = () => {
                         <Tr
                           backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
                           cursor="pointer"
-                          // onClick={() => router.push(`./product/${_id}`)}
                         >
                           <Td>{format(new Date(createdDate), "dd/MM/yyyy")}</Td>
                           <Td>{weight}</Td>

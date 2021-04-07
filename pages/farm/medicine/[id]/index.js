@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import Layout from "@/components/dashboard/Layout";
 import fetcher from "@/utils/fetcher";
 import useSWR from "swr";
+import Link from "next/link";
 
 const Index = () => {
   const router = useRouter();
@@ -70,15 +71,10 @@ const Index = () => {
                   </BreadcrumbItem>
                 </Breadcrumb>
               </Flex>
-              <Button
-                backgroundColor="#098efc"
-                color="#fff"
-                type="submit"
-                onClick={() =>
-                  router.push(`/farm/medicine/${router.query.id}/modify`)
-                }
-              >
-                Chỉnh sửa thông tin
+              <Button backgroundColor="#098efc" color="#fff" type="submit">
+                <Link href={`/farm/medicine/${router.query.id}/modify`}>
+                  <a>Chỉnh sửa thông tin</a>
+                </Link>
               </Button>
             </Flex>
             <Flex

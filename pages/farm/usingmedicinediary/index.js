@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { Popconfirm } from "antd";
+import Link from "next/link";
 
 const UsingMedicineDiary = () => {
   const router = useRouter();
@@ -108,38 +109,41 @@ const UsingMedicineDiary = () => {
                     <Tr
                       backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
                       cursor="pointer"
-                      onClick={() => router.push(`./usingmedicinediary/${_id}`)}
                     >
-                      <Td>{createdDate}</Td>
-                      <Td>{pondName}</Td>
-                      <Td>{name}</Td>
-                      <Td>
-                        <Image src={hinhAnhThuoc[0]} height="5rem" />
-                      </Td>
-                      <Td>{foodName}</Td>
-                      <Td>
-                        <Image src={hinhAnhThucAn[0]} height="5rem" />
-                      </Td>
-                      <Td>{weight}</Td>
-                      <Td>{mixingRatio}</Td>
-                      <Td>{workerName}</Td>
-                      <Td
-                        borderLeft="1px solid #e8eef3"
-                        px={8}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                        }}
-                      >
-                        <Popconfirm
-                          style={{ fontSize: "16px" }}
-                          title="Bạn có sẽ xóa trại giống này hay không？"
-                          okText="Có"
-                          cancelText="Không"
-                          onConfirm={() => onDelete(_id)}
-                        >
-                          <Box as={FaTrash}></Box>
-                        </Popconfirm>
-                      </Td>
+                      <Link href={`./usingmedicinediary/${_id}`}>
+                        <a>
+                          <Td>{createdDate}</Td>
+                          <Td>{pondName}</Td>
+                          <Td>{name}</Td>
+                          <Td>
+                            <Image src={hinhAnhThuoc[0]} height="5rem" />
+                          </Td>
+                          <Td>{foodName}</Td>
+                          <Td>
+                            <Image src={hinhAnhThucAn[0]} height="5rem" />
+                          </Td>
+                          <Td>{weight}</Td>
+                          <Td>{mixingRatio}</Td>
+                          <Td>{workerName}</Td>
+                          <Td
+                            borderLeft="1px solid #e8eef3"
+                            px={8}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                            }}
+                          >
+                            <Popconfirm
+                              style={{ fontSize: "16px" }}
+                              title="Bạn có sẽ xóa trại giống này hay không？"
+                              okText="Có"
+                              cancelText="Không"
+                              onConfirm={() => onDelete(_id)}
+                            >
+                              <Box as={FaTrash}></Box>
+                            </Popconfirm>
+                          </Td>
+                        </a>
+                      </Link>
                     </Tr>
                   </CSSTransition>
                 )

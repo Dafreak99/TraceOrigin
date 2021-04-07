@@ -1,17 +1,14 @@
-import { AlertIcon, Box, Heading, Image, Alert, Text } from "@chakra-ui/core";
+import { AlertIcon, Box, Heading, Alert, Text } from "@chakra-ui/core";
 import Layout from "@/components/dashboard/Layout";
 import { Table, Tr, Td, Th } from "@/components/Table";
-import { FaTrash } from "react-icons/fa";
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
 import SkeletonTable from "@/components/dashboard/SkeletonTable";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import { Popconfirm } from "antd";
+import Link from "next/link";
 
 const Seed = () => {
-  const router = useRouter();
   const [loading, setLoading] = useState(true);
 
   const { data, error } = useSWR(
@@ -46,6 +43,7 @@ const Seed = () => {
               <Th>STT</Th>
               <Th>Tên Con Giống</Th>
               <Th>Số lượng</Th>
+              <Th>Tại ao</Th>
               <Th>Ngày thả giống</Th>
               <Th>Ngày tuổi con giống</Th>
               <Th>Trại giống</Th>
@@ -59,8 +57,8 @@ const Seed = () => {
                     quantity,
                     stockingDate,
                     seedAge,
+                    pond: { name: pondName },
                     hatchery: { name: hatcheryName },
-                    pondName,
                     _id,
                   },
                   i
@@ -69,15 +67,18 @@ const Seed = () => {
                     <Tr
                       backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
                       cursor="pointer"
-                      onClick={() => router.push(`./seed/${_id}`)}
                     >
-                      <Td>{i + 1}</Td>
-                      <Td>{name}</Td>
-                      <Td>{quantity}</Td>
-                      <Td>{stockingDate}</Td>
-                      <Td>{seedAge}</Td>
-                      <Td>{hatcheryName}</Td>
-                      <Td>{pondName}</Td>
+                      <Link href={`./seed/${_id}`}>
+                        <a>
+                          <Td>{i + 1}</Td>
+                          <Td>{name}</Td>
+                          <Td>{quantity}</Td>
+                          <Td>{pondName}</Td>
+                          <Td>{stockingDate}</Td>
+                          <Td>{seedAge}</Td>
+                          <Td>{hatcheryName}</Td>
+                        </a>
+                      </Link>
                     </Tr>
                   </CSSTransition>
                 )

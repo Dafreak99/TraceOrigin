@@ -192,8 +192,10 @@ const Modify = () => {
                       }}
                       defaultValue="Cá biển"
                     >
+                      <Option value="ca-nuoc-ngot">Cá nước ngọt</Option>
                       <Option value="ca-bien">Cá biển</Option>
-                      <Option value="tom">Tôm</Option>
+                      <Option value="giap-xac">Giáp xác</Option>
+                      <Option value="nhuyen-the">Nhuyễn Thể Chân Đầu</Option>
                     </Select>
                   )}
                 />

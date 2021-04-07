@@ -9,7 +9,7 @@ import UsingMedicine from "models/UsingMedicine";
 import Seed from "models/Seed";
 import Pond from "models/Pond";
 
-// @route /api/product/jarvest
+// @route /api/product/harvest
 // Harvest product/ Add diaries
 
 export default async (req, res) => {
@@ -35,17 +35,19 @@ export default async (req, res) => {
       break;
     case "POST":
       try {
+        const { pond } = req.body;
+
         const feeding = await FeedingDiary.find({
-          pond: req.body.pond,
+          pond,
           isDone: false,
         });
 
         const usingMedicine = await UsingMedicine.find({
-          pond: req.body.pond,
+          pond,
           isDone: false,
         });
 
-        const seed = await Seed.findOne({ pondId: req.body.pond });
+        const seed = await Seed.findOne({ pond: req.body.pond });
 
         await Product.findOneAndUpdate(
           { _id: req.body.productId },
@@ -53,16 +55,16 @@ export default async (req, res) => {
             ...req.body,
             usingMedicine,
             feeding,
-            seed,
+            seed: seed._id,
             processingFacility: null,
             isHarvested: "pending",
           }
         );
 
         // Unlink to refresh data
-        await FeedingDiary.updateMany({ ao: req.body.pond }, { isDone: true });
-        await UsingMedicine.updateMany({ ao: req.body.pond }, { isDone: true });
-        await Pond.findOneAndUpdate({ _id: req.body.pond }, { seed: null });
+        await FeedingDiary.updateMany({ pond }, { isDone: true });
+        await UsingMedicine.updateMany({ pond }, { isDone: true });
+        await Pond.findOneAndUpdate({ _id: pond }, { seed: null });
 
         res.send({ message: "OK" });
       } catch (error) {

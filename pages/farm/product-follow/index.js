@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import {
   Box,
   Heading,
-  Image,
   AlertDialog,
   AlertDialogBody,
   AlertDialogFooter,
@@ -18,7 +17,6 @@ import {
 import useSWR, { mutate } from "swr";
 import { useRouter } from "next/router";
 import { FaTrash } from "react-icons/fa";
-import { Pagination } from "antd";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import Layout from "@/components/dashboard/Layout";
@@ -27,13 +25,13 @@ import fetcher from "@/utils/fetcher";
 import SkeletonTable from "@/components/dashboard/SkeletonTable";
 
 import QRCode from "qrcode.react";
+import Link from "next/link";
 
 const Product = () => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState();
   const [id, setId] = useState();
   const [loading, setLoading] = useState(true);
-  const [qrUrl, setQrUrl] = useState(null);
 
   const onClose = () => setIsOpen(false);
   const cancelRef = React.useRef();
@@ -186,60 +184,63 @@ const Product = () => {
                       <Tr
                         backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
                         cursor="pointer"
-                        onClick={() => router.push(`./food/${_id}`)}
                       >
-                        <Td>{name}</Td>
-                        <Td>{pondName}</Td>
-                        <Td>{stockingDate}</Td>
-                        <Td>{productStatus(isRegistered)}</Td>
-                        <Td>{qrCode ? qrCode : "Chưa cấp"}</Td>
-                        {qrCode ? (
-                          <Td>
-                            <QRCode
-                              value={
-                                "http://traceorigin.vercel.app/product/" +
-                                qrCode
-                              }
-                            />
-                          </Td>
-                        ) : (
-                          <Td></Td>
-                        )}
+                        <Link href={`./food/${_id}`}>
+                          <a>
+                            <Td>{name}</Td>
+                            <Td>{pondName}</Td>
+                            <Td>{stockingDate}</Td>
+                            <Td>{productStatus(isRegistered)}</Td>
+                            <Td>{qrCode ? qrCode : "Chưa cấp"}</Td>
+                            {qrCode ? (
+                              <Td>
+                                <QRCode
+                                  value={
+                                    "http://traceorigin.vercel.app/product/" +
+                                    qrCode
+                                  }
+                                />
+                              </Td>
+                            ) : (
+                              <Td></Td>
+                            )}
 
-                        <Td
-                          px={8}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                          }}
-                        >
-                          {isRegistered === "false" ? (
-                            <Button onClick={() => reRegister(_id)}>
-                              Đăng ký lại
-                            </Button>
-                          ) : isRegistered === "true" ? (
-                            <Button
-                              onClick={() =>
-                                router.push(`/farm/harvest/${_id}`)
-                              }
+                            <Td
+                              px={8}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                              }}
                             >
-                              {isHarvested === "false"
-                                ? "Thu hoạch lại"
-                                : "Thu hoạch"}
-                            </Button>
-                          ) : null}
-                        </Td>
+                              {isRegistered === "false" ? (
+                                <Button onClick={() => reRegister(_id)}>
+                                  Đăng ký lại
+                                </Button>
+                              ) : isRegistered === "true" ? (
+                                <Button>
+                                  <Link href={`/farm/harvest/${_id}`}>
+                                    <a>
+                                      {isHarvested === "false"
+                                        ? "Thu hoạch lại"
+                                        : "Thu hoạch"}
+                                    </a>
+                                  </Link>
+                                </Button>
+                              ) : null}
+                            </Td>
 
-                        <Td
-                          borderLeft="1px solid #e8eef3"
-                          px={8}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setIsOpen(true);
-                            setId(_id);
-                          }}
-                        >
-                          <Box as={FaTrash}></Box>
-                        </Td>
+                            <Td
+                              borderLeft="1px solid #e8eef3"
+                              px={8}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setIsOpen(true);
+                                setId(_id);
+                              }}
+                            >
+                              <Box as={FaTrash}></Box>
+                            </Td>
+                          </a>
+                        </Link>
                       </Tr>
                     </CSSTransition>
                   )

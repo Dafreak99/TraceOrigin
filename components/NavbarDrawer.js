@@ -15,16 +15,20 @@ const NavbarDrawer = ({ visible, onClose }) => {
         visible={visible}
       >
         <Flex justify="center" alignItems="center">
-          <Image
-            cursor="pointer"
-            src="/water.svg"
-            minH="3rem"
-            maxH="3rem"
-            maxW="3rem"
-            minW="3rem"
-            mr={2}
-            onClick={() => router.push("/")}
-          />
+          <Link href="/">
+            <a>
+              <Image
+                cursor="pointer"
+                src="/water.svg"
+                minH="3rem"
+                maxH="3rem"
+                maxW="3rem"
+                minW="3rem"
+                mr={2}
+              />
+            </a>
+          </Link>
+
           <Text
             color="#000"
             fontWeight="bold"

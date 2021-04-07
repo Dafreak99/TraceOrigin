@@ -13,8 +13,8 @@ import {
   Spinner,
   Text,
 } from "@chakra-ui/core";
-import { Router, useRouter } from "next/router";
-import { Controller, useForm } from "react-hook-form";
+import { useRouter } from "next/router";
+import { useForm } from "react-hook-form";
 
 import Layout from "@/components/dashboard/Layout";
 import useSWR from "swr";
@@ -27,7 +27,7 @@ const Index = () => {
 
   const [isSave, setIsSave] = useState(false);
 
-  const { handleSubmit, register, errors, control, reset } = useForm();
+  const { handleSubmit, register, reset } = useForm();
 
   const { data } = useSWR(
     [

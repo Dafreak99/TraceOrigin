@@ -16,18 +16,15 @@ import SkeletonTable from "@/components/dashboard/SkeletonTable";
 import { Table, Th, Td, Tr } from "@/components/Table";
 
 import { AiOutlinePlus } from "react-icons/ai";
-import { useRouter } from "next/router";
 import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
 import Modal from "antd/lib/modal/Modal";
 
-import EditConsignmentModal from "@/components/dashboard/EditConsignmentModal";
+import Link from "next/link";
 
 const Posts = () => {
-  const router = useRouter();
-
   const [loading, setLoading] = useState(true);
 
   const { data, error } = useSWR(
@@ -48,14 +45,13 @@ const Posts = () => {
           <Heading mt={10} mb={5}>
             Danh sách bài viết
           </Heading>
-          <Button
-            background="#006aff"
-            color="#fff"
-            textTransform="uppercase"
-            onClick={() => router.push("./posts/add")}
-          >
-            <Box as={AiOutlinePlus} mr="0.5rem" />
-            <span>New</span>
+          <Button background="#006aff" color="#fff" textTransform="uppercase">
+            <Link href="./posts/add">
+              <a>
+                <Box as={AiOutlinePlus} mr="0.5rem" />
+                <span>New</span>
+              </a>
+            </Link>
           </Button>
         </Flex>
         <SkeletonTable />
@@ -70,14 +66,13 @@ const Posts = () => {
           <Heading mt={10} mb={5}>
             Danh sách bài viết
           </Heading>
-          <Button
-            background="#006aff"
-            color="#fff"
-            textTransform="uppercase"
-            onClick={() => router.push("./posts/add")}
-          >
-            <Box as={AiOutlinePlus} mr="0.5rem" />
-            <span>New</span>
+          <Button background="#006aff" color="#fff" textTransform="uppercase">
+            <Link href="./posts/add">
+              <a>
+                <Box as={AiOutlinePlus} mr="0.5rem" />
+                <span>New</span>
+              </a>
+            </Link>
           </Button>
         </Flex>
         {data && data.length > 0 ? (
@@ -101,11 +96,12 @@ const Posts = () => {
                     <Badge variantColor="green">{type}</Badge>
                   </Td>
 
-                  <Td
-                    borderLeft="1px solid #e8eef3"
-                    onClick={(e) => router.push(`./posts/edit/${_id}`)}
-                  >
-                    <Box as={FaEdit} />
+                  <Td borderLeft="1px solid #e8eef3">
+                    <Link href={`./posts/edit/${_id}`}>
+                      <a>
+                        <Box as={FaEdit} />
+                      </a>
+                    </Link>
                   </Td>
 
                   <Td
@@ -118,14 +114,7 @@ const Posts = () => {
                 </Tr>
               ))}
 
-              <Modal
-                title={null}
-                // visible={visible}
-                // onOk={onOK}
-                // onCancel={hideModal}
-                okText="Yes"
-                cancelText="No"
-              >
+              <Modal title={null} okText="Yes" cancelText="No">
                 <Text fontSize="md">Xóa bài viết này ?</Text>
               </Modal>
             </Table>

@@ -1,6 +1,6 @@
 import { Box, Flex, Grid, Heading, Text } from "@chakra-ui/core";
 
-import DailyNoteModal from "@/components/dashboard/DailyNoteModal";
+import DailyNoteModal from "@/components/dashboard/NoteModal";
 import FeedingDiaryModal from "@/components/dashboard/FeedingDiaryModal";
 import PondEnviromentModal from "@/components/dashboard/PondEnviromentModal";
 import UsingMedicineDiaryModal from "@/components/dashboard/UsingMedicineDiaryModal";
@@ -14,33 +14,6 @@ import { GiMedicines } from "react-icons/gi";
 import { AiFillMedicineBox } from "react-icons/ai";
 
 const DashBoard = () => {
-  const boxes = [
-    {
-      bg: "#f1dbf4",
-      color: "#d038d0",
-      icon: FaFish,
-      modal: "feeding",
-    },
-    {
-      bg: "#dbf4e8",
-      color: "#38d09f",
-      icon: RiStickyNoteFill,
-      Modal: FeedingDiaryModal,
-    },
-    {
-      bg: "#fbe2d9",
-      color: "#ef5d17",
-      icon: BiWater,
-      Modal: FeedingDiaryModal,
-    },
-    {
-      bg: "#d9e6fb",
-      color: "#1777ef",
-      icon: GiMedicines,
-      Modal: FeedingDiaryModal,
-    },
-  ];
-
   return (
     <Layout>
       <Box px={16} py={12}>

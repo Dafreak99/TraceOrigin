@@ -12,12 +12,11 @@ import {
 import { useForm } from "react-hook-form";
 import Modal from "antd/lib/modal/Modal";
 
-import { format } from "date-fns";
-
 import FormControl from "./FormControl";
 import { useState } from "react";
 import useSWR, { mutate } from "swr";
 import fetcher from "@/utils/fetcher";
+import DatePicker from "../DatePicker";
 
 export const AddSeedModal = ({ pondId, setSelectedPond }) => {
   const { data, error } = useSWR(
@@ -81,8 +80,11 @@ export const AddSeedModal = ({ pondId, setSelectedPond }) => {
       <Button
         mt={8}
         onClick={() => setVisible(true)}
-        background="#006aff"
-        color="#fff"
+        background="#fff"
+        color="#006aff"
+        border="1px solid #006aff"
+        _hover={{ background: "#006aff", color: "#fff" }}
+        transition="350ms all"
       >
         Sử dụng ao
       </Button>
@@ -117,16 +119,13 @@ export const AddSeedModal = ({ pondId, setSelectedPond }) => {
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="stockingDate">Ngày thả giống: </FormLabel>
-            <Input
-              type="text"
-              id="stockingDate"
-              name="stockingDate"
-              defaultValue={format(new Date(), "dd/MM/yyyy")}
-              ref={register({
-                required: "Required",
-              })}
-            />
+            <FormLabel htmlFor="stockingDate">Ngày sản xuất</FormLabel>
+            <DatePicker control={control} name="stockingDate" />
+            {errors.stockingDate?.type === "required" && (
+              <Text fontSize="md" fontStyle="italic" color="red.300">
+                Vui lòng nhập ngày
+              </Text>
+            )}
           </FormControl>
 
           <FormControl>

@@ -10,7 +10,7 @@ import {
   AlertIcon,
   Box,
 } from "@chakra-ui/core";
-import { Divider, Select } from "antd";
+import { Divider, message, Select } from "antd";
 import Modal from "antd/lib/modal/Modal";
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
@@ -23,7 +23,7 @@ import DatePicker from "../DatePicker";
 
 const { Option } = Select;
 
-const UsingMedicineDiaryModal = ({ bg, color, icon }) => {
+const UsingMedicineDiaryModal = ({ bg, color, icon, pondId }) => {
   const [selectedMedicine, setSelectedMedicine] = useState(null);
 
   const [visible, setVisible] = useState(false);
@@ -45,20 +45,11 @@ const UsingMedicineDiaryModal = ({ bg, color, icon }) => {
     fetcher
   );
 
-  const { data: products } = useSWR(
-    [
-      "/api/product/approved",
-      process.browser ? localStorage.getItem("token") : null,
-    ],
-    fetcher
-  );
-
   const { data: workers } = useSWR(
     ["/api/worker", process.browser ? localStorage.getItem("token") : null],
     fetcher
   );
 
-  // console.log("Products", products);
   // console.log("Workers", workers);
   // console.log("Foods", foods);
   // console.log("Medicines", medicines);
@@ -79,6 +70,7 @@ const UsingMedicineDiaryModal = ({ bg, color, icon }) => {
   const onSubmit = async (values) => {
     setIsSave(true);
 
+    values.pondId = pondId;
     try {
       await fetch("/api/usingmedicine", {
         method: "POST",
@@ -88,7 +80,10 @@ const UsingMedicineDiaryModal = ({ bg, color, icon }) => {
         },
         body: JSON.stringify(values),
       });
+      message.success("Đã ghi nhật ký sử dụng thuốc");
     } catch (error) {
+      message.error("Lỗi: " + error.message);
+
       console.log(error.message);
     }
 
@@ -134,33 +129,9 @@ const UsingMedicineDiaryModal = ({ bg, color, icon }) => {
         medicines.length > 0 &&
         foods &&
         foods.length > 0 &&
-        products &&
-        products.length > 0 &&
         workers &&
         workers.length > 0 ? (
           <form onSubmit={handleSubmit(onSubmit)}>
-            <FormControl>
-              <FormLabel htmlFor="productId">Sản phẩm: </FormLabel>
-
-              <Controller
-                name="productId"
-                control={control}
-                defaultValue={products[0]._id}
-                rules={{ required: true }}
-                render={({ onChange }) => (
-                  <Select
-                    onChange={onChange}
-                    style={{ width: "100%" }}
-                    defaultValue={products[0].name}
-                  >
-                    {products.map((product) => (
-                      <Option value={product._id}>{product.name}</Option>
-                    ))}
-                  </Select>
-                )}
-              />
-            </FormControl>
-
             <FormControl>
               <FormLabel htmlFor="medicineId">Tên thuốc:</FormLabel>
               {medicines && medicines.length > 0 && (

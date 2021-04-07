@@ -89,7 +89,7 @@ const Index = () => {
       });
     } catch (error) {
       console.log(error.message);
-      message.error("Lỗi !");
+      // message.error("Lỗi !");
     }
 
     setIsSave(false);

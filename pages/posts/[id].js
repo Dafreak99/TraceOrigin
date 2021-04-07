@@ -1,4 +1,4 @@
-import { Badge, Box, Flex, Heading, Image, Text } from "@chakra-ui/core";
+import { Badge, Box, Flex, Heading, Image } from "@chakra-ui/core";
 
 import Navbar from "@/components/Navbar";
 
@@ -9,11 +9,10 @@ import NavbarDrawer from "@/components/NavbarDrawer";
 
 import parse from "html-react-parser";
 import BackButton from "@/components/dashboard/BackButton";
-import { useRouter } from "next/router";
 import { Skeleton } from "antd";
+import Link from "next/link";
 
 const DetailPost = ({ data }) => {
-  const router = useRouter();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -40,13 +39,10 @@ const DetailPost = ({ data }) => {
                 <BackButton />
                 <Heading>
                   {data.name}{" "}
-                  <Badge
-                    variantColor="teal"
-                    fontSize="1.5rem"
-                    cursor="pointer"
-                    onClick={() => router.push(`/type/${data.type}`)}
-                  >
-                    {data.type}
+                  <Badge variantColor="teal" fontSize="1.5rem" cursor="pointer">
+                    <Link href={`/type/${data.type}`}>
+                      <a>{data.type}</a>
+                    </Link>
                   </Badge>
                 </Heading>
               </Flex>

@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const Hatchery = require("./Hatchery");
+// const Pond = require("./Pond");
 
 const SeedSchema = new mongoose.Schema({
   name: String,
@@ -8,10 +9,10 @@ const SeedSchema = new mongoose.Schema({
   importDate: String,
   stockingDate: String,
   seedAge: Number,
-  pondId: mongoose.Schema.Types.ObjectId,
+  pond: { type: mongoose.Schema.Types.ObjectId, ref: "Pond" },
   hatchery: { type: mongoose.Schema.Types.ObjectId, ref: Hatchery },
   isDone: Boolean,
-  isRegistered: { type: Boolean, default: false },
+  isRegistered: { type: String, default: "false" },
   farmId: mongoose.Schema.Types.ObjectId,
 });
 

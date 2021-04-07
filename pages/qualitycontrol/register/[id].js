@@ -47,7 +47,7 @@ const Index = () => {
           {data ? (
             <>
               <Box>
-                <Heading fontSize="md" mb={4}>
+                <Heading fontSize="lg" mb={8}>
                   Thông tin cơ sở nuôi trồng
                 </Heading>
                 <List spacing={4}>
@@ -91,7 +91,7 @@ const Index = () => {
                 </List>
               </Box>
               <Box ml="4rem">
-                <Heading fontSize="md" mb={4}>
+                <Heading fontSize="lg" mb={8}>
                   Thông tin ao nuôi & con giống
                 </Heading>
                 <List spacing={4}>
