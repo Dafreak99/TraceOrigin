@@ -106,45 +106,45 @@ const UsingMedicineDiary = () => {
                   i
                 ) => (
                   <CSSTransition key={i} timeout={500} classNames="item">
-                    <Tr
-                      backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
-                      cursor="pointer"
-                    >
-                      <Link href={`./usingmedicinediary/${_id}`}>
-                        <a>
-                          <Td>{createdDate}</Td>
-                          <Td>{pondName}</Td>
-                          <Td>{name}</Td>
-                          <Td>
-                            <Image src={hinhAnhThuoc[0]} height="5rem" />
-                          </Td>
-                          <Td>{foodName}</Td>
-                          <Td>
-                            <Image src={hinhAnhThucAn[0]} height="5rem" />
-                          </Td>
-                          <Td>{weight}</Td>
-                          <Td>{mixingRatio}</Td>
-                          <Td>{workerName}</Td>
-                          <Td
-                            borderLeft="1px solid #e8eef3"
-                            px={8}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                            }}
+                    <Link href={`./usingmedicinediary/${_id}`}>
+                      {/* <a> */}
+                      <Tr
+                        backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
+                        cursor="pointer"
+                      >
+                        <Td>{createdDate}</Td>
+                        <Td>{pondName}</Td>
+                        <Td>{name}</Td>
+                        <Td>
+                          <Image src={hinhAnhThuoc[0]} height="5rem" />
+                        </Td>
+                        <Td>{foodName}</Td>
+                        <Td>
+                          <Image src={hinhAnhThucAn[0]} height="5rem" />
+                        </Td>
+                        <Td>{weight}</Td>
+                        <Td>{mixingRatio}</Td>
+                        <Td>{workerName}</Td>
+                        <Td
+                          borderLeft="1px solid #e8eef3"
+                          px={8}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                        >
+                          <Popconfirm
+                            style={{ fontSize: "16px" }}
+                            title="Bạn có sẽ xóa trại giống này hay không？"
+                            okText="Có"
+                            cancelText="Không"
+                            onConfirm={() => onDelete(_id)}
                           >
-                            <Popconfirm
-                              style={{ fontSize: "16px" }}
-                              title="Bạn có sẽ xóa trại giống này hay không？"
-                              okText="Có"
-                              cancelText="Không"
-                              onConfirm={() => onDelete(_id)}
-                            >
-                              <Box as={FaTrash}></Box>
-                            </Popconfirm>
-                          </Td>
-                        </a>
-                      </Link>
-                    </Tr>
+                            <Box as={FaTrash}></Box>
+                          </Popconfirm>
+                        </Td>
+                      </Tr>
+                      {/* </a> */}
+                    </Link>
                   </CSSTransition>
                 )
               )}

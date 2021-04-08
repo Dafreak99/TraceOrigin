@@ -25,6 +25,8 @@ export default async (req, res) => {
         .populate("hatchery")
         .populate("pond");
 
+      console.log("Seeds", seeds);
+
       res.send(seeds);
 
       break;

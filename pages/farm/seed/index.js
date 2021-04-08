@@ -64,22 +64,22 @@ const Seed = () => {
                   i
                 ) => (
                   <CSSTransition key={i} timeout={500} classNames="item">
-                    <Tr
-                      backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
-                      cursor="pointer"
-                    >
-                      <Link href={`./seed/${_id}`}>
-                        <a>
-                          <Td>{i + 1}</Td>
-                          <Td>{name}</Td>
-                          <Td>{quantity}</Td>
-                          <Td>{pondName}</Td>
-                          <Td>{stockingDate}</Td>
-                          <Td>{seedAge}</Td>
-                          <Td>{hatcheryName}</Td>
-                        </a>
-                      </Link>
-                    </Tr>
+                    <Link href={`./seed/${_id}`}>
+                      {/* <a> */}
+                      <Tr
+                        backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
+                        cursor="pointer"
+                      >
+                        <Td>{i + 1}</Td>
+                        <Td>{name}</Td>
+                        <Td>{quantity}</Td>
+                        <Td>{pondName}</Td>
+                        <Td>{stockingDate}</Td>
+                        <Td>{seedAge}</Td>
+                        <Td>{hatcheryName}</Td>
+                      </Tr>
+                      {/* </a> */}
+                    </Link>
                   </CSSTransition>
                 )
               )}

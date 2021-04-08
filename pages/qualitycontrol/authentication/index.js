@@ -76,20 +76,20 @@ const DashBoard = () => {
                 <Th>{""}</Th>
               </Tr>
               {data.map(({ name, phone, createdBy, _id }, i) => (
-                <Tr
-                  backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
-                  cursor="pointer"
-                >
-                  <Link href={`./authentication/${_id}`}>
-                    <a>
-                      <Td>{i + 1}</Td>
-                      <Td>{name}</Td>
-                      <Td>{phone}</Td>
+                <Link href={`./authentication/${_id}`}>
+                  {/* <a> */}
+                  <Tr
+                    backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
+                    cursor="pointer"
+                  >
+                    <Td>{i + 1}</Td>
+                    <Td>{name}</Td>
+                    <Td>{phone}</Td>
 
-                      <Td>{createdBy}</Td>
-                    </a>
-                  </Link>
-                </Tr>
+                    <Td>{createdBy}</Td>
+                  </Tr>
+                  {/* </a> */}
+                </Link>
               ))}
             </Table>
           </>

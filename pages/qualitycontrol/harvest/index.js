@@ -95,58 +95,58 @@ const DashBoard = () => {
                   },
                   i
                 ) => (
-                  <Tr
-                    backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
-                    cursor="pointer"
-                  >
-                    <Link href={`./harvest/${_id}`}>
-                      <a>
-                        <Td>{i + 1}</Td>
-                        <Td>{name}</Td>
-                        <Td>{pondName}</Td>
-                        <Td>
-                          <Image src={images[0]} height="100px" width="auto" />
-                        </Td>
-                        <Td>{harvestedDate}</Td>
-                        <Td>{weight}</Td>
-                        <Td
-                          px={8}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                          }}
+                  <Link href={`./harvest/${_id}`}>
+                    {/* <a> */}
+                    <Tr
+                      backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
+                      cursor="pointer"
+                    >
+                      <Td>{i + 1}</Td>
+                      <Td>{name}</Td>
+                      <Td>{pondName}</Td>
+                      <Td>
+                        <Image src={images[0]} height="100px" width="auto" />
+                      </Td>
+                      <Td>{harvestedDate}</Td>
+                      <Td>{weight}</Td>
+                      <Td
+                        px={8}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                      >
+                        <Popconfirm
+                          title="Bạn có chắc sẽ duyệt sản phẩm này？"
+                          okText="Có"
+                          cancelText="Không"
+                          onConfirm={() => onApprove(_id, pondId)}
                         >
-                          <Popconfirm
-                            title="Bạn có chắc sẽ duyệt sản phẩm này？"
-                            okText="Có"
-                            cancelText="Không"
-                            onConfirm={() => onApprove(_id, pondId)}
-                          >
-                            <Box
-                              as={AiFillCheckCircle}
-                              size="32px"
-                              color="#5adba5"
-                            ></Box>
-                          </Popconfirm>
-                        </Td>
-                        <Td
-                          px={8}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                          }}
-                          color="#f72f2f"
+                          <Box
+                            as={AiFillCheckCircle}
+                            size="32px"
+                            color="#5adba5"
+                          ></Box>
+                        </Popconfirm>
+                      </Td>
+                      <Td
+                        px={8}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                        color="#f72f2f"
+                      >
+                        <Popconfirm
+                          title="Bạn có chắc sẽ không duyệt sản phẩm này？"
+                          okText="Có"
+                          cancelText="Không"
+                          onConfirm={() => onReject(_id, pondId)}
                         >
-                          <Popconfirm
-                            title="Bạn có chắc sẽ không duyệt sản phẩm này？"
-                            okText="Có"
-                            cancelText="Không"
-                            onConfirm={() => onReject(_id, pondId)}
-                          >
-                            <Box as={AiFillCloseCircle} size="32px"></Box>
-                          </Popconfirm>
-                        </Td>
-                      </a>
-                    </Link>
-                  </Tr>
+                          <Box as={AiFillCloseCircle} size="32px"></Box>
+                        </Popconfirm>
+                      </Td>
+                    </Tr>
+                    {/* </a> */}
+                  </Link>
                 )
               )}
             </Table>

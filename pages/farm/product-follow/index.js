@@ -181,67 +181,62 @@ const Product = () => {
                     i
                   ) => (
                     <CSSTransition key={i} timeout={500} classNames="item">
-                      <Tr
-                        backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
-                        cursor="pointer"
-                      >
-                        <Link href={`./food/${_id}`}>
-                          <a>
-                            <Td>{name}</Td>
-                            <Td>{pondName}</Td>
-                            <Td>{stockingDate}</Td>
-                            <Td>{productStatus(isRegistered)}</Td>
-                            <Td>{qrCode ? qrCode : "Chưa cấp"}</Td>
-                            {qrCode ? (
-                              <Td>
-                                <QRCode
-                                  value={
-                                    "http://traceorigin.vercel.app/product/" +
-                                    qrCode
-                                  }
-                                />
-                              </Td>
-                            ) : (
-                              <Td></Td>
-                            )}
-
-                            <Td
-                              px={8}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                              }}
-                            >
-                              {isRegistered === "false" ? (
-                                <Button onClick={() => reRegister(_id)}>
-                                  Đăng ký lại
-                                </Button>
-                              ) : isRegistered === "true" ? (
-                                <Button>
-                                  <Link href={`/farm/harvest/${_id}`}>
-                                    <a>
-                                      {isHarvested === "false"
-                                        ? "Thu hoạch lại"
-                                        : "Thu hoạch"}
-                                    </a>
-                                  </Link>
-                                </Button>
-                              ) : null}
+                      <Link href={`./food/${_id}`}>
+                        <Tr backgroundColor={i % 2 === 0 ? "white" : "gray.50"}>
+                          <Td>{name}</Td>
+                          <Td>{pondName}</Td>
+                          <Td>{stockingDate}</Td>
+                          <Td>{productStatus(isRegistered)}</Td>
+                          <Td>{qrCode ? qrCode : "Chưa cấp"}</Td>
+                          {qrCode ? (
+                            <Td>
+                              <QRCode
+                                value={
+                                  "http://traceorigin.vercel.app/product/" +
+                                  qrCode
+                                }
+                              />
                             </Td>
+                          ) : (
+                            <Td></Td>
+                          )}
 
-                            <Td
-                              borderLeft="1px solid #e8eef3"
-                              px={8}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setIsOpen(true);
-                                setId(_id);
-                              }}
-                            >
-                              <Box as={FaTrash}></Box>
-                            </Td>
-                          </a>
-                        </Link>
-                      </Tr>
+                          <Td
+                            px={8}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                            }}
+                          >
+                            {isRegistered === "false" ? (
+                              <Button onClick={() => reRegister(_id)}>
+                                Đăng ký lại
+                              </Button>
+                            ) : isRegistered === "true" ? (
+                              <Button>
+                                <Link href={`/farm/harvest/${_id}`}>
+                                  <a>
+                                    {isHarvested === "false"
+                                      ? "Thu hoạch lại"
+                                      : "Thu hoạch"}
+                                  </a>
+                                </Link>
+                              </Button>
+                            ) : null}
+                          </Td>
+
+                          <Td
+                            borderLeft="1px solid #e8eef3"
+                            px={8}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setIsOpen(true);
+                              setId(_id);
+                            }}
+                          >
+                            <Box as={FaTrash}></Box>
+                          </Td>
+                        </Tr>
+                      </Link>
                     </CSSTransition>
                   )
                 )}

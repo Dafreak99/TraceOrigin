@@ -68,7 +68,7 @@ const Posts = () => {
           </Heading>
           <Button background="#006aff" color="#fff" textTransform="uppercase">
             <Link href="./posts/add">
-              <a>
+              <a style={{ display: "flex", alignItems: "center" }}>
                 <Box as={AiOutlinePlus} mr="0.5rem" />
                 <span>New</span>
               </a>
