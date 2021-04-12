@@ -50,7 +50,7 @@ export default async (req, res) => {
       );
 
       await Seed.findOneAndUpdate(
-        { _id: product.seed },
+        { _id: product.seed, isDone: false },
         { isRegistered: "true" }
       );
 

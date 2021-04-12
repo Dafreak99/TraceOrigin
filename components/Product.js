@@ -1,7 +1,7 @@
 import { Text, Flex, Link as ChakraLink, Box } from "@chakra-ui/core";
 import Link from "next/link";
 import { AiOutlineQrcode } from "react-icons/ai";
-import Image from "next/image";
+// import Image from "next/image";
 
 const Product = ({ images, name, _id }) => {
   return (
@@ -13,12 +13,12 @@ const Product = ({ images, name, _id }) => {
       <Link href={`/product/${_id}`}>
         <a>
           <Box height="300px" width="100%" position="relative">
-            <Image
+            {/* <Image
               src={images[0]}
               objectFit="cover"
               layout="fill"
               style={{ borderRadius: "5px" }}
-            />
+            /> */}
           </Box>
 
           <Flex align="center" mt={8}>

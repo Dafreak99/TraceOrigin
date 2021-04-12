@@ -3,7 +3,7 @@ import { Skeleton } from "antd";
 
 import SectionPadding from "./SectionPadding";
 import { useRouter } from "next/router";
-import Image from "next/image";
+// import Image from "next/image";
 import Link from "next/link";
 
 const Articles = ({ data }) => {
@@ -41,7 +41,7 @@ const Articles = ({ data }) => {
               >
                 <a>
                   <Box minH="350px" maxH="350px" w="100%" position="relative">
-                    <Image src={image} layout="fill" />
+                    {/* <Image src={image} layout="fill" /> */}
                   </Box>
                   <Box padding="3rem 4rem">
                     <Heading

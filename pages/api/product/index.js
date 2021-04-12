@@ -36,9 +36,11 @@ export default async (req, res) => {
       try {
         const { pond } = req.body;
 
-        await Seed.findOneAndUpdate({ pond }, { isRegistered: "pending" });
-
-        let seed = await Seed.findOne({ pond });
+        const seed = await Seed.findOneAndUpdate(
+          { pond, isDone: false },
+          { isRegistered: "pending" },
+          { new: true }
+        );
 
         const product = new Product({
           ...req.body,

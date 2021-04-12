@@ -75,7 +75,7 @@ const UsingMedicineDiary = () => {
   return (
     <Layout>
       <Box px={16} py={12}>
-        <Heading mb={8}>Nhật ký sử dụng thuốc</Heading>
+        <Heading mb={8}>Nhật ký sử dụng thuốc </Heading>
         {data && data.length > 0 ? (
           <Table>
             <Tr>
