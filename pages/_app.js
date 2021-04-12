@@ -4,7 +4,6 @@ import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "antd/dist/antd.min.css";
-import "react-lightbox-component/build/css/index.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import theme from "../styles/theme";
 

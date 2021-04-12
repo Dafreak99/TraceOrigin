@@ -18,19 +18,13 @@ import {
   Button,
 } from "@chakra-ui/core";
 import { useRouter } from "next/router";
-import {
-  Button as AntdButton,
-  Collapse,
-  Divider,
-  Modal,
-  Popconfirm,
-} from "antd";
+import { Button as AntdButton, Collapse, Modal, Popconfirm } from "antd";
 import useSWR from "swr";
 
 import { useEffect, useState } from "react";
-import InputElement from "@chakra-ui/core/dist/InputElement";
 import { useForm } from "react-hook-form";
 import SimpleReactLightbox, { SRLWrapper } from "simple-react-lightbox";
+
 const { Panel } = Collapse;
 
 const Index = () => {

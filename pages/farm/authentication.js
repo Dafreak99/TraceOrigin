@@ -1,12 +1,10 @@
-import { Box, Flex, Heading, Text } from "@chakra-ui/core";
+import { Box, Flex, Heading, Image } from "@chakra-ui/core";
 import Layout from "@/components/dashboard/Layout";
 import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
 import { useEffect, useState } from "react";
 import BackButton from "@/components/dashboard/BackButton";
-import dynamic from "next/dynamic";
-
-const Lightbox = dynamic(() => import("react-lightbox-component"));
+import SimpleReactLightbox, { SRLWrapper } from "simple-react-lightbox";
 
 const Index = () => {
   const { data, error } = useSWR(
@@ -44,11 +42,18 @@ const Index = () => {
           boxShadow="0 0px 20px rgb(167 183 219 / 10%)"
           background="#fff"
         >
-          <Lightbox
-            images={images}
-            thumbnailWidth="150px"
-            thumbnailHeight="150px"
-          />
+          <SimpleReactLightbox>
+            <SRLWrapper
+              options={{ settings: { slideTransitionSpeed: 1 } }}
+              style={{ marginTop: "30px" }}
+            >
+              <Flex mt="1rem">
+                {images.map((image) => (
+                  <Image src={image.src} height="150px" mr="1rem" />
+                ))}
+              </Flex>
+            </SRLWrapper>
+          </SimpleReactLightbox>
         </Box>
       </Box>
     </Layout>
