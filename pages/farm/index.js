@@ -19,7 +19,6 @@ import Layout from "@/components/dashboard/Layout";
 import fetcher from "@/utils/fetcher";
 import { AiFillEdit } from "react-icons/ai";
 import EnterpriseAuthenticationModal from "@/components/dashboard/EntepriseAuthenticationModal";
-import Link from "next/link";
 
 const Info = () => {
   const [isEdit, setIsEdit] = useState(false);
@@ -133,16 +132,6 @@ const enterpriseAuthentication = (
       <Alert status="success" mt="2rem" w="max-content">
         <AlertIcon />
         Đã chứng thực doanh nghiệp
-        <Link href="/farm/authentication">
-          <a
-            style={{
-              marginLeft: "5px",
-              textDecoration: "underline",
-            }}
-          >
-            Xem chứng thực.
-          </a>
-        </Link>
       </Alert>
     );
   }

@@ -17,6 +17,8 @@ const Navbar = ({ float, showDrawer }) => {
     }
 
     window.addEventListener("scroll", (e) => {
+      console.log(window.pageYOffset);
+
       if (window.pageYOffset > 200) {
         document.querySelector(".navbar").classList.add("active");
       } else {

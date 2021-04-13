@@ -1,29 +1,39 @@
-import useSWR from "swr";
-import fetcher from "@/utils/fetcher";
-import "moment/locale/vi";
-import { Flex } from "@chakra-ui/core";
-import Calendar from "@/components/dashboard/Calendar";
+import { Calendar, momentLocalizer } from "react-big-calendar";
+import moment from "moment";
+import { format, parse } from "date-fns";
+
+const localizer = momentLocalizer(moment);
 
 const MyCalendar = (props) => {
-  const { data, error } = useSWR(
-    [
-      `/api/feedingdiary/true||*`,
-      process.browser ? localStorage.getItem("token") : null,
-      ,
-    ],
-    fetcher
-  );
+  const myEventsList = [
+    {
+      title: "test",
+      start: format(new Date("03/04/2021"), "MM/dd/yyyy"),
+      end: format(new Date("03/04/2021"), "MM/dd/yyyy"),
+      allDay: true,
+      resource: "abc",
+    },
+  ];
+
+  const dateString = "02-10-21";
+  const date = parse(dateString, "MM-dd-yy", new Date());
+
+  console.log(date);
+
+  const dayFormat = (date, culture, localizer) =>
+    localizer.format(date, "DDD", culture);
 
   return (
-    <Flex
-      h="100vh"
-      w="100vw"
-      justify="center"
-      align="center"
-      background="#f3f3f3"
-    >
-      <Calendar data={data} />
-    </Flex>
+    <div>
+      <Calendar
+        localizer={localizer}
+        events={myEventsList}
+        startAccessor="start"
+        endAccessor="end"
+        formats={{ dayFormat }}
+        style={{ height: 500 }}
+      />
+    </div>
   );
 };
 

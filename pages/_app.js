@@ -17,8 +17,6 @@ function MyApp({ Component, pageProps }) {
     <>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-        <title>TraceOrigin</title>
       </head>
       <AuthProvider>
         <ThemeProvider theme={theme}>
