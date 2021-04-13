@@ -67,7 +67,7 @@ const feedingdiary = () => {
     return (
       <Layout>
         <Box px={16} py={12}>
-          <Heading mb={8}>Nhật ký cho ăn</Heading>
+          <Heading mb={8}>Nhật ký cho ăn 2</Heading>
           <SkeletonTable />
         </Box>
       </Layout>
@@ -77,7 +77,7 @@ const feedingdiary = () => {
   return (
     <Layout>
       <Box px={16} py={12}>
-        <Heading mb={8}>Nhật ký cho ăn</Heading>
+        <Heading mb={8}>Nhật ký cho ăn 2</Heading>
         {data && data.length > 0 ? (
           <Table>
             <Tr>
