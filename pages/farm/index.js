@@ -133,17 +133,15 @@ const enterpriseAuthentication = (
       <Alert status="success" mt="2rem" w="max-content">
         <AlertIcon />
         Đã chứng thực doanh nghiệp
-        <a href="/farm/authentication">Xem chung thuc</a>
-        {/* <Link href="/farm/authentication">
-          <a
-            style={{
-              marginLeft: "5px",
-              textDecoration: "underline",
-            }}
-          >
-            Xem chứng thực.
-          </a>
-        </Link> */}
+        <a
+          href="/farm/authentication"
+          style={{
+            marginLeft: "5px",
+            textDecoration: "underline",
+          }}
+        >
+          Xem chứng thực
+        </a>
       </Alert>
     );
   }
