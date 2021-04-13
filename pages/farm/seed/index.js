@@ -47,7 +47,6 @@ const Seed = () => {
               <Th>Ngày thả giống</Th>
               <Th>Ngày tuổi con giống</Th>
               <Th>Trại giống</Th>
-              <Th>{""}</Th>
             </Tr>
             <TransitionGroup component="tbody">
               {data.map(
