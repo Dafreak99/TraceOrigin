@@ -31,7 +31,6 @@ const ProductSchema = new mongoose.Schema({
     { type: mongoose.Schema.Types.ObjectId, ref: UsingMedicine, default: null },
   ],
   seed: { type: mongoose.Schema.Types.ObjectId, ref: Seed, default: null },
-  processingFacility: { type: String, default: null },
   qrCode: { type: String, default: null },
 });
 

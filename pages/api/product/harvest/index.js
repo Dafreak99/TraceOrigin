@@ -56,7 +56,6 @@ export default async (req, res) => {
             usingMedicine,
             feeding,
             seed: seed._id,
-            processingFacility: null,
             isHarvested: "pending",
           }
         );

@@ -12,6 +12,7 @@ const Navbar = ({ float, showDrawer }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
+    // Get user from localStorage
     if (typeof window !== "undefined") {
       setUser(JSON.parse(localStorage.getItem("user")));
     }
@@ -26,6 +27,18 @@ const Navbar = ({ float, showDrawer }) => {
       }
     });
   }, []);
+
+  const getDashboardRoute = () => {
+    const { type } = user;
+
+    const obj = {
+      farm: "/farm",
+      qualitycontrol: "/qualitycontrol/authentication",
+      admin: "/admin",
+    };
+
+    return obj[type];
+  };
 
   const Content = () => (
     <>
@@ -143,7 +156,7 @@ const Navbar = ({ float, showDrawer }) => {
             >
               <List>
                 <ListItem p="20px 30px 20px 30px">
-                  <Link href="/dashboard">
+                  <Link href="/" href={getDashboardRoute()}>
                     <a>Dashboard</a>
                   </Link>
                 </ListItem>
