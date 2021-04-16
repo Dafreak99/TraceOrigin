@@ -19,9 +19,11 @@ import FarmInfoModify from "@/components/dashboard/FarmInfoModify";
 import Layout from "@/components/dashboard/Layout";
 import fetcher from "@/utils/fetcher";
 import EnterpriseAuthenticationModal from "@/components/dashboard/EntepriseAuthenticationModal";
+import { useRouter } from "next/router";
 
 const Info = () => {
   const [isEdit, setIsEdit] = useState(false);
+  const router = useRouter();
 
   const { data, error } = useSWR(
     ["/api/farm", process.browser ? localStorage.getItem("token") : null, ,],
@@ -134,6 +136,7 @@ const enterpriseAuthentication = (
           marginLeft="5px"
           textDecoration="underline"
           onClick={() => router.push("/farm/authentication")}
+          cursor="pointer"
         >
           Xem chứng thực
         </Box>
