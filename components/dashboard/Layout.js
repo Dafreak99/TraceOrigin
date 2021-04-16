@@ -125,6 +125,16 @@ const FarmSidebar = () => {
             <a style={{ fontWeight: "bold" }}> Thuốc</a>
           </Link>
         </Menu.Item>
+        <Menu.Item key="worker" icon={<Icon component={FiUsers} />}>
+          <Link href="/farm/worker">
+            <a style={{ fontWeight: "bold" }}>Nhân công</a>
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="hatchery" icon={<Icon component={FiUsers} />}>
+          <Link href="/farm/hatchery">
+            <a style={{ fontWeight: "bold" }}>Trại giống</a>
+          </Link>
+        </Menu.Item>
       </SubMenu>
 
       <SubMenu
@@ -168,17 +178,6 @@ const FarmSidebar = () => {
           </Link>
         </Menu.Item>
       </SubMenu>
-
-      <Menu.Item key="worker" icon={<Icon component={FiUsers} />}>
-        <Link href="/farm/worker">
-          <a style={{ fontWeight: "bold" }}>Nhân công</a>
-        </Link>
-      </Menu.Item>
-      <Menu.Item key="hatchery" icon={<Icon component={FiUsers} />}>
-        <Link href="/farm/hatchery">
-          <a style={{ fontWeight: "bold" }}>Trại giống</a>
-        </Link>
-      </Menu.Item>
     </Menu>
   );
 };

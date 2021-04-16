@@ -1,13 +1,6 @@
 import { useEffect, useState } from "react";
-import {
-  Box,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  Heading,
-} from "@chakra-ui/core";
+import { Box, Alert, AlertIcon, Heading, Text } from "@chakra-ui/core";
 import useSWR, { mutate } from "swr";
-import { useRouter } from "next/router";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { Pagination, Popconfirm } from "antd";
 
@@ -15,28 +8,47 @@ import Layout from "@/components/dashboard/Layout";
 import { Table, Th, Td, Tr } from "@/components/Table";
 import fetcher from "@/utils/fetcher";
 import SkeletonTable from "@/components/dashboard/SkeletonTable";
-import Modal from "antd/lib/modal/Modal";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import { useForm } from "react-hook-form";
 
 import WorkerModal from "@/components/dashboard/WorkerModal";
 import EditWorkerModal from "@/components/dashboard/EditWorkerModal";
+import { useRouter } from "next/router";
 
 const Worker = () => {
+  const [isEdit, setIsEdit] = useState(false);
+  const [editIndex, setEditIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
+
   const router = useRouter();
 
-  const [isEdit, setIsEdit] = useState(false);
+  const { data: farm } = useSWR(
+    [
+      "/api/farm/authentication",
+      process.browser ? localStorage.getItem("token") : null,
+    ],
+    fetcher
+  );
 
-  const [editIndex, setEditIndex] = useState(0);
+  if (farm?.isAuthenticated === "" || farm?.isAuthenticated === "pending") {
+    router.push("/farm");
+  }
 
   const { data, error } = useSWR(
     ["/api/worker", process.browser ? localStorage.getItem("token") : null],
     fetcher
   );
 
+  console.log(data);
+
+  useEffect(() => {
+    if (data !== undefined) {
+      setLoading(false);
+    }
+  }, [data]);
+
   const onDelete = async (id) => {
     try {
-      let res = await fetch(`/api/worker/${id}`, {
+      await fetch(`/api/worker/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -58,18 +70,25 @@ const Worker = () => {
     );
   };
 
+  if (loading) {
+    return (
+      <Layout>
+        <Box px={16} py={12} position="relative">
+          <WorkerModal />
+          <Heading mt={10} mb={5}>
+            Danh sách nhân công
+          </Heading>
+          <SkeletonTable />
+        </Box>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <Box px={16} py={12} position="relative">
         <WorkerModal />
-        <Breadcrumb fontSize="xl">
-          <BreadcrumbItem>
-            <BreadcrumbLink>Quản lí</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbItem isCurrentPage>
-            <BreadcrumbLink>Nhân công</BreadcrumbLink>
-          </BreadcrumbItem>
-        </Breadcrumb>
+
         <Heading mt={10} mb={5}>
           Danh sách nhân công
         </Heading>
@@ -166,7 +185,10 @@ const Worker = () => {
             />
           </>
         ) : (
-          <SkeletonTable />
+          <Alert status="info" fontSize="md" w="30rem">
+            <AlertIcon />
+            <Text fontSize="md">Chưa có nhân công</Text>
+          </Alert>
         )}
       </Box>
     </Layout>

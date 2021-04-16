@@ -24,6 +24,7 @@ import { Table, Th, Td, Tr } from "@/components/Table";
 import fetcher from "@/utils/fetcher";
 import SkeletonTable from "@/components/dashboard/SkeletonTable";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const AddFood = () => {
   const [isOpen, setIsOpen] = useState();
@@ -35,6 +36,19 @@ const AddFood = () => {
   const PER_PAGE = 5;
   const onClose = () => setIsOpen(false);
   const cancelRef = React.useRef();
+  const router = useRouter();
+
+  const { data: farm } = useSWR(
+    [
+      "/api/farm/authentication",
+      process.browser ? localStorage.getItem("token") : null,
+    ],
+    fetcher
+  );
+
+  if (farm?.isAuthenticated === "" || farm?.isAuthenticated === "pending") {
+    router.push("/farm");
+  }
 
   const { data, error } = useSWR(
     ["/api/food", process.browser ? localStorage.getItem("token") : null],

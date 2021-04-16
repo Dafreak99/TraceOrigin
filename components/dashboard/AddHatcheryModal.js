@@ -38,7 +38,6 @@ const AddHatchery = () => {
     try {
       let res = await fetch("/api/hatchery", {
         method: "POST",
-        body: values,
         headers: {
           "Content-Type": "application/json",
           Authorization: process.browser ? localStorage.getItem("token") : null,
@@ -79,6 +78,8 @@ const AddHatchery = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          background:
+            "linear-gradient(90deg, rgba(35,144,246,1) 0%, rgba(11,90,191,1) 100%)",
         }}
       >
         <HiPlus fontSize="28px" />

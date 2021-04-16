@@ -26,6 +26,7 @@ import SkeletonTable from "@/components/dashboard/SkeletonTable";
 import AddMedicineModal from "@/components/dashboard/AddMedicineModal";
 import { isBefore } from "date-fns";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Index = () => {
   const [loading, setLoading] = useState(true);
@@ -34,6 +35,19 @@ const Index = () => {
 
   const onClose = () => setIsOpen(false);
   const cancelRef = React.useRef();
+  const router = useRouter();
+
+  const { data: farm } = useSWR(
+    [
+      "/api/farm/authentication",
+      process.browser ? localStorage.getItem("token") : null,
+    ],
+    fetcher
+  );
+
+  if (farm?.isAuthenticated === "" || farm?.isAuthenticated === "pending") {
+    router.push("/farm");
+  }
 
   const { data, error } = useSWR(
     ["/api/medicine", process.browser ? localStorage.getItem("token") : null],

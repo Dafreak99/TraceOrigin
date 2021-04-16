@@ -23,7 +23,6 @@ import { useRouter } from "next/router";
 
 const Info = () => {
   const [isEdit, setIsEdit] = useState(false);
-  const router = useRouter();
 
   const { data, error } = useSWR(
     ["/api/farm", process.browser ? localStorage.getItem("token") : null, ,],
@@ -83,6 +82,8 @@ const enterpriseAuthentication = (
   visible,
   setVisible
 ) => {
+  const router = useRouter();
+
   if (isAuthenticated === "") {
     return (
       <Alert status="error" mt="2rem" w="max-content">
@@ -96,7 +97,7 @@ const enterpriseAuthentication = (
           onClick={() => setVisible(true)}
         >
           {" "}
-          Chứng thực ngay bây giờ.
+          Chứng thực để sử dụng các tính năng.
         </Box>
       </Alert>
     );

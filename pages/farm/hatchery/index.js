@@ -13,9 +13,20 @@ import AddHatcheryModal from "@/components/dashboard/AddHatcheryModal";
 import { Popconfirm } from "antd";
 
 const Hatchery = () => {
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  const [loading, setLoading] = useState(true);
+  const { data: farm } = useSWR(
+    [
+      "/api/farm/authentication",
+      process.browser ? localStorage.getItem("token") : null,
+    ],
+    fetcher
+  );
+
+  if (farm?.isAuthenticated === "" || farm?.isAuthenticated === "pending") {
+    router.push("/farm");
+  }
 
   const { data, error } = useSWR(
     ["/api/hatchery", process.browser ? localStorage.getItem("token") : null],
