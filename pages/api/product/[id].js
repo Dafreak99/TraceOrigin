@@ -1,14 +1,7 @@
 import dbConnect from "../../../lib/dbConnect";
 dbConnect();
 
-import Food from "../../../models/Food";
-
-import jwt from "jsonwebtoken";
 import Product from "models/Product";
-import Farm from "models/Farm";
-import FeedingDiary from "models/FeedingDiary";
-import UsingMedicine from "models/UsingMedicine";
-import Seed from "models/Seed";
 
 // @route /api/product/:id
 
@@ -35,13 +28,6 @@ export default async (req, res) => {
 
       break;
     case "POST":
-      break;
-    case "PUT":
-      await Product.findByIdAndUpdate(id, {
-        processingFacility: req.body.processingFacility,
-      });
-
-      res.send({ message: "OK" });
       break;
 
     default:

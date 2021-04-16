@@ -106,12 +106,6 @@ const FarmSidebar = () => {
         </Menu.Item>
       </SubMenu>
 
-      {/* <Menu.Item key="dairy" icon={<InsertRowBelowOutlined />}>
-        <Link href="/farm/diary">
-          <a style={{ fontWeight: "bold" }}>Ghi chép </a>
-        </Link>
-      </Menu.Item> */}
-
       <SubMenu
         icon={<PlusCircleOutlined />}
         key="management"
@@ -183,66 +177,6 @@ const FarmSidebar = () => {
       <Menu.Item key="hatchery" icon={<Icon component={FiUsers} />}>
         <Link href="/farm/hatchery">
           <a style={{ fontWeight: "bold" }}>Trại giống</a>
-        </Link>
-      </Menu.Item>
-      <Menu.Item key="processingfacilitty" icon={<Icon component={FiUsers} />}>
-        <Link href="/farm/processingfacility">
-          <a style={{ fontWeight: "bold" }}>Cơ sở chế biến</a>
-        </Link>
-      </Menu.Item>
-    </Menu>
-  );
-};
-
-const BusinessSidebar = () => {
-  const { route } = useRouter();
-
-  let params = route.split("/");
-  let key;
-  if (params.length === 2) {
-    key = "default";
-  } else if (params.length === 3) {
-    key = params[2];
-  }
-
-  return (
-    <Menu theme="dark" defaultSelectedKeys={[key]} mode="inline">
-      <Menu.Item key="default" icon={<InfoCircleOutlined />}>
-        <Link href="/business">
-          <a>Thông tin</a>
-        </Link>
-      </Menu.Item>
-      <Menu.Item key="product" icon={<InfoCircleOutlined />}>
-        <Link href="/business/product">
-          <a>Sản phẩm</a>
-        </Link>
-      </Menu.Item>
-      <Menu.Item key="hatchery" icon={<Icon component={RiBuilding4Fill} />}>
-        <Link href="/business/hatchery">
-          <a>Trại giống</a>
-        </Link>
-      </Menu.Item>
-      <Menu.Item
-        key="processingfacility"
-        icon={<Icon component={RiBuildingFill} />}
-      >
-        <Link href="/business/processingfacility">
-          <a>Cơ sở chế biến</a>
-        </Link>
-      </Menu.Item>
-      <Menu.Item key="warehouse" icon={<Icon component={FaWarehouse} />}>
-        <Link href="/business/warehouse">
-          <a>Kho hàng</a>
-        </Link>
-      </Menu.Item>
-      <Menu.Item key="packing" icon={<Icon component={FiPackage} />}>
-        <Link href="/business/packing">
-          <a>Quy cách đóng gói</a>
-        </Link>
-      </Menu.Item>
-      <Menu.Item key="consignment" icon={<Icon component={FiPackage} />}>
-        <Link href="/business/consignment">
-          <a>Quản lý lô hàng</a>
         </Link>
       </Menu.Item>
     </Menu>

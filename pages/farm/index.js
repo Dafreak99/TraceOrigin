@@ -11,18 +11,19 @@ import {
   AlertIcon,
   Alert,
 } from "@chakra-ui/core";
+import { AiFillEdit } from "react-icons/ai";
 import { useState } from "react";
 import useSWR from "swr";
 
 import FarmInfoModify from "@/components/dashboard/FarmInfoModify";
 import Layout from "@/components/dashboard/Layout";
 import fetcher from "@/utils/fetcher";
-import { AiFillEdit } from "react-icons/ai";
 import EnterpriseAuthenticationModal from "@/components/dashboard/EntepriseAuthenticationModal";
-import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Info = () => {
   const [isEdit, setIsEdit] = useState(false);
+  const router = useRouter();
 
   const { data, error } = useSWR(
     ["/api/farm", process.browser ? localStorage.getItem("token") : null, ,],
@@ -75,8 +76,6 @@ const Iframe = (props) => {
     />
   );
 };
-
-// const iframe = `<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3927.785577468377!2d105.69452631525809!3d10.11662997378989!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31a0869bb424d2f7%3A0x1b4ec7478c19ba31!2zQ8O0bmcgdHkgVE5ISCBDw7RuZyBuZ2hp4buHcCBUaOG7p3kgc-G6o24gTWnhu4FuIE5hbQ!5e0!3m2!1svi!2s!4v1612017259330!5m2!1svi!2s" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="true" aria-hidden="false" tabindex="0"></iframe>`;
 
 const enterpriseAuthentication = (
   isAuthenticated,
@@ -133,15 +132,14 @@ const enterpriseAuthentication = (
       <Alert status="success" mt="2rem" w="max-content">
         <AlertIcon />
         Đã chứng thực doanh nghiệp
-        <a
-          href="/farm/authentication"
-          style={{
-            marginLeft: "5px",
-            textDecoration: "underline",
-          }}
+        <Box
+          marginLeft="5px"
+          textDecoration="underline"
+          onClick={() => router.push("/farm/authentication")}
+          cursor="pointer"
         >
           Xem chứng thực
-        </a>
+        </Box>
       </Alert>
     );
   }

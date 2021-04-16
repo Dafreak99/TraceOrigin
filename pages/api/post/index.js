@@ -12,16 +12,9 @@ export default async (req, res) => {
   const token = req.headers.authorization;
   const { method } = req;
 
-  // if (!token)
-  //   return res.status(400).send({ message: "Bạn không có quyền truy cập" });
-
-  // const decoded = jwt.verify(token, process.env.SECRET_KEY);
-
   switch (method) {
     case "GET":
-      console.log(req.body.id);
-
-      let posts = await Post.find();
+      let posts = await Post.find().select("-description");
 
       res.send(posts);
 
