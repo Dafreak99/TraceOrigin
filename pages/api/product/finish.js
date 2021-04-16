@@ -1,11 +1,7 @@
 import dbConnect from "../../../lib/dbConnect";
 dbConnect();
 
-import jwt from "jsonwebtoken";
-
 import Product from "models/Product";
-import Farm from "models/Farm";
-import Seed from "models/Seed";
 
 // @route /api/product/finish
 
@@ -14,9 +10,10 @@ export default async (req, res) => {
 
   switch (method) {
     case "GET":
-      let products = await Product.find({
-        isHarvested: "true",
-      });
+      let products = await Product.find({ isHarvested: "true" }).select([
+        "name",
+        "images",
+      ]);
 
       res.send(products);
 

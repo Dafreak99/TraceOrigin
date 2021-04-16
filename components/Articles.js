@@ -2,13 +2,10 @@ import { Box, Grid, Heading, Image as Img, Text } from "@chakra-ui/core";
 import { Skeleton } from "antd";
 
 import SectionPadding from "./SectionPadding";
-import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 
 const Articles = ({ data }) => {
-  const router = useRouter();
-
   return (
     <SectionPadding>
       <Heading

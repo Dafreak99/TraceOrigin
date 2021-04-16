@@ -14,6 +14,7 @@ import Features from "@/components/Features";
 
 const IndexPage = () => {
   const { data } = useSWR("/api/product/finish", fetcher);
+
   const { data: posts } = useSWR("/api/post", fetcher);
 
   const [visible, setVisible] = useState(false);
