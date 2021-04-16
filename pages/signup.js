@@ -1,6 +1,7 @@
 import { Box, Flex, Heading, Text } from "@chakra-ui/core";
-import { Form, Input, Button, Checkbox, Image } from "antd";
+import { Form, Input, Button, Image, message } from "antd";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 const layout = {
@@ -14,13 +15,28 @@ const tailLayout = {
 const SignUp = () => {
   let [unmatchedPassword, setUnmatchedPassword] = useState(false);
   let [error, setError] = useState();
+  const router = useRouter();
 
-  const onFinish = (values) => {
-    console.log("Success:", values);
+  const onFinish = async (values) => {
+    setUnmatchedPassword(values.password !== values.repassword);
 
-    values.password !== values.repassword
-      ? setUnmatchedPassword(true)
-      : setUnmatchedPassword(false);
+    let res = await fetch("/api/user/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: process.browser ? localStorage.getItem("token") : null,
+      },
+      body: JSON.stringify(values),
+    });
+
+    const data = await res.json();
+
+    if (res.status === 400) {
+      message.error(data.message);
+    } else {
+      message.success("Tạo tài khoản thành công");
+      router.push("/signin");
+    }
   };
 
   const onFinishFailed = (errorInfo) => {

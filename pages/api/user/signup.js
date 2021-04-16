@@ -15,13 +15,13 @@ export default async (req, res) => {
     let existedUser = await User.findOne({ username });
 
     if (existedUser) {
-      return res.send({
-        message: "Tên tài khoản đã có người đăng ký. Vui lòng thử lại",
+      return res.status(400).send({
+        message: "Tên tài khoản đã có người đăng ký !",
       });
     }
 
     try {
-      let user = new User(req.body);
+      let user = new User({ ...req.body, type: "farm" });
       await user.save();
 
       res.send(user);

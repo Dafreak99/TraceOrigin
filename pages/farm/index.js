@@ -23,7 +23,6 @@ import { useRouter } from "next/router";
 
 const Info = () => {
   const [isEdit, setIsEdit] = useState(false);
-  const router = useRouter();
 
   const { data, error } = useSWR(
     ["/api/farm", process.browser ? localStorage.getItem("token") : null, ,],
@@ -83,6 +82,8 @@ const enterpriseAuthentication = (
   visible,
   setVisible
 ) => {
+  const router = useRouter();
+
   if (isAuthenticated === "") {
     return (
       <Alert status="error" mt="2rem" w="max-content">
@@ -96,7 +97,7 @@ const enterpriseAuthentication = (
           onClick={() => setVisible(true)}
         >
           {" "}
-          Chứng thực ngay bây giờ.
+          Chứng thực để sử dụng các tính năng.
         </Box>
       </Alert>
     );
@@ -132,14 +133,12 @@ const enterpriseAuthentication = (
       <Alert status="success" mt="2rem" w="max-content">
         <AlertIcon />
         Đã chứng thực doanh nghiệp
-        <Box
-          marginLeft="5px"
-          textDecoration="underline"
-          onClick={() => router.push("/farm/authentication")}
-          cursor="pointer"
+        <a
+          style={{ marginLeft: "5px", textDecoration: "underline" }}
+          href="/farm/authentication"
         >
           Xem chứng thực
-        </Box>
+        </a>
       </Alert>
     );
   }
