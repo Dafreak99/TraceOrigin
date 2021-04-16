@@ -133,14 +133,12 @@ const enterpriseAuthentication = (
       <Alert status="success" mt="2rem" w="max-content">
         <AlertIcon />
         Đã chứng thực doanh nghiệp
-        <Box
-          marginLeft="5px"
-          textDecoration="underline"
-          onClick={() => router.push("/farm/authentication")}
-          cursor="pointer"
+        <a
+          style={{ marginLeft: "5px", textDecoration: "underline" }}
+          href="/farm/authentication"
         >
           Xem chứng thực
-        </Box>
+        </a>
       </Alert>
     );
   }
