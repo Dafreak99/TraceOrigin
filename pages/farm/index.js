@@ -14,7 +14,6 @@ import {
 import { AiFillEdit } from "react-icons/ai";
 import { useState } from "react";
 import useSWR from "swr";
-import Link from "next/link";
 
 import FarmInfoModify from "@/components/dashboard/FarmInfoModify";
 import Layout from "@/components/dashboard/Layout";
@@ -131,16 +130,13 @@ const enterpriseAuthentication = (
       <Alert status="success" mt="2rem" w="max-content">
         <AlertIcon />
         Đã chứng thực doanh nghiệp
-        <Link href="/farm/authentication">
-          <a
-            style={{
-              marginLeft: "5px",
-              textDecoration: "underline",
-            }}
-          >
-            Xem chứng thực
-          </a>
-        </Link>
+        <Box
+          marginLeft="5px"
+          textDecoration="underline"
+          onClick={() => router.push("/farm/authentication")}
+        >
+          Xem chứng thực
+        </Box>
       </Alert>
     );
   }
