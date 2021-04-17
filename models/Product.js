@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Farm = require("./Farm");
 const FeedingDiary = require("./FeedingDiary");
+const Packing = require("./Packing");
 const Pond = require("./Pond");
 const Seed = require("./Seed");
 const UsingMedicine = require("./UsingMedicine");
@@ -31,6 +32,11 @@ const ProductSchema = new mongoose.Schema({
     { type: mongoose.Schema.Types.ObjectId, ref: UsingMedicine, default: null },
   ],
   seed: { type: mongoose.Schema.Types.ObjectId, ref: Seed, default: null },
+  packingMethod: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: Packing,
+    default: null,
+  },
   qrCode: { type: String, default: null },
 });
 

@@ -185,7 +185,7 @@ const feedingdiary = () => {
                   <CSSTransition key={i} timeout={500} classNames="item">
                     <Link href={`./feedingdiary/${_id}`}>
                       <Tr
-                        backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
+                       
                         cursor="pointer"
                       >
                         <Td>{createdDate}</Td>

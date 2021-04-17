@@ -97,10 +97,7 @@ const DashBoard = () => {
                 ) => (
                   <Link href={`./harvest/${_id}`}>
                     {/* <a> */}
-                    <Tr
-                      backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
-                      cursor="pointer"
-                    >
+                    <Tr cursor="pointer">
                       <Td>{i + 1}</Td>
                       <Td>{name}</Td>
                       <Td>{pondName}</Td>

@@ -2,10 +2,10 @@ const mongoose = require("mongoose");
 const Product = require("./Product");
 
 const ConsignmentSchema = new mongoose.Schema({
-  maLoHang: String,
-  sanPham: { type: mongoose.Schema.Types.ObjectId, ref: Product },
-  manufactureDate: String,
-  businessId: String,
+  name: String,
+  phone: String,
+  address: String,
+  coordinate: { latitude: Number, longitude: Number },
 });
 
 module.exports =

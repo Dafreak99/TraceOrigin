@@ -126,10 +126,7 @@ const Worker = () => {
                     i
                   ) => (
                     <CSSTransition key={i} timeout={500} classNames="item">
-                      <Tr
-                        backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
-                        cursor="pointer"
-                      >
+                      <Tr cursor="pointer">
                         <Td>{i + 1}</Td>
                         <Td>{name}</Td>
                         <Td>{address}</Td>

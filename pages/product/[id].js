@@ -239,7 +239,9 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const res = await fetch(`http://localhost:3000/api/product/${params.id}`);
+  const res = await fetch(
+    `https://traceorigin.vercel.app/api/product/${params.id}`
+  );
   const data = await res.json();
 
   return {

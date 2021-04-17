@@ -29,7 +29,9 @@ export default async (req, res) => {
       const products = await Product.find({
         farm: farm._id,
         isHarvested: ["true", "pending"],
-      }).populate({ path: "seed", populate: "hatchery" });
+      })
+        .populate({ path: "seed", populate: "hatchery" })
+        .populate({ path: "packingMethod" });
 
       res.send(products);
       break;

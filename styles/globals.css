@@ -269,11 +269,22 @@ aside.ant-layout-sider.ant-layout-sider-dark.ant-layout-sider-collapsed.ant-layo
 .ant-menu-item-selected,
 .ant-menu-item-selected a,
 .ant-menu-item-selected a:hover {
-  color: #1890ff;
+  color: #006aff;
 }
 
 .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected .anticon {
-  color: #1890ff;
+  color: #006aff;
+}
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected{
+  background-color: #006aff24;
+}
+
+.ant-menu-item:active, .ant-menu-submenu-title:active{
+  background-color: #006aff24;
+
+}
+.ant-menu-item a:hover{
+  color: #006aff;
 }
 
 .ant-layout-sider-collapsed .logout__wrapper {
@@ -608,6 +619,7 @@ th {
   background-color: #fff;
   transition: 350ms cubic-bezier(.17,.67,.83,.67);
   box-shadow: 0 0 30px rgba(0,0,0,.1);
+  position: relative;
 }
 
 .navbar .container{

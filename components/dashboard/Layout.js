@@ -285,7 +285,7 @@ const Sidebar = () => {
         </Link>
 
         <Text
-          color="#2196f3"
+          color="#006aff"
           fontWeight="bold"
           fontSize="20px"
           className="logo--name"

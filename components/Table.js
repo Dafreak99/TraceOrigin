@@ -17,6 +17,7 @@ export const Td = (props) => (
   <Box
     as="td"
     color="gray.900"
+    background="#fff"
     p={4}
     fontSize={{ base: "xs", xl: "md" }}
     borderBottom="1px solid"

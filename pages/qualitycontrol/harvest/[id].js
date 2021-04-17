@@ -107,6 +107,7 @@ const Index = () => {
                       <Text fontSize="md" fontWeight="bold">
                         QR:{" "}
                         <QRCode
+                          size={100}
                           value={"http://traceorigin.vercel.app" + data.qrCode}
                         />
                       </Text>
@@ -244,10 +245,7 @@ const Index = () => {
                         { createdDate, note, weight, food: { name, images } },
                         i
                       ) => (
-                        <Tr
-                          backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
-                          cursor="pointer"
-                        >
+                        <Tr cursor="pointer">
                           <Td>{format(new Date(createdDate), "dd/MM/yyyy")}</Td>
                           <Td>{note}</Td>
                           <Td>{weight}</Td>
@@ -274,10 +272,7 @@ const Index = () => {
                         { createdDate, weight, medicine: { name, images } },
                         i
                       ) => (
-                        <Tr
-                          backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
-                          cursor="pointer"
-                        >
+                        <Tr cursor="pointer">
                           <Td>{format(new Date(createdDate), "dd/MM/yyyy")}</Td>
                           <Td>{weight}</Td>
                           <Td>{name}</Td>

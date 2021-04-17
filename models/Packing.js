@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const PackingSchema = new mongoose.Schema({
   packingMethod: String,
   description: String,
-  businessId: String,
+  farmId: String,
 });
 
 module.exports =

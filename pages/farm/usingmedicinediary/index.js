@@ -108,10 +108,7 @@ const UsingMedicineDiary = () => {
                   <CSSTransition key={i} timeout={500} classNames="item">
                     <Link href={`./usingmedicinediary/${_id}`}>
                       {/* <a> */}
-                      <Tr
-                        backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
-                        cursor="pointer"
-                      >
+                      <Tr cursor="pointer">
                         <Td>{createdDate}</Td>
                         <Td>{pondName}</Td>
                         <Td>{name}</Td>

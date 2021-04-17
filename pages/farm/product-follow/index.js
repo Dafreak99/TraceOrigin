@@ -182,7 +182,7 @@ const Product = () => {
                   ) => (
                     <CSSTransition key={i} timeout={500} classNames="item">
                       <Link href={`./food/${_id}`}>
-                        <Tr backgroundColor={i % 2 === 0 ? "white" : "gray.50"}>
+                        <Tr>
                           <Td>{name}</Td>
                           <Td>{pondName}</Td>
                           <Td>{stockingDate}</Td>
@@ -191,6 +191,7 @@ const Product = () => {
                           {qrCode ? (
                             <Td>
                               <QRCode
+                                size={100}
                                 value={
                                   "http://traceorigin.vercel.app/product/" +
                                   qrCode

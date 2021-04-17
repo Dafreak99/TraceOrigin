@@ -54,7 +54,7 @@ const Navbar = ({ float, showDrawer }) => {
       ></Box>
 
       <Box
-        gridColumn={{ base: "span 1", md: "span 4", xl: "span 1" }}
+        gridColumn={{ base: "span 2", md: "span 4", xl: "span 1" }}
         alignSelf="center"
       >
         <Link href="/">
@@ -62,10 +62,9 @@ const Navbar = ({ float, showDrawer }) => {
             <Image
               cursor="pointer"
               src="/water.svg"
-              minH="3rem"
-              maxH="3rem"
-              maxW="3rem"
-              minW="3rem"
+              w="3rem"
+              h="3rem"
+              display={{ base: "none", md: "block" }}
             />
           </a>
         </Link>
@@ -112,7 +111,7 @@ const Navbar = ({ float, showDrawer }) => {
       </Flex>
 
       <Box
-        gridColumn={{ base: "span 10", md: "span 4" }}
+        gridColumn={{ base: "span 8", md: "span 4" }}
         alignSelf="center"
         mx={{ base: "1rem", md: 0 }}
       >
@@ -125,24 +124,33 @@ const Navbar = ({ float, showDrawer }) => {
 
       <Flex
         className="account"
-        gridColumn={{ base: "span 1", md: "span 4", xl: "span 2" }}
+        gridColumn={{ base: "span 2", md: "span 4", xl: "span 2" }}
         alignSelf="center"
         justifySelf="flex-end"
+        align="center"
         flexDirection="row"
         cursor="pointer"
         fontWeight="bold"
         position="relative"
         onClick={() => (user ? null : router.push("/signin"))}
       >
-        <Box as={HiUserCircle} size="1.5rem" color="gray.600" mr="0.5rem" />
+        <Box
+          as={HiUserCircle}
+          height="3rem"
+          width="3rem"
+          color="gray.500"
+          mr="0.5rem"
+        />
         {user ? (
           <>
-            <Text fontSize="1rem">{user.username}</Text>
+            <Text fontSize="1rem" display={{ base: "none", md: "block" }}>
+              {user.username}
+            </Text>
             <Box
               as={IoMdArrowDropdown}
               size="1.5rem"
               color="#b8bfcb"
-              mr="0.5rem"
+              mr={{ base: 0, md: "0.5rem" }}
             />
             <Box
               className="dropdown"
@@ -176,14 +184,14 @@ const Navbar = ({ float, showDrawer }) => {
             </Box>
           </>
         ) : (
-          <Text>Đăng nhập</Text>
+          <Text display={{ base: "none", md: "block" }}>Đăng nhập</Text>
         )}
       </Flex>
     </>
   );
 
   return (
-    <div className={`navbar ${float && "float"}`}>
+    <div className={float ? "navbar float" : "navbar"}>
       <div className="container">{Content()}</div>
     </div>
   );

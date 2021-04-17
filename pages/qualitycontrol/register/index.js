@@ -105,10 +105,7 @@ const DashBoard = () => {
                 ) => (
                   <Link href={`./register/${_id}`}>
                     {/* <a> */}
-                    <Tr
-                      backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
-                      cursor="pointer"
-                    >
+                    <Tr cursor="pointer">
                       <Td>{name}</Td>
                       <Td>{pondName}</Td>
                       <Td>{stockingDate}</Td>

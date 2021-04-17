@@ -20,6 +20,8 @@ import fetcher from "@/utils/fetcher";
 import SkeletonTable from "@/components/dashboard/SkeletonTable";
 import QRCode from "qrcode.react";
 import Link from "next/link";
+import { AiOutlinePlus } from "react-icons/ai";
+import AddPackingMethod from "@/components/dashboard/AddPackingMethod";
 
 const Product = () => {
   const [loading, setLoading] = useState(true);
@@ -136,25 +138,29 @@ const Product = () => {
                 <Th>Tên sản phẩm</Th>
                 <Th>Hình ảnh</Th>
                 <Th>Ngày thu hoạch</Th>
-                <Th>Mã QR</Th>
                 <Th>QR</Th>
                 <Th>Duyệt thu hoạch</Th>
-                <Th>{""}</Th>
+                <Th>Quy cách đóng gói</Th>
+                <Th>Địa điểm tiêu thụ</Th>
                 <Th>{""}</Th>
               </Tr>
               <TransitionGroup component="tbody">
                 {data.map(
                   (
-                    { name, isHarvested, harvestedDate, qrCode, images, _id },
+                    {
+                      name,
+                      isHarvested,
+                      harvestedDate,
+                      qrCode,
+                      images,
+                      _id,
+                      packingMethod,
+                    },
                     i
                   ) => (
                     <CSSTransition key={i} timeout={500} classNames="item">
                       <Link href={`./food/${_id}`}>
-                        {/* <a> */}
-                        <Tr
-                          backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
-                          cursor="pointer"
-                        >
+                        <Tr cursor="pointer">
                           <Td>{name}</Td>
                           <Td>
                             <Image
@@ -164,10 +170,10 @@ const Product = () => {
                             />
                           </Td>
                           <Td>{harvestedDate}</Td>
-                          <Td>{qrCode}</Td>
                           <Td>
                             {" "}
                             <QRCode
+                              size={100}
                               value={
                                 "http://traceorigin.vercel.app/product/" +
                                 qrCode
@@ -175,18 +181,37 @@ const Product = () => {
                             />
                           </Td>
                           <Td>{productStatus(isHarvested)}</Td>
-
-                          <Td
-                            borderLeft="1px solid #e8eef3"
-                            px={8}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                            }}
-                          >
-                            {isHarvested === "true" && (
-                              <Button>Thêm đóng gói</Button>
-                            )}
-                          </Td>
+                          {isHarvested === "true" && (
+                            <>
+                              <Td
+                                px={8}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                }}
+                              >
+                                {packingMethod?.packingMethod ? (
+                                  packingMethod.packingMethod
+                                ) : (
+                                  <AddPackingMethod productId={_id} />
+                                )}
+                              </Td>
+                              <Td
+                                px={8}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                }}
+                              >
+                                <Link href={`./product/${_id}/consumption`}>
+                                  <a>
+                                    <Button>
+                                      <Box as={AiOutlinePlus} mr="5px" />
+                                      Địa điểm tiêu thụ
+                                    </Button>
+                                  </a>
+                                </Link>
+                              </Td>
+                            </>
+                          )}
 
                           <Td
                             borderLeft="1px solid #e8eef3"
@@ -206,7 +231,6 @@ const Product = () => {
                             </Popconfirm>
                           </Td>
                         </Tr>
-                        {/* </a> */}
                       </Link>
                     </CSSTransition>
                   )
