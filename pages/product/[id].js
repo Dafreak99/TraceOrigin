@@ -26,6 +26,7 @@ import { FaFax, FaVectorSquare } from "react-icons/fa";
 import { IoIosMail } from "react-icons/io";
 import { CgWebsite } from "react-icons/cg";
 import { AiOutlineNumber } from "react-icons/ai";
+import DisplayMap from "@/components/DisplayMap";
 
 const Product = ({ data }) => {
   const [visible, setVisible] = useState(false);
@@ -36,6 +37,36 @@ const Product = ({ data }) => {
   const onClose = () => {
     setVisible(false);
   };
+
+  let source = [];
+
+  if (data !== undefined) {
+    console.log(data);
+
+    const {
+      farm,
+      seed: { hatchery },
+    } = data;
+
+    source = [
+      {
+        ...farm.coordinate,
+        type: "farm",
+        _id: farm._id,
+        name: farm.name,
+        image: farm.images[0],
+        address: farm.address,
+      },
+      {
+        ...hatchery.coordinate,
+        type: "hatchery",
+        _id: hatchery._id,
+        name: hatchery.name,
+        image: null,
+        address: hatchery.address,
+      },
+    ];
+  }
 
   return (
     <>
@@ -187,6 +218,9 @@ const Product = ({ data }) => {
                 <ProductInfo data={data} />
                 <FoodChainTimeline data={data} />
               </Grid>
+              <Box height="500px">
+                <DisplayMap data={source} />
+              </Box>
             </>
           )}
         </div>
@@ -205,9 +239,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const res = await fetch(
-    `https://traceorigin.vercel.app/api/product/${params.id}`
-  );
+  const res = await fetch(`http://localhost:3000/api/product/${params.id}`);
   const data = await res.json();
 
   return {

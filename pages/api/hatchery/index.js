@@ -27,10 +27,13 @@ export default async (req, res) => {
       break;
     case "POST":
       try {
+        console.log(req.body);
+
         let hatchery = new Hatchery({ ...req.body, farmId: farm._id });
         await hatchery.save();
         res.send(hatchery);
       } catch (error) {
+        console.log(error);
         res.send({ message: error.message });
       }
       break;

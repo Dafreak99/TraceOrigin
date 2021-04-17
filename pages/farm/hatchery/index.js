@@ -95,38 +95,44 @@ const Hatchery = () => {
               <Tr>
                 <Th>Tên trại giống</Th>
                 <Th>Địa chỉ</Th>
-
+                <Th>Tọa độ</Th>
                 <Th>{""}</Th>
               </Tr>
               <TransitionGroup component="tbody">
-                {data.map(({ name, address, _id }, i) => (
-                  <CSSTransition key={i} timeout={500} classNames="item">
-                    <Tr
-                      backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
-                      cursor="pointer"
-                    >
-                      <Td>{name}</Td>
-                      <Td>{address}</Td>
-                      <Td
-                        borderLeft="1px solid #e8eef3"
-                        px={8}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                        }}
+                {data.map(
+                  (
+                    { name, address, _id, coordinate: { latitude, longitude } },
+                    i
+                  ) => (
+                    <CSSTransition key={i} timeout={500} classNames="item">
+                      <Tr
+                        backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
+                        cursor="pointer"
                       >
-                        <Popconfirm
-                          style={{ fontSize: "16px" }}
-                          title="Bạn có sẽ xóa trại giống này hay không？"
-                          okText="Có"
-                          cancelText="Không"
-                          onConfirm={() => onDelete(_id)}
+                        <Td>{name}</Td>
+                        <Td>{address}</Td>
+                        <Td>{latitude + " , " + longitude}</Td>
+                        <Td
+                          borderLeft="1px solid #e8eef3"
+                          px={8}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
                         >
-                          <Box as={FaTrash}></Box>
-                        </Popconfirm>
-                      </Td>
-                    </Tr>
-                  </CSSTransition>
-                ))}
+                          <Popconfirm
+                            style={{ fontSize: "16px" }}
+                            title="Bạn có sẽ xóa trại giống này hay không？"
+                            okText="Có"
+                            cancelText="Không"
+                            onConfirm={() => onDelete(_id)}
+                          >
+                            <Box as={FaTrash}></Box>
+                          </Popconfirm>
+                        </Td>
+                      </Tr>
+                    </CSSTransition>
+                  )
+                )}
               </TransitionGroup>
             </Table>
           </>

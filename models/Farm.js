@@ -9,7 +9,7 @@ const FarmSchema = new mongoose.Schema({
   area: String,
   phone: String,
   createdBy: String,
-  coordinate: String,
+  coordinate: { latitude: Number, longitude: Number },
   map: String,
   email: String,
   fax: String,

@@ -4,6 +4,7 @@ import {
   Button,
   ModalFooter,
   Spinner,
+  Box,
 } from "@chakra-ui/core";
 
 import { useState } from "react";
@@ -16,12 +17,14 @@ import { HiPlus } from "react-icons/hi";
 
 import FormControl from "./FormControl";
 import { mutate } from "swr";
+import Map from "../Map";
 
 const AddHatchery = () => {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [entry, setEntry] = useState(null);
 
   const [isSave, setIsSave] = useState(false);
   const { handleSubmit, register, errors, control, reset } = useForm();
@@ -35,6 +38,8 @@ const AddHatchery = () => {
   const onSubmit = async (values) => {
     setIsSave(true);
 
+    values.coordinate = entry;
+
     try {
       let res = await fetch("/api/hatchery", {
         method: "POST",
@@ -44,6 +49,7 @@ const AddHatchery = () => {
         },
         body: JSON.stringify(values),
       });
+
       const data = await res.json();
 
       mutate(
@@ -59,7 +65,7 @@ const AddHatchery = () => {
     }
 
     setVisible(false);
-
+    setEntry(null);
     reset();
     setIsSave(false);
   };
@@ -114,6 +120,12 @@ const AddHatchery = () => {
                 required: "Required",
               })}
             />
+          </FormControl>
+          <FormControl>
+            <FormLabel htmlFor="address">Tọa độ: </FormLabel>
+            <Box height="20rem">
+              <Map entry={entry} setEntry={setEntry} />
+            </Box>
           </FormControl>
 
           <Divider />

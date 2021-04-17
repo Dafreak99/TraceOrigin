@@ -1,38 +1,52 @@
+import "mapbox-gl/dist/mapbox-gl.css";
+import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import React, { useState, useRef, useCallback } from "react";
-import MapGL, { Marker, FullscreenControl, Source, Layer } from "react-map-gl";
-
+import MapGL, {
+  FullscreenControl,
+  Layer,
+  Marker,
+  Popup,
+  Source,
+} from "react-map-gl";
 import dynamic from "next/dynamic";
 
+const Geocoder = dynamic(import("react-map-gl-geocoder"), { ssr: false });
+
+const fullscreenControlStyle = {
+  right: 10,
+  top: 10,
+};
+
+const MAPBOX_TOKEN =
+  "pk.eyJ1IjoiaGFpdHJhbjk5IiwiYSI6ImNrMmtlNnhlbjB6Y2kzY29oc2Q2YnRlOXoifQ.ZwtkHfNjr_Ltp39bQj8hSg";
+
 const Map = ({ entry, setEntry }) => {
+  const mapRef = useRef();
   const [viewport, setViewport] = useState({
-    latitude: 10.116909867369422,
-    longitude: 105.69673645530685,
+    latitude: entry?.latitude || 10.116909867369422,
+    longitude: entry?.longitude || 105.69673645530685,
     zoom: 12,
     width: "100vw",
     height: "100vh",
   });
-  const mapRef = useRef();
 
-  const marker = {
-    latitude: 10.116909867369422,
-    longitude: 105.69673645530685,
-  };
-
-  const handleViewportChange = (newViewport) => {
-    setViewport(newViewport);
-  };
+  const handleViewportChange = useCallback(
+    (newViewport) => setViewport(newViewport),
+    []
+  );
 
   // if you are happy with Geocoder default settings, you can just use handleViewportChange directly
-  const handleGeocoderViewportChange = useCallback((newViewport) => {
-    const geocoderDefaultOverrides = { transitionDuration: 1000 };
+  const handleGeocoderViewportChange = useCallback(
+    (newViewport) => {
+      const geocoderDefaultOverrides = { transitionDuration: 1000 };
 
-    return handleViewportChange({
-      ...newViewport,
-      ...geocoderDefaultOverrides,
-    });
-  }, []);
-
-  const Geocoder = dynamic(import("react-map-gl-geocoder"), { ssr: false });
+      return handleViewportChange({
+        ...newViewport,
+        ...geocoderDefaultOverrides,
+      });
+    },
+    [handleViewportChange]
+  );
 
   const onClick = (e) => {
     const {
@@ -41,72 +55,45 @@ const Map = ({ entry, setEntry }) => {
 
     setEntry({ latitude, longitude });
   };
-
-  const geojson = {
-    type: "FeatureCollection",
-    features: [
-      {
-        type: "Feature",
-        geometry: {
-          type: "LineString",
-          coordinates: [
-            [10.035283028197332, 105.78883526060861],
-            [10.030197814377123, 105.77062602647128],
-          ],
-        },
-      },
-    ],
-  };
-
-  const layerStyle = {
-    id: "point",
-    type: "circle",
-    paint: {
-      "circle-radius": 10,
-      "circle-color": "#007cbf",
-    },
-  };
-
   return (
-    <div style={{ height: "100%", width: "100%" }}>
-      <MapGL
-        ref={mapRef}
-        {...viewport}
-        width="100%"
-        height="100%"
-        mapStyle="mapbox://styles/haitran99/ckfdyhnap5r9219rwu2xr70qs"
-        mapboxApiAccessToken="pk.eyJ1IjoiaGFpdHJhbjk5IiwiYSI6ImNrMmtlNnhlbjB6Y2kzY29oc2Q2YnRlOXoifQ.ZwtkHfNjr_Ltp39bQj8hSg"
-        onViewportChange={handleViewportChange}
-        doubleClickZoom={false}
-        onDblClick={onClick}
-      >
-        <FullscreenControl />
-        <Source id="my-data" type="geojson" data={geojson}>
-          <Layer {...layerStyle} />
-        </Source>
-        {/* <Geocoder
-          mapRef={mapRef}
-          onViewportChange={handleGeocoderViewportChange}
-          mapboxApiAccessToken="pk.eyJ1IjoiaGFpdHJhbjk5IiwiYSI6ImNrMmtlNnhlbjB6Y2kzY29oc2Q2YnRlOXoifQ.ZwtkHfNjr_Ltp39bQj8hSg"
-          position="top-left"
-        />
-       
-        <Marker
-          latitude={marker.latitude}
-          longitude={marker.longitude}
-          offsetLeft={-40}
-          offsetTop={-60}
-        >
-          <div className="marker-wrapper">
-            <img
-              className="marker"
-              src="https://img.icons8.com/officel/x/marker.png"
-              alt="marker"
-            />
-          </div>
-        </Marker> */}
-      </MapGL>
-    </div>
+    <MapGL
+      ref={mapRef}
+      {...viewport}
+      width="100%"
+      height="100%"
+      onViewportChange={handleViewportChange}
+      mapStyle="mapbox://styles/haitran99/ckfdyhnap5r9219rwu2xr70qs"
+      mapboxApiAccessToken={MAPBOX_TOKEN}
+      onDblClick={onClick}
+      doubleClickZoom={false}
+    >
+      <FullscreenControl style={fullscreenControlStyle} />
+      <Geocoder
+        mapRef={mapRef}
+        onViewportChange={handleGeocoderViewportChange}
+        mapboxApiAccessToken={MAPBOX_TOKEN}
+        position="top-left"
+      />
+
+      {entry && (
+        <>
+          <Marker
+            latitude={entry.latitude}
+            longitude={entry.longitude}
+            offsetLeft={-40}
+            offsetTop={-60}
+          >
+            <div className="marker-wrapper">
+              <img
+                className="marker"
+                src="https://img.icons8.com/officel/x/marker.png"
+                alt="marker"
+              />
+            </div>
+          </Marker>
+        </>
+      )}
+    </MapGL>
   );
 };
 

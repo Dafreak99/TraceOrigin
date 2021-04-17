@@ -23,7 +23,7 @@ import BackButton from "./BackButton";
 const FarmInfoModify = ({ isEdit, setIsEdit, data = {} }) => {
   const [farmInfo, setData] = useState(data);
   const [isSave, setIsSave] = useState(false);
-  const [entry, setEntry] = useState(null);
+  const [entry, setEntry] = useState(data.coordinate);
 
   let a = [],
     b = [];
@@ -67,15 +67,13 @@ const FarmInfoModify = ({ isEdit, setIsEdit, data = {} }) => {
       }
     }
 
+    values.coordinate = entry;
+
     let respond = await fetch("/api/farm/modify", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization:
-          // REPLACE WITH USER TOKEN
-          process.browser ? localStorage.getItem("token") : null,
-
-        // process.browser ? localStorage.getItem("token") : null,
+        Authorization: process.browser ? localStorage.getItem("token") : null,
       },
       body: JSON.stringify({ ...values, images: urls }),
     });

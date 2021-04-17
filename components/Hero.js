@@ -37,13 +37,13 @@ const Hero = () => {
     <Slider {...settings}>
       {data.map(({ heading, text, background }, i) => (
         <Box
+          key={i}
           background="linear-gradient(90deg, rgba(35,144,246,1) 0%, rgba(11,90,191,1) 100%)"
           position="relative"
         >
           <Image src="./wave-haikei.svg" className="wave" />
           <Box
             className="container"
-            key={i}
             display="flex !important"
             justifyContent={{ xl: "space-between", base: "center" }}
             alignItems="center"
