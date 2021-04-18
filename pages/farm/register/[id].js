@@ -174,9 +174,9 @@ const Index = () => {
                 </ListItem>
                 <ListItem>
                   <Text fontSize="md" fontWeight="bold">
-                    Mã ao:{" "}
+                    Mật độ thả:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.code}
+                      {data.stockingDensity}
                     </Box>
                   </Text>
                 </ListItem>

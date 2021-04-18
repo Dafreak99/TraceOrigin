@@ -2,7 +2,6 @@ import {
   FormLabel,
   Input,
   Button,
-  ModalFooter,
   Spinner,
   Modal,
   ModalOverlay,
@@ -21,9 +20,7 @@ import { useForm } from "react-hook-form";
 
 import FormControl from "./FormControl";
 
-const ChangePasswordModal = ({ id, setRowIndex, visible, setVisible }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
+const ChangePasswordModal = ({ id, isOpen, onClose }) => {
   const [isSave, setIsSave] = useState(false);
   const { handleSubmit, register, errors, reset, watch } = useForm();
 
@@ -52,7 +49,6 @@ const ChangePasswordModal = ({ id, setRowIndex, visible, setVisible }) => {
 
     onClose();
 
-    // reset();
     setIsSave(false);
   };
   return (

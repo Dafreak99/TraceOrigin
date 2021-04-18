@@ -24,7 +24,6 @@ import { useRouter } from "next/router";
 
 const Info = () => {
   const [isEdit, setIsEdit] = useState(false);
-  const { onOpen, onClose } = useDisclosure();
 
   const { data, error } = useSWR(
     ["/api/farm", process.browser ? localStorage.getItem("token") : null, ,],
@@ -167,6 +166,8 @@ const Content = ({
   isEdit,
   setIsEdit,
 }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const [visible, setVisible] = useState(false);
 
   // Get Reject Message from Enterprise Authentication
@@ -196,7 +197,11 @@ const Content = ({
       </Flex>
 
       {enterpriseAuthentication(isAuthenticated, message, visible, setVisible)}
-      <EnterpriseAuthenticationModal onClose={onClose} onOpen={onOpen} />
+      <EnterpriseAuthenticationModal
+        isOpen={isOpen}
+        onClose={onClose}
+        onOpen={onOpen}
+      />
       <Flex paddingTop={12}>
         <List
           spacing={2}
@@ -293,26 +298,6 @@ const Content = ({
         </List>
         <Iframe iframe={map} />
       </Flex>
-
-      {/* <Box mt={12}>
-        <Heading mb={8} color="gray.700" fontSize="xl">
-          Hình ảnh trang trại của bạn
-        </Heading>
-        <Flex>
-          {images.map((image, i) => (
-            <Image
-              key={i}
-              src={image}
-              height="20rem"
-              width="30rem"
-              objectFit="contain"
-              border="3px solid #f2eded"
-              borderRadius="3px"
-              mr={4}
-            />
-          ))}
-        </Flex>
-      </Box> */}
     </Box>
   );
 };

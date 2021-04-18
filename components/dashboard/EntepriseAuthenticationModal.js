@@ -7,7 +7,6 @@ import {
   Alert,
   AlertIcon,
   Modal,
-  Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
@@ -28,7 +27,7 @@ import { useRouter } from "next/router";
 import FormControl from "./FormControl";
 import { mutate } from "swr";
 
-const EnterpriseAuthenticationModal = ({ onClose, onOpen }) => {
+const EnterpriseAuthenticationModal = ({ isOpen, onClose, onOpen }) => {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);

@@ -146,7 +146,7 @@ export const AddMedicineModal = () => {
       <Modal isOpen={isOpen} onClose={onClose} size="4xl">
         <ModalOverlay />
         <ModalContent as="form" onSubmit={handleSubmit(onSubmit)} w="2000px">
-          <ModalHeader>Nhật ký cho ăn</ModalHeader>
+          <ModalHeader>Nhập thuốc</ModalHeader>
           <ModalCloseButton />
           <ModalBody
             display="grid"
@@ -259,22 +259,21 @@ export const AddMedicineModal = () => {
               />
             </FormControl>
           </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Đóng
+            </Button>
+            {isSave ? (
+              <Button backgroundColor="gray.400" color="#fff">
+                <Spinner mr={4} /> Đang lưu
+              </Button>
+            ) : (
+              <Button variant="ghost" type="submit">
+                Lưu
+              </Button>
+            )}
+          </ModalFooter>
         </ModalContent>
-
-        <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={onClose}>
-            Đóng
-          </Button>
-          {isSave ? (
-            <Button backgroundColor="gray.400" color="#fff">
-              <Spinner mr={4} /> Đang lưu
-            </Button>
-          ) : (
-            <Button variant="ghost" type="submit">
-              Lưu
-            </Button>
-          )}
-        </ModalFooter>
       </Modal>
     </>
   );

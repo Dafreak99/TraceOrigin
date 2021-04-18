@@ -1,6 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 
-import { Box, Heading, List, ListIcon, ListItem } from "@chakra-ui/react";
+import {
+  Box,
+  Heading,
+  List,
+  ListIcon,
+  ListItem,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { Table, Th, Td, Tr } from "@/components/Table";
 
 import { BiDotsVerticalRounded } from "react-icons/bi";
@@ -19,7 +26,7 @@ import OutsideAlerter from "@/components/dashboard/OutsideAlerter";
 
 const Admin = () => {
   const [rowIndex, setRowIndex] = useState(null);
-  const [visible, setVisible] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [loading, setLoading] = useState(true);
 
@@ -121,7 +128,7 @@ const Admin = () => {
                               >
                                 <ListItem
                                   padding="15px 30px 15px 30px"
-                                  onClick={() => setVisible(true)}
+                                  onClick={onOpen}
                                 >
                                   <ListIcon
                                     as={AiTwotoneEdit}
@@ -148,8 +155,8 @@ const Admin = () => {
                         </Td>
                       </Tr>
                       <ChangePasswordModal
-                        visible={visible}
-                        setVisible={setVisible}
+                        isOpen={isOpen}
+                        onClose={onClose}
                         id={_id}
                         setRowIndex={setRowIndex}
                       />

@@ -136,22 +136,22 @@ const AddHatchery = () => {
               </Box>
             </FormControl>
           </ModalBody>
-        </ModalContent>
 
-        <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={onClose}>
-            Đóng
-          </Button>
-          {isSave ? (
-            <Button backgroundColor="gray.400" color="#fff">
-              <Spinner mr={4} /> Đang lưu
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Đóng
             </Button>
-          ) : (
-            <Button variant="ghost" type="submit">
-              Lưu
-            </Button>
-          )}
-        </ModalFooter>
+            {isSave ? (
+              <Button backgroundColor="gray.400" color="#fff">
+                <Spinner mr={4} /> Đang lưu
+              </Button>
+            ) : (
+              <Button variant="ghost" type="submit">
+                Lưu
+              </Button>
+            )}
+          </ModalFooter>
+        </ModalContent>
       </Modal>
     </>
   );

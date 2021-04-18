@@ -151,7 +151,6 @@ const WorkerModal = () => {
 
             <FormControl>
               <FormLabel htmlFor="gender">Giới tính</FormLabel>
-              <br />
               <Select name="gender" ref={register()}>
                 <option value="Nam">Nam</option>
                 <option value="Nữ">Nữ</option>

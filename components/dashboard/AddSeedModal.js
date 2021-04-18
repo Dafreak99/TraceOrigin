@@ -83,13 +83,14 @@ export const AddSeedModal = ({ pondId, setSelectedPond }) => {
       <Button
         mt={8}
         onClick={onOpen}
-        background="#fff"
-        color="#006aff"
-        border="1px solid #006aff"
-        _hover={{ background: "#006aff", color: "#fff" }}
+        // color="#006aff"
+        // border="1px solid #006aff"
+        // _hover={{ background: "#006aff", color: "#fff" }}
+        colorScheme="teal"
+        variant="solid"
         transition="350ms all"
       >
-        Sử dụng ao
+        Thả con giống
       </Button>
 
       <Modal isOpen={isOpen} onClose={onClose}>

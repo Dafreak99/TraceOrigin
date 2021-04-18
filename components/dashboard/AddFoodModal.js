@@ -125,7 +125,7 @@ const AddFood = () => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
-          <ModalHeader>Nhật ký cho ăn</ModalHeader>
+          <ModalHeader>Nhập thức ăn</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormControl>
@@ -185,22 +185,21 @@ const AddFood = () => {
               />
             </FormControl>
           </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Đóng
+            </Button>
+            {isSave ? (
+              <Button backgroundColor="gray.400" color="#fff">
+                <Spinner mr={4} /> Đang lưu
+              </Button>
+            ) : (
+              <Button variant="ghost" type="submit">
+                Lưu
+              </Button>
+            )}
+          </ModalFooter>
         </ModalContent>
-
-        <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={onClose}>
-            Đóng
-          </Button>
-          {isSave ? (
-            <Button backgroundColor="gray.400" color="#fff">
-              <Spinner mr={4} /> Đang lưu
-            </Button>
-          ) : (
-            <Button variant="ghost" type="submit">
-              Lưu
-            </Button>
-          )}
-        </ModalFooter>
       </Modal>
     </>
   );

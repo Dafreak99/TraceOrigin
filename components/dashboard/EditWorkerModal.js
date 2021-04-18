@@ -10,14 +10,12 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
-  useDisclosure,
   Select,
 } from "@chakra-ui/react";
 
 import { useState } from "react";
 
 import { Controller, useForm } from "react-hook-form";
-import { Divider, Button as AntdButton } from "antd";
 import FormControl from "./FormControl";
 
 import { mutate } from "swr";
@@ -57,11 +55,7 @@ const EditWorkerModal = ({ isOpen, onOpen, onClose, data }) => {
     });
 
     mutate(
-      [
-        "/api/worker",
-        process.browser ? localStorage.getItem("token") : null,
-        ,
-      ],
+      ["/api/worker", process.browser ? localStorage.getItem("token") : null],
       async (cachedData) => {
         let index = cachedData.findIndex((each) => each._id === _id);
 
@@ -89,7 +83,7 @@ const EditWorkerModal = ({ isOpen, onOpen, onClose, data }) => {
           <ModalBody
             display="grid"
             gridTemplateColumns="repeat(2, 1fr)"
-            gridGap="4rem"
+            gridGap="2rem"
             size="3xl"
           >
             <FormControl>
@@ -156,7 +150,6 @@ const EditWorkerModal = ({ isOpen, onOpen, onClose, data }) => {
 
             <FormControl>
               <FormLabel htmlFor="gender">Giới tính</FormLabel>
-              <br />
 
               <Controller
                 name="gender"
@@ -169,8 +162,8 @@ const EditWorkerModal = ({ isOpen, onOpen, onClose, data }) => {
                     onChange={onChange}
                     style={{ width: "100%" }}
                   >
-                    <Option value="Nam">Nam</Option>
-                    <Option value="Nữ">Nữ</Option>
+                    <option value="Nam">Nam</option>
+                    <option value="Nữ">Nữ</option>
                   </Select>
                 )}
               />

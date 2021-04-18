@@ -28,8 +28,6 @@ const Index = () => {
     fetcher
   );
 
-  // Data here is {}
-
   return (
     <Layout>
       <Box px={16} py={12}>
@@ -103,14 +101,7 @@ const Index = () => {
                       </Box>
                     </Text>
                   </ListItem>
-                  <ListItem>
-                    <Text fontSize="md" fontWeight="bold">
-                      Mã ao:{" "}
-                      <Box as="span" fontWeight="normal">
-                        {data.pond.code}
-                      </Box>
-                    </Text>
-                  </ListItem>
+
                   <ListItem>
                     <Text fontSize="md" fontWeight="bold">
                       Mật độ thả:{" "}

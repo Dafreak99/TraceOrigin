@@ -181,7 +181,7 @@ const Product = () => {
                             />
                           </Td>
                           <Td>{productStatus(isHarvested)}</Td>
-                          {isHarvested === "true" && (
+                          {isHarvested === "true" ? (
                             <>
                               <Td
                                 px={8}
@@ -210,6 +210,10 @@ const Product = () => {
                                   </a>
                                 </Link>
                               </Td>
+                            </>
+                          ) : (
+                            <>
+                              <Td>{""}</Td> <Td>{""}</Td>
                             </>
                           )}
 

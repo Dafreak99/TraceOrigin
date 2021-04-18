@@ -15,7 +15,6 @@ import {
   Text,
   Button,
   Modal,
-  Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
@@ -26,7 +25,7 @@ import {
   Select,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { Button as AntdButton, Collapse, Modal, Popconfirm } from "antd";
+import { Button as AntdButton, Collapse, Popconfirm } from "antd";
 import useSWR from "swr";
 
 import { useEffect, useState } from "react";
