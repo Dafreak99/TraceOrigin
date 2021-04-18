@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from "react";
-import { Box, Flex, Heading, Image, Text } from "@chakra-ui/core";
+import { Box, Flex, Heading, Image, Text } from "@chakra-ui/react";
 import Slider from "react-slick";
 import gsap from "gsap";
 

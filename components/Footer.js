@@ -6,7 +6,7 @@ import {
   Image,
   Input,
   Text,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { RiSendPlaneFill } from "react-icons/ri";
 import Link from "next/link";
 
@@ -59,9 +59,16 @@ const Footer = () => {
             <Heading fontSize="md" fontWeight="md" color="#fff" mb="1rem">
               Nhận tin tức sản phẩm
             </Heading>
+
             <Box position="relative">
-              <Input />
-              <Button position="absolute" top="0" right="0" zIndex="2">
+              <Input background="#f3f3f3" />
+              <Button
+                position="absolute"
+                top="0"
+                right="0"
+                zIndex="2"
+                colorScheme="blue"
+              >
                 <Box as={RiSendPlaneFill} />
               </Button>
             </Box>

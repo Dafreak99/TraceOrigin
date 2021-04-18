@@ -13,7 +13,7 @@ import {
   AlertIcon,
   Badge,
   Text,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import useSWR, { mutate } from "swr";
 import { useRouter } from "next/router";
 import { FaTrash } from "react-icons/fa";
@@ -260,7 +260,7 @@ const Product = () => {
                       <Button ref={cancelRef} onClick={onClose}>
                         Hủy bỏ
                       </Button>
-                      <Button variantColor="red" onClick={onDelete} ml={3}>
+                      <Button colorScheme="red" onClick={onDelete} ml={3}>
                         Xóa
                       </Button>
                     </AlertDialogFooter>

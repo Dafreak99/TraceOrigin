@@ -6,7 +6,7 @@ import {
   Heading,
   Image,
   Text,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 
 import { FaTrash } from "react-icons/fa";
 import useSWR, { mutate } from "swr";

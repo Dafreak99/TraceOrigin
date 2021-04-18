@@ -8,7 +8,7 @@ import {
   Button,
   Spinner,
   Textarea,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { BiArrowBack } from "react-icons/bi";
@@ -23,7 +23,6 @@ import BackButton from "./BackButton";
 const FarmInfoModify = ({ isEdit, setIsEdit, data = {} }) => {
   const [farmInfo, setData] = useState(data);
   const [isSave, setIsSave] = useState(false);
-  const [entry, setEntry] = useState(data.coordinate);
 
   let a = [],
     b = [];
@@ -66,8 +65,6 @@ const FarmInfoModify = ({ isEdit, setIsEdit, data = {} }) => {
         urls.push(data);
       }
     }
-
-    values.coordinate = entry;
 
     let respond = await fetch("/api/farm/modify", {
       method: "POST",
@@ -304,7 +301,15 @@ const FarmInfoModify = ({ isEdit, setIsEdit, data = {} }) => {
             Vị trí của cơ sở <Asterisk />
           </FormLabel>
           <Box height="300px">
-            <Map entry={entry} setEntry={setEntry} />
+            <Controller
+              name="coordinate"
+              control={control}
+              defaultValue={false}
+              rules={{ required: true }}
+              render={({ onChange }) => (
+                <Map onChange={onChange} defaultCoordinate={data.coordinate} />
+              )}
+            />
           </Box>
         </FormControl>
       </Grid>

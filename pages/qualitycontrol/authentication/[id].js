@@ -6,17 +6,25 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  Grid,
   Heading,
   Image,
   Input,
   List,
   ListItem,
-  ModalFooter,
   Spinner,
   Text,
   Button,
-} from "@chakra-ui/core";
+  Modal,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+  Select,
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { Button as AntdButton, Collapse, Modal, Popconfirm } from "antd";
 import useSWR from "swr";
@@ -25,11 +33,11 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import SimpleReactLightbox, { SRLWrapper } from "simple-react-lightbox";
 
-const { Panel } = Collapse;
-
 const Index = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const router = useRouter();
-  const [isModalVisible, setIsModalVisible] = useState(false);
+
   const { register, handleSubmit, reset } = useForm();
   const [isSave, setIsSave] = useState(false);
 
@@ -45,15 +53,6 @@ const Index = () => {
     fetcher
   );
 
-  const [currentImageIndex, setCurrentIndex] = useState(0);
-
-  const gotoPrevious = () =>
-    currentImageIndex > 0 && setCurrentIndex(currentImageIndex - 1);
-
-  const gotoNext = () =>
-    currentImageIndex + 1 < images.length &&
-    setCurrentIndex(currentImageIndex + 1);
-
   useEffect(() => {
     if (data) {
       let imgs = data.authentication.images.map((each) => ({
@@ -63,18 +62,6 @@ const Index = () => {
       setImages(imgs);
     }
   }, [data]);
-
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
 
   const Iframe = (props) => {
     return (
@@ -147,7 +134,7 @@ const Index = () => {
               title="Bạn có chắc sẽ không duyệt cơ sở này？"
               okText="Có"
               cancelText="Không"
-              onConfirm={showModal}
+              // onConfirm={onClose}
             >
               <AntdButton type="text">Hủy bỏ</AntdButton>
             </Popconfirm>
@@ -274,28 +261,28 @@ const Index = () => {
         </Flex>
       </Box>
 
-      <Modal
-        title={null}
-        visible={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        footer={null}
-      >
-        <form onSubmit={handleSubmit(sendMessage)}>
-          <FormControl>
-            <FormLabel htmlFor="message">Lời nhăn</FormLabel>
-            <Input
-              type="text"
-              id="message"
-              name="message"
-              ref={register({
-                required: "Required",
-              })}
-            />
-          </FormControl>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent as="form" onSubmit={handleSubmit(sendMessage)}>
+          <ModalHeader>Nhật ký cho ăn</ModalHeader>
+          <ModalCloseButton />
 
-          <ModalFooter mt="2rem">
-            <Button variantColor="blue" mr={3} onClick={handleCancel}>
+          <ModalBody>
+            <FormControl>
+              <FormLabel htmlFor="message">Lời nhăn</FormLabel>
+              <Input
+                type="text"
+                id="message"
+                name="message"
+                ref={register({
+                  required: "Required",
+                })}
+              />
+            </FormControl>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
               Đóng
             </Button>
             {isSave ? (
@@ -308,7 +295,7 @@ const Index = () => {
               </Button>
             )}
           </ModalFooter>
-        </form>
+        </ModalContent>
       </Modal>
     </Layout>
   );

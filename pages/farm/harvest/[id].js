@@ -15,7 +15,7 @@ import {
   ListItem,
   Spinner,
   Text,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { Router, useRouter } from "next/router";
 import { Controller, useForm } from "react-hook-form";
 

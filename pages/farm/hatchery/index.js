@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Heading, Alert, AlertIcon, Text } from "@chakra-ui/core";
+import { Box, Heading, Alert, AlertIcon, Text } from "@chakra-ui/react";
 import useSWR, { mutate } from "swr";
 import { useRouter } from "next/router";
 import { FaTrash } from "react-icons/fa";

@@ -1,4 +1,4 @@
-import { Flex, Image, List, ListItem, Text } from "@chakra-ui/core";
+import { Flex, Image, List, ListItem, Text } from "@chakra-ui/react";
 import { Drawer, Button, Divider } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";

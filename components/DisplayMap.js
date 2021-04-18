@@ -9,7 +9,7 @@ import MapGL, {
   Source,
 } from "react-map-gl";
 import dynamic from "next/dynamic";
-import { Box, Text } from "@chakra-ui/core";
+import { Box, Text } from "@chakra-ui/react";
 import { markAssetError } from "next/dist/client/route-loader";
 
 const fullscreenControlStyle = {

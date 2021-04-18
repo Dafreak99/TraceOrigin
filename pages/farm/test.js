@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/core";
+import { Box } from "@chakra-ui/react";
 import Chart from "chart.js";
 import { useEffect, useState } from "react";
 

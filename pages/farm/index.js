@@ -10,7 +10,8 @@ import {
   Skeleton,
   AlertIcon,
   Alert,
-} from "@chakra-ui/core";
+  useDisclosure,
+} from "@chakra-ui/react";
 import { AiFillEdit } from "react-icons/ai";
 import { useState } from "react";
 import useSWR from "swr";
@@ -23,6 +24,7 @@ import { useRouter } from "next/router";
 
 const Info = () => {
   const [isEdit, setIsEdit] = useState(false);
+  const { onOpen, onClose } = useDisclosure();
 
   const { data, error } = useSWR(
     ["/api/farm", process.browser ? localStorage.getItem("token") : null, ,],
@@ -194,10 +196,7 @@ const Content = ({
       </Flex>
 
       {enterpriseAuthentication(isAuthenticated, message, visible, setVisible)}
-      <EnterpriseAuthenticationModal
-        visible={visible}
-        setVisible={setVisible}
-      />
+      <EnterpriseAuthenticationModal onClose={onClose} onOpen={onOpen} />
       <Flex paddingTop={12}>
         <List
           spacing={2}

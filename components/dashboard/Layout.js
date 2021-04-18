@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Box, Flex, Image, Text } from "@chakra-ui/core";
+import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import { Layout, Menu } from "antd";
 import {
   DesktopOutlined,

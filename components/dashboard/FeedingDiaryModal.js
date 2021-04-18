@@ -1,28 +1,33 @@
 import {
   Text,
   Flex,
-  ModalFooter,
   Button,
   FormLabel,
   Input,
   Spinner,
-  Image,
   AlertIcon,
   Alert,
   Box,
-} from "@chakra-ui/core";
-import Modal from "antd/lib/modal/Modal";
-
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+  Select,
+} from "@chakra-ui/react";
+import { message } from "antd";
 import { Controller, useForm } from "react-hook-form";
 import fetcher from "@/utils/fetcher";
 import useSWR from "swr";
 import { useState } from "react";
 import DatePicker from "../DatePicker";
 import FormControl from "./FormControl";
-import { message, Select } from "antd";
 
 const FeedingDiaryModal = ({ bg, color, icon, pondId }) => {
-  const [visible, setVisible] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [isSave, setIsSave] = useState(false);
 
@@ -36,7 +41,6 @@ const FeedingDiaryModal = ({ bg, color, icon, pondId }) => {
 
   const onSubmit = async (values) => {
     setIsSave(true);
-
     values.pondId = pondId;
     try {
       await fetch("/api/feedingdiary", {
@@ -53,17 +57,13 @@ const FeedingDiaryModal = ({ bg, color, icon, pondId }) => {
       console.log(error.message);
     }
     reset();
-    setVisible(false);
+    onClose();
     setIsSave(false);
-  };
-
-  const handleCancel = () => {
-    setVisible(false);
   };
 
   return (
     <>
-      <Box className="diary-boxx" onClick={() => setVisible(true)}>
+      <Box className="diary-boxx" onClick={onOpen}>
         <Flex
           height="60px"
           width="60px"
@@ -79,111 +79,120 @@ const FeedingDiaryModal = ({ bg, color, icon, pondId }) => {
           Cho ăn
         </Text>
       </Box>
-      {/* Render out modal */}
 
-      <Modal
-        visible={visible}
-        onCancel={handleCancel}
-        title="Nhật ký cho ăn"
-        footer={null}
-      >
-        {data?.length > 0 ? (
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <FormControl>
-              <FormLabel htmlFor="note">Thức ăn: </FormLabel>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
+          <ModalHeader>Nhật ký cho ăn</ModalHeader>
+          <ModalCloseButton />
 
-              <Controller
-                name="food"
-                control={control}
-                defaultValue={data[0]._id}
-                rules={{ required: true }}
-                render={({ onChange }) => (
-                  <Select
-                    onChange={onChange}
-                    style={{ width: "100%" }}
-                    defaultValue={data[0].name}
-                  >
-                    {data.map((each) => (
-                      <Option value={each._id}>{each.name}</Option>
-                    ))}
-                  </Select>
-                )}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="weight">Khối lượng(kg): </FormLabel>
-              <Input
-                type="number"
-                id="weight"
-                name="weight"
-                ref={register({
-                  required: "Required",
-                  max: selectedFood
-                    ? selectedFood.weight
-                    : data && data[0].weight,
-                  min: 1,
-                })}
-              />
-              {errors.weight?.type === "required" && (
-                <Text fontSize="md" fontStyle="italic" color="red.300">
-                  Vui lòng nhập vào khối lượng thức ăn !
-                </Text>
-              )}
+          <ModalBody>
+            {data?.length > 0 ? (
+              <>
+                <FormControl>
+                  <FormLabel htmlFor="note">Thức ăn: </FormLabel>
 
-              {errors.weight?.type === "max" && (
-                <Text fontSize="md" fontStyle="italic" color="red.300">
-                  Chỉ còn tối đa là{" "}
-                  {selectedFood ? selectedFood.weight : data && data[0].weight}{" "}
-                  kg. Vui lòng nhập thêm thức ăn
+                  <Controller
+                    name="food"
+                    control={control}
+                    defaultValue={data[0]._id}
+                    rules={{ required: true }}
+                    render={({ onChange }) => (
+                      <Select
+                        onChange={onChange}
+                        style={{ width: "100%" }}
+                        defaultValue={data[0].name}
+                      >
+                        {data.map((each) => (
+                          <option value={each._id}>{each.name}</option>
+                        ))}
+                      </Select>
+                    )}
+                  />
+                </FormControl>
+                <FormControl>
+                  <FormLabel htmlFor="weight">Khối lượng(kg): </FormLabel>
+                  <Input
+                    type="number"
+                    id="weight"
+                    name="weight"
+                    ref={register({
+                      required: "Required",
+                      max: selectedFood
+                        ? selectedFood.weight
+                        : data && data[0].weight,
+                      min: 1,
+                    })}
+                  />
+                  {errors.weight?.type === "required" && (
+                    <Text fontSize="md" fontStyle="italic" color="red.300">
+                      Vui lòng nhập vào khối lượng thức ăn !
+                    </Text>
+                  )}
+
+                  {errors.weight?.type === "max" && (
+                    <Text fontSize="md" fontStyle="italic" color="red.300">
+                      Chỉ còn tối đa là{" "}
+                      {selectedFood
+                        ? selectedFood.weight
+                        : data && data[0].weight}{" "}
+                      kg. Vui lòng nhập thêm thức ăn
+                    </Text>
+                  )}
+                  {errors.weight?.type === "min" && (
+                    <Text fontSize="md" fontStyle="italic" color="red.300">
+                      Tối thiểu là 1 kg . Còn lại{" "}
+                      {selectedFood
+                        ? selectedFood.weight
+                        : data && data[0].weight}{" "}
+                      kg
+                    </Text>
+                  )}
+                </FormControl>
+                <FormControl>
+                  <FormLabel htmlFor="createdDate">Ngày tháng năm: </FormLabel>
+                  <DatePicker control={control} name="createdDate" />
+                </FormControl>
+                <FormControl>
+                  <FormLabel htmlFor="note">Ghi chú: </FormLabel>
+                  <Input
+                    type="text"
+                    id="note"
+                    name="note"
+                    ref={register({ required: "Required" })}
+                  />
+                </FormControl>
+              </>
+            ) : (
+              <Alert status="warning">
+                <AlertIcon />
+                <Text fontSize="md">
+                  Vui lòng đảm bảo rằng dữ liệu của thức ăn hoặc ao không bị
+                  rỗng
                 </Text>
-              )}
-              {errors.weight?.type === "min" && (
-                <Text fontSize="md" fontStyle="italic" color="red.300">
-                  Tối thiểu là 1 kg . Còn lại{" "}
-                  {selectedFood ? selectedFood.weight : data && data[0].weight}{" "}
-                  kg
-                </Text>
-              )}
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="createdDate">Ngày tháng năm: </FormLabel>
-              <DatePicker control={control} name="createdDate" />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="note">Ghi chú: </FormLabel>
-              <Input type="text" id="note" name="note" ref={register()} />
-            </FormControl>
-            <ModalFooter>
-              <Button
-                variantColor="blue"
-                mr={3}
-                onClick={() => {
-                  console.log(visible);
-                  setVisible(!visible);
-                  console.dir(setVisible);
-                }}
-              >
-                Đóng
+              </Alert>
+            )}
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Đóng
+            </Button>
+            {isSave ? (
+              <Button backgroundColor="gray.400" color="#fff">
+                <Spinner mr={4} /> Đang lưu
               </Button>
-              {isSave ? (
-                <Button backgroundColor="gray.400" color="#fff">
-                  <Spinner mr={4} /> Đang lưu
-                </Button>
-              ) : (
-                <Button variant="ghost" type="submit">
-                  Lưu
-                </Button>
-              )}
-            </ModalFooter>
-          </form>
-        ) : (
-          <Alert status="warning">
-            <AlertIcon />
-            <Text fontSize="md">
-              Vui lòng đảm bảo rằng dữ liệu của thức ăn hoặc ao không bị rỗng
-            </Text>
-          </Alert>
-        )}
+            ) : (
+              <Button
+                variant="ghost"
+                type="submit"
+                disabled={data?.length === 0 && true}
+              >
+                Lưu
+              </Button>
+            )}
+          </ModalFooter>
+        </ModalContent>
       </Modal>
     </>
   );

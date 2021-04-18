@@ -7,7 +7,7 @@ import {
   List,
   ListItem,
   Text,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { BiArrowBack } from "react-icons/bi";
 import { useRouter } from "next/router";
 

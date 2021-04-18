@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/core";
+import { Box } from "@chakra-ui/react";
 import { GoPrimitiveDot } from "react-icons/go";
 
 const GreenDot = () => {

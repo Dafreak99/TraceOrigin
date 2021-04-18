@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-import { Box, Heading, List, ListIcon, ListItem } from "@chakra-ui/core";
+import { Box, Heading, List, ListIcon, ListItem } from "@chakra-ui/react";
 import { Table, Th, Td, Tr } from "@/components/Table";
 
 import { BiDotsVerticalRounded } from "react-icons/bi";

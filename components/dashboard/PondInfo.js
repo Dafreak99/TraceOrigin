@@ -1,4 +1,4 @@
-import { Box, Button, Heading, List, ListItem, Text } from "@chakra-ui/core";
+import { Box, Button, Heading, List, ListItem, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { CSSTransition } from "react-transition-group";
 import { mutate } from "swr";
@@ -146,8 +146,8 @@ const PondInfo = ({ index, selectedPond, setSelectedPond }) => {
         )}
         <Box position="absolute" bottom="8%">
           <Button
-            backgroundColor="red"
-            color="red.400"
+            colorScheme="red"
+            variant="ghost"
             _hover={{}}
             _focus={{}}
             mr={3}

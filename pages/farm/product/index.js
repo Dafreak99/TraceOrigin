@@ -8,7 +8,7 @@ import {
   AlertIcon,
   Badge,
   Text,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import useSWR, { mutate } from "swr";
 import { FaTrash } from "react-icons/fa";
 import { Popconfirm } from "antd";

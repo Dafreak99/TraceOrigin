@@ -1,4 +1,4 @@
-import { Badge, Box, Flex, Heading, Image } from "@chakra-ui/core";
+import { Badge, Box, Flex, Heading, Image } from "@chakra-ui/react";
 
 import Navbar from "@/components/Navbar";
 
@@ -39,7 +39,7 @@ const DetailPost = ({ data }) => {
                 <BackButton />
                 <Heading>
                   {data.name}{" "}
-                  <Badge variantColor="teal" fontSize="1.5rem" cursor="pointer">
+                  <Badge colorScheme="teal" fontSize="1.5rem" cursor="pointer">
                     <Link href={`/type/${data.type}`}>
                       <a>{data.type}</a>
                     </Link>

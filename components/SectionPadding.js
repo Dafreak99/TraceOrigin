@@ -1,4 +1,4 @@
-const { Box } = require("@chakra-ui/core");
+const { Box } = require("@chakra-ui/react");
 
 const SectionPadding = ({ children }) => {
   return (

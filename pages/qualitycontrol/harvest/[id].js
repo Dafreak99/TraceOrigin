@@ -11,7 +11,7 @@ import {
   ListItem,
   Spinner,
   Text,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { Collapse } from "antd";
 import useSWR from "swr";

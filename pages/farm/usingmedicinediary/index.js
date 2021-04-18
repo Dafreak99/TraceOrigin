@@ -1,4 +1,4 @@
-import { AlertIcon, Box, Heading, Image, Alert, Text } from "@chakra-ui/core";
+import { AlertIcon, Box, Heading, Image, Alert, Text } from "@chakra-ui/react";
 import Layout from "@/components/dashboard/Layout";
 import { Table, Tr, Td, Th } from "@/components/Table";
 import { FaTrash } from "react-icons/fa";

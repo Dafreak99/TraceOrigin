@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Timeline } from "antd";
-import { Box, Flex, Heading, Image } from "@chakra-ui/core";
+import { Box, Flex, Heading, Image } from "@chakra-ui/react";
 import GreenDot from "./GreenDot";
 
 const FoodChainTimeline = ({ data }) => {

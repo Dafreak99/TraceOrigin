@@ -1,9 +1,7 @@
-import { theme as chakraTheme } from "@chakra-ui/core";
+import { extendTheme } from "@chakra-ui/react";
 
-const theme = {
-  ...chakraTheme,
+const theme = extendTheme({
   fonts: {
-    ...chakraTheme.fonts,
     body: "'Nunito', sans-serif",
     heading: "'Nunito', sans-serif",
     mono: "'Nunito', sans-serif",
@@ -13,6 +11,11 @@ const theme = {
     medium: 500,
     bold: 700,
   },
-};
+  colors: {
+    primary: {
+      100: "#006aff",
+    },
+  },
+});
 
 export default theme;

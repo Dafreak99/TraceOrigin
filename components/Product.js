@@ -1,4 +1,4 @@
-import { Text, Flex, Link as ChakraLink, Box } from "@chakra-ui/core";
+import { Text, Flex, Link as ChakraLink, Box } from "@chakra-ui/react";
 import Link from "next/link";
 import { AiOutlineQrcode } from "react-icons/ai";
 import Image from "next/image";

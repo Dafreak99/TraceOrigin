@@ -20,11 +20,13 @@ const fullscreenControlStyle = {
 const MAPBOX_TOKEN =
   "pk.eyJ1IjoiaGFpdHJhbjk5IiwiYSI6ImNrMmtlNnhlbjB6Y2kzY29oc2Q2YnRlOXoifQ.ZwtkHfNjr_Ltp39bQj8hSg";
 
-const Map = ({ entry, setEntry }) => {
+const Map = ({ onChange, defaultCoordinate = {} }) => {
   const mapRef = useRef();
+  const [entry, setEntry] = useState(null);
+
   const [viewport, setViewport] = useState({
-    latitude: entry?.latitude || 10.116909867369422,
-    longitude: entry?.longitude || 105.69673645530685,
+    latitude: defaultCoordinate?.latitude || 10.116909867369422,
+    longitude: defaultCoordinate?.longitude || 105.69673645530685,
     zoom: 12,
     width: "100vw",
     height: "100vh",
@@ -53,6 +55,8 @@ const Map = ({ entry, setEntry }) => {
       lngLat: [longitude, latitude],
     } = e;
 
+    onChange({ latitude, longitude });
+
     setEntry({ latitude, longitude });
   };
   return (
@@ -62,7 +66,8 @@ const Map = ({ entry, setEntry }) => {
       width="100%"
       height="100%"
       onViewportChange={handleViewportChange}
-      mapStyle="mapbox://styles/haitran99/ckfdyhnap5r9219rwu2xr70qs"
+      // mapStyle="mapbox://styles/haitran99/ckfdyhnap5r9219rwu2xr70qs"
+      mapStyle="mapbox://styles/haitran99/cknn952hv48z217mpzq38ogck"
       mapboxApiAccessToken={MAPBOX_TOKEN}
       onDblClick={onClick}
       doubleClickZoom={false}

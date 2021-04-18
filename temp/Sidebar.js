@@ -14,7 +14,7 @@ import {
   AccordionIcon,
   AccordionPanel,
   Tooltip,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import Link from "next/link";
 import { MdBrandingWatermark, MdInfo } from "react-icons/md";
 import { FaStickyNote } from "react-icons/fa";

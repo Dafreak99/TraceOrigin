@@ -2,7 +2,7 @@ import { Calendar as RBCalendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "moment/locale/vi";
 import { useEffect, useState } from "react";
-import { Box, Flex, Image, List, ListItem, Text } from "@chakra-ui/core";
+import { Box, Flex, Image, List, ListItem, Text } from "@chakra-ui/react";
 import { Modal } from "antd";
 
 const localizer = momentLocalizer(moment);

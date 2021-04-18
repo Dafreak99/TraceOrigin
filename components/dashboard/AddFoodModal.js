@@ -2,16 +2,22 @@ import {
   FormLabel,
   Input,
   Button,
-  ModalFooter,
   Spinner,
-} from "@chakra-ui/core";
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+} from "@chakra-ui/react";
 
 import { useState } from "react";
-import Modal from "antd/lib/modal/Modal";
 
 import { useForm } from "react-hook-form";
 import UploadPreview from "@/components/dashboard/UploadPreview";
-import { Divider, Button as AntdButton } from "antd";
+import { Button as AntdButton } from "antd";
 import { useRouter } from "next/router";
 import { HiPlus } from "react-icons/hi";
 
@@ -20,22 +26,15 @@ import DatePicker from "../DatePicker";
 import { mutate } from "swr";
 
 const AddFood = () => {
-  const router = useRouter();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [loading, setLoading] = useState(false);
-  const [visible, setVisible] = useState(false);
+  const router = useRouter();
 
   const [isSave, setIsSave] = useState(false);
   const { handleSubmit, register, errors, control, reset } = useForm();
 
   const [files, setFiles] = useState([]);
   const [fileUrls, setFileUrls] = useState([]);
-
-  const showModal = () => setVisible(true);
-
-  const handleCancel = () => {
-    setVisible(false);
-  };
 
   const onSubmit = async (values) => {
     setIsSave(true);
@@ -94,7 +93,7 @@ const AddFood = () => {
 
     setFiles([]);
     setFileUrls([]);
-    setVisible(false);
+    onClose();
 
     router.push("/farm/food");
     reset();
@@ -105,7 +104,7 @@ const AddFood = () => {
       <AntdButton
         type="primary"
         shape="circle"
-        onClick={showModal}
+        onClick={onOpen}
         style={{
           position: "fixed",
           bottom: "4rem",
@@ -123,87 +122,85 @@ const AddFood = () => {
         <HiPlus fontSize="28px" />
       </AntdButton>
 
-      <Modal
-        visible={visible}
-        title="Nhập thức ăn"
-        onCancel={handleCancel}
-        footer={null}
-      >
-        {/* Modal Body */}
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <FormControl>
-            <FormLabel htmlFor="importDate">Ngày nhập: </FormLabel>
-            <DatePicker control={control} name="importDate" />
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="name">Tên thức ăn</FormLabel>
-            <Input
-              type="text"
-              id="name"
-              name="name"
-              ref={register({
-                required: "Required",
-              })}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="foodSupplier">
-              Tên người/cửa hàng đại lý thức ăn:{" "}
-            </FormLabel>
-            <Input
-              type="text"
-              id="foodSupplier"
-              name="foodSupplier"
-              ref={register({
-                required: "Required",
-              })}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="weight">Số lượng(kg): </FormLabel>
-            <Input
-              type="number"
-              id="weight"
-              name="weight"
-              ref={register({
-                required: "Required",
-              })}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="manufactureDate">Ngày sản xuất</FormLabel>
-            <DatePicker control={control} name="manufactureDate" />
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="expiryDate">Hạn sử dụng</FormLabel>
-            <DatePicker control={control} name="expiryDate" />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Hình ảnh thức ăn</FormLabel>
-            <UploadPreview
-              files={files}
-              setFiles={setFiles}
-              fileUrls={fileUrls}
-              setFileUrls={setFileUrls}
-            />
-          </FormControl>
-          <Divider />
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
+          <ModalHeader>Nhật ký cho ăn</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <FormControl>
+              <FormLabel htmlFor="importDate">Ngày nhập: </FormLabel>
+              <DatePicker control={control} name="importDate" />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="name">Tên thức ăn</FormLabel>
+              <Input
+                type="text"
+                id="name"
+                name="name"
+                ref={register({
+                  required: "Required",
+                })}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="foodSupplier">
+                Tên người/cửa hàng đại lý thức ăn:{" "}
+              </FormLabel>
+              <Input
+                type="text"
+                id="foodSupplier"
+                name="foodSupplier"
+                ref={register({
+                  required: "Required",
+                })}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="weight">Số lượng(kg): </FormLabel>
+              <Input
+                type="number"
+                id="weight"
+                name="weight"
+                ref={register({
+                  required: "Required",
+                })}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="manufactureDate">Ngày sản xuất</FormLabel>
+              <DatePicker control={control} name="manufactureDate" />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="expiryDate">Hạn sử dụng</FormLabel>
+              <DatePicker control={control} name="expiryDate" />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Hình ảnh thức ăn</FormLabel>
+              <UploadPreview
+                files={files}
+                setFiles={setFiles}
+                fileUrls={fileUrls}
+                setFileUrls={setFileUrls}
+              />
+            </FormControl>
+          </ModalBody>
+        </ModalContent>
 
-          <ModalFooter>
-            <Button variantColor="blue" mr={3} onClick={handleCancel}>
-              Đóng
+        <ModalFooter>
+          <Button colorScheme="blue" mr={3} onClick={onClose}>
+            Đóng
+          </Button>
+          {isSave ? (
+            <Button backgroundColor="gray.400" color="#fff">
+              <Spinner mr={4} /> Đang lưu
             </Button>
-            {isSave ? (
-              <Button backgroundColor="gray.400" color="#fff">
-                <Spinner mr={4} /> Đang lưu
-              </Button>
-            ) : (
-              <Button variant="ghost" type="submit">
-                Lưu
-              </Button>
-            )}
-          </ModalFooter>
-        </form>
+          ) : (
+            <Button variant="ghost" type="submit">
+              Lưu
+            </Button>
+          )}
+        </ModalFooter>
       </Modal>
     </>
   );
