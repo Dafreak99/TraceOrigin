@@ -98,11 +98,9 @@ const AddFood = () => {
   if (loading) {
     return (
       <Layout>
-        <Box px={16} py={12} position="relative">
+        <Box position="relative">
           <AddFoodModal />
-          <Heading mt={10} mb={5}>
-            Lịch sử nhập thức ăn
-          </Heading>
+          <Heading mb={5}>Lịch sử nhập thức ăn</Heading>
           <SkeletonTable />
         </Box>
       </Layout>
@@ -111,11 +109,9 @@ const AddFood = () => {
 
   return (
     <Layout>
-      <Box px={16} py={12} position="relative">
+      <Box position="relative">
         <AddFoodModal />
-        <Heading mt={10} mb={5}>
-          Lịch sử nhập thức ăn
-        </Heading>
+        <Heading mb={5}>Lịch sử nhập thức ăn</Heading>
         {currentData && currentData.length > 0 ? (
           <>
             <Table>

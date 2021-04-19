@@ -35,7 +35,7 @@ const Index = ({}) => {
 
   return (
     <Layout>
-      <Box px={16} py={12}>
+      <Box>
         {data && (
           <>
             <Flex alignItems="center" justify="space-between">

@@ -15,6 +15,7 @@ import {
 import { useState } from "react";
 
 import { useForm } from "react-hook-form";
+import { AiOutlinePlus } from "react-icons/ai";
 
 import { mutate } from "swr";
 
@@ -62,7 +63,11 @@ export const AddPondModal = () => {
 
   return (
     <>
-      <Button mb={8} backgroundColor="gray.300" onClick={onOpen}>
+      <Button
+        backgroundColor="gray.300"
+        leftIcon={<AiOutlinePlus />}
+        onClick={onOpen}
+      >
         Thêm ao mới
       </Button>
 

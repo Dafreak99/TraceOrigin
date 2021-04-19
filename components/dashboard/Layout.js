@@ -34,9 +34,9 @@ const CommonLayout = ({ children }) => {
         <Header />
         <Content
           style={{
-            margin: "0 16px",
             height: "calc(100vh - 64px)",
             overflowY: "scroll",
+            padding: "5rem",
           }}
           className="dashboard__content"
         >
@@ -81,7 +81,7 @@ const FarmSidebar = () => {
         </Link>
       </Menu.Item>
       <Menu.Item key="ponds" icon={<Icon component={FaBorderAll} />}>
-        <Link href="/farm/ponds">
+        <Link href="/farm/pond">
           <a style={{ fontWeight: "bold" }}>Ao</a>
         </Link>
       </Menu.Item>

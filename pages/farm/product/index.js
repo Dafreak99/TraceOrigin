@@ -72,10 +72,8 @@ const Product = () => {
   if (loading) {
     return (
       <Layout>
-        <Box px={16} py={12} position="relative">
-          <Heading mt={10} mb={5}>
-            Danh sách sản phẩm đã thu hoạch
-          </Heading>
+        <Box position="relative">
+          <Heading mb={5}>Danh sách sản phẩm đã thu hoạch</Heading>
           <SkeletonTable />
         </Box>
       </Layout>
@@ -127,10 +125,8 @@ const Product = () => {
 
   return (
     <Layout>
-      <Box px={16} py={12} position="relative">
-        <Heading mt={10} mb={5}>
-          Danh sách sản phẩm đã thu hoạch
-        </Heading>
+      <Box position="relative">
+        <Heading mb={5}>Danh sách sản phẩm đã thu hoạch</Heading>
         {data && data.length > 0 ? (
           <>
             <Table>

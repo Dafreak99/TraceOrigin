@@ -182,7 +182,7 @@ const Content = ({
   );
 
   return (
-    <Box px={16} py={12}>
+    <Box>
       <Flex justifyContent="space-between">
         <Heading color="gray.700">Thông Tin Cơ Sở Của Bạn</Heading>
         <Button

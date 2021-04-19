@@ -6,7 +6,7 @@ import FeedingChart from "@/components/dashboard/FeedingChart";
 const FeedingChartPage = () => {
   return (
     <Layout>
-      <Box px={16} py={12}>
+      <Box>
         <Text mb={8}>Feeding Chart</Text>
         <Select w="300px">
           <option value="option1">Ao 1</option>

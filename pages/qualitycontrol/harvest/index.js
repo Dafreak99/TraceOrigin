@@ -64,10 +64,8 @@ const DashBoard = () => {
 
   return (
     <Layout>
-      <Box px={16} py={12}>
-        <Heading mt={10} mb={5}>
-          Sản phẩm chờ duyệt
-        </Heading>
+      <Box>
+        <Heading mb={5}>Sản phẩm chờ duyệt</Heading>
 
         {products && products.length > 0 ? (
           <>

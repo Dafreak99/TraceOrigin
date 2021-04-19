@@ -1,24 +1,14 @@
-// import Ponds from "@/components/dashboard/Ponds";
 import AddPondModal from "@/components/dashboard/AddPondModal";
 import Layout from "@/components/dashboard/Layout";
 import fetcher from "@/utils/fetcher";
 import { Alert, AlertIcon } from "@chakra-ui/alert";
-import {
-  Box,
-  Flex,
-  Grid,
-  Heading,
-  List,
-  ListItem,
-  Text,
-} from "@chakra-ui/layout";
+import { Box, Flex, Heading, List, ListItem, Text } from "@chakra-ui/layout";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import useSWR from "swr";
 
-const Info = () => {
-  const router = useRouter();
+const Index = () => {
   const { data, error } = useSWR(
     ["/api/pond", process.browser ? localStorage.getItem("token") : null],
     fetcher
@@ -69,7 +59,7 @@ const Info = () => {
                   cursor="pointer"
                   padding="3rem 2rem"
                 >
-                  <Link href={`./${_id}`}>
+                  <Link href={`./pond/${_id}`}>
                     <a>
                       <List spacing={4}>
                         <ListItem>
@@ -118,4 +108,4 @@ const Info = () => {
   );
 };
 
-export default Info;
+export default Index;

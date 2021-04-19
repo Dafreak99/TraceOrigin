@@ -6,7 +6,7 @@ import { mutate } from "swr";
 import AddSeedModal from "./AddSeedModal";
 import Diary from "./Diary";
 
-const PondInfo = ({ index, selectedPond, setSelectedPond }) => {
+const PondInfo = ({ pond }) => {
   const onDelete = async () => {
     await fetch("/api/pond", {
       method: "DELETE",
@@ -14,7 +14,7 @@ const PondInfo = ({ index, selectedPond, setSelectedPond }) => {
         "Content-Type": "application/json",
         Authorization: process.browser ? localStorage.getItem("token") : null,
       },
-      body: JSON.stringify({ pondId: selectedPond._id }),
+      body: JSON.stringify({ pondId: pond._id }),
     });
 
     mutate(
@@ -29,14 +29,11 @@ const PondInfo = ({ index, selectedPond, setSelectedPond }) => {
       },
       false
     );
-
-    setSelectedPond(null);
   };
 
   return (
     <>
       <Box p="3rem" background="#fff" gridColumn="span 6" position="relative">
-        <Heading>{selectedPond.name}</Heading>
         <Heading size="md" mb={4} mt={4}>
           Thông tin về ao nuôi
         </Heading>
@@ -46,27 +43,20 @@ const PondInfo = ({ index, selectedPond, setSelectedPond }) => {
             <Text fontSize="md" fontWeight="bold">
               Tên ao:{" "}
               <Box as="span" fontWeight="normal">
-                {selectedPond.name}
+                {pond.name}
               </Box>
             </Text>
           </ListItem>
-          <ListItem>
-            <Text fontSize="md" fontWeight="bold">
-              Mã ao:{" "}
-              <Box as="span" fontWeight="normal">
-                {selectedPond.code}
-              </Box>
-            </Text>
-          </ListItem>
+
           <ListItem>
             <Text fontSize="md" fontWeight="bold">
               Diện tích ao (hecta):{" "}
               <Box as="span" fontWeight="normal">
-                {selectedPond.area}
+                {pond.area}
               </Box>
             </Text>
           </ListItem>
-          {selectedPond.seed ? (
+          {pond.seed ? (
             <ListItem>
               <Text fontSize="md" fontWeight="bold">
                 Trạng thái:{" "}
@@ -86,15 +76,12 @@ const PondInfo = ({ index, selectedPond, setSelectedPond }) => {
                 </Text>
               </ListItem>
 
-              <AddSeedModal
-                pondId={selectedPond._id}
-                setSelectedPond={setSelectedPond}
-              />
+              <AddSeedModal pondId={pond._id} />
             </>
           )}
         </List>
 
-        {selectedPond.seed && (
+        {pond.seed && (
           <>
             <Heading size="md" mt={4} mb={4}>
               Thông tin con giống
@@ -105,7 +92,7 @@ const PondInfo = ({ index, selectedPond, setSelectedPond }) => {
                 <Text fontSize="md" fontWeight="bold">
                   Tên con giống :{" "}
                   <Box as="span" fontWeight="normal">
-                    {selectedPond.seed.name}
+                    {pond.seed.name}
                   </Box>
                 </Text>
               </ListItem>
@@ -113,7 +100,7 @@ const PondInfo = ({ index, selectedPond, setSelectedPond }) => {
                 <Text fontSize="md" fontWeight="bold">
                   Số lượng :{" "}
                   <Box as="span" fontWeight="normal">
-                    {selectedPond.seed.quantity}
+                    {pond.seed.quantity}
                   </Box>
                 </Text>
               </ListItem>
@@ -121,7 +108,7 @@ const PondInfo = ({ index, selectedPond, setSelectedPond }) => {
                 <Text fontSize="md" fontWeight="bold">
                   Ngày tuổi của giống:{" "}
                   <Box as="span" fontWeight="normal">
-                    {selectedPond.seed.seedAge}
+                    {pond.seed.seedAge}
                   </Box>
                 </Text>
               </ListItem>
@@ -129,7 +116,7 @@ const PondInfo = ({ index, selectedPond, setSelectedPond }) => {
                 <Text fontSize="md" fontWeight="bold">
                   Tên trại giống:{" "}
                   <Box as="span" fontWeight="normal">
-                    {selectedPond.seed.hatchery.name}
+                    {pond.seed.hatchery.name}
                   </Box>
                 </Text>
               </ListItem>
@@ -137,14 +124,14 @@ const PondInfo = ({ index, selectedPond, setSelectedPond }) => {
                 <Text fontSize="md" fontWeight="bold">
                   Địa chỉ trại giống:{" "}
                   <Box as="span" fontWeight="normal">
-                    {selectedPond.seed.hatchery.address}
+                    {pond.seed.hatchery.address}
                   </Box>
                 </Text>
               </ListItem>
             </List>
           </>
         )}
-        <Box position="absolute" bottom="8%">
+        <Box mt="4rem">
           <Button
             colorScheme="red"
             variant="ghost"
@@ -155,14 +142,14 @@ const PondInfo = ({ index, selectedPond, setSelectedPond }) => {
           >
             Xóa
           </Button>
-          {selectedPond?.seed?.isRegistered === "false" && (
+          {pond?.seed?.isRegistered === "false" && (
             <Button>
-              <Link href={`/farm/register/${selectedPond._id}`}>Đăng ký</Link>
+              <Link href={`/farm/register/${pond._id}`}>Đăng ký</Link>
             </Button>
           )}
         </Box>
       </Box>
-      {selectedPond?.seed?.isRegistered === "true" && (
+      {/* {pond?.seed?.isRegistered === "true" && (
         <CSSTransition timeout={500} classNames="item">
           <Box
             background="#fff"
@@ -170,10 +157,10 @@ const PondInfo = ({ index, selectedPond, setSelectedPond }) => {
             display="grid"
             gridTemplateColumns="repeat(2, 1fr)"
           >
-            <Diary pondId={selectedPond._id} />
+            <Diary pondId={pond._id} />
           </Box>
         </CSSTransition>
-      )}
+      )} */}
     </>
   );
 };

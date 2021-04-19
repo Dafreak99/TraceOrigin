@@ -93,7 +93,7 @@ const feedingdiary = () => {
   if (loading) {
     return (
       <Layout>
-        <Box px={16} py={12}>
+        <Box>
           <Heading mb={8}>Nhật ký cho ăn</Heading>
           <SkeletonTable />
         </Box>
@@ -103,7 +103,7 @@ const feedingdiary = () => {
 
   return (
     <Layout>
-      <Box px={16} py={12}>
+      <Box>
         <Flex align="center" mb={8} justify="space-between">
           <Heading flex="1">Nhật ký cho ăn</Heading>
           <Search

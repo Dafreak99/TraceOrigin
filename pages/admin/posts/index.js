@@ -39,11 +39,9 @@ const Posts = () => {
 
   if (loading) {
     <Layout>
-      <Box px={16} py={12}>
+      <Box>
         <Flex justify="space-between" align="center">
-          <Heading mt={10} mb={5}>
-            Danh sách bài viết
-          </Heading>
+          <Heading mb={5}>Danh sách bài viết</Heading>
           <Button background="#006aff" color="#fff" textTransform="uppercase">
             <Link href="./posts/add">
               <a>
@@ -60,11 +58,9 @@ const Posts = () => {
 
   return (
     <Layout>
-      <Box px={16} py={12}>
+      <Box>
         <Flex justify="space-between" align="center">
-          <Heading mt={10} mb={5}>
-            Danh sách bài viết
-          </Heading>
+          <Heading mb={5}>Danh sách bài viết</Heading>
           <Button background="#006aff" color="#fff" textTransform="uppercase">
             <Link href="./posts/add">
               <a style={{ display: "flex", alignItems: "center" }}>

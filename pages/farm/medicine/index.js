@@ -139,12 +139,10 @@ const Index = () => {
   if (loading) {
     return (
       <Layout>
-        <Box px={16} py={12}>
+        <Box>
           <AddMedicineModal />
 
-          <Heading mt={10} mb={5}>
-            Lịch sử nhập thuốc
-          </Heading>
+          <Heading mb={5}>Lịch sử nhập thuốc</Heading>
           <SkeletonTable />
         </Box>
       </Layout>
@@ -153,12 +151,10 @@ const Index = () => {
 
   return (
     <Layout>
-      <Box px={16} py={12}>
+      <Box>
         <AddMedicineModal />
 
-        <Heading mt={10} mb={5}>
-          Lịch sử nhập thuốc
-        </Heading>
+        <Heading mb={5}>Lịch sử nhập thuốc</Heading>
         {data && data.length > 0 ? (
           <Table>
             <Tr>

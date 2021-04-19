@@ -114,7 +114,7 @@ const Index = () => {
 
   return (
     <Layout>
-      <Box px={16} py={12}>
+      <Box>
         <Flex alignItems="center" justify="space-between">
           <Flex align="center">
             <BackButton />

@@ -69,11 +69,9 @@ const Hatchery = () => {
   if (loading) {
     return (
       <Layout>
-        <Box px={16} py={12} position="relative">
+        <Box position="relative">
           <AddHatcheryModal />
-          <Heading mt={10} mb={5}>
-            Danh sách trại giống
-          </Heading>
+          <Heading mb={5}>Danh sách trại giống</Heading>
           <SkeletonTable />
         </Box>
       </Layout>
@@ -82,12 +80,10 @@ const Hatchery = () => {
 
   return (
     <Layout>
-      <Box px={16} py={12} position="relative">
+      <Box position="relative">
         <AddHatcheryModal />
 
-        <Heading mt={10} mb={5}>
-          Danh sách trại giống
-        </Heading>
+        <Heading mb={5}>Danh sách trại giống</Heading>
 
         {data && data.length > 0 ? (
           <>

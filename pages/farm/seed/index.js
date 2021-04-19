@@ -25,7 +25,7 @@ const Seed = () => {
   if (loading) {
     return (
       <Layout>
-        <Box px={16} py={12} position="relative">
+        <Box position="relative">
           <Heading mb={8}>Nhật ký sử dụng thuốc</Heading>
           <SkeletonTable />
         </Box>
@@ -35,7 +35,7 @@ const Seed = () => {
 
   return (
     <Layout>
-      <Box px={16} py={12}>
+      <Box>
         <Heading mb={8}>Nhật ký thả giống</Heading>
         {data?.length > 0 ? (
           <Table>
