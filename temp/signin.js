@@ -7,7 +7,7 @@ import {
   Input,
   Button,
   Text,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../lib/AuthContext";
 import Link from "next/link";

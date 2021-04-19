@@ -15,7 +15,7 @@ import {
   ListItem,
   Spinner,
   Text,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { Router, useRouter } from "next/router";
 import { Controller, useForm } from "react-hook-form";
 
@@ -254,9 +254,9 @@ const Index = () => {
                 </ListItem>
                 <ListItem>
                   <Text fontSize="md" fontWeight="bold">
-                    Mã ao:{" "}
+                    Mật độ thả:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.pond.code}
+                      {data.pond.stockingDensity}
                     </Box>
                   </Text>
                 </ListItem>

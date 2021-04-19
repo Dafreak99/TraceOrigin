@@ -1,4 +1,4 @@
-import { Box, Select, Text } from "@chakra-ui/core";
+import { Box, Select, Text } from "@chakra-ui/react";
 
 import Layout from "@/components/dashboard/Layout";
 import FeedingChart from "@/components/dashboard/FeedingChart";

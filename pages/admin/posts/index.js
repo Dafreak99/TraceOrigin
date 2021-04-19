@@ -9,7 +9,7 @@ import {
   AlertIcon,
   Text,
   Badge,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 
 import Layout from "@/components/dashboard/Layout";
 import SkeletonTable from "@/components/dashboard/SkeletonTable";
@@ -20,9 +20,8 @@ import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
-import Modal from "antd/lib/modal/Modal";
-
 import Link from "next/link";
+import Modal from "antd/lib/modal/Modal";
 
 const Posts = () => {
   const [loading, setLoading] = useState(true);
@@ -90,7 +89,7 @@ const Posts = () => {
                   <Td>{i + 1}</Td>
                   <Td>{name}</Td>
                   <Td>
-                    <Badge variantColor="green">{type}</Badge>
+                    <Badge colorScheme="green">{type}</Badge>
                   </Td>
 
                   <Td borderLeft="1px solid #e8eef3">

@@ -7,9 +7,8 @@ import {
   Grid,
   Heading,
   Image,
-  PseudoBox,
   Text,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import useSWR from "swr";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
@@ -55,6 +54,7 @@ const Ponds = () => {
         ) : (
           <>
             <AddPondModal />
+
             {data && data.length === 0 && (
               <Text fontSize="xl">Bạn chưa thêm mô hình ao!</Text>
             )}
@@ -72,7 +72,7 @@ const Ponds = () => {
               {data &&
                 data.ponds.map((pond, i) => (
                   <CSSTransition key={i} timeout={500} classNames="item">
-                    <PseudoBox
+                    <Box
                       display="flex"
                       justifyContent="center"
                       alignItems="center"
@@ -93,10 +93,10 @@ const Ponds = () => {
                         setSelectedPond(pond);
                       }}
                     >
-                      <PseudoBox fontSize="xl" _groupHover={{ color: "#fff" }}>
+                      <Box fontSize="xl" _groupHover={{ color: "#fff" }}>
                         {pond.name}
-                      </PseudoBox>
-                    </PseudoBox>
+                      </Box>
+                    </Box>
                   </CSSTransition>
                 ))}
             </TransitionGroup>

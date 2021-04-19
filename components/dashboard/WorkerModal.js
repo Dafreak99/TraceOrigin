@@ -2,35 +2,32 @@ import {
   FormLabel,
   Input,
   Button,
-  ModalFooter,
   Spinner,
   Select,
-} from "@chakra-ui/core";
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+} from "@chakra-ui/react";
 
 import { useState } from "react";
-import Modal from "antd/lib/modal/Modal";
 
 import { useForm } from "react-hook-form";
-import { Divider, Button as AntdButton } from "antd";
+import { Button as AntdButton } from "antd";
 import { HiPlus } from "react-icons/hi";
 import FormControl from "./FormControl";
-import useSWR, { mutate } from "swr";
-import fetcher from "@/utils/fetcher";
+import { mutate } from "swr";
 import DatePicker from "../DatePicker";
 
-const { Option } = Select;
-
 const WorkerModal = () => {
-  const [visible, setVisible] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [isSave, setIsSave] = useState(false);
   const { handleSubmit, register, errors, control } = useForm();
-
-  const showModal = () => setVisible(true);
-
-  const handleCancel = () => {
-    setVisible(false);
-  };
 
   const onSubmit = async (values) => {
     setIsSave(true);
@@ -59,7 +56,7 @@ const WorkerModal = () => {
       console.log(error.message);
     }
 
-    setVisible(false);
+    onClose();
 
     setIsSave(false);
   };
@@ -68,7 +65,7 @@ const WorkerModal = () => {
       <AntdButton
         type="primary"
         shape="circle"
-        onClick={showModal}
+        onClick={onOpen}
         style={{
           position: "fixed",
           bottom: "4rem",
@@ -86,109 +83,103 @@ const WorkerModal = () => {
         <HiPlus fontSize="28px" />
       </AntdButton>
 
-      <Modal
-        visible={visible}
-        title="Thêm nhân công"
-        onCancel={handleCancel}
-        footer={null}
-      >
-        {/* Modal Body */}
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(2, 1fr)",
-            gridColumnGap: "2rem",
-          }}
-        >
-          <FormControl>
-            <FormLabel htmlFor="name">Họ và tên</FormLabel>
-            <Input
-              type="text"
-              id="name"
-              name="name"
-              ref={register({
-                required: "Required",
-              })}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="address">Địa chỉ</FormLabel>
-            <Input
-              type="text"
-              id="address"
-              name="address"
-              ref={register({
-                required: "Required",
-              })}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="phone">SĐT</FormLabel>
-            <Input
-              type="text"
-              id="phone"
-              name="phone"
-              ref={register({
-                required: "Required",
-              })}
-            />
-          </FormControl>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
+          <ModalHeader>Nhật ký cho ăn</ModalHeader>
+          <ModalCloseButton />
 
-          <FormControl>
-            <FormLabel htmlFor="idCard">CMND</FormLabel>
-            <Input
-              type="text"
-              id="idCard"
-              name="idCard"
-              ref={register({
-                required: "Required",
-              })}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="dateOfBorn">Năm sinh</FormLabel>
-            <DatePicker control={control} name="dateOfBorn" />
-            {errors.dateOfBorn?.type === "required" && (
-              <Text fontSize="md" fontStyle="italic" color="red.300">
-                Vui lòng nhập ngày
-              </Text>
-            )}
-          </FormControl>
+          <ModalBody
+            display="grid"
+            gridTemplateColumns="repeat(2, 1fr)"
+            gridColumnGap="2rem"
+          >
+            <FormControl>
+              <FormLabel htmlFor="name">Họ và tên</FormLabel>
+              <Input
+                type="text"
+                id="name"
+                name="name"
+                ref={register({
+                  required: "Required",
+                })}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="address">Địa chỉ</FormLabel>
+              <Input
+                type="text"
+                id="address"
+                name="address"
+                ref={register({
+                  required: "Required",
+                })}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="phone">SĐT</FormLabel>
+              <Input
+                type="text"
+                id="phone"
+                name="phone"
+                ref={register({
+                  required: "Required",
+                })}
+              />
+            </FormControl>
 
-          <FormControl>
-            <FormLabel htmlFor="gender">Giới tính</FormLabel>
-            <br />
-            <Select name="gender" ref={register()}>
-              <option value="Nam">Nam</option>
-              <option value="Nữ">Nữ</option>
-            </Select>
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="degree">Bằng cấp</FormLabel>
-            <Select name="degree" ref={register()}>
-              <option value="Thạc sĩ">Thạc sĩ</option>
-              <option value="Cử nhân">Cử nhân</option>
-              <option value="Cấp 3">Cấp 3</option>
-              <option value="Cấp 2">Cấp 2</option>
-            </Select>
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="responsibility">Nhiệm vụ</FormLabel>
-            <Input
-              type="text"
-              id="responsibility"
-              name="responsibility"
-              ref={register({
-                required: "Required",
-              })}
-            />
-          </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="idCard">CMND</FormLabel>
+              <Input
+                type="text"
+                id="idCard"
+                name="idCard"
+                ref={register({
+                  required: "Required",
+                })}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="dateOfBorn">Năm sinh</FormLabel>
+              <DatePicker control={control} name="dateOfBorn" />
+              {errors.dateOfBorn?.type === "required" && (
+                <Text fontSize="md" fontStyle="italic" color="red.300">
+                  Vui lòng nhập ngày
+                </Text>
+              )}
+            </FormControl>
 
-          <Divider style={{ gridColumn: "span 2" }} />
+            <FormControl>
+              <FormLabel htmlFor="gender">Giới tính</FormLabel>
+              <Select name="gender" ref={register()}>
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
+              </Select>
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="degree">Bằng cấp</FormLabel>
+              <Select name="degree" ref={register()}>
+                <option value="Thạc sĩ">Thạc sĩ</option>
+                <option value="Cử nhân">Cử nhân</option>
+                <option value="Cấp 3">Cấp 3</option>
+                <option value="Cấp 2">Cấp 2</option>
+              </Select>
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="responsibility">Nhiệm vụ</FormLabel>
+              <Input
+                type="text"
+                id="responsibility"
+                name="responsibility"
+                ref={register({
+                  required: "Required",
+                })}
+              />
+            </FormControl>
+          </ModalBody>
 
-          <ModalFooter gridColumn="span 2">
-            <Button variantColor="blue" mr={3} onClick={handleCancel}>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
               Đóng
             </Button>
             {isSave ? (
@@ -201,7 +192,7 @@ const WorkerModal = () => {
               </Button>
             )}
           </ModalFooter>
-        </form>
+        </ModalContent>
       </Modal>
     </>
   );

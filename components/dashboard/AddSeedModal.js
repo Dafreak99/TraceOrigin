@@ -1,6 +1,5 @@
 import {
   Select,
-  ModalFooter,
   Button,
   FormLabel,
   Input,
@@ -8,9 +7,16 @@ import {
   Alert,
   AlertIcon,
   Text,
-} from "@chakra-ui/core";
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import Modal from "antd/lib/modal/Modal";
 
 import FormControl from "./FormControl";
 import { useState } from "react";
@@ -24,7 +30,7 @@ export const AddSeedModal = ({ pondId, setSelectedPond }) => {
     fetcher
   );
 
-  const [visible, setVisible] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { handleSubmit, register, errors, control, reset } = useForm();
   const [isSave, setIsSave] = useState(false);
@@ -69,104 +75,99 @@ export const AddSeedModal = ({ pondId, setSelectedPond }) => {
       console.log(error.message);
     }
     setIsSave(false);
-  };
-
-  const handleCancel = () => {
-    setVisible(false);
+    onClose();
   };
 
   return (
     <>
       <Button
         mt={8}
-        onClick={() => setVisible(true)}
-        background="#fff"
-        color="#006aff"
-        border="1px solid #006aff"
-        _hover={{ background: "#006aff", color: "#fff" }}
+        onClick={onOpen}
+        // color="#006aff"
+        // border="1px solid #006aff"
+        // _hover={{ background: "#006aff", color: "#fff" }}
+        colorScheme="teal"
+        variant="solid"
         transition="350ms all"
       >
-        Sử dụng ao
+        Thả con giống
       </Button>
 
-      <Modal
-        visible={visible}
-        onCancel={handleCancel}
-        title="Thả con giống xuống ao"
-        footer={null}
-      >
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <FormControl>
-            <FormLabel htmlFor="name">Tên con giống: </FormLabel>
-            <Input
-              type="text"
-              id="name"
-              name="name"
-              ref={register({
-                required: "Required",
-              })}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="quantity">Số lượng: </FormLabel>
-            <Input
-              type="number"
-              id="quantity"
-              name="quantity"
-              ref={register({
-                required: "Required",
-              })}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="stockingDate">Ngày sản xuất</FormLabel>
-            <DatePicker control={control} name="stockingDate" />
-            {errors.stockingDate?.type === "required" && (
-              <Text fontSize="md" fontStyle="italic" color="red.300">
-                Vui lòng nhập ngày
-              </Text>
-            )}
-          </FormControl>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
+          <ModalHeader>Thả con giống xuống ao</ModalHeader>
+          <ModalCloseButton />
 
-          <FormControl>
-            <FormLabel htmlFor="seedAge">Ngày tuổi của con giống:</FormLabel>
-            <Input
-              type="number"
-              id="seedAge"
-              name="seedAge"
-              ref={register({
-                required: "Required",
-              })}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="hatchery">Trại giống:</FormLabel>
-            {data && data.length > 0 ? (
-              <Select
-                id="hatchery"
-                name="hatchery"
+          <ModalBody>
+            <FormControl>
+              <FormLabel htmlFor="name">Tên con giống: </FormLabel>
+              <Input
+                type="text"
+                id="name"
+                name="name"
                 ref={register({
                   required: "Required",
                 })}
-              >
-                {data.map((each) => (
-                  <option value={each._id}>{each.name}</option>
-                ))}
-              </Select>
-            ) : (
-              <Alert status="warning">
-                <AlertIcon />
-                <Text fontSize="md">Vui lòng thêm thông tin trại giống</Text>
-              </Alert>
-            )}
-          </FormControl>
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="quantity">Số lượng: </FormLabel>
+              <Input
+                type="number"
+                id="quantity"
+                name="quantity"
+                ref={register({
+                  required: "Required",
+                })}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="stockingDate">Ngày sản xuất</FormLabel>
+              <DatePicker control={control} name="stockingDate" />
+              {errors.stockingDate?.type === "required" && (
+                <Text fontSize="md" fontStyle="italic" color="red.300">
+                  Vui lòng nhập ngày
+                </Text>
+              )}
+            </FormControl>
+
+            <FormControl>
+              <FormLabel htmlFor="seedAge">Ngày tuổi của con giống:</FormLabel>
+              <Input
+                type="number"
+                id="seedAge"
+                name="seedAge"
+                ref={register({
+                  required: "Required",
+                })}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="hatchery">Trại giống:</FormLabel>
+              {data && data.length > 0 ? (
+                <Select
+                  id="hatchery"
+                  name="hatchery"
+                  ref={register({
+                    required: "Required",
+                  })}
+                >
+                  {data.map((each) => (
+                    <option value={each._id}>{each.name}</option>
+                  ))}
+                </Select>
+              ) : (
+                <Alert status="warning">
+                  <AlertIcon />
+                  <Text fontSize="md">Vui lòng thêm thông tin trại giống</Text>
+                </Alert>
+              )}
+            </FormControl>
+          </ModalBody>
 
           <ModalFooter>
-            <Button
-              variantColor="blue"
-              mr={3}
-              onClick={() => setVisible(!visible)}
-            >
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
               Đóng
             </Button>
             {isSave ? (
@@ -179,7 +180,7 @@ export const AddSeedModal = ({ pondId, setSelectedPond }) => {
               </Button>
             )}
           </ModalFooter>
-        </form>
+        </ModalContent>
       </Modal>
     </>
   );

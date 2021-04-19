@@ -8,7 +8,7 @@ import {
   List,
   ListItem,
   Text,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { Divider, Breadcrumb } from "antd";
 
 import FoodChainTimeline from "@/components/FoodChainTimeline";

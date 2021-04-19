@@ -10,7 +10,7 @@ import {
   ListItem,
   Spinner,
   Text,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 
@@ -27,8 +27,6 @@ const Index = () => {
       : null,
     fetcher
   );
-
-  // Data here is {}
 
   return (
     <Layout>
@@ -103,14 +101,7 @@ const Index = () => {
                       </Box>
                     </Text>
                   </ListItem>
-                  <ListItem>
-                    <Text fontSize="md" fontWeight="bold">
-                      Mã ao:{" "}
-                      <Box as="span" fontWeight="normal">
-                        {data.pond.code}
-                      </Box>
-                    </Text>
-                  </ListItem>
+
                   <ListItem>
                     <Text fontSize="md" fontWeight="bold">
                       Mật độ thả:{" "}

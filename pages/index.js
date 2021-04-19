@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box } from "@chakra-ui/core";
+import { Box } from "@chakra-ui/react";
 import useSWR from "swr";
 
 import Hero from "@/components/Hero";

@@ -1,15 +1,21 @@
 import {
   Text,
   Flex,
-  ModalFooter,
   Button,
   FormLabel,
   Input,
   Spinner,
   Box,
-} from "@chakra-ui/core";
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { message } from "antd";
-import Modal from "antd/lib/modal/Modal";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import DatePicker from "../DatePicker";
@@ -18,9 +24,10 @@ import FormControl from "./FormControl";
 import UploadPreview from "./UploadPreview";
 
 const NoteModal = ({ bg, color, icon, pondId }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const { handleSubmit, register, errors, control, reset } = useForm();
   const [isSave, setIsSave] = useState(false);
-  const [visible, setVisible] = useState(false);
 
   const [files, setFiles] = useState([]);
   const [fileUrls, setFileUrls] = useState([]);
@@ -81,12 +88,12 @@ const NoteModal = ({ bg, color, icon, pondId }) => {
 
     reset();
     setIsSave(false);
-    setVisible(false);
+    onClose();
   };
 
   return (
     <>
-      <Box className="diary-boxx" onClick={() => setVisible(true)}>
+      <Box className="diary-boxx" onClick={onOpen}>
         <Flex
           height="60px"
           width="60px"
@@ -102,42 +109,42 @@ const NoteModal = ({ bg, color, icon, pondId }) => {
           Nhật ký ao
         </Text>
       </Box>
-      <Modal
-        visible={visible}
-        title="Nhật ký ao"
-        onCancel={handleCancel}
-        footer={null}
-      >
-        {/* Modal Body */}
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <FormControl>
-            <FormLabel htmlFor="note">Ghi chú: </FormLabel>
-            <Input
-              type="text"
-              id="note"
-              name="note"
-              ref={register({
-                required: "Required",
-              })}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="date">Ngày ghi: </FormLabel>
-            <DatePicker control={control} name="createdDate" />
-          </FormControl>
 
-          <FormControl>
-            <FormLabel>Hình ảnh</FormLabel>
-            <UploadPreview
-              files={files}
-              setFiles={setFiles}
-              fileUrls={fileUrls}
-              setFileUrls={setFileUrls}
-            />
-          </FormControl>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
+          <ModalHeader>Nhật ký ao</ModalHeader>
+          <ModalCloseButton />
 
+          <ModalBody>
+            <FormControl>
+              <FormLabel htmlFor="note">Ghi chú: </FormLabel>
+              <Input
+                type="text"
+                id="note"
+                name="note"
+                ref={register({
+                  required: "Required",
+                })}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="date">Ngày ghi: </FormLabel>
+              <DatePicker control={control} name="createdDate" />
+            </FormControl>
+
+            <FormControl>
+              <FormLabel>Hình ảnh</FormLabel>
+              <UploadPreview
+                files={files}
+                setFiles={setFiles}
+                fileUrls={fileUrls}
+                setFileUrls={setFileUrls}
+              />
+            </FormControl>
+          </ModalBody>
           <ModalFooter>
-            <Button variantColor="blue" mr={3} onClick={handleCancel}>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
               Đóng
             </Button>
             {isSave ? (
@@ -150,7 +157,7 @@ const NoteModal = ({ bg, color, icon, pondId }) => {
               </Button>
             )}
           </ModalFooter>
-        </form>
+        </ModalContent>
       </Modal>
     </>
   );

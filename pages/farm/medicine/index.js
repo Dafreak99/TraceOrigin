@@ -14,7 +14,7 @@ import {
   Alert,
   AlertIcon,
   Text,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import useSWR, { mutate } from "swr";
 import { FaTrash } from "react-icons/fa";
 import { Tooltip } from "antd";
@@ -236,7 +236,7 @@ const Index = () => {
                   <Button ref={cancelRef} onClick={onClose}>
                     Hủy bỏ
                   </Button>
-                  <Button variantColor="red" onClick={onDelete} ml={3}>
+                  <Button colorScheme="red" onClick={onDelete} ml={3}>
                     Xóa
                   </Button>
                 </AlertDialogFooter>

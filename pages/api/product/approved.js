@@ -42,11 +42,18 @@ export default async (req, res) => {
     case "POST":
       let { id } = req.body;
 
-      let product = await Product.findById(id);
+      // let product = await Product.findById(id);
 
-      await Product.findOneAndUpdate(
+      // const product = await Product.findOne({ _id: id });
+      // const seed = await Seed.findOne({ _id: product.seed });
+
+      // console.log("Product", product);
+      // console.log("Seed", seed);
+      // });
+      const product = await Product.findOneAndUpdate(
         { _id: id },
-        { isRegistered: "true", qrCode: id }
+        { isRegistered: "true", qrCode: id },
+        { new: true }
       );
 
       await Seed.findOneAndUpdate(

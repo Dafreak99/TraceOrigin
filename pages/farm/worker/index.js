@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
-import { Box, Alert, AlertIcon, Heading, Text } from "@chakra-ui/core";
+import {
+  Box,
+  Alert,
+  AlertIcon,
+  Heading,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import useSWR, { mutate } from "swr";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { Pagination, Popconfirm } from "antd";
@@ -15,7 +22,8 @@ import EditWorkerModal from "@/components/dashboard/EditWorkerModal";
 import { useRouter } from "next/router";
 
 const Worker = () => {
-  const [isEdit, setIsEdit] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const [editIndex, setEditIndex] = useState(0);
   const [loading, setLoading] = useState(true);
 
@@ -141,7 +149,7 @@ const Worker = () => {
                           borderLeft="1px solid #e8eef3"
                           onClick={(e) => {
                             e.stopPropagation();
-                            setIsEdit(!isEdit);
+                            onOpen();
                             setEditIndex(i);
                           }}
                         >
@@ -168,8 +176,9 @@ const Worker = () => {
                 )}
 
                 <EditWorkerModal
-                  visible={isEdit}
-                  setVisible={setIsEdit}
+                  isOpen={isOpen}
+                  onOpen={onOpen}
+                  onClose={onClose}
                   data={data[editIndex]}
                 />
               </TransitionGroup>

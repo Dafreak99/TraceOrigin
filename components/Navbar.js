@@ -1,4 +1,12 @@
-import { Box, Flex, Image, Input, Text, List, ListItem } from "@chakra-ui/core";
+import {
+  Box,
+  Flex,
+  Image,
+  Input,
+  Text,
+  List,
+  ListItem,
+} from "@chakra-ui/react";
 import { HiUserCircle } from "react-icons/hi";
 import { useRouter } from "next/router";
 
@@ -76,7 +84,7 @@ const Navbar = ({ float, showDrawer }) => {
         styleType="none"
         color="gray"
         fontWeight="bold"
-        display={{ sx: "none", xl: "flex" }}
+        display={{ base: "none", xl: "flex" }}
       >
         <Box
           mr="2rem"

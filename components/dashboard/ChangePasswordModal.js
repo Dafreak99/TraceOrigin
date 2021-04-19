@@ -2,34 +2,30 @@ import {
   FormLabel,
   Input,
   Button,
-  ModalFooter,
   Spinner,
-  ListItem,
-  ListIcon,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
   Text,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 
 import { useRef, useState } from "react";
-import Modal from "antd/lib/modal/Modal";
 
 import { useForm } from "react-hook-form";
 
-import { Divider } from "antd";
-
 import FormControl from "./FormControl";
 
-const ChangePasswordModal = ({ id, setRowIndex, visible, setVisible }) => {
+const ChangePasswordModal = ({ id, isOpen, onClose }) => {
   const [isSave, setIsSave] = useState(false);
   const { handleSubmit, register, errors, reset, watch } = useForm();
 
   const password = useRef({});
   password.current = watch("password", "");
-
-  const showModal = () => setVisible(true);
-
-  const handleCancel = () => {
-    setVisible(false);
-  };
 
   const onSubmit = async (values) => {
     setIsSave(true);
@@ -51,60 +47,56 @@ const ChangePasswordModal = ({ id, setRowIndex, visible, setVisible }) => {
       console.log(error.message);
     }
 
-    setVisible(false);
+    onClose();
 
-    // reset();
     setIsSave(false);
   };
   return (
     <>
-      <Modal
-        visible={visible}
-        title="Đổi mật khẩu"
-        onCancel={handleCancel}
-        footer={null}
-      >
-        {/* Modal Body */}
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
+          <ModalHeader>Đổi mật khẩu</ModalHeader>
+          <ModalCloseButton />
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <FormControl>
-            <FormLabel htmlFor="password">Mật khẩu mới</FormLabel>
-            <Input
-              type="password"
-              id="password"
-              name="password"
-              ref={register({
-                required: "Bạn cần nhập mật khẩu",
-              })}
-            />
-            {errors.password?.type === "required" && (
-              <Text fontSize="md" fontStyle="italic" color="red.300">
-                {errors.password.message}
-              </Text>
-            )}
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="repassword">Nhập lại mật khẩu</FormLabel>
-            <Input
-              type="password"
-              id="repassword"
-              name="repassword"
-              ref={register({
-                validate: (value) =>
-                  value === password.current || "Mật khẩu không trùng khớp",
-              })}
-            />
-            {errors.repassword && (
-              <Text fontSize="md" fontStyle="italic" color="red.300">
-                {errors.repassword.message}
-              </Text>
-            )}
-          </FormControl>
-
-          <Divider />
+          <ModalBody>
+            <FormControl>
+              <FormLabel htmlFor="password">Mật khẩu mới</FormLabel>
+              <Input
+                type="password"
+                id="password"
+                name="password"
+                ref={register({
+                  required: "Bạn cần nhập mật khẩu",
+                })}
+              />
+              {errors.password?.type === "required" && (
+                <Text fontSize="md" fontStyle="italic" color="red.300">
+                  {errors.password.message}
+                </Text>
+              )}
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="repassword">Nhập lại mật khẩu</FormLabel>
+              <Input
+                type="password"
+                id="repassword"
+                name="repassword"
+                ref={register({
+                  validate: (value) =>
+                    value === password.current || "Mật khẩu không trùng khớp",
+                })}
+              />
+              {errors.repassword && (
+                <Text fontSize="md" fontStyle="italic" color="red.300">
+                  {errors.repassword.message}
+                </Text>
+              )}
+            </FormControl>
+          </ModalBody>
 
           <ModalFooter>
-            <Button variantColor="blue" mr={3} onClick={handleCancel}>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
               Đóng
             </Button>
             {isSave ? (
@@ -117,7 +109,7 @@ const ChangePasswordModal = ({ id, setRowIndex, visible, setVisible }) => {
               </Button>
             )}
           </ModalFooter>
-        </form>
+        </ModalContent>
       </Modal>
     </>
   );

@@ -11,12 +11,11 @@ import {
   ListItem,
   Spinner,
   Text,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { Collapse } from "antd";
 import useSWR from "swr";
 import { Table, Td, Th, Tr } from "@/components/Table";
-import { format } from "date-fns";
 import { FcInfo, FcList } from "react-icons/fc";
 import QRCode from "qrcode.react";
 
@@ -92,13 +91,19 @@ const Index = () => {
                       <Text fontSize="md" fontWeight="bold">
                         Ngày thu hoạch:{" "}
                         <Box as="span" fontWeight="normal">
-                          {format(new Date(data.harvestedDate), "dd-MM-yyyy")}
+                          {data.harvestedDate}
                         </Box>
                       </Text>
                     </ListItem>
                     <ListItem>
                       <Text fontSize="md" fontWeight="bold">
-                        Hình ảnh sản phẩm: <Image src={data.images[0]} />
+                        Hình ảnh sản phẩm:{" "}
+                        <Image
+                          src={data.images[0]}
+                          width="250px"
+                          height="150px"
+                          objectFit="cover"
+                        />
                       </Text>
                     </ListItem>
                   </List>
@@ -225,8 +230,6 @@ const Index = () => {
                 </List>
               </Box>
               <Collapse
-                // defaultActiveKey={["1"]}
-                // TODO: Display full information of Product before harvest
                 ghost
                 style={{ marginTop: "2rem", gridColumn: "span 12" }}
               >
@@ -246,7 +249,7 @@ const Index = () => {
                         i
                       ) => (
                         <Tr cursor="pointer">
-                          <Td>{format(new Date(createdDate), "dd/MM/yyyy")}</Td>
+                          <Td>{createdDate}</Td>
                           <Td>{note}</Td>
                           <Td>{weight}</Td>
                           <Td>{name}</Td>
@@ -273,7 +276,7 @@ const Index = () => {
                         i
                       ) => (
                         <Tr cursor="pointer">
-                          <Td>{format(new Date(createdDate), "dd/MM/yyyy")}</Td>
+                          <Td>{createdDate}</Td>
                           <Td>{weight}</Td>
                           <Td>{name}</Td>
                           <Td>

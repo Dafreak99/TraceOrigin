@@ -1,4 +1,4 @@
-import { Box, Flex, Grid, Heading, Text } from "@chakra-ui/core";
+import { Box, Flex, Grid, Heading, Text } from "@chakra-ui/react";
 
 import DailyNoteModal from "@/components/dashboard/NoteModal";
 import FeedingDiaryModal from "@/components/dashboard/FeedingDiaryModal";

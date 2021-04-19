@@ -12,7 +12,7 @@ import {
   ListItem,
   Spinner,
   Text,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 
@@ -174,9 +174,9 @@ const Index = () => {
                 </ListItem>
                 <ListItem>
                   <Text fontSize="md" fontWeight="bold">
-                    Mã ao:{" "}
+                    Mật độ thả:{" "}
                     <Box as="span" fontWeight="normal">
-                      {data.code}
+                      {data.stockingDensity}
                     </Box>
                   </Text>
                 </ListItem>

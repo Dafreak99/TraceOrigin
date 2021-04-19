@@ -1,4 +1,4 @@
-import { ThemeProvider, CSSReset } from "@chakra-ui/core";
+import { ChakraProvider, CSSReset } from "@chakra-ui/react";
 
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import "slick-carousel/slick/slick.css";
@@ -19,10 +19,10 @@ function MyApp({ Component, pageProps }) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
       <AuthProvider>
-        <ThemeProvider theme={theme}>
+        <ChakraProvider theme={theme}>
           <CSSReset />
           <Component {...pageProps} />
-        </ThemeProvider>
+        </ChakraProvider>
       </AuthProvider>
     </>
   );

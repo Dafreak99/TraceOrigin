@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Image } from "@chakra-ui/core";
+import { Box, Flex, Heading, Image } from "@chakra-ui/react";
 import Layout from "@/components/dashboard/Layout";
 import useSWR from "swr";
 import fetcher from "@/utils/fetcher";

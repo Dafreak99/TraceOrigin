@@ -1,4 +1,4 @@
-import { Box, Grid, Heading, Image, Text } from "@chakra-ui/core";
+import { Box, Grid, Heading, Image, Text } from "@chakra-ui/react";
 import { AiFillControl, AiOutlineQrcode } from "react-icons/ai";
 import { FaRegStickyNote } from "react-icons/fa";
 import { GiPencil } from "react-icons/gi";

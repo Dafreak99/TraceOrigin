@@ -8,7 +8,7 @@ import {
   Heading,
   Input,
   Spinner,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 
 import Layout from "@/components/dashboard/Layout";
 import dynamic from "next/dynamic";

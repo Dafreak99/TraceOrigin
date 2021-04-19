@@ -8,7 +8,7 @@ import {
   AlertIcon,
   Badge,
   Text,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import useSWR, { mutate } from "swr";
 import { FaTrash } from "react-icons/fa";
 import { Popconfirm } from "antd";
@@ -181,7 +181,7 @@ const Product = () => {
                             />
                           </Td>
                           <Td>{productStatus(isHarvested)}</Td>
-                          {isHarvested === "true" && (
+                          {isHarvested === "true" ? (
                             <>
                               <Td
                                 px={8}
@@ -210,6 +210,10 @@ const Product = () => {
                                   </a>
                                 </Link>
                               </Td>
+                            </>
+                          ) : (
+                            <>
+                              <Td>{""}</Td> <Td>{""}</Td>
                             </>
                           )}
 

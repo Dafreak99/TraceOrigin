@@ -10,7 +10,8 @@ import {
   Skeleton,
   AlertIcon,
   Alert,
-} from "@chakra-ui/core";
+  useDisclosure,
+} from "@chakra-ui/react";
 import { AiFillEdit } from "react-icons/ai";
 import { useState } from "react";
 import useSWR from "swr";
@@ -165,6 +166,8 @@ const Content = ({
   isEdit,
   setIsEdit,
 }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const [visible, setVisible] = useState(false);
 
   // Get Reject Message from Enterprise Authentication
@@ -195,8 +198,9 @@ const Content = ({
 
       {enterpriseAuthentication(isAuthenticated, message, visible, setVisible)}
       <EnterpriseAuthenticationModal
-        visible={visible}
-        setVisible={setVisible}
+        isOpen={isOpen}
+        onClose={onClose}
+        onOpen={onOpen}
       />
       <Flex paddingTop={12}>
         <List
@@ -294,26 +298,6 @@ const Content = ({
         </List>
         <Iframe iframe={map} />
       </Flex>
-
-      {/* <Box mt={12}>
-        <Heading mb={8} color="gray.700" fontSize="xl">
-          Hình ảnh trang trại của bạn
-        </Heading>
-        <Flex>
-          {images.map((image, i) => (
-            <Image
-              key={i}
-              src={image}
-              height="20rem"
-              width="30rem"
-              objectFit="contain"
-              border="3px solid #f2eded"
-              borderRadius="3px"
-              mr={4}
-            />
-          ))}
-        </Flex>
-      </Box> */}
     </Box>
   );
 };

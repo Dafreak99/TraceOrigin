@@ -1,4 +1,4 @@
-import { Box, Grid, Heading, Image as Img, Text } from "@chakra-ui/core";
+import { Box, Grid, Heading, Image as Img, Text } from "@chakra-ui/react";
 import { Skeleton } from "antd";
 
 import SectionPadding from "./SectionPadding";

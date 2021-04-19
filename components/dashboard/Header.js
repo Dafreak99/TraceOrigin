@@ -1,4 +1,4 @@
-import { Box, Flex, List, ListItem, Text } from "@chakra-ui/core";
+import { Box, Flex, List, ListItem, Text } from "@chakra-ui/react";
 import Avatar from "antd/lib/avatar/avatar";
 import { Header } from "antd/lib/layout/layout";
 import { BellOutlined } from "@ant-design/icons";

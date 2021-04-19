@@ -1,6 +1,6 @@
 import Layout from "@/components/dashboard/Layout";
 
-import { Box, Alert, AlertIcon, Heading, Text } from "@chakra-ui/core";
+import { Box, Alert, AlertIcon, Heading, Text } from "@chakra-ui/react";
 
 import { Table, Td, Th, Tr } from "@/components/Table";
 

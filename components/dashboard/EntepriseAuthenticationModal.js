@@ -1,18 +1,23 @@
 import {
   FormLabel,
-  Input,
   Button,
-  ModalFooter,
   Spinner,
-  Text,
   AlertDescription,
   AlertTitle,
   Alert,
   AlertIcon,
-} from "@chakra-ui/core";
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+  Select,
+} from "@chakra-ui/react";
 
 import { useState } from "react";
-import Modal from "antd/lib/modal/Modal";
 
 import { useForm } from "react-hook-form";
 import UploadPreview from "@/components/dashboard/UploadPreview";
@@ -22,7 +27,7 @@ import { useRouter } from "next/router";
 import FormControl from "./FormControl";
 import { mutate } from "swr";
 
-const EnterpriseAuthenticationModal = ({ visible, setVisible }) => {
+const EnterpriseAuthenticationModal = ({ isOpen, onClose, onOpen }) => {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
@@ -32,12 +37,6 @@ const EnterpriseAuthenticationModal = ({ visible, setVisible }) => {
 
   const [files, setFiles] = useState([]);
   const [fileUrls, setFileUrls] = useState([]);
-
-  const showModal = () => setVisible(true);
-
-  const handleCancel = () => {
-    setVisible(false);
-  };
 
   const onSubmit = async (values) => {
     setIsSave(true);
@@ -86,7 +85,7 @@ const EnterpriseAuthenticationModal = ({ visible, setVisible }) => {
 
     setFiles([]);
     setFileUrls([]);
-    setVisible(false);
+    onClose();
 
     router.push("/farm");
     reset();
@@ -94,49 +93,46 @@ const EnterpriseAuthenticationModal = ({ visible, setVisible }) => {
   };
   return (
     <>
-      <Modal
-        visible={visible}
-        title="Thêm xác thực pháp lý cho doanh nghiệp"
-        onCancel={handleCancel}
-        footer={null}
-      >
-        {/* Modal Body */}
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
+          <ModalHeader>Thêm xác thực pháp lý cho doanh nghiệp</ModalHeader>
+          <ModalCloseButton />
 
-        <Alert
-          status="info"
-          variant="subtle"
-          flexDirection="column"
-          alignItems="center"
-          justifyContent="center"
-          textAlign="center"
-          height="200px"
-          marginBottom="2rem"
-        >
-          <AlertIcon boxSize="40px" mr={0} />
-          <AlertTitle mt={4} mb={1} fontSize="lg">
-            Lưu ý
-          </AlertTitle>
-          <AlertDescription maxWidth="sm">
-            Để tăng độ xác thực của doanh nghiệp cũng như đảm bảo lòng tin của
-            người tiêu dùng. Vui lòng tải lên tất cả các hình ảnh về giấy tờ có
-            liên quan như các loại giấy chứng nhận đăng ký kinh doanh, an toàn
-            vệ sinh thực phẩm...
-          </AlertDescription>
-        </Alert>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <FormControl>
-            <FormLabel>Hình ảnh</FormLabel>
-            <UploadPreview
-              files={files}
-              setFiles={setFiles}
-              fileUrls={fileUrls}
-              setFileUrls={setFileUrls}
-            />
-          </FormControl>
-          <Divider />
-
+          <ModalBody>
+            <Alert
+              status="info"
+              variant="subtle"
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="center"
+              textAlign="center"
+              height="200px"
+              marginBottom="2rem"
+            >
+              <AlertIcon boxSize="40px" mr={0} />
+              <AlertTitle mt={4} mb={1} fontSize="lg">
+                Lưu ý
+              </AlertTitle>
+              <AlertDescription maxWidth="sm">
+                Để tăng độ xác thực của doanh nghiệp cũng như đảm bảo lòng tin
+                của người tiêu dùng. Vui lòng tải lên tất cả các hình ảnh về
+                giấy tờ có liên quan như các loại giấy chứng nhận đăng ký kinh
+                doanh, an toàn vệ sinh thực phẩm...
+              </AlertDescription>
+            </Alert>
+            <FormControl>
+              <FormLabel>Hình ảnh</FormLabel>
+              <UploadPreview
+                files={files}
+                setFiles={setFiles}
+                fileUrls={fileUrls}
+                setFileUrls={setFileUrls}
+              />
+            </FormControl>
+          </ModalBody>
           <ModalFooter>
-            <Button variantColor="blue" mr={3} onClick={handleCancel}>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
               Đóng
             </Button>
             {isSave ? (
@@ -149,7 +145,7 @@ const EnterpriseAuthenticationModal = ({ visible, setVisible }) => {
               </Button>
             )}
           </ModalFooter>
-        </form>
+        </ModalContent>
       </Modal>
     </>
   );

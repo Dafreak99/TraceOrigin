@@ -1,7 +1,6 @@
 import dbConnect from "../../../lib/dbConnect";
 
 import jwt from "jsonwebtoken";
-import Business from "models/Business";
 import Hatchery from "models/Hatchery";
 import Farm from "models/Farm";
 

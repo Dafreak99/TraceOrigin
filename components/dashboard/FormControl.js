@@ -1,4 +1,4 @@
-import { FormControl as FormChakra } from "@chakra-ui/core";
+import { FormControl as FormChakra } from "@chakra-ui/react";
 
 const FormControl = (props) => {
   return (

@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Text } from "@chakra-ui/core";
+import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import { Form, Input, Button, Image, Alert } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";

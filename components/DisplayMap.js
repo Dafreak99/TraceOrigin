@@ -8,9 +8,7 @@ import MapGL, {
   Popup,
   Source,
 } from "react-map-gl";
-import dynamic from "next/dynamic";
-import { Box, Text } from "@chakra-ui/core";
-import { markAssetError } from "next/dist/client/route-loader";
+import { Box, Text } from "@chakra-ui/react";
 
 const fullscreenControlStyle = {
   right: 10,
@@ -29,8 +27,6 @@ const Map = ({ data }) => {
     width: "100vw",
     height: "100%",
   });
-
-  const [entry, setEntry] = useState(null);
 
   const [showPopup, setShowPopup] = useState({});
 

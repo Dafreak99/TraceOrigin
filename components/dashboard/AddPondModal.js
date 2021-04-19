@@ -1,11 +1,17 @@
 import {
-  ModalFooter,
   Button,
   FormLabel,
   Input,
   Spinner,
-} from "@chakra-ui/core";
-import Modal from "antd/lib/modal/Modal";
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { useState } from "react";
 
 import { useForm } from "react-hook-form";
@@ -15,9 +21,9 @@ import { mutate } from "swr";
 import FormControl from "./FormControl";
 
 export const AddPondModal = () => {
-  const { handleSubmit, register, errors, control, reset } = useForm();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [visible, setVisible] = useState(false);
+  const { handleSubmit, register, errors, control, reset } = useForm();
 
   const [isSave, setIsSave] = useState(false);
 
@@ -51,72 +57,61 @@ export const AddPondModal = () => {
 
     setIsSave(false);
     reset();
-    handleCancel();
-  };
-
-  const handleCancel = () => {
-    setVisible(false);
+    onClose();
   };
 
   return (
     <>
-      <Button
-        mb={8}
-        backgroundColor="gray.300"
-        onClick={() => setVisible(true)}
-      >
+      <Button mb={8} backgroundColor="gray.300" onClick={onOpen}>
         Thêm ao mới
       </Button>
 
-      <Modal
-        visible={visible}
-        onCancel={handleCancel}
-        title="Thêm ao"
-        footer={null}
-      >
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <FormControl>
-            <FormLabel htmlFor="name">Tên ao: </FormLabel>
-            <Input
-              type="text"
-              id="name"
-              name="name"
-              ref={register({
-                required: "Required",
-              })}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="area">Diện tích ao: </FormLabel>
-            <Input
-              type="number"
-              id="area"
-              name="area"
-              ref={register({
-                required: "Required",
-              })}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="stockingDensity">
-              Mật độ thả(Ước lượng số con thả/m3):
-            </FormLabel>
-            <Input
-              type="number"
-              id="stockingDensity"
-              name="stockingDensity"
-              ref={register({
-                required: "Required",
-              })}
-            />
-          </FormControl>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
+          <ModalHeader>Thêm ao</ModalHeader>
+          <ModalCloseButton />
+
+          <ModalBody>
+            <FormControl>
+              <FormLabel htmlFor="name">Tên ao: </FormLabel>
+              <Input
+                type="text"
+                id="name"
+                name="name"
+                ref={register({
+                  required: "Required",
+                })}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="area">Diện tích ao: </FormLabel>
+              <Input
+                type="number"
+                id="area"
+                name="area"
+                ref={register({
+                  required: "Required",
+                })}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="stockingDensity">
+                Mật độ thả(Ước lượng số con thả/m3):
+              </FormLabel>
+              <Input
+                type="number"
+                id="stockingDensity"
+                name="stockingDensity"
+                ref={register({
+                  required: "Required",
+                })}
+              />
+            </FormControl>
+          </ModalBody>
 
           <ModalFooter>
-            <Button
-              variantColor="blue"
-              mr={3}
-              onClick={() => setVisible(!visible)}
-            >
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
               Đóng
             </Button>
             {isSave ? (
@@ -129,7 +124,7 @@ export const AddPondModal = () => {
               </Button>
             )}
           </ModalFooter>
-        </form>
+        </ModalContent>
       </Modal>
     </>
   );

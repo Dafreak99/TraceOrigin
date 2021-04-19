@@ -2,16 +2,22 @@ import {
   FormLabel,
   Input,
   Button,
-  ModalFooter,
   Spinner,
   Box,
-} from "@chakra-ui/core";
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+} from "@chakra-ui/react";
 
 import { useState } from "react";
-import Modal from "antd/lib/modal/Modal";
 
-import { useForm } from "react-hook-form";
-import { Divider, Button as AntdButton } from "antd";
+import { Controller, useForm } from "react-hook-form";
+import { Button as AntdButton } from "antd";
 import { useRouter } from "next/router";
 import { HiPlus } from "react-icons/hi";
 
@@ -23,7 +29,7 @@ const AddHatchery = () => {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
-  const [visible, setVisible] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [entry, setEntry] = useState(null);
 
   const [isSave, setIsSave] = useState(false);
@@ -37,8 +43,6 @@ const AddHatchery = () => {
 
   const onSubmit = async (values) => {
     setIsSave(true);
-
-    values.coordinate = entry;
 
     try {
       let res = await fetch("/api/hatchery", {
@@ -64,7 +68,7 @@ const AddHatchery = () => {
       console.log(error.message);
     }
 
-    setVisible(false);
+    onClose();
     setEntry(null);
     reset();
     setIsSave(false);
@@ -74,7 +78,7 @@ const AddHatchery = () => {
       <AntdButton
         type="primary"
         shape="circle"
-        onClick={showModal}
+        onClick={onOpen}
         style={{
           position: "fixed",
           bottom: "4rem",
@@ -91,47 +95,50 @@ const AddHatchery = () => {
         <HiPlus fontSize="28px" />
       </AntdButton>
 
-      <Modal
-        visible={visible}
-        title="Thêm trại giống"
-        onCancel={handleCancel}
-        footer={null}
-      >
-        {/* Modal Body */}
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <FormControl>
-            <FormLabel htmlFor="name">Tên trại giống</FormLabel>
-            <Input
-              type="text"
-              id="name"
-              name="name"
-              ref={register({
-                required: "Required",
-              })}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="address">Địa chỉ trại giống: </FormLabel>
-            <Input
-              type="text"
-              id="address"
-              name="address"
-              ref={register({
-                required: "Required",
-              })}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="address">Tọa độ: </FormLabel>
-            <Box height="20rem">
-              <Map entry={entry} setEntry={setEntry} />
-            </Box>
-          </FormControl>
-
-          <Divider />
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
+          <ModalHeader>Thêm trại giống</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <FormControl>
+              <FormLabel htmlFor="name">Tên trại giống</FormLabel>
+              <Input
+                type="text"
+                id="name"
+                name="name"
+                ref={register({
+                  required: "Required",
+                })}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="address">Địa chỉ trại giống: </FormLabel>
+              <Input
+                type="text"
+                id="address"
+                name="address"
+                ref={register({
+                  required: "Required",
+                })}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="coordinate">Tọa độ: </FormLabel>
+              <Box height="20rem">
+                <Controller
+                  name="coordinate"
+                  control={control}
+                  defaultValue={false}
+                  rules={{ required: true }}
+                  render={({ onChange }) => <Map onChange={onChange} />}
+                />
+              </Box>
+            </FormControl>
+          </ModalBody>
 
           <ModalFooter>
-            <Button variantColor="blue" mr={3} onClick={handleCancel}>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
               Đóng
             </Button>
             {isSave ? (
@@ -144,7 +151,7 @@ const AddHatchery = () => {
               </Button>
             )}
           </ModalFooter>
-        </form>
+        </ModalContent>
       </Modal>
     </>
   );
