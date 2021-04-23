@@ -16,31 +16,40 @@ import {
   AlertDescription,
   AlertTitle,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 import { useForm } from "react-hook-form";
-import { AiOutlinePlus } from "react-icons/ai";
 
-import { mutate } from "swr";
+import DatePicker from "../DatePicker";
 
 import FormControl from "./FormControl";
 
-export const RejectMessageModal = ({ isOpen, onClose, type }) => {
+export const RejectMessageModal = ({ isOpen, onClose, type, hatcheryId }) => {
+  const router = useRouter();
   const { handleSubmit, register, errors, control, reset } = useForm();
 
   const [isSave, setIsSave] = useState(false);
 
   const onSubmit = async (values) => {
-    const types = {
-      register: "/api/product/register/reject",
-      authentication: "authentication",
-      harvest: "/api/product/harvest/reject",
-      hatchery: "/api/hatchery/reject",
-    };
+    values.type = type;
 
+    let url, redirectUrl;
+    if (type === "hatchery") {
+      values.hatcheryId = hatcheryId;
+      url = "/api/hatchery/reject";
+      redirectUrl = "/qualitycontrol/hatchery";
+    }
+
+    // const types = {
+    //   register: "/api/product/register/reject",
+    //   authentication: "authentication",
+    //   harvest: "/api/product/harvest/reject",
+    //   hatchery: "/api/hatchery/reject",
+    // };
     setIsSave(true);
     try {
-      let res = await fetch(types[type], {
+      let res = await fetch(url, {
         method: "POST",
         body: values,
         headers: {
@@ -55,6 +64,8 @@ export const RejectMessageModal = ({ isOpen, onClose, type }) => {
     setIsSave(false);
     reset();
     onClose();
+
+    router.push(redirectUrl);
   };
 
   return (
@@ -93,6 +104,11 @@ export const RejectMessageModal = ({ isOpen, onClose, type }) => {
                   required: "Required",
                 })}
               />
+            </FormControl>
+
+            <FormControl display="none">
+              <FormLabel htmlFor="createdAt">Lời nhắn: </FormLabel>
+              <DatePicker control={control} name="createdAt" />
             </FormControl>
           </ModalBody>
 

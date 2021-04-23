@@ -110,6 +110,7 @@ const Hatchery = () => {
               isOpen={isOpen}
               onClose={onClose}
               type="hatchery"
+              hatcheryId={router.query.id}
             />
           </Popconfirm>
         </Box>

@@ -21,8 +21,6 @@ export default async (req, res) => {
 
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-  const farm = await Farm.findOne({ createdBy: decoded });
-
   switch (method) {
     case "GET":
       let pond = await Pond.findOne({ _id: id }).populate({

@@ -19,11 +19,15 @@ export default async (req, res) => {
 
   switch (method) {
     case "GET":
+      let user = await User.findById(decoded);
+
       let defaultHatcheries = await Hatchery.find({
         createdBy: "60082f5b61aec103005fd68e", // Quanlity Control
       });
       let requestedHatcheries = await Hatchery.find({
         createdBy: { $ne: "60082f5b61aec103005fd68e" },
+        "isApproved.status":
+          user.type === "qualitycontrol" ? ["pending"] : ["false", "pending"],
       }).populate("createdBy");
 
       res.send({ defaultHatcheries, requestedHatcheries });
@@ -35,7 +39,8 @@ export default async (req, res) => {
         let hatchery = new Hatchery({
           ...req.body,
           createdBy: decoded,
-          isApproved: user.type === "qualitycontrol" ? "true" : "pending",
+          "isApproved.status":
+            user.type === "qualitycontrol" ? "true" : "pending",
         });
         await hatchery.save();
         res.send(hatchery);

@@ -1,9 +1,7 @@
-import fetcher from "@/utils/fetcher";
 import {
   Box,
   Button,
   Grid,
-  grid,
   Heading,
   List,
   ListItem,
@@ -11,9 +9,8 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { CSSTransition } from "react-transition-group";
+import { FaTrash } from "react-icons/fa";
 import useSWR, { mutate } from "swr";
-import Product from "@/components/dashboard/Product";
 
 import AddSeedModal from "./AddSeedModal";
 
@@ -91,14 +88,12 @@ const PondInfo = ({ pond }) => {
                     </Box>
                   </Text>
                 </ListItem>
-
-                <AddSeedModal pondId={pond._id} />
               </>
             )}
           </List>
 
           {/* Second Col */}
-          {pond.seed && (
+          {pond.seed ? (
             <List spacing={2}>
               <ListItem>
                 <Heading size="md" mt={4} mb={4}>
@@ -154,6 +149,8 @@ const PondInfo = ({ pond }) => {
                 </Text>
               </ListItem>
             </List>
+          ) : (
+            <AddSeedModal pondId={pond._id} />
           )}
         </Grid>
 
@@ -163,10 +160,12 @@ const PondInfo = ({ pond }) => {
             variant="ghost"
             _hover={{}}
             _focus={{}}
+            leftIcon={<FaTrash />}
             mr={3}
+            left
             onClick={onDelete}
           >
-            Xóa
+            Xóa ao
           </Button>
           {pond?.seed?.isRegistered === "false" && (
             <Button>

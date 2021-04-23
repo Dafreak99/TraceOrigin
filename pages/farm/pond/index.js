@@ -2,9 +2,20 @@ import AddPondModal from "@/components/dashboard/AddPondModal";
 import Layout from "@/components/dashboard/Layout";
 import fetcher from "@/utils/fetcher";
 import { Alert, AlertIcon } from "@chakra-ui/alert";
-import { Box, Flex, Heading, List, ListItem, Text } from "@chakra-ui/layout";
+import {
+  Box,
+  Flex,
+  Grid,
+  Heading,
+  List,
+  ListItem,
+  Stack,
+  Text,
+} from "@chakra-ui/layout";
+import { Skeleton } from "@chakra-ui/skeleton";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import useSWR from "swr";
 
@@ -13,6 +24,30 @@ const Index = () => {
     ["/api/pond", process.browser ? localStorage.getItem("token") : null],
     fetcher
   );
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (data !== undefined) {
+      setLoading(false);
+    }
+  }, [data]);
+
+  if (loading) {
+    return (
+      <Layout>
+        <Flex align="center" mb={5}>
+          <Heading mr="10px">Danh sách ao</Heading>
+        </Flex>
+        <Grid gridTemplateColumns="repeat(4,1fr)" gridGap="2rem">
+          <Skeleton height="200px" />
+          <Skeleton height="200px" />
+          <Skeleton height="200px" />
+          <Skeleton height="200px" />
+        </Grid>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
