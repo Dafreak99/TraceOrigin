@@ -25,7 +25,7 @@ export default async (req, res) => {
   switch (method) {
     case "GET":
       let products = await Product.find({
-        isRegistered: "pending",
+        "isRegistered.status": "pending",
       }).populate({
         path: "pond",
         populate: { path: "seed" },

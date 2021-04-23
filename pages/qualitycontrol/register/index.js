@@ -32,18 +32,6 @@ const DashBoard = () => {
         },
         body: JSON.stringify({ id }),
       });
-
-      mutate(
-        [
-          "/api/product/unapproved",
-          process.browser ? localStorage.getItem("token") : null,
-        ],
-        async (cachedData) => {
-          let data = cachedData.filter((each) => each._id !== id);
-          return data;
-        },
-        false
-      );
     } catch (error) {
       console.log(error.message);
     }
@@ -59,19 +47,6 @@ const DashBoard = () => {
       },
       body: JSON.stringify({ id }),
     });
-
-    mutate(
-      [
-        "/api/product/unapproved",
-        process.browser ? localStorage.getItem("token") : null,
-      ],
-      async (cachedData) => {
-        let data = cachedData.filter((each) => each._id !== id);
-
-        return data;
-      },
-      false
-    );
   };
 
   return (

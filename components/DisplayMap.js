@@ -19,10 +19,11 @@ const MAPBOX_TOKEN =
   "pk.eyJ1IjoiaGFpdHJhbjk5IiwiYSI6ImNrMmtlNnhlbjB6Y2kzY29oc2Q2YnRlOXoifQ.ZwtkHfNjr_Ltp39bQj8hSg";
 
 const Map = ({ data }) => {
+  console.log(data);
   const mapRef = useRef();
   const [viewport, setViewport] = useState({
-    latitude: data[0].latitude,
-    longitude: data[0].longitude,
+    latitude: data[0].coordinate.latitude,
+    longitude: data[0].coordinate.longitude,
     zoom: 12,
     width: "100vw",
     height: "100%",
@@ -101,8 +102,8 @@ const Map = ({ data }) => {
         data.map((marker) => (
           <>
             <Marker
-              latitude={marker.latitude}
-              longitude={marker.longitude}
+              latitude={marker.coordinate.latitude}
+              longitude={marker.coordinate.longitude}
               offsetLeft={-40}
               offsetTop={-60}
             >
@@ -121,8 +122,8 @@ const Map = ({ data }) => {
             {showPopup[marker._id] && (
               <Popup
                 className="popup"
-                latitude={marker.latitude}
-                longitude={marker.longitude}
+                latitude={marker.coordinate.latitude}
+                longitude={marker.coordinate.longitude}
                 closeButton={true}
                 closeOnClick={false}
                 dynamicPosition={true}

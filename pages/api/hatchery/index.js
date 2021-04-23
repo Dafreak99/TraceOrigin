@@ -2,7 +2,7 @@ import dbConnect from "../../../lib/dbConnect";
 
 import jwt from "jsonwebtoken";
 import Hatchery from "models/Hatchery";
-import Farm from "models/Farm";
+import User from "models/User";
 
 dbConnect();
 
@@ -17,20 +17,39 @@ export default async (req, res) => {
 
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-  let farm = await Farm.findOne({ createdBy: decoded });
-
   switch (method) {
     case "GET":
-      let hatcheries = await Hatchery.find({ farmId: farm._id });
-      res.send(hatcheries);
+      let defaultHatcheries = await Hatchery.find({
+        createdBy: "60082f5b61aec103005fd68e", // Quanlity Control
+      });
+      let requestedHatcheries = await Hatchery.find({
+        createdBy: { $ne: "60082f5b61aec103005fd68e" },
+      }).populate("createdBy");
+
+      res.send({ defaultHatcheries, requestedHatcheries });
       break;
     case "POST":
       try {
-        console.log(req.body);
+        const user = await User.findById(decoded);
 
-        let hatchery = new Hatchery({ ...req.body, farmId: farm._id });
+        let hatchery = new Hatchery({
+          ...req.body,
+          createdBy: decoded,
+          isApproved: user.type === "qualitycontrol" ? "true" : "pending",
+        });
         await hatchery.save();
         res.send(hatchery);
+      } catch (error) {
+        console.log(error);
+        res.send({ message: error.message });
+      }
+      break;
+    case "PUT":
+      try {
+        const { _id, name, address, coordinate } = req.body;
+
+        await Hatchery.findOneAndUpdate(_id, { name, address, coordinate });
+        res.send({ message: "OK" });
       } catch (error) {
         console.log(error);
         res.send({ message: error.message });

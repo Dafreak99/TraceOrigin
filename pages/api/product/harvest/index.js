@@ -28,7 +28,7 @@ export default async (req, res) => {
       // Get harvested products
       const products = await Product.find({
         farm: farm._id,
-        isHarvested: ["true", "pending"],
+        "isHarvested.status": ["true", "pending"],
       })
         .populate({ path: "seed", populate: "hatchery" })
         .populate({ path: "packingMethod" });
@@ -58,7 +58,7 @@ export default async (req, res) => {
             usingMedicine,
             feeding,
             seed: seed._id,
-            isHarvested: "pending",
+            "isHarvested.status": "pending",
           }
         );
 

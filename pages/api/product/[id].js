@@ -4,6 +4,7 @@ dbConnect();
 import Product from "models/Product";
 
 // @route /api/product/:id
+// GET A specific(unharvested) product by PondId
 
 export default async (req, res) => {
   const { method } = req;
@@ -14,20 +15,15 @@ export default async (req, res) => {
 
   switch (method) {
     case "GET":
-      const product = await Product.findOne({ _id: id })
-        .populate({
-          path: "pond",
-          populate: { path: "seed", populate: "hatchery" },
-        })
-        .populate({ path: "farm", populate: "authentication" })
-        .populate({ path: "feeding", populate: "food" })
-        .populate({ path: "usingMedicine", populate: { path: "medicine" } })
-        .populate({ path: "seed", populate: "hatchery" });
+      const product = await Product.findOne({
+        pond: id,
+        "isHarvested.status": [null, "false"],
+      })
+        .populate({ path: "pond", populate: { path: "seed" } })
+        .populate({ path: "seed", populate: { path: "hatchery" } });
 
       res.send(product);
 
-      break;
-    case "POST":
       break;
 
     default:

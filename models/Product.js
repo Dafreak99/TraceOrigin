@@ -3,6 +3,7 @@ const Farm = require("./Farm");
 const FeedingDiary = require("./FeedingDiary");
 const Packing = require("./Packing");
 const Pond = require("./Pond");
+const RejectMessage = require("./RejectMessage");
 const Seed = require("./Seed");
 const UsingMedicine = require("./UsingMedicine");
 
@@ -13,8 +14,22 @@ const ProductSchema = new mongoose.Schema({
   images: [String],
   weight: String,
   harvestedDate: String,
-  isRegistered: String,
-  isHarvested: String,
+  isRegistered: {
+    status: String,
+    reject: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: RejectMessage,
+      default: null,
+    },
+  },
+  isHarvested: {
+    status: String,
+    reject: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: RejectMessage,
+      default: null,
+    },
+  },
   pond: {
     type: mongoose.Schema.Types.ObjectId,
     ref: Pond,

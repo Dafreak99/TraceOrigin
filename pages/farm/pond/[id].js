@@ -1,23 +1,32 @@
-import AddPondModal from "@/components/dashboard/AddPondModal";
+import { Flex, Heading } from "@chakra-ui/react";
+
+import { useRouter } from "next/router";
+import useSWR from "swr";
+import { Tabs } from "antd";
+import QRCode from "qrcode.react";
+
+import Diary from "@/components/dashboard/Diary";
 import BackButton from "@/components/dashboard/BackButton";
 import Layout from "@/components/dashboard/Layout";
 import PondInfo from "@/components/dashboard/PondInfo";
 import fetcher from "@/utils/fetcher";
-import { Alert, AlertIcon } from "@chakra-ui/alert";
-import { Box, Flex, Heading, List, ListItem, Text } from "@chakra-ui/layout";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { CSSTransition, TransitionGroup } from "react-transition-group";
-import useSWR from "swr";
-import { Tabs } from "antd";
-import { AppleOutlined, AndroidOutlined } from "@ant-design/icons";
-import { AiOutlineInfoCircle } from "react-icons/ai";
-import Diary from "@/components/dashboard/Diary";
+import Product from "@/components/dashboard/Product";
 
 const { TabPane } = Tabs;
 
 const Index = () => {
   const router = useRouter();
+  const { data: product } = useSWR(
+    router.query.id
+      ? [
+          `/api/product/${router.query.id}`,
+          process.browser ? localStorage.getItem("token") : null,
+        ]
+      : null,
+    fetcher,
+    { refreshInterval: 1000 }
+  );
+  console.log(product);
 
   const { data, error } = useSWR(
     router.query.id
@@ -37,21 +46,12 @@ const Index = () => {
       </Flex>
       <Tabs defaultActiveKey="1">
         <TabPane tab={<span>Thông tin ao</span>} key="1">
-          {data && <PondInfo pond={data} />}
+          <Flex flexWrap="wrap-reverse">
+            {data && <PondInfo pond={data} />}
+            {product && <Product product={product} />}
+          </Flex>
         </TabPane>
         <TabPane tab={<span>Ghi chép theo chuẩn VietGAP</span>} key="2">
-          {/* {pond?.seed?.isRegistered === "true" && (
-        <CSSTransition timeout={500} classNames="item">
-          <Box
-            background="#fff"
-            gridColumn="span 6"
-            display="grid"
-            gridTemplateColumns="repeat(2, 1fr)"
-          >
-          // Here
-          </Box>
-          </CSSTransition>
-        )} */}
           {data && <Diary pond={data} />}
         </TabPane>
       </Tabs>

@@ -56,7 +56,7 @@ const Diary = ({ pond }) => {
         <Alert status="warning" gridColumn="span 6">
           <AlertIcon />
           <Text fontSize="md">
-            Chỉ có thể tiến hành ghi chép khi đã được duyệt đăng ký
+            Chỉ có thể tiến hành ghi chép khi đã được duyệt đăng ký sản phẩm
           </Text>
         </Alert>
       )}

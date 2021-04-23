@@ -84,8 +84,8 @@ const Product = () => {
     );
   }
 
-  const productStatus = (isRegistered) => {
-    if (isRegistered === "false") {
+  const productStatus = (status) => {
+    if (status === "false") {
       return (
         <Badge
           ml="1"
@@ -98,7 +98,7 @@ const Product = () => {
           No
         </Badge>
       );
-    } else if (isRegistered === "true") {
+    } else if (status === "true") {
       return (
         <Badge
           ml="1"
@@ -111,7 +111,7 @@ const Product = () => {
           Yes
         </Badge>
       );
-    } else if (isRegistered === "pending") {
+    } else if (status === "pending") {
       return (
         <Badge
           ml="1"
@@ -182,7 +182,7 @@ const Product = () => {
                           <Td>{name}</Td>
                           <Td>{pondName}</Td>
                           <Td>{stockingDate}</Td>
-                          <Td>{productStatus(isRegistered)}</Td>
+                          <Td>{productStatus(isRegistered.status)}</Td>
                           <Td>{qrCode ? qrCode : "Chưa cấp"}</Td>
                           {qrCode ? (
                             <Td>
@@ -204,15 +204,15 @@ const Product = () => {
                               e.stopPropagation();
                             }}
                           >
-                            {isRegistered === "false" ? (
+                            {isRegistered.status === "false" ? (
                               <Button onClick={() => reRegister(_id)}>
                                 Đăng ký lại
                               </Button>
-                            ) : isRegistered === "true" ? (
+                            ) : isRegistered.status === "true" ? (
                               <Button>
                                 <Link href={`/farm/harvest/${_id}`}>
                                   <a>
-                                    {isHarvested === "false"
+                                    {isHarvested?.status === "false"
                                       ? "Thu hoạch lại"
                                       : "Thu hoạch"}
                                   </a>

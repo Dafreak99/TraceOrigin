@@ -80,8 +80,8 @@ const Product = () => {
     );
   }
 
-  const productStatus = (isHarvested) => {
-    if (isHarvested === "false") {
+  const productStatus = (status) => {
+    if (status === "false") {
       return (
         <Badge
           ml="1"
@@ -94,7 +94,7 @@ const Product = () => {
           No
         </Badge>
       );
-    } else if (isHarvested === "true") {
+    } else if (status === "true") {
       return (
         <Badge
           ml="1"
@@ -107,7 +107,7 @@ const Product = () => {
           Yes
         </Badge>
       );
-    } else if (isHarvested === "pending") {
+    } else if (status === "pending") {
       return (
         <Badge
           ml="1"
@@ -176,8 +176,8 @@ const Product = () => {
                               }
                             />
                           </Td>
-                          <Td>{productStatus(isHarvested)}</Td>
-                          {isHarvested === "true" ? (
+                          <Td>{productStatus(isHarvested.status)}</Td>
+                          {isHarvested.status === "true" ? (
                             <>
                               <Td
                                 px={8}

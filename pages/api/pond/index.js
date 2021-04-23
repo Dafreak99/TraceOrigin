@@ -67,7 +67,7 @@ export default async (req, res) => {
           return res.send({ message: "Đã xóa thành công ao !" });
         }
 
-        if (product.isHarvested === "true") {
+        if (product.isHarvested.status === "true") {
           // Archive to keep the link from Product to Pond after harvested
           await Pond.findByIdAndUpdate(pond, { isArchived: true });
           await Seed.findOneAndUpdate({ pond }, { isDone: true });
