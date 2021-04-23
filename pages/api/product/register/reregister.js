@@ -28,7 +28,9 @@ export default async (req, res) => {
       try {
         const { id } = req.body;
 
-        await Product.findByIdAndUpdate(id, { isRegistered: "pending" });
+        await Product.findByIdAndUpdate(id, {
+          "isRegistered.status": "pending",
+        });
 
         res.send({ message: "OK" });
       } catch (error) {

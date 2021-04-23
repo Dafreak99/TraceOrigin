@@ -95,7 +95,7 @@ const Posts = () => {
   };
   return (
     <Layout>
-      <Box as="form" px={16} py={12} onSubmit={handleSubmit(onSubmit)}>
+      <Box as="form" onSubmit={handleSubmit(onSubmit)}>
         <Box
           background="#fff"
           boxShadow="0 0 20px rgba(0,0,0,.1)"

@@ -68,10 +68,8 @@ const Admin = () => {
   if (loading) {
     return (
       <Layout>
-        <Box px={16} py={12}>
-          <Heading mt={10} mb={5}>
-            Danh sách người dùng
-          </Heading>
+        <Box>
+          <Heading mb={5}>Danh sách người dùng</Heading>
           <SkeletonTable />
         </Box>
       </Layout>
@@ -80,10 +78,8 @@ const Admin = () => {
 
   return (
     <Layout>
-      <Box px={16} py={12}>
-        <Heading mt={10} mb={5}>
-          Danh sách người dùng
-        </Heading>
+      <Box>
+        <Heading mb={5}>Danh sách người dùng</Heading>
         <AddUserModal />
         {data && data.length > 0 ? (
           <>

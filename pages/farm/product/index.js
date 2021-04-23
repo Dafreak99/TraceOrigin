@@ -72,18 +72,16 @@ const Product = () => {
   if (loading) {
     return (
       <Layout>
-        <Box px={16} py={12} position="relative">
-          <Heading mt={10} mb={5}>
-            Danh sách sản phẩm đã thu hoạch
-          </Heading>
+        <Box position="relative">
+          <Heading mb={5}>Danh sách sản phẩm đã thu hoạch</Heading>
           <SkeletonTable />
         </Box>
       </Layout>
     );
   }
 
-  const productStatus = (isHarvested) => {
-    if (isHarvested === "false") {
+  const productStatus = (status) => {
+    if (status === "false") {
       return (
         <Badge
           ml="1"
@@ -96,7 +94,7 @@ const Product = () => {
           No
         </Badge>
       );
-    } else if (isHarvested === "true") {
+    } else if (status === "true") {
       return (
         <Badge
           ml="1"
@@ -109,7 +107,7 @@ const Product = () => {
           Yes
         </Badge>
       );
-    } else if (isHarvested === "pending") {
+    } else if (status === "pending") {
       return (
         <Badge
           ml="1"
@@ -127,10 +125,8 @@ const Product = () => {
 
   return (
     <Layout>
-      <Box px={16} py={12} position="relative">
-        <Heading mt={10} mb={5}>
-          Danh sách sản phẩm đã thu hoạch
-        </Heading>
+      <Box position="relative">
+        <Heading mb={5}>Danh sách sản phẩm đã thu hoạch</Heading>
         {data && data.length > 0 ? (
           <>
             <Table>
@@ -180,8 +176,8 @@ const Product = () => {
                               }
                             />
                           </Td>
-                          <Td>{productStatus(isHarvested)}</Td>
-                          {isHarvested === "true" ? (
+                          <Td>{productStatus(isHarvested.status)}</Td>
+                          {isHarvested.status === "true" ? (
                             <>
                               <Td
                                 px={8}

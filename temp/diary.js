@@ -16,7 +16,7 @@ import { AiFillMedicineBox } from "react-icons/ai";
 const DashBoard = () => {
   return (
     <Layout>
-      <Box px={16} py={12}>
+      <Box>
         <Grid
           gridTemplateColumns="repeat(4, 1fr)"
           columnGap="40px"

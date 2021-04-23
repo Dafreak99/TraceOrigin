@@ -29,7 +29,7 @@ export default async (req, res) => {
       await Product.findOneAndUpdate(
         { _id: req.body.id },
         {
-          isHarvested: "true",
+          "isHarvested.status": "true",
         }
       );
 

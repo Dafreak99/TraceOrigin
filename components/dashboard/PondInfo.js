@@ -1,12 +1,25 @@
-import { Box, Button, Heading, List, ListItem, Text } from "@chakra-ui/react";
+import fetcher from "@/utils/fetcher";
+import {
+  Box,
+  Button,
+  Grid,
+  grid,
+  Heading,
+  List,
+  ListItem,
+  Text,
+} from "@chakra-ui/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { CSSTransition } from "react-transition-group";
-import { mutate } from "swr";
+import useSWR, { mutate } from "swr";
+import Product from "@/components/dashboard/Product";
 
 import AddSeedModal from "./AddSeedModal";
-import Diary from "./Diary";
 
-const PondInfo = ({ index, selectedPond, setSelectedPond }) => {
+const PondInfo = ({ pond }) => {
+  const router = useRouter();
+
   const onDelete = async () => {
     await fetch("/api/pond", {
       method: "DELETE",
@@ -14,7 +27,7 @@ const PondInfo = ({ index, selectedPond, setSelectedPond }) => {
         "Content-Type": "application/json",
         Authorization: process.browser ? localStorage.getItem("token") : null,
       },
-      body: JSON.stringify({ pondId: selectedPond._id }),
+      body: JSON.stringify({ pondId: pond._id }),
     });
 
     mutate(
@@ -29,83 +42,82 @@ const PondInfo = ({ index, selectedPond, setSelectedPond }) => {
       },
       false
     );
-
-    setSelectedPond(null);
   };
 
   return (
     <>
-      <Box p="3rem" background="#fff" gridColumn="span 6" position="relative">
-        <Heading>{selectedPond.name}</Heading>
-        <Heading size="md" mb={4} mt={4}>
-          Thông tin về ao nuôi
-        </Heading>
-
-        <List spacing={2}>
-          <ListItem>
-            <Text fontSize="md" fontWeight="bold">
-              Tên ao:{" "}
-              <Box as="span" fontWeight="normal">
-                {selectedPond.name}
-              </Box>
-            </Text>
-          </ListItem>
-          <ListItem>
-            <Text fontSize="md" fontWeight="bold">
-              Mã ao:{" "}
-              <Box as="span" fontWeight="normal">
-                {selectedPond.code}
-              </Box>
-            </Text>
-          </ListItem>
-          <ListItem>
-            <Text fontSize="md" fontWeight="bold">
-              Diện tích ao (hecta):{" "}
-              <Box as="span" fontWeight="normal">
-                {selectedPond.area}
-              </Box>
-            </Text>
-          </ListItem>
-          {selectedPond.seed ? (
+      <Box p="3rem" background="#fff" w="max-content" mr="2rem">
+        <Grid gridTemplateColumns="repeat(2, 1fr)" gridGap="4rem">
+          {/* First Col */}
+          <List spacing={2}>
+            <ListItem>
+              <Heading size="md" mb={4} mt={4}>
+                Thông tin về ao nuôi
+              </Heading>
+            </ListItem>
             <ListItem>
               <Text fontSize="md" fontWeight="bold">
-                Trạng thái:{" "}
-                <Box as="span" fontWeight="normal" color="#2dcc84">
-                  Đang được sử dụng
+                Tên ao:{" "}
+                <Box as="span" fontWeight="normal">
+                  {pond.name}
                 </Box>
               </Text>
             </ListItem>
-          ) : (
-            <>
+
+            <ListItem>
+              <Text fontSize="md" fontWeight="bold">
+                Diện tích ao (hecta):{" "}
+                <Box as="span" fontWeight="normal">
+                  {pond.area}
+                </Box>
+              </Text>
+            </ListItem>
+            {pond.seed ? (
               <ListItem>
                 <Text fontSize="md" fontWeight="bold">
                   Trạng thái:{" "}
-                  <Box as="span" fontWeight="normal" color="#cc2d48">
-                    Trống
+                  <Box as="span" fontWeight="normal" color="#2dcc84">
+                    Đang được sử dụng
                   </Box>
                 </Text>
               </ListItem>
+            ) : (
+              <>
+                <ListItem>
+                  <Text fontSize="md" fontWeight="bold">
+                    Trạng thái:{" "}
+                    <Box as="span" fontWeight="normal" color="#cc2d48">
+                      Trống
+                    </Box>
+                  </Text>
+                </ListItem>
 
-              <AddSeedModal
-                pondId={selectedPond._id}
-                setSelectedPond={setSelectedPond}
-              />
-            </>
-          )}
-        </List>
+                <AddSeedModal pondId={pond._id} />
+              </>
+            )}
+          </List>
 
-        {selectedPond.seed && (
-          <>
-            <Heading size="md" mt={4} mb={4}>
-              Thông tin con giống
-            </Heading>
-
+          {/* Second Col */}
+          {pond.seed && (
             <List spacing={2}>
+              <ListItem>
+                <Heading size="md" mt={4} mb={4}>
+                  Thông tin con giống
+                </Heading>
+              </ListItem>
               <ListItem>
                 <Text fontSize="md" fontWeight="bold">
                   Tên con giống :{" "}
                   <Box as="span" fontWeight="normal">
-                    {selectedPond.seed.name}
+                    {pond.seed.name}
+                  </Box>
+                </Text>
+              </ListItem>
+              <ListItem>
+                <Text fontSize="md" fontWeight="bold">
+                  Ngày thả giống :{" "}
+                  <Box as="span" fontWeight="normal">
+                    {pond.seed.stockingDate}
                   </Box>
                 </Text>
               </ListItem>
@@ -113,7 +125,7 @@ const PondInfo = ({ index, selectedPond, setSelectedPond }) => {
                 <Text fontSize="md" fontWeight="bold">
                   Số lượng :{" "}
                   <Box as="span" fontWeight="normal">
-                    {selectedPond.seed.quantity}
+                    {pond.seed.quantity}
                   </Box>
                 </Text>
               </ListItem>
@@ -121,7 +133,7 @@ const PondInfo = ({ index, selectedPond, setSelectedPond }) => {
                 <Text fontSize="md" fontWeight="bold">
                   Ngày tuổi của giống:{" "}
                   <Box as="span" fontWeight="normal">
-                    {selectedPond.seed.seedAge}
+                    {pond.seed.seedAge}
                   </Box>
                 </Text>
               </ListItem>
@@ -129,7 +141,7 @@ const PondInfo = ({ index, selectedPond, setSelectedPond }) => {
                 <Text fontSize="md" fontWeight="bold">
                   Tên trại giống:{" "}
                   <Box as="span" fontWeight="normal">
-                    {selectedPond.seed.hatchery.name}
+                    {pond.seed.hatchery.name}
                   </Box>
                 </Text>
               </ListItem>
@@ -137,14 +149,15 @@ const PondInfo = ({ index, selectedPond, setSelectedPond }) => {
                 <Text fontSize="md" fontWeight="bold">
                   Địa chỉ trại giống:{" "}
                   <Box as="span" fontWeight="normal">
-                    {selectedPond.seed.hatchery.address}
+                    {pond.seed.hatchery.address}
                   </Box>
                 </Text>
               </ListItem>
             </List>
-          </>
-        )}
-        <Box position="absolute" bottom="8%">
+          )}
+        </Grid>
+
+        <Box mt="4rem">
           <Button
             colorScheme="red"
             variant="ghost"
@@ -155,25 +168,13 @@ const PondInfo = ({ index, selectedPond, setSelectedPond }) => {
           >
             Xóa
           </Button>
-          {selectedPond?.seed?.isRegistered === "false" && (
+          {pond?.seed?.isRegistered === "false" && (
             <Button>
-              <Link href={`/farm/register/${selectedPond._id}`}>Đăng ký</Link>
+              <Link href={`/farm/register/${pond._id}`}>Đăng ký</Link>
             </Button>
           )}
         </Box>
       </Box>
-      {selectedPond?.seed?.isRegistered === "true" && (
-        <CSSTransition timeout={500} classNames="item">
-          <Box
-            background="#fff"
-            gridColumn="span 6"
-            display="grid"
-            gridTemplateColumns="repeat(2, 1fr)"
-          >
-            <Diary pondId={selectedPond._id} />
-          </Box>
-        </CSSTransition>
-      )}
     </>
   );
 };

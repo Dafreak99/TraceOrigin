@@ -29,7 +29,7 @@ export default async (req, res) => {
     case "GET":
       let products = await Product.find({
         farm: farm._id,
-        isRegistered: "true",
+        "isRegistered.status": "true",
         isHarvested: null,
       }).populate({
         path: "pond",
@@ -42,17 +42,9 @@ export default async (req, res) => {
     case "POST":
       let { id } = req.body;
 
-      // let product = await Product.findById(id);
-
-      // const product = await Product.findOne({ _id: id });
-      // const seed = await Seed.findOne({ _id: product.seed });
-
-      // console.log("Product", product);
-      // console.log("Seed", seed);
-      // });
       const product = await Product.findOneAndUpdate(
         { _id: id },
-        { isRegistered: "true", qrCode: id },
+        { "isRegistered.status": "true", qrCode: id },
         { new: true }
       );
 

@@ -3,13 +3,12 @@ dbConnect();
 
 import jwt from "jsonwebtoken";
 import Product from "models/Product";
-import Farm from "models/Farm";
 import FeedingDiary from "models/FeedingDiary";
 import UsingMedicine from "models/UsingMedicine";
 import Pond from "models/Pond";
 
-// @route /api/product/harvest/pending
-//  Get pending product waiting for harvest acceptance
+// @route /api/product/harvest/reject
+// POST: Reject the harvest of a product
 
 export default async (req, res) => {
   const { method } = req;
@@ -19,8 +18,6 @@ export default async (req, res) => {
   if (!token)
     return res.status(400).send({ message: "Bạn không có quyền truy cập" });
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
-
-  const farm = await Farm.findOne({ createdBy: decoded });
 
   switch (method) {
     case "POST":
@@ -44,7 +41,7 @@ export default async (req, res) => {
           harvestedDate: null,
           weight: null,
           images: [],
-          isHarvested: "false",
+          "isHarvested.status": "false",
         }
       );
 

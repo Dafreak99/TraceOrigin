@@ -9,8 +9,8 @@ import UsingMedicine from "models/UsingMedicine";
 import Seed from "models/Seed";
 import Pond from "models/Pond";
 
-// @route /api/product/harvest/reject
-// Reject register
+// @route /api/product/register/reject
+// POST: Reject the registration of a product
 
 export default async (req, res) => {
   const { method } = req;
@@ -30,7 +30,7 @@ export default async (req, res) => {
         const { id } = req.body;
 
         const product = await Product.findByIdAndUpdate(id, {
-          isRegistered: "false",
+          "isRegistered.status": "false",
         });
         await Seed.findByIdAndUpdate(product.seed, { isRegistered: "false" });
 

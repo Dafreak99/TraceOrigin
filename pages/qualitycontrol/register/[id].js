@@ -30,7 +30,7 @@ const Index = () => {
 
   return (
     <Layout>
-      <Box px={16} py={12}>
+      <Box>
         <Flex alignItems="center">
           <BackButton />
           <Heading>{data && data.name}</Heading>

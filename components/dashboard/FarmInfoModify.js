@@ -84,7 +84,7 @@ const FarmInfoModify = ({ isEdit, setIsEdit, data = {} }) => {
   };
 
   return (
-    <Box as="form" px={16} py={12} onSubmit={handleSubmit(onSubmit)}>
+    <Box as="form"  onSubmit={handleSubmit(onSubmit)}>
       <Flex justify="space-between" align="center">
         <Flex alignItems="center">
           <BackButton onClick={() => setIsEdit(!isEdit)} />

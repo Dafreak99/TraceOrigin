@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Heading, Alert, AlertIcon, Text } from "@chakra-ui/react";
+import { Box, Heading, Alert, AlertIcon, Text, Badge } from "@chakra-ui/react";
 import useSWR, { mutate } from "swr";
 import { useRouter } from "next/router";
 import { FaTrash } from "react-icons/fa";
@@ -69,11 +69,9 @@ const Hatchery = () => {
   if (loading) {
     return (
       <Layout>
-        <Box px={16} py={12} position="relative">
+        <Box position="relative">
           <AddHatcheryModal />
-          <Heading mt={10} mb={5}>
-            Danh sách trại giống
-          </Heading>
+          <Heading mb={5}>Danh sách để xuất trại giống</Heading>
           <SkeletonTable />
         </Box>
       </Layout>
@@ -82,24 +80,21 @@ const Hatchery = () => {
 
   return (
     <Layout>
-      <Box px={16} py={12} position="relative">
+      <Box position="relative">
         <AddHatcheryModal />
 
-        <Heading mt={10} mb={5}>
-          Danh sách trại giống
-        </Heading>
+        <Heading mb={5}>Danh sách trại giống đã được kiểm duyệt ✅ </Heading>
 
-        {data && data.length > 0 ? (
+        {data?.defaultHatcheries?.length > 0 ? (
           <>
-            <Table>
+            <Table mb="2rem">
               <Tr>
                 <Th>Tên trại giống</Th>
                 <Th>Địa chỉ</Th>
                 <Th>Tọa độ</Th>
-                <Th>{""}</Th>
               </Tr>
               <TransitionGroup component="tbody">
-                {data.map(
+                {data.defaultHatcheries.map(
                   (
                     { name, address, _id, coordinate: { latitude, longitude } },
                     i
@@ -109,23 +104,6 @@ const Hatchery = () => {
                         <Td>{name}</Td>
                         <Td>{address}</Td>
                         <Td>{latitude + " , " + longitude}</Td>
-                        <Td
-                          borderLeft="1px solid #e8eef3"
-                          px={8}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                          }}
-                        >
-                          <Popconfirm
-                            style={{ fontSize: "16px" }}
-                            title="Bạn có sẽ xóa trại giống này hay không？"
-                            okText="Có"
-                            cancelText="Không"
-                            onConfirm={() => onDelete(_id)}
-                          >
-                            <Box as={FaTrash}></Box>
-                          </Popconfirm>
-                        </Td>
                       </Tr>
                     </CSSTransition>
                   )
@@ -137,6 +115,60 @@ const Hatchery = () => {
           <Alert status="info" fontSize="md" w="30rem">
             <AlertIcon />
             <Text fontSize="md">Chưa có trại giống</Text>
+          </Alert>
+        )}
+
+        {/* Pending request one */}
+        <Heading mb={5}>Danh sách đề xuất trại giống</Heading>
+        {data?.requestedHatcheries?.length > 0 ? (
+          <>
+            <Table>
+              <Tr>
+                <Th>Tên trại giống</Th>
+                <Th>Địa chỉ</Th>
+                <Th>Tọa độ</Th>
+                <Th>Trạng thái</Th>
+                <Th>{""}</Th>
+                <Th>{""}</Th>
+              </Tr>
+              <TransitionGroup component="tbody">
+                {data.requestedHatcheries.map(
+                  (
+                    {
+                      name,
+                      address,
+                      _id,
+                      coordinate: { latitude, longitude },
+                      isApproved,
+                    },
+                    i
+                  ) => (
+                    <CSSTransition key={i} timeout={500} classNames="item">
+                      <Tr cursor="pointer">
+                        <Td>{name}</Td>
+                        <Td>{address}</Td>
+                        <Td>{latitude + " , " + longitude}</Td>
+                        <Td>
+                          {" "}
+                          {isApproved === "pending" ? (
+                            <Badge>Chờ duyệt</Badge>
+                          ) : isApproved === "true" ? (
+                            <Badge colorScheme="green">Đã duyệt</Badge>
+                          ) : (
+                            <Badge colorScheme="red">Không được duyệt</Badge>
+                          )}
+                        </Td>
+                      </Tr>
+                    </CSSTransition>
+                  )
+                )}
+              </TransitionGroup>
+            </Table>
+          </>
+        ) : (
+          <Alert status="info" fontSize="md" w="30rem">
+            <AlertIcon />
+            <Text fontSize="md">Chưa có đề xuất</Text>
           </Alert>
         )}
       </Box>

@@ -81,11 +81,9 @@ const Worker = () => {
   if (loading) {
     return (
       <Layout>
-        <Box px={16} py={12} position="relative">
+        <Box position="relative">
           <WorkerModal />
-          <Heading mt={10} mb={5}>
-            Danh sách nhân công
-          </Heading>
+          <Heading mb={5}>Danh sách nhân công</Heading>
           <SkeletonTable />
         </Box>
       </Layout>
@@ -94,12 +92,10 @@ const Worker = () => {
 
   return (
     <Layout>
-      <Box px={16} py={12} position="relative">
+      <Box position="relative">
         <WorkerModal />
 
-        <Heading mt={10} mb={5}>
-          Danh sách nhân công
-        </Heading>
+        <Heading mb={5}>Danh sách nhân công</Heading>
 
         {data && data.length > 0 ? (
           <>

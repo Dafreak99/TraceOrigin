@@ -41,8 +41,6 @@ const Product = ({ data }) => {
   let source = [];
 
   if (data !== undefined) {
-    console.log(data);
-
     const {
       farm,
       seed: { hatchery },
@@ -50,7 +48,7 @@ const Product = ({ data }) => {
 
     source = [
       {
-        ...farm.coordinate,
+        coordinate: farm.coordinate,
         type: "farm",
         _id: farm._id,
         name: farm.name,

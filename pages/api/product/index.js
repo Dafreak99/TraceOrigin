@@ -24,7 +24,7 @@ export default async (req, res) => {
     case "GET":
       let products = await Product.find({
         farm: farm.id,
-        isHarvested: [null, "false"],
+        "isHarvested.status": [null, "false"],
       })
         .populate({ path: "pond", populate: { path: "seed" } })
         .populate({ path: "seed", populate: { path: "hatchery" } });
@@ -43,7 +43,7 @@ export default async (req, res) => {
         const product = new Product({
           ...req.body,
           farm: farm.id,
-          isRegistered: "pending",
+          "isRegistered.status": "pending",
           isHarvested: null,
           seed,
         });

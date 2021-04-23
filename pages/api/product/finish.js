@@ -10,10 +10,9 @@ export default async (req, res) => {
 
   switch (method) {
     case "GET":
-      let products = await Product.find({ isHarvested: "true" }).select([
-        "name",
-        "images",
-      ]);
+      let products = await Product.find({
+        "isHarvested.status": "true",
+      }).select(["name", "images"]);
 
       res.send(products);
 

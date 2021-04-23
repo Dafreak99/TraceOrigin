@@ -114,13 +114,13 @@ const Ponds = () => {
             </Box>
           </>
         )}
-      </Flex>
-
+      </Flex>{" "}
+      */}
       <Grid
         height="calc(100vh - 64px)"
         width="100%"
-        p="3rem 4rem"
         gridTemplateColumns="repeat(12, 1fr)"
+        background="#fff"
       >
         {selectedPond ? (
           <PondInfo

@@ -58,10 +58,8 @@ const DashBoard = () => {
 
   return (
     <Layout>
-      <Box px={16} py={12}>
-        <Heading mt={10} mb={5}>
-          Danh sách doanh nghiệp chờ duyệt xác thực
-        </Heading>
+      <Box>
+        <Heading mb={5}>Danh sách doanh nghiệp chờ duyệt xác thực</Heading>
 
         {data && data.length > 0 ? (
           <>

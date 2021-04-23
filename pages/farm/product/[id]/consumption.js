@@ -28,12 +28,10 @@ const Consumption = () => {
   };
   return (
     <Layout>
-      <Box px={16} py={12}>
+      <Box>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Flex align="center" justify="space-between">
-            <Heading mt={10} mb={5}>
-              Thêm địa điểm tiêu thụ sản phẩm
-            </Heading>
+            <Heading mb={5}>Thêm địa điểm tiêu thụ sản phẩm</Heading>
           </Flex>
 
           <Box

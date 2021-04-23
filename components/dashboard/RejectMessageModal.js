@@ -11,6 +11,10 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
+  Alert,
+  AlertIcon,
+  AlertDescription,
+  AlertTitle,
 } from "@chakra-ui/react";
 import { useState } from "react";
 
@@ -21,17 +25,22 @@ import { mutate } from "swr";
 
 import FormControl from "./FormControl";
 
-export const AddPondModal = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
+export const RejectMessageModal = ({ isOpen, onClose, type }) => {
   const { handleSubmit, register, errors, control, reset } = useForm();
 
   const [isSave, setIsSave] = useState(false);
 
   const onSubmit = async (values) => {
+    const types = {
+      register: "/api/product/register/reject",
+      authentication: "authentication",
+      harvest: "/api/product/harvest/reject",
+      hatchery: "/api/hatchery/reject",
+    };
+
     setIsSave(true);
     try {
-      let res = await fetch("/api/pond", {
+      let res = await fetch(types[type], {
         method: "POST",
         body: values,
         headers: {
@@ -40,22 +49,9 @@ export const AddPondModal = () => {
         },
         body: JSON.stringify(values),
       });
-
-      let data = await res.json();
-
-      mutate(
-        ["/api/pond", process.browser ? localStorage.getItem("token") : null],
-        async (cachedData) => {
-          let ponds = [...cachedData.ponds, data];
-
-          return { ponds, isAuthenticated: cachedData.isAuthenticated };
-        },
-        false
-      );
     } catch (error) {
       console.log(error.message);
     }
-
     setIsSave(false);
     reset();
     onClose();
@@ -63,51 +59,36 @@ export const AddPondModal = () => {
 
   return (
     <>
-      <Button
-        backgroundColor="gray.300"
-        leftIcon={<AiOutlinePlus />}
-        onClick={onOpen}
-      >
-        Thêm ao mới
-      </Button>
-
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
-          <ModalHeader>Thêm ao</ModalHeader>
           <ModalCloseButton />
-
+          <ModalHeader>Từ chối</ModalHeader>
           <ModalBody>
+            <Alert
+              status="info"
+              variant="subtle"
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="center"
+              textAlign="center"
+              height="150px"
+              marginBottom="2rem"
+            >
+              <AlertIcon boxSize="40px" mr={0} />
+
+              <AlertDescription maxWidth="sm" fontSize="md">
+                Vui lòng để lại lời nhắn để cơ sở nuôi trồng biết lí do mình bị
+                từ chối !
+              </AlertDescription>
+            </Alert>
+
             <FormControl>
-              <FormLabel htmlFor="name">Tên ao: </FormLabel>
+              <FormLabel htmlFor="message">Lời nhắn: </FormLabel>
               <Input
                 type="text"
-                id="name"
-                name="name"
-                ref={register({
-                  required: "Required",
-                })}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="area">Diện tích ao: </FormLabel>
-              <Input
-                type="number"
-                id="area"
-                name="area"
-                ref={register({
-                  required: "Required",
-                })}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="stockingDensity">
-                Mật độ thả(Ước lượng số con thả/m3):
-              </FormLabel>
-              <Input
-                type="number"
-                id="stockingDensity"
-                name="stockingDensity"
+                id="message"
+                name="message"
                 ref={register({
                   required: "Required",
                 })}
@@ -135,4 +116,4 @@ export const AddPondModal = () => {
   );
 };
 
-export default AddPondModal;
+export default RejectMessageModal;

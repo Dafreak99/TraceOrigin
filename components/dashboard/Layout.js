@@ -34,9 +34,9 @@ const CommonLayout = ({ children }) => {
         <Header />
         <Content
           style={{
-            margin: "0 16px",
             height: "calc(100vh - 64px)",
             overflowY: "scroll",
+            padding: "5rem",
           }}
           className="dashboard__content"
         >
@@ -65,7 +65,6 @@ const FarmSidebar = () => {
     usingmedicinediary: "diary",
     feedingchart: "chart",
     product: "product",
-    "product-follow": "product",
   };
 
   return (
@@ -81,7 +80,7 @@ const FarmSidebar = () => {
         </Link>
       </Menu.Item>
       <Menu.Item key="ponds" icon={<Icon component={FaBorderAll} />}>
-        <Link href="/farm/ponds">
+        <Link href="/farm/pond">
           <a style={{ fontWeight: "bold" }}>Ao</a>
         </Link>
       </Menu.Item>
@@ -94,11 +93,11 @@ const FarmSidebar = () => {
           </span>
         }
       >
-        <Menu.Item key="product-follow" icon={<DesktopOutlined />}>
+        {/* <Menu.Item key="product-follow" icon={<DesktopOutlined />}>
           <Link href="/farm/product-follow">
             <a style={{ fontWeight: "bold" }}>Đăng ký</a>
           </Link>
-        </Menu.Item>
+        </Menu.Item> */}
         <Menu.Item key="product" icon={<DesktopOutlined />}>
           <Link href="/farm/product">
             <a style={{ fontWeight: "bold" }}> Thu hoạch</a>
@@ -209,6 +208,11 @@ const QualityControlSidebar = () => {
       <Menu.Item key="harvest" icon={<Icon component={FiUsers} />}>
         <Link href="/qualitycontrol/harvest">
           <a style={{ fontWeight: "bold" }}>Thu hoạch</a>
+        </Link>
+      </Menu.Item>
+      <Menu.Item key="hatchery" icon={<Icon component={FiUsers} />}>
+        <Link href="/qualitycontrol/hatchery">
+          <a style={{ fontWeight: "bold" }}>Trại giống</a>
         </Link>
       </Menu.Item>
     </Menu>

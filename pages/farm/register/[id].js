@@ -62,11 +62,11 @@ const Index = () => {
 
     message.success("Đăng ký sản phẩm thành công. Chờ phê duyệt !");
 
-    router.push("/farm/product-follow");
+    router.back();
   };
   return (
     <Layout>
-      <Box px={16} py={12} as="form" onSubmit={handleSubmit(onSubmit)}>
+      <Box as="form" onSubmit={handleSubmit(onSubmit)}>
         {data && (
           <>
             <Flex alignItems="center" justify="space-between">

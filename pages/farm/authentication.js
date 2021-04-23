@@ -31,7 +31,7 @@ const Index = () => {
 
   return (
     <Layout>
-      <Box px={16} py={12}>
+      <Box>
         <Flex alignItems="center" mb={8}>
           <BackButton />
           <Heading>Hình ảnh chứng thực của cơ sở</Heading>
