@@ -2,7 +2,7 @@ import dbConnect from "../../../lib/dbConnect";
 
 import jwt from "jsonwebtoken";
 import Hatchery from "models/Hatchery";
-import User from "models/User";
+import RejectMessage from "models/RejectMessage";
 
 dbConnect();
 
@@ -15,11 +15,19 @@ export default async (req, res) => {
   if (!token)
     return res.status(400).send({ message: "Bạn không có quyền truy cập" });
 
-  const decoded = jwt.verify(token, process.env.SECRET_KEY);
-
   switch (method) {
     case "POST":
       try {
+        const { message, type, createdAt, hatcheryId } = req.body;
+
+        const rejectMessage = new RejectMessage({ message, type, createdAt });
+
+        await Hatchery.findByIdAndUpdate(hatcheryId, {
+          "isApproved.status": "false",
+          "isApproved.reject": rejectMessage,
+        });
+
+        res.send({ message: "Ok" });
       } catch (error) {
         console.log(error);
         res.send({ message: error.message });

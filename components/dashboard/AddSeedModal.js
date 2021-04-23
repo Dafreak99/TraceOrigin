@@ -24,7 +24,7 @@ import useSWR, { mutate } from "swr";
 import fetcher from "@/utils/fetcher";
 import DatePicker from "../DatePicker";
 
-export const AddSeedModal = ({ pondId, setSelectedPond }) => {
+export const AddSeedModal = ({ pondId }) => {
   const { data, error } = useSWR(
     ["/api/hatchery", process.browser ? localStorage.getItem("token") : null],
     fetcher
@@ -52,22 +52,16 @@ export const AddSeedModal = ({ pondId, setSelectedPond }) => {
 
       const data = await res.json();
 
-      setSelectedPond(data);
-
       mutate(
-        ["/api/pond", process.browser ? localStorage.getItem("token") : null],
+        [
+          `/api/pond/${pondId}`,
+          process.browser ? localStorage.getItem("token") : null,
+        ],
         async (cachedData) => {
-          let index = cachedData.ponds.findIndex(
-            (each) => each._id === data._id
-          );
-
-          let ponds = [
-            ...cachedData.ponds.slice(0, index),
+          // return { ponds: data, isAuthenticated: cachedData.isAuthenticated };
+          return {
             data,
-            ...cachedData.ponds.slice(index + 1),
-          ];
-
-          return { ponds, isAuthenticated: cachedData.isAuthenticated };
+          };
         },
         false
       );
@@ -81,11 +75,8 @@ export const AddSeedModal = ({ pondId, setSelectedPond }) => {
   return (
     <>
       <Button
-        mt={8}
+        mt="1rem"
         onClick={onOpen}
-        // color="#006aff"
-        // border="1px solid #006aff"
-        // _hover={{ background: "#006aff", color: "#fff" }}
         colorScheme="teal"
         variant="solid"
         transition="350ms all"
@@ -145,7 +136,7 @@ export const AddSeedModal = ({ pondId, setSelectedPond }) => {
             </FormControl>
             <FormControl>
               <FormLabel htmlFor="hatchery">Trại giống:</FormLabel>
-              {data && data.length > 0 ? (
+              {data?.defaultHatcheries?.length > 0 ? (
                 <Select
                   id="hatchery"
                   name="hatchery"
@@ -153,7 +144,7 @@ export const AddSeedModal = ({ pondId, setSelectedPond }) => {
                     required: "Required",
                   })}
                 >
-                  {data.map((each) => (
+                  {data.defaultHatcheries.map((each) => (
                     <option value={each._id}>{each.name}</option>
                   ))}
                 </Select>

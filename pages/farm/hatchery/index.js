@@ -150,9 +150,9 @@ const Hatchery = () => {
                         <Td>{latitude + " , " + longitude}</Td>
                         <Td>
                           {" "}
-                          {isApproved === "pending" ? (
+                          {isApproved.status === "pending" ? (
                             <Badge>Chờ duyệt</Badge>
-                          ) : isApproved === "true" ? (
+                          ) : isApproved.status === "true" ? (
                             <Badge colorScheme="green">Đã duyệt</Badge>
                           ) : (
                             <Badge colorScheme="red">Không được duyệt</Badge>

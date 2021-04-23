@@ -1,9 +1,8 @@
-import { Flex, Heading } from "@chakra-ui/react";
+import { Box, Flex, Heading, Skeleton, Stack } from "@chakra-ui/react";
 
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import { Tabs } from "antd";
-import QRCode from "qrcode.react";
 
 import Diary from "@/components/dashboard/Diary";
 import BackButton from "@/components/dashboard/BackButton";
@@ -26,7 +25,6 @@ const Index = () => {
     fetcher,
     { refreshInterval: 1000 }
   );
-  console.log(product);
 
   const { data, error } = useSWR(
     router.query.id
@@ -42,12 +40,24 @@ const Index = () => {
     <Layout>
       <Flex align="center" mb={5}>
         <BackButton />
-        {data?.name && <Heading>Ao: {data.name}</Heading>}
+        {data?.name ? (
+          <Heading>Ao: {data.name}</Heading>
+        ) : (
+          <Skeleton height="20px" width="200px" />
+        )}
       </Flex>
       <Tabs defaultActiveKey="1">
-        <TabPane tab={<span>Thông tin ao</span>} key="1">
+        <TabPane tab={<span>Thông tin ao</span>} key="1" mb="2rem">
           <Flex flexWrap="wrap-reverse">
-            {data && <PondInfo pond={data} />}
+            {data ? (
+              <PondInfo pond={data} />
+            ) : (
+              <Stack width="500px">
+                <Skeleton height="20px" />
+                <Skeleton height="20px" />
+                <Skeleton height="20px" />
+              </Stack>
+            )}
             {product && <Product product={product} />}
           </Flex>
         </TabPane>
