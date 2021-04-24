@@ -41,6 +41,8 @@ const Product = ({ product }) => {
     _id,
   } = product;
 
+  console.log(product);
+
   const onDelete = async () => {
     try {
       let res = await fetch(`/api/food/${id}`, {
@@ -66,20 +68,20 @@ const Product = ({ product }) => {
     setIsOpen(false);
   };
 
-  const reRegister = async (id) => {
-    try {
-      let res = await fetch(`/api/product/register/reregister`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: process.browser ? localStorage.getItem("token") : null,
-        },
-        body: JSON.stringify({ id }),
-      });
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  // const reRegister = async (id) => {
+  //   try {
+  //     let res = await fetch(`/api/product/register/reregister`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: process.browser ? localStorage.getItem("token") : null,
+  //       },
+  //       body: JSON.stringify({ id }),
+  //     });
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
 
   const productStatus = (status) => {
     if (status === "false") {
@@ -129,7 +131,7 @@ const Product = ({ product }) => {
       <Tr>
         <Th>Tên sản phẩm</Th>
         <Th>Được duyệt đăng ký</Th>
-        <Th>Mã QR</Th>
+        <Th> {isRegistered.status === "false" ? "Lí do" : "Mã QR"}</Th>
         <Th>{""}</Th>
         <Th>{""}</Th>
         <Th>{""}</Th>
@@ -138,18 +140,18 @@ const Product = ({ product }) => {
         <Td>{name}</Td>
         <Td>{productStatus(isRegistered.status)}</Td>
         {/* <Td>{qrCode ? qrCode : "Chưa cấp"}</Td> */}
-        {qrCode ? (
+        {isRegistered.status === "false" ? (
+          <Td>{isRegistered.reject.message}</Td>
+        ) : (
           <Td>
             <QRCode
               size={100}
               value={"http://traceorigin.vercel.app/product/" + qrCode}
             />
           </Td>
-        ) : (
-          <Td></Td>
         )}
 
-        <Td
+        {/* <Td
           px={8}
           onClick={(e) => {
             e.stopPropagation();
@@ -168,7 +170,7 @@ const Product = ({ product }) => {
               </Link>
             </Button>
           ) : null}
-        </Td>
+        </Td> */}
 
         <Td
           borderLeft="1px solid #e8eef3"

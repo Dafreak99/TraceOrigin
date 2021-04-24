@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { Box, Heading, Alert, AlertIcon, Text, Button } from "@chakra-ui/react";
+import {
+  Box,
+  Heading,
+  Alert,
+  AlertIcon,
+  Text,
+  Button,
+  useDisclosure,
+} from "@chakra-ui/react";
 import useSWR, { mutate } from "swr";
 import { FaTrash } from "react-icons/fa";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
@@ -13,9 +21,13 @@ import AddHatcheryModal from "@/components/dashboard/AddHatcheryModal";
 import EditHatcheryModal from "@/components/dashboard/EditHatcheryModal";
 import Link from "next/link";
 import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
+import RejectMessageModal from "@/components/dashboard/RejectMessageModal";
+import { useRouter } from "next/router";
 
 const Hatchery = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   const { data, error } = useSWR(
     ["/api/hatchery", process.browser ? localStorage.getItem("token") : null],
@@ -55,6 +67,21 @@ const Hatchery = () => {
     }
   };
 
+  const onApprove = async (id) => {
+    try {
+      await fetch(`/api/hatchery/${id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: process.browser ? localStorage.getItem("token") : null,
+        },
+        body: JSON.stringify({ resolveType: "approve" }),
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   if (loading) {
     return (
       <Layout>
@@ -66,11 +93,7 @@ const Hatchery = () => {
       </Layout>
     );
   }
-  console.log(data);
 
-  const onApprove = () => {};
-
-  const onReject = () => {};
   return (
     <Layout>
       <Box position="relative">
@@ -117,7 +140,11 @@ const Hatchery = () => {
                           <Td>
                             <Popconfirm
                               title="Bạn có chắc là sẽ duyệt trại giống này?"
-                              onConfirm={onApprove}
+                              onCancel={(e) => e.stopPropagation()}
+                              onConfirm={(e) => {
+                                e.stopPropagation();
+                                onApprove(_id);
+                              }}
                               okText="Yes"
                               cancelText="No"
                             >
@@ -133,18 +160,28 @@ const Hatchery = () => {
                             </Popconfirm>
                             <Popconfirm
                               title="Bạn có chắc là sẽ không duyệt trại giống này?"
-                              onConfirm={onReject}
+                              onCancel={(e) => e.stopPropagation()}
+                              onConfirm={(e) => {
+                                e.stopPropagation();
+                                onOpen();
+                              }}
                               okText="Yes"
                               cancelText="No"
                             >
                               <Button
                                 background="#fc88882b"
                                 color="#a62222"
-                                _hover={{ background: "fc88882b" }}
                                 leftIcon={<AiOutlineClose />}
+                                _hover={{ background: "fc88882b" }}
                               >
                                 Từ chối
                               </Button>
+                              <RejectMessageModal
+                                isOpen={isOpen}
+                                onClose={onClose}
+                                type="hatchery"
+                                hatcheryId={_id}
+                              />
                             </Popconfirm>
                           </Td>
                         </Tr>
@@ -163,7 +200,7 @@ const Hatchery = () => {
         )}
 
         {/* Default */}
-        <Heading mb={5}>Danh sách trại giống</Heading>
+        <Heading my={5}>Danh sách trại giống</Heading>
 
         {data?.defaultHatcheries?.length > 0 ? (
           <>

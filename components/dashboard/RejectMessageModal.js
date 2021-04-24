@@ -25,7 +25,13 @@ import DatePicker from "../DatePicker";
 
 import FormControl from "./FormControl";
 
-export const RejectMessageModal = ({ isOpen, onClose, type, hatcheryId }) => {
+export const RejectMessageModal = ({
+  isOpen,
+  onClose,
+  type,
+  hatcheryId,
+  productId,
+}) => {
   const router = useRouter();
   const { handleSubmit, register, errors, control, reset } = useForm();
 
@@ -36,9 +42,13 @@ export const RejectMessageModal = ({ isOpen, onClose, type, hatcheryId }) => {
 
     let url, redirectUrl;
     if (type === "hatchery") {
-      values.hatcheryId = hatcheryId;
-      url = "/api/hatchery/reject";
+      url = `/api/hatchery/${hatcheryId}`;
+      values.resolveType = "reject";
       redirectUrl = "/qualitycontrol/hatchery";
+    } else if (type === "register") {
+      url = `/api/product/register/reject`;
+      values.id = productId;
+      redirectUrl = "/qualitycontrol/register";
     }
 
     // const types = {
@@ -51,7 +61,6 @@ export const RejectMessageModal = ({ isOpen, onClose, type, hatcheryId }) => {
     try {
       let res = await fetch(url, {
         method: "POST",
-        body: values,
         headers: {
           "Content-Type": "application/json",
           Authorization: process.browser ? localStorage.getItem("token") : null,
@@ -64,6 +73,8 @@ export const RejectMessageModal = ({ isOpen, onClose, type, hatcheryId }) => {
     setIsSave(false);
     reset();
     onClose();
+
+    console.log(redirectUrl);
 
     router.push(redirectUrl);
   };

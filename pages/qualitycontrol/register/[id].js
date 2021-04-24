@@ -1,8 +1,10 @@
 import BackButton from "@/components/dashboard/BackButton";
 import Layout from "@/components/dashboard/Layout";
+import RejectMessageModal from "@/components/dashboard/RejectMessageModal";
 import fetcher from "@/utils/fetcher";
 import {
   Box,
+  Button,
   Flex,
   Heading,
   Image,
@@ -10,11 +12,16 @@ import {
   ListItem,
   Spinner,
   Text,
+  useDisclosure,
 } from "@chakra-ui/react";
+import { Popconfirm } from "antd";
 import { useRouter } from "next/router";
+import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 import useSWR from "swr";
 
 const Index = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const router = useRouter();
 
   const { data, error } = useSWR(
@@ -28,13 +35,72 @@ const Index = () => {
     fetcher
   );
 
+  const onApprove = async () => {
+    try {
+      await fetch(`/api/product/approved`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: process.browser ? localStorage.getItem("token") : null,
+        },
+        body: JSON.stringify({ id: router.query.id }),
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+
+    router.back();
+  };
+
   return (
     <Layout>
       <Box>
-        <Flex alignItems="center">
-          <BackButton />
-          <Heading>{data && data.name}</Heading>
+        <Flex mb={5} align="center" justify="space-between">
+          <Flex>
+            <BackButton />
+            <Heading>{data && data.name}</Heading>
+          </Flex>
+          <Box>
+            <Popconfirm
+              title="Bạn có chắc là sẽ duyệt trại giống này?"
+              onConfirm={onApprove}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button
+                background="#88fcb62b"
+                color="#22a669"
+                mr="10px"
+                leftIcon={<AiOutlineCheck />}
+                _hover={{ background: "88fcb62b" }}
+              >
+                Duyệt
+              </Button>
+            </Popconfirm>
+            <Popconfirm
+              title="Bạn có chắc là sẽ không duyệt trại giống này?"
+              onConfirm={onOpen}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button
+                background="#fc88882b"
+                color="#a62222"
+                leftIcon={<AiOutlineClose />}
+                _hover={{ background: "fc88882b" }}
+              >
+                Từ chối
+              </Button>
+              <RejectMessageModal
+                isOpen={isOpen}
+                onClose={onClose}
+                type="register"
+                productId={router.query.id}
+              />
+            </Popconfirm>
+          </Box>
         </Flex>
+
         <Flex
           px="4rem"
           py="2rem"

@@ -1,8 +1,8 @@
 import dbConnect from "../../../lib/dbConnect";
 
-import jwt from "jsonwebtoken";
 import Hatchery from "models/Hatchery";
 import Farm from "models/Farm";
+import RejectMessage from "models/RejectMessage";
 
 dbConnect();
 
@@ -23,6 +23,34 @@ export default async (req, res) => {
       const farm = await Farm.findOne({ createdBy: hatchery.createdBy });
 
       res.send({ hatchery, farm });
+      break;
+
+    case "POST":
+      const { resolveType } = req.body; // Either Approve or Reject
+
+      try {
+        if (resolveType === "approve") {
+          await Hatchery.findByIdAndUpdate(id, {
+            "isApproved.status": "true",
+            "isApproved.reject": null,
+          });
+        } else {
+          const { message, type, createdAt } = req.body;
+
+          const rejectMessage = new RejectMessage({ message, type, createdAt });
+          rejectMessage.save();
+
+          await Hatchery.findByIdAndUpdate(id, {
+            "isApproved.status": "false",
+            "isApproved.reject": rejectMessage,
+          });
+        }
+
+        res.send({ message: "Ok" });
+      } catch (error) {
+        console.log(error);
+        res.send({ message: error.message });
+      }
       break;
 
     default:
