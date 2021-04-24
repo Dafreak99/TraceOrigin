@@ -1,8 +1,7 @@
-import dbConnect from "../../../lib/dbConnect";
+import dbConnect from "@/lib/dbConnect.js";
 dbConnect();
 
-import Pond from "../../../models/Pond";
-import Farm from "../../../models/Farm";
+import Pond from "models/Pond";
 
 import jwt from "jsonwebtoken";
 

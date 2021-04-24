@@ -4,10 +4,8 @@ dbConnect();
 import jwt from "jsonwebtoken";
 import Product from "models/Product";
 import Farm from "models/Farm";
-import FeedingDiary from "models/FeedingDiary";
-import UsingMedicine from "models/UsingMedicine";
 import Seed from "models/Seed";
-import Pond from "models/Pond";
+import RejectMessage from "@/models/RejectMessage";
 
 // @route /api/product/register/reject
 // POST: Reject the registration of a product
@@ -27,11 +25,20 @@ export default async (req, res) => {
     case "POST":
       // Reject register from Farmer
       try {
-        const { id } = req.body;
+        const { id, message, type, createdAt } = req.body;
 
-        const product = await Product.findByIdAndUpdate(id, {
-          "isRegistered.status": "false",
-        });
+        const rejectMessage = new RejectMessage({ message, type, createdAt });
+
+        await rejectMessage.save();
+
+        const product = await Product.findByIdAndUpdate(
+          id,
+          {
+            "isRegistered.status": "false",
+            "isRegistered.reject": rejectMessage,
+          },
+          { new: true }
+        );
         await Seed.findByIdAndUpdate(product.seed, { isRegistered: "false" });
 
         res.send({ message: "OK" });

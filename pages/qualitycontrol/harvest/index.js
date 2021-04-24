@@ -88,7 +88,6 @@ const DashBoard = () => {
                     images,
                     harvestedDate,
                     weight,
-
                     _id,
                   },
                   i

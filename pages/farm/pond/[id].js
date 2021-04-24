@@ -15,10 +15,11 @@ const { TabPane } = Tabs;
 
 const Index = () => {
   const router = useRouter();
+
   const { data: product } = useSWR(
     router.query.id
       ? [
-          `/api/product/${router.query.id}`,
+          `/api/pond/${router.query.id}/product`,
           process.browser ? localStorage.getItem("token") : null,
         ]
       : null,

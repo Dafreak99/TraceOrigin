@@ -1,18 +1,28 @@
 import Layout from "@/components/dashboard/Layout";
 
-import { Box, Alert, AlertIcon, Heading, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Alert,
+  AlertIcon,
+  Heading,
+  Text,
+  Button,
+  useDisclosure,
+} from "@chakra-ui/react";
 
 import { Table, Td, Th, Tr } from "@/components/Table";
-
-import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
 
 import { Popconfirm } from "antd";
 
 import useSWR, { mutate } from "swr";
 import fetcher from "@/utils/fetcher";
 import Link from "next/link";
+import RejectMessageModal from "@/components/dashboard/RejectMessageModal";
+import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 
 const DashBoard = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const { data: products } = useSWR(
     [
       "/api/product/unapproved",
@@ -21,21 +31,6 @@ const DashBoard = () => {
     fetcher,
     { refreshInterval: 1000 }
   );
-
-  const onReject = async (id) => {
-    try {
-      await fetch(`/api/product/register/reject`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: process.browser ? localStorage.getItem("token") : null,
-        },
-        body: JSON.stringify({ id }),
-      });
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
 
   const onApprove = async (id) => {
     // Send ID to change isRegistered -> true
@@ -71,6 +66,7 @@ const DashBoard = () => {
                     pond: {
                       name: pondName,
                       seed: { stockingDate },
+                      _id: pondId,
                     },
                     _id,
                   },
@@ -83,43 +79,54 @@ const DashBoard = () => {
                       <Td>{pondName}</Td>
                       <Td>{stockingDate}</Td>
 
-                      <Td
-                        px={8}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                        }}
-                      >
+                      <Td>
                         <Popconfirm
-                          title="Bạn có chắc sẽ duyệt sản phẩm này？"
-                          okText="Có"
-                          cancelText="Không"
-                          onConfirm={() => onApprove(_id)}
+                          title="Bạn có chắc là sẽ duyệt trại giống này?"
+                          onCancel={(e) => e.stopPropagation()}
+                          onConfirm={(e) => {
+                            e.stopPropagation();
+                            onApprove(_id);
+                          }}
+                          okText="Yes"
+                          cancelText="No"
                         >
-                          <Box
-                            as={AiFillCheckCircle}
-                            size="32px"
-                            color="#5adba5"
-                          ></Box>
+                          <Button
+                            background="#88fcb62b"
+                            color="#22a669"
+                            mr="10px"
+                            leftIcon={<AiOutlineCheck />}
+                            _hover={{ background: "88fcb62b" }}
+                          >
+                            Duyệt
+                          </Button>
                         </Popconfirm>
-                      </Td>
-                      <Td
-                        px={8}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                        }}
-                        color="#f72f2f"
-                      >
                         <Popconfirm
-                          title="Bạn có chắc sẽ không duyệt sản phẩm này？"
-                          okText="Có"
-                          cancelText="Không"
-                          onConfirm={() => onReject(_id)}
+                          title="Bạn có chắc là sẽ không duyệt trại giống này?"
+                          onCancel={(e) => e.stopPropagation()}
+                          onConfirm={(e) => {
+                            e.stopPropagation();
+                            onOpen();
+                          }}
+                          okText="Yes"
+                          cancelText="No"
                         >
-                          <Box as={AiFillCloseCircle} size="32px"></Box>
+                          <Button
+                            background="#fc88882b"
+                            color="#a62222"
+                            leftIcon={<AiOutlineClose />}
+                            _hover={{ background: "fc88882b" }}
+                          >
+                            Từ chối
+                          </Button>
+                          <RejectMessageModal
+                            isOpen={isOpen}
+                            onClose={onClose}
+                            type="register"
+                            productId={_id}
+                          />
                         </Popconfirm>
                       </Td>
                     </Tr>
-                    {/* </a> */}
                   </Link>
                 )
               )}

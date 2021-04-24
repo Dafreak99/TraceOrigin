@@ -47,7 +47,22 @@ const Hatchery = () => {
     }
   }, [data]);
 
-  console.log(data);
+  const onApprove = async () => {
+    try {
+      await fetch(`/api/hatchery/${router.query.id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: process.browser ? localStorage.getItem("token") : null,
+        },
+        body: JSON.stringify({ resolveType: "approve" }),
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+
+    router.back();
+  };
 
   if (loading) {
     return (
@@ -78,7 +93,7 @@ const Hatchery = () => {
         <Box>
           <Popconfirm
             title="Bạn có chắc là sẽ duyệt trại giống này?"
-            // onConfirm={onApprove}
+            onConfirm={onApprove}
             okText="Yes"
             cancelText="No"
           >
