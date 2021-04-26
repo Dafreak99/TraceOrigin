@@ -84,7 +84,8 @@ const Index = () => {
             {data?.ponds.map(({ name, area, seed, _id }, i) => (
               <CSSTransition key={i} timeout={500} classNames="item">
                 <Flex
-                  gridColumn="span 3"
+                  // gridColumn="span 3"
+                  gridColumn={{ base: "span 12", md: "span 6", xl: "span 3" }}
                   backgroundColor="#fff"
                   boxShadow="0 4px 8px rgb(220 229 236)"
                   borderRadius="5px"

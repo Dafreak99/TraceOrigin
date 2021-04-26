@@ -94,6 +94,7 @@ const DashBoard = () => {
                             background="#88fcb62b"
                             color="#22a669"
                             mr="10px"
+                            mb={{ base: "10px", lg: "0" }}
                             leftIcon={<AiOutlineCheck />}
                             _hover={{ background: "88fcb62b" }}
                           >

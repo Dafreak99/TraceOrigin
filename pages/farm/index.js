@@ -202,7 +202,7 @@ const Content = ({
         onClose={onClose}
         onOpen={onOpen}
       />
-      <Flex paddingTop={12}>
+      <Flex paddingTop={12} flexWrap="wrap">
         <List
           spacing={2}
           px={16}
@@ -212,6 +212,7 @@ const Content = ({
           h="max-content"
           marginRight="2rem"
           background="#fff"
+          mb="2rem"
         >
           <ListItem>
             <Text fontSize="md" fontWeight="bold">

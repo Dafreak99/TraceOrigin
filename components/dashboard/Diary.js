@@ -14,7 +14,7 @@ import { Alert, AlertIcon } from "@chakra-ui/alert";
 const Diary = ({ pond }) => {
   return (
     <Grid
-      gridTemplateColumns="repeat(4, 1fr)"
+      gridTemplateColumns="repeat(12, 1fr)"
       padding="3rem 2rem"
       background="#fff"
     >
@@ -53,7 +53,7 @@ const Diary = ({ pond }) => {
           />
         </>
       ) : (
-        <Alert status="warning" gridColumn="span 6">
+        <Alert status="warning" gridColumn="span 12">
           <AlertIcon />
           <Text fontSize="md">
             Chỉ có thể tiến hành ghi chép khi đã được duyệt đăng ký sản phẩm

@@ -41,8 +41,6 @@ const Product = ({ product }) => {
     _id,
   } = product;
 
-  console.log(product);
-
   const onDelete = async () => {
     try {
       let res = await fetch(`/api/food/${id}`, {

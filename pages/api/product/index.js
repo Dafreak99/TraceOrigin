@@ -40,6 +40,9 @@ export default async (req, res) => {
 
         let seed = await Seed.findOne({ pond });
 
+        // Remove the old product first, if it's re-register
+        await Product.findOneAndRemove({ pond });
+
         const product = new Product({
           ...req.body,
           farm: farm.id,

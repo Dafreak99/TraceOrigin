@@ -83,7 +83,11 @@ const UsingMedicineDiaryModal = ({ bg, color, icon, pondId }) => {
 
   return (
     <>
-      <Box className="diary-boxx" onClick={onOpen}>
+      <Box
+        className="diary-boxx"
+        onClick={onOpen}
+        gridColumn={{ base: "span 12", md: "span 6", xl: "span 3" }}
+      >
         <Flex
           height="60px"
           width="60px"
