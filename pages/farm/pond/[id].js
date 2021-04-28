@@ -34,7 +34,8 @@ const Index = () => {
           process.browser ? localStorage.getItem("token") : null,
         ]
       : null,
-    fetcher
+    fetcher,
+    { refreshInterval: 1000 }
   );
 
   return (

@@ -27,15 +27,12 @@ const Index = () => {
   const { data, error } = useSWR(
     router.query.id
       ? [
-          `/api/product/${router.query.id}`,
-
+          `/api/product/${router.query.id}/harvest`,
           process.browser ? localStorage.getItem("token") : null,
         ]
       : null,
     fetcher
   );
-
-  console.log(data);
 
   return (
     <Layout>

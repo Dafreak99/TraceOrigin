@@ -19,7 +19,6 @@ const MAPBOX_TOKEN =
   "pk.eyJ1IjoiaGFpdHJhbjk5IiwiYSI6ImNrMmtlNnhlbjB6Y2kzY29oc2Q2YnRlOXoifQ.ZwtkHfNjr_Ltp39bQj8hSg";
 
 const Map = ({ data }) => {
-  console.log(data);
   const mapRef = useRef();
   const [viewport, setViewport] = useState({
     latitude: data[0].coordinate.latitude,
@@ -56,7 +55,7 @@ const Map = ({ data }) => {
         type: "Feature",
         geometry: {
           type: "LineString",
-          coordinates: data.map(({ longitude, latitude }) => [
+          coordinates: data.map(({ coordinate: { longitude, latitude } }) => [
             longitude,
             latitude,
           ]),
@@ -98,46 +97,45 @@ const Map = ({ data }) => {
         <Layer />
       </Source>
 
-      {data &&
-        data.map((marker) => (
-          <>
-            <Marker
+      {data?.map((marker) => (
+        <>
+          <Marker
+            latitude={marker.coordinate.latitude}
+            longitude={marker.coordinate.longitude}
+            offsetLeft={-40}
+            offsetTop={-60}
+          >
+            <Box
+              cursor="pointer"
+              className="marker-wrapper"
+              onClick={() => setShowPopup({ [marker._id]: true })}
+            >
+              {marker.type === "hatchery" ? (
+                <img className="marker" src="/one.png" alt="marker" />
+              ) : (
+                <img className="marker" src="/two.png" alt="marker" />
+              )}
+            </Box>
+          </Marker>
+          {showPopup[marker._id] && (
+            <Popup
+              className="popup"
               latitude={marker.coordinate.latitude}
               longitude={marker.coordinate.longitude}
-              offsetLeft={-40}
-              offsetTop={-60}
+              closeButton={true}
+              closeOnClick={false}
+              dynamicPosition={true}
+              onClose={() => setShowPopup({})}
+              anchor="top"
             >
-              <Box
-                cursor="pointer"
-                className="marker-wrapper"
-                onClick={() => setShowPopup({ [marker._id]: true })}
-              >
-                {marker.type === "hatchery" ? (
-                  <img className="marker" src="/one.png" alt="marker" />
-                ) : (
-                  <img className="marker" src="/two.png" alt="marker" />
-                )}
-              </Box>
-            </Marker>
-            {showPopup[marker._id] && (
-              <Popup
-                className="popup"
-                latitude={marker.coordinate.latitude}
-                longitude={marker.coordinate.longitude}
-                closeButton={true}
-                closeOnClick={false}
-                dynamicPosition={true}
-                onClose={() => setShowPopup({})}
-                anchor="top"
-              >
-                <div>
-                  <h3>{marker.name}</h3>
-                  <p>{marker.address}</p>
-                </div>
-              </Popup>
-            )}
-          </>
-        ))}
+              <div>
+                <h3>{marker.name}</h3>
+                <p>{marker.address}</p>
+              </div>
+            </Popup>
+          )}
+        </>
+      ))}
     </MapGL>
   );
 };

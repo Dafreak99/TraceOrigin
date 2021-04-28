@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import Product from "models/Product";
 import Farm from "models/Farm";
 import Seed from "models/Seed";
+import Pond from "@/models/Pond";
 
 // @route /api/product
 
@@ -36,15 +37,27 @@ export default async (req, res) => {
       try {
         const { pond } = req.body;
 
-        await Seed.findOneAndUpdate({ pond }, { isRegistered: "pending" });
-
-        let seed = await Seed.findOne({ pond });
-
-        // Remove the old product first, if it's re-register
-        await Product.findOneAndRemove({ pond });
-
-        const product = new Product({
+        // Create seed and set it to pending
+        const seed = new Seed({
           ...req.body,
+          isDone: false,
+          farmId: farm._id,
+          isRegisterd: "pending",
+          pond,
+        });
+
+        await seed.save();
+
+        // Bind seed to pond
+        const updatedPond = await Pond.findOneAndUpdate(
+          { _id: pond },
+          { seed: seed._id },
+          { new: true }
+        ).populate({ path: "seed", populate: { path: "hatchery" } });
+
+        // Create product
+        const product = new Product({
+          pond,
           farm: farm.id,
           "isRegistered.status": "pending",
           isHarvested: null,
@@ -53,7 +66,7 @@ export default async (req, res) => {
 
         await product.save();
 
-        res.send(product);
+        res.send({ pond: updatedPond, product });
       } catch (error) {
         console.log(error.message);
         res.send({ message: error.message });

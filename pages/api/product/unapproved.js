@@ -26,10 +26,13 @@ export default async (req, res) => {
     case "GET":
       let products = await Product.find({
         "isRegistered.status": "pending",
-      }).populate({
-        path: "pond",
-        populate: { path: "seed" },
-      });
+      })
+        .populate({
+          path: "pond",
+          populate: { path: "seed" },
+        })
+        .populate("farm");
+
       res.send(products);
 
       break;

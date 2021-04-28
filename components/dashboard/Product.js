@@ -29,13 +29,7 @@ const Product = ({ product }) => {
   const cancelRef = React.useRef();
 
   const {
-    name,
-    pond: {
-      name: pondName,
-      seed: { stockingDate },
-      _id: pondId,
-    },
-    isHarvested,
+    pond: { name: pondName, _id: pondId },
     isRegistered,
     qrCode,
     _id,
@@ -127,7 +121,6 @@ const Product = ({ product }) => {
   return (
     <Table mb="2rem">
       <Tr>
-        <Th>Tên sản phẩm</Th>
         <Th>Được duyệt đăng ký</Th>
         <Th> {isRegistered.status === "false" ? "Lí do" : "Mã QR"}</Th>
         <Th>{""}</Th>
@@ -135,7 +128,6 @@ const Product = ({ product }) => {
         <Th>{""}</Th>
       </Tr>
       <Tr>
-        <Td>{name}</Td>
         <Td>{productStatus(isRegistered.status)}</Td>
         {/* <Td>{qrCode ? qrCode : "Chưa cấp"}</Td> */}
         {isRegistered.status === "false" ? (

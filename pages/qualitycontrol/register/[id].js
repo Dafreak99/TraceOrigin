@@ -58,7 +58,7 @@ const Index = () => {
         <Flex mb={5} align="center" justify="space-between">
           <Flex>
             <BackButton />
-            <Heading>{data && data.name}</Heading>
+            {/* <Heading>{data && data.name}</Heading> */}
           </Flex>
           <Box>
             <Popconfirm

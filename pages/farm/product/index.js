@@ -241,7 +241,7 @@ const Product = () => {
         ) : (
           <Alert status="info" fontSize="md" w="30rem">
             <AlertIcon />
-            <Text fontSize="md">Chưa nhập thức ăn</Text>
+            <Text fontSize="md">Chưa có sản phẩm đã thu hoạch</Text>
           </Alert>
         )}
       </Box>

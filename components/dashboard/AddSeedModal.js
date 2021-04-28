@@ -39,18 +39,24 @@ export const AddSeedModal = ({ pondId }) => {
     if (!values.hatchery) return;
 
     setIsSave(true);
-    try {
-      let res = await fetch("/api/pond/utilize", {
-        method: "POST",
-        body: values,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: process.browser ? localStorage.getItem("token") : null,
-        },
-        body: JSON.stringify({ ...values, pondId }),
-      });
 
-      const data = await res.json();
+    values.pond = pondId;
+
+    try {
+      let data = await (
+        await fetch("/api/product", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: process.browser
+              ? localStorage.getItem("token")
+              : null,
+          },
+          body: JSON.stringify(values),
+        })
+      ).json();
+
+      const { pond, product } = data;
 
       mutate(
         [
@@ -58,15 +64,25 @@ export const AddSeedModal = ({ pondId }) => {
           process.browser ? localStorage.getItem("token") : null,
         ],
         async (cachedData) => {
-          // return { ponds: data, isAuthenticated: cachedData.isAuthenticated };
-          return {
-            data,
-          };
+          return pond;
+        },
+        false
+      );
+
+      mutate(
+        [
+          `/api/pond/${pondId}/product`,
+
+          process.browser ? localStorage.getItem("token") : null,
+        ],
+        async (cachedData) => {
+          return product;
         },
         false
       );
     } catch (error) {
       console.log(error.message);
+      message.error("Lỗi !");
     }
     setIsSave(false);
     onClose();

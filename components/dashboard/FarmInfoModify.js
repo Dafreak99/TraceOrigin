@@ -10,8 +10,7 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { BiArrowBack } from "react-icons/bi";
+import { Controller, useForm } from "react-hook-form";
 
 import Asterisk from "./Asterisk";
 import UploadPreview from "./UploadPreview";
@@ -35,7 +34,7 @@ const FarmInfoModify = ({ isEdit, setIsEdit, data = {} }) => {
   const [files, setFiles] = useState(a);
   const [fileUrls, setFileUrls] = useState(b);
 
-  const { handleSubmit, register, errors } = useForm();
+  const { handleSubmit, register, errors, control } = useForm();
 
   const onSubmit = async (values) => {
     setIsSave(true);
@@ -84,7 +83,7 @@ const FarmInfoModify = ({ isEdit, setIsEdit, data = {} }) => {
   };
 
   return (
-    <Box as="form"  onSubmit={handleSubmit(onSubmit)}>
+    <Box as="form" onSubmit={handleSubmit(onSubmit)}>
       <Flex justify="space-between" align="center">
         <Flex alignItems="center">
           <BackButton onClick={() => setIsEdit(!isEdit)} />
