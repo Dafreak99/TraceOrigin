@@ -77,74 +77,6 @@ const Iframe = (props) => {
   );
 };
 
-const enterpriseAuthentication = (
-  isAuthenticated,
-  rejectMessage,
-  visible,
-  setVisible
-) => {
-  const router = useRouter();
-
-  if (isAuthenticated === "") {
-    return (
-      <Alert status="error" mt="2rem" w="max-content">
-        <AlertIcon />
-        Chưa chứng thực doanh nghiệp.{" "}
-        <Box
-          as="span"
-          ml="3px"
-          textDecoration="underline"
-          cursor="pointer"
-          onClick={() => setVisible(true)}
-        >
-          {" "}
-          Chứng thực để sử dụng các tính năng.
-        </Box>
-      </Alert>
-    );
-  } else if (isAuthenticated === "pending") {
-    return (
-      <Alert status="warning" mt="2rem" w="max-content">
-        <AlertIcon />
-        Đang chờ xác thực doanh nghiệp
-      </Alert>
-    );
-  } else if (isAuthenticated === "false" && rejectMessage) {
-    return (
-      <Alert status="error" mt="2rem" w="max-content">
-        <AlertIcon />
-        <Box>
-          <Box>
-            Không được duyệt chứng thực.{" "}
-            <Box
-              cursor="pointer"
-              textDecoration="underline"
-              as="span"
-              onClick={() => setVisible(true)}
-            >
-              Chứng thực lại
-            </Box>{" "}
-          </Box>
-          <Box>Lý do: {rejectMessage.message}</Box>
-        </Box>
-      </Alert>
-    );
-  } else {
-    return (
-      <Alert status="success" mt="2rem" w="max-content">
-        <AlertIcon />
-        Đã chứng thực doanh nghiệp
-        <a
-          style={{ marginLeft: "5px", textDecoration: "underline" }}
-          href="/farm/authentication"
-        >
-          Xem chứng thực
-        </a>
-      </Alert>
-    );
-  }
-};
-
 const Content = ({
   data: {
     name,
@@ -167,8 +99,6 @@ const Content = ({
   setIsEdit,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const [visible, setVisible] = useState(false);
 
   // Get Reject Message from Enterprise Authentication
   const { data: message, error } = useSWR(
@@ -196,13 +126,18 @@ const Content = ({
         </Button>
       </Flex>
 
-      {enterpriseAuthentication(isAuthenticated, message, visible, setVisible)}
+      <EnterpriseAuthentication
+        isAuthenticated={isAuthenticated}
+        message={message}
+        onOpen={onOpen}
+        onClose={onClose}
+      />
       <EnterpriseAuthenticationModal
         isOpen={isOpen}
         onClose={onClose}
         onOpen={onOpen}
       />
-      <Flex paddingTop={12}>
+      <Flex paddingTop={12} flexWrap="wrap">
         <List
           spacing={2}
           px={16}
@@ -212,6 +147,7 @@ const Content = ({
           h="max-content"
           marginRight="2rem"
           background="#fff"
+          mb="2rem"
         >
           <ListItem>
             <Text fontSize="md" fontWeight="bold">
@@ -300,6 +236,73 @@ const Content = ({
       </Flex>
     </Box>
   );
+};
+
+const EnterpriseAuthentication = ({
+  isAuthenticated,
+  rejectMessage,
+  onOpen,
+}) => {
+  const router = useRouter();
+
+  if (isAuthenticated === "") {
+    return (
+      <Alert status="error" mt="2rem" w="max-content">
+        <AlertIcon />
+        Chưa chứng thực doanh nghiệp.{" "}
+        <Box
+          as="span"
+          ml="3px"
+          textDecoration="underline"
+          cursor="pointer"
+          onClick={onOpen}
+        >
+          {" "}
+          Chứng thực để sử dụng các tính năng.
+        </Box>
+      </Alert>
+    );
+  } else if (isAuthenticated === "pending") {
+    return (
+      <Alert status="warning" mt="2rem" w="max-content">
+        <AlertIcon />
+        Đang chờ xác thực doanh nghiệp
+      </Alert>
+    );
+  } else if (isAuthenticated === "false" && rejectMessage) {
+    return (
+      <Alert status="error" mt="2rem" w="max-content">
+        <AlertIcon />
+        <Box>
+          <Box>
+            Không được duyệt chứng thực.{" "}
+            <Box
+              cursor="pointer"
+              textDecoration="underline"
+              as="span"
+              onClick={onOpen}
+            >
+              Chứng thực lại
+            </Box>{" "}
+          </Box>
+          <Box>Lý do: {rejectMessage.message}</Box>
+        </Box>
+      </Alert>
+    );
+  } else {
+    return (
+      <Alert status="success" mt="2rem" w="max-content">
+        <AlertIcon />
+        Đã chứng thực doanh nghiệp
+        <a
+          style={{ marginLeft: "5px", textDecoration: "underline" }}
+          href="/farm/authentication"
+        >
+          Xem chứng thực
+        </a>
+      </Alert>
+    );
+  }
 };
 
 export default Info;

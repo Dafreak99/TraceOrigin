@@ -1,9 +1,10 @@
 import FeedingDiary from "../../../models/FeedingDiary";
-import dbConnect from "../../../lib/dbConnect";
+import dbConnect from "@/lib/dbConnect";
 
 import jwt from "jsonwebtoken";
 import Farm from "models/Farm";
 import Food from "models/Food";
+import Product from "@/models/Product";
 
 dbConnect();
 
@@ -35,10 +36,15 @@ export default async (req, res) => {
       break;
     case "POST":
       try {
+        const { pondId: pond } = req.body;
+
+        const product = await Product.findOne({ pond }).sort({ id: -1 });
+
         let feedingDiary = new FeedingDiary({
           ...req.body,
-          pond: req.body.pondId,
+          pond,
           farm: farm._id,
+          productId: product._id,
           isDone: false,
         });
 

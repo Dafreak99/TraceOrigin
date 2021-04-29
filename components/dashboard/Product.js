@@ -29,19 +29,11 @@ const Product = ({ product }) => {
   const cancelRef = React.useRef();
 
   const {
-    name,
-    pond: {
-      name: pondName,
-      seed: { stockingDate },
-      _id: pondId,
-    },
-    isHarvested,
+    pond: { name: pondName, _id: pondId },
     isRegistered,
     qrCode,
     _id,
   } = product;
-
-  console.log(product);
 
   const onDelete = async () => {
     try {
@@ -126,30 +118,38 @@ const Product = ({ product }) => {
     }
   };
 
+  console.log(product);
+
   return (
     <Table mb="2rem">
       <Tr>
-        <Th>Tên sản phẩm</Th>
+        <Th>Mã theo dõi</Th>
         <Th>Được duyệt đăng ký</Th>
         <Th> {isRegistered.status === "false" ? "Lí do" : "Mã QR"}</Th>
         <Th>{""}</Th>
-        <Th>{""}</Th>
-        <Th>{""}</Th>
       </Tr>
       <Tr>
-        <Td>{name}</Td>
+        <Td>{_id}</Td>
         <Td>{productStatus(isRegistered.status)}</Td>
-        {/* <Td>{qrCode ? qrCode : "Chưa cấp"}</Td> */}
         {isRegistered.status === "false" ? (
           <Td>{isRegistered.reject.message}</Td>
         ) : (
           <Td>
             <QRCode
-              size={100}
+              size={50}
               value={"http://traceorigin.vercel.app/product/" + qrCode}
             />
           </Td>
         )}
+
+        {/* Show Register/Re-register/Harvest Button */}
+        <Td>
+          {isRegistered.status === "true" ? (
+            <Button>Thu hoạch</Button>
+          ) : isRegistered.status === "false" ? (
+            <Button>Đăng ký lại</Button>
+          ) : null}
+        </Td>
 
         {/* <Td
           px={8}
@@ -172,7 +172,7 @@ const Product = ({ product }) => {
           ) : null}
         </Td> */}
 
-        <Td
+        {/* <Td
           borderLeft="1px solid #e8eef3"
           px={8}
           onClick={(e) => {
@@ -182,7 +182,7 @@ const Product = ({ product }) => {
           }}
         >
           <Box as={FaTrash}></Box>
-        </Td>
+        </Td> */}
       </Tr>
 
       <AlertDialog

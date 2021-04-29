@@ -1,9 +1,9 @@
-import dbConnect from "../../../lib/dbConnect";
+import dbConnect from "@/lib/dbConnect";
 dbConnect();
 
 import Product from "models/Product";
 
-// @route /api/product/:id
+// @route /api/product/:id/harvest
 // GET A specific(unharvested) product by ProductID
 
 export default async (req, res) => {

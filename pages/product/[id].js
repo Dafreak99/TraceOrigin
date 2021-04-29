@@ -56,7 +56,7 @@ const Product = ({ data }) => {
         address: farm.address,
       },
       {
-        ...hatchery.coordinate,
+        coordinate: hatchery.coordinate,
         type: "hatchery",
         _id: hatchery._id,
         name: hatchery.name,
@@ -65,6 +65,8 @@ const Product = ({ data }) => {
       },
     ];
   }
+
+  console.log(source);
 
   return (
     <>
@@ -216,9 +218,7 @@ const Product = ({ data }) => {
                 <ProductInfo data={data} />
                 <FoodChainTimeline data={data} />
               </Grid>
-              <Box height="500px">
-                <DisplayMap data={source} />
-              </Box>
+              <Box height="500px">{source && <DisplayMap data={source} />}</Box>
             </>
           )}
         </div>
@@ -231,14 +231,16 @@ const Product = ({ data }) => {
 export async function getStaticPaths() {
   return {
     paths: [],
-
     fallback: true,
   };
 }
 
+// In development (next dev), getStaticProps will be called on every request.
+
 export async function getStaticProps({ params }) {
   const res = await fetch(
-    `https://traceorigin.vercel.app/api/product/${params.id}`
+    //TODO: SWAP HERE
+    `http://localhost:3000/api/product/${params.id}`
   );
   const data = await res.json();
 

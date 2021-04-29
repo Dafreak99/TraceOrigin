@@ -1,6 +1,6 @@
 import Farm from "../../../models/Farm";
 import Worker from "../../../models/Worker";
-import dbConnect from "../../../lib/dbConnect";
+import dbConnect from "@/lib/dbConnect";
 
 import jwt from "jsonwebtoken";
 

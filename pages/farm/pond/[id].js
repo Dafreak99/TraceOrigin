@@ -1,4 +1,14 @@
-import { Box, Flex, Heading, Skeleton, Stack } from "@chakra-ui/react";
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  Box,
+  Flex,
+  Heading,
+  Skeleton,
+  Stack,
+} from "@chakra-ui/react";
 
 import { useRouter } from "next/router";
 import useSWR from "swr";
@@ -10,6 +20,7 @@ import Layout from "@/components/dashboard/Layout";
 import PondInfo from "@/components/dashboard/PondInfo";
 import fetcher from "@/utils/fetcher";
 import Product from "@/components/dashboard/Product";
+import Link from "next/link";
 
 const { TabPane } = Tabs;
 
@@ -34,8 +45,11 @@ const Index = () => {
           process.browser ? localStorage.getItem("token") : null,
         ]
       : null,
-    fetcher
+    fetcher,
+    { refreshInterval: 1000 }
   );
+
+  console.log(product);
 
   return (
     <Layout>
@@ -49,7 +63,7 @@ const Index = () => {
       </Flex>
       <Tabs defaultActiveKey="1">
         <TabPane tab={<span>Thông tin ao</span>} key="1" mb="2rem">
-          <Flex flexWrap="wrap-reverse">
+          <Flex flexWrap="wrap-reverse" align="flex-end">
             {data ? (
               <PondInfo pond={data} />
             ) : (
@@ -59,7 +73,32 @@ const Index = () => {
                 <Skeleton height="20px" />
               </Stack>
             )}
-            {product && <Product product={product} />}
+            <>
+              {product &&
+                (product.isHarvested ? (
+                  <Alert
+                    status="success"
+                    w="max-content"
+                    h="min-content"
+                    fontSize="lg"
+                  >
+                    <AlertIcon />
+                    Ao đang được theo dõi thu hoạch.{" "}
+                    <Link href="/farm/product">
+                      <a
+                        style={{
+                          marginLeft: "5px",
+                          textDecoration: "underline",
+                        }}
+                      >
+                        Xem sản phẩm
+                      </a>
+                    </Link>
+                  </Alert>
+                ) : (
+                  <Product product={product} />
+                ))}
+            </>
           </Flex>
         </TabPane>
         <TabPane tab={<span>Ghi chép theo chuẩn VietGAP</span>} key="2">

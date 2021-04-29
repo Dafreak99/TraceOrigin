@@ -1,5 +1,5 @@
 import UsingMedicine from "../../../models/UsingMedicine";
-import dbConnect from "../../../lib/dbConnect";
+import dbConnect from "@/lib/dbConnect";
 
 import jwt from "jsonwebtoken";
 

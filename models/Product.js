@@ -1,8 +1,10 @@
 const mongoose = require("mongoose");
 const Farm = require("./Farm");
 const FeedingDiary = require("./FeedingDiary");
+const Note = require("./Note");
 const Packing = require("./Packing");
 const Pond = require("./Pond");
+const PondEnvironment = require("./PondEnvironment");
 const RejectMessage = require("./RejectMessage");
 const Seed = require("./Seed");
 const UsingMedicine = require("./UsingMedicine");
@@ -27,7 +29,6 @@ const ProductSchema = new mongoose.Schema({
     reject: {
       type: mongoose.Schema.Types.ObjectId,
       ref: RejectMessage,
-      default: null,
     },
   },
   pond: {
@@ -45,6 +46,16 @@ const ProductSchema = new mongoose.Schema({
   ],
   usingMedicine: [
     { type: mongoose.Schema.Types.ObjectId, ref: UsingMedicine, default: null },
+  ],
+  dialynote: [
+    { type: mongoose.Schema.Types.ObjectId, ref: Note, default: null },
+  ],
+  pondenvironment: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: PondEnvironment,
+      default: null,
+    },
   ],
   seed: { type: mongoose.Schema.Types.ObjectId, ref: Seed, default: null },
   packingMethod: {

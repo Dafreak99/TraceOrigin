@@ -1,10 +1,11 @@
-import dbConnect from "../../../lib/dbConnect";
+import dbConnect from "@/lib/dbConnect";
 dbConnect();
 
 import PondEnvironment from "../../../models/PondEnvironment";
 import Farm from "../../../models/Farm";
 
 import jwt from "jsonwebtoken";
+import Product from "@/models/Product";
 
 // @route /api/pondenvironment
 
@@ -24,7 +25,17 @@ export default async (req, res) => {
       break;
     case "POST":
       try {
-        let pondEnv = new PondEnvironment({ ...req.body, farmId: farm._id });
+        const { pond } = req.body;
+
+        const product = await Product.findOne({ pond }).sort({
+          id: -1,
+        });
+
+        const pondEnv = new PondEnvironment({
+          ...req.body,
+          farmId: farm._id,
+          product,
+        });
 
         await pondEnv.save();
         res.send(pondEnv);

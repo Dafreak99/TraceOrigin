@@ -10,7 +10,6 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FaTrash } from "react-icons/fa";
-import useSWR, { mutate } from "swr";
 
 import AddSeedModal from "./AddSeedModal";
 
@@ -27,18 +26,7 @@ const PondInfo = ({ pond }) => {
       body: JSON.stringify({ pondId: pond._id }),
     });
 
-    mutate(
-      ["/api/pond", process.browser ? localStorage.getItem("token") : null],
-      async (cachedData) => {
-        let ponds = [
-          ...cachedData.ponds.slice(0, index),
-          ...cachedData.ponds.slice(index + 1),
-        ];
-
-        return { ponds, isAuthenticated: cachedData.isAuthenticated };
-      },
-      false
-    );
+    router.push("/farm/pond");
   };
 
   return (
@@ -167,11 +155,12 @@ const PondInfo = ({ pond }) => {
           >
             Xóa ao
           </Button>
-          {pond?.seed?.isRegistered === "false" && (
+          {/* TODO: REREGISTER */}
+          {/* {pond?.seed?.isRegistered === "false" && (
             <Button>
               <Link href={`/farm/register/${pond._id}`}>Đăng ký</Link>
             </Button>
-          )}
+          )} */}
         </Box>
       </Box>
     </>

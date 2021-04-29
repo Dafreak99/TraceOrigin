@@ -10,7 +10,6 @@ const HatcherySchema = new mongoose.Schema({
     reject: {
       type: mongoose.Schema.Types.ObjectId,
       ref: RejectMessage,
-      default: null,
     },
   },
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: User },

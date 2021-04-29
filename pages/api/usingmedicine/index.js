@@ -1,4 +1,4 @@
-import dbConnect from "../../../lib/dbConnect";
+import dbConnect from "@/lib/dbConnect";
 dbConnect();
 
 import jwt from "jsonwebtoken";
@@ -40,6 +40,8 @@ export default async (req, res) => {
       } = req.body;
 
       try {
+        const product = await Product.findOne({ pondId }).sort({ id: -1 });
+
         // Reduce medicine quantity after using
         let medicine = await Medicine.findById(medicineId);
 
@@ -57,12 +59,13 @@ export default async (req, res) => {
           mixingRatio,
           weight,
           farmId: farm._id,
+          product,
           isDone: false,
         });
 
         await usingMedicine.save();
 
-        res.send(usingMedicine);
+        res.send({ message: "OK" });
       } catch (error) {
         console.log(error);
         res.send({ message: error.message });

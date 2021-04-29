@@ -19,7 +19,7 @@ export const Td = (props) => (
     color="gray.900"
     background="#fff"
     p={4}
-    fontSize={{ base: "xs", xl: "md" }}
+    fontSize={{ base: "sm", xl: "md" }}
     borderBottom="1px solid"
     borderBottomColor="gray.100"
     border="none"

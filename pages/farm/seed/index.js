@@ -85,7 +85,7 @@ const Seed = () => {
         ) : (
           <Alert status="info" fontSize="md" w="30rem">
             <AlertIcon />
-            <Text fontSize="md">Chưa sử dụng thuốc</Text>
+            <Text fontSize="md">Chưa thả giống</Text>
           </Alert>
         )}
       </Box>

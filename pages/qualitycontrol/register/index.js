@@ -53,7 +53,7 @@ const DashBoard = () => {
           <>
             <Table>
               <Tr>
-                <Th>Tên sản phẩm</Th>
+                <Th>Từ cơ sở nuôi trồng</Th>
                 <Th>Nuôi tại ao</Th>
                 <Th>Ngày thả giống</Th>
                 <Th>{""}</Th>
@@ -62,20 +62,19 @@ const DashBoard = () => {
               {products.map(
                 (
                   {
-                    name,
                     pond: {
                       name: pondName,
                       seed: { stockingDate },
                       _id: pondId,
                     },
+                    farm: { name: farmName },
                     _id,
                   },
                   i
                 ) => (
                   <Link href={`./register/${_id}`}>
-                    {/* <a> */}
                     <Tr cursor="pointer">
-                      <Td>{name}</Td>
+                      <Td>{farmName}</Td>
                       <Td>{pondName}</Td>
                       <Td>{stockingDate}</Td>
 
@@ -94,6 +93,7 @@ const DashBoard = () => {
                             background="#88fcb62b"
                             color="#22a669"
                             mr="10px"
+                            mb={{ base: "10px", lg: "0" }}
                             leftIcon={<AiOutlineCheck />}
                             _hover={{ background: "88fcb62b" }}
                           >

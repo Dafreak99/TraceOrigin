@@ -53,7 +53,7 @@ const Index = () => {
     <Layout>
       <Flex align="center" mb={5}>
         <Heading mr="10px">Danh sách ao</Heading>
-        <AddPondModal />
+        {data?.isAuthenticated === "true" && <AddPondModal />}
       </Flex>
 
       {data && data.length === 0 && (
@@ -67,7 +67,7 @@ const Index = () => {
         }}
       >
         {data?.isAuthenticated !== "true" ? (
-          <Alert status="warning" gridColumn="span 6">
+          <Alert status="warning" gridColumn="span 12">
             <AlertIcon />
             <Text fontSize="md">
               Chỉ có thể tiến hành sử dụng ao khi đã chứng thực
@@ -84,7 +84,8 @@ const Index = () => {
             {data?.ponds.map(({ name, area, seed, _id }, i) => (
               <CSSTransition key={i} timeout={500} classNames="item">
                 <Flex
-                  gridColumn="span 3"
+                  // gridColumn="span 3"
+                  gridColumn={{ base: "span 12", md: "span 6", xl: "span 3" }}
                   backgroundColor="#fff"
                   boxShadow="0 4px 8px rgb(220 229 236)"
                   borderRadius="5px"

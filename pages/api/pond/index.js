@@ -1,4 +1,4 @@
-import dbConnect from "../../../lib/dbConnect";
+import dbConnect from "@/lib/dbConnect";
 dbConnect();
 
 import Pond from "../../../models/Pond";
@@ -52,33 +52,40 @@ export default async (req, res) => {
 
         // How to know which Product is linked to this pond ?
         // For each pond, only one product can be register at a time
-        // Find a product which has that pondId and isHarvested !== 'true'
+        // Find a product which has that pondId and isHarvested.status !== 'true'
 
-        let product = await Product.findOne({
+        let unharvestedProduct = await Product.findOne({
           pond,
-        }).sort({ _id: -1 });
-        // Get lastest one
+          "isRegistered.status": ["pending", "false"],
+        }); // {}
 
-        // Doesn't register for Product yet
+        let harvestedproducts = await Product.find({
+          pond,
+          "isRegistered.status": ["true"],
+        }); // []
 
-        if (!product) {
-          await Seed.deleteOne({ pond });
-          await Pond.findByIdAndDelete(pond);
-          return res.send({ message: "Đã xóa thành công ao !" });
-        }
-
-        if (product.isHarvested.status === "true") {
-          // Archive to keep the link from Product to Pond after harvested
-          await Pond.findByIdAndUpdate(pond, { isArchived: true });
-          await Seed.findOneAndUpdate({ pond }, { isDone: true });
-        } else {
-          // When deleting a pond make sure to perform cascade delete in Product, Seed, FeedingDiary and UsingMediicne
-
-          await Product.findByIdAndRemove(product._id);
+        if (unharvestedProduct && harvestedproducts.length === 0) {
+          await Product.findByIdAndRemove(unharvestedProduct._id);
           await FeedingDiary.deleteMany({ pond });
           await UsingMedicine.deleteMany({ pond });
           await Seed.deleteOne({ pond });
           await Pond.findByIdAndDelete(pond);
+        } else if (!unharvestedProduct && harvestedproducts.length > 0) {
+          // Archive to keep the link from Product to Pond of the harvested products
+          await Pond.findByIdAndUpdate(pond, { isArchived: true });
+          await Seed.findOneAndUpdate({ pond }, { isDone: true });
+        } else if (!unharvestedProduct && harvestedproducts.length === 0) {
+          await Seed.deleteOne({ pond });
+          await Pond.findByIdAndDelete(pond);
+        } else {
+          // Delete log of an unharvested product
+          await Product.findByIdAndRemove(unharvestedProduct._id);
+          await FeedingDiary.deleteMany({ pond, isDone: false });
+          await UsingMedicine.deleteMany({ pond, isDone: false });
+          // Archive to keep the link from Product to Pond of the harvested products
+          await Pond.findByIdAndUpdate(pond, { isArchived: true });
+          await Seed.findOneAndUpdate({ pond }, { isDone: true });
+          console.log("4");
         }
 
         res.send({ message: "Đã xóa thành công ao !" });
