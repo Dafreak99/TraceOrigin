@@ -11,6 +11,7 @@ const FeedingDiarySchema = new mongoose.Schema({
   pond: { type: mongoose.Schema.Types.ObjectId, ref: Pond },
   food: { type: mongoose.Schema.Types.ObjectId, ref: Food },
   farm: { type: mongoose.Schema.Types.ObjectId, ref: Farm },
+  productId: String,
   isDone: Boolean,
 });
 

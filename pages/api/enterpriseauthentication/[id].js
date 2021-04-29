@@ -1,6 +1,6 @@
 import Farm from "../../../models/Farm";
 import Food from "../../../models/Food";
-import dbConnect from "../../../lib/dbConnect";
+import dbConnect from "@/lib/dbConnect";
 
 import RejectMessage from "models/RejectMessage";
 

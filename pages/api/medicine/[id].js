@@ -1,5 +1,5 @@
 import Medicine from "../../../models/Medicine";
-import dbConnect from "../../../lib/dbConnect";
+import dbConnect from "@/lib/dbConnect";
 
 dbConnect();
 

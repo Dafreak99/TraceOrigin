@@ -1,5 +1,5 @@
 import Farm from "../../../models/Farm";
-import dbConnect from "../../../lib/dbConnect";
+import dbConnect from "@/lib/dbConnect";
 
 import jwt from "jsonwebtoken";
 

@@ -10,7 +10,6 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FaTrash } from "react-icons/fa";
-import useSWR, { mutate } from "swr";
 
 import AddSeedModal from "./AddSeedModal";
 

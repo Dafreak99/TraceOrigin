@@ -7,6 +7,7 @@ const NoteSchema = new mongoose.Schema({
   pond: { type: mongoose.Schema.Types.ObjectId, ref: Pond },
   images: [String],
   farmId: String,
+  productId: String,
   isDone: { type: Boolean, default: false },
 });
 

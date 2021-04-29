@@ -1,4 +1,4 @@
-import dbConnect from "../../../lib/dbConnect";
+import dbConnect from "@/lib/dbConnect";
 
 import Farm from "../../../models/Farm";
 import Medicine from "../../../models/Medicine";

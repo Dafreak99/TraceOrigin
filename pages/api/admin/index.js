@@ -1,5 +1,5 @@
 import User from "../../../models/User";
-import dbConnect from "../../../lib/dbConnect";
+import dbConnect from "@/lib/dbConnect";
 
 import jwt from "jsonwebtoken";
 

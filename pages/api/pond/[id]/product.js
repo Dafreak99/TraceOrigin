@@ -1,7 +1,8 @@
+import Product from "@/models/Product";
 import dbConnect from "lib/dbConnect";
 dbConnect();
 
-import Product from "models/Product";
+// import Product from "models/Product";
 
 // @route /api/product/:id
 // GET A specific(unharvested) product by PondID
@@ -17,7 +18,6 @@ export default async (req, res) => {
     case "GET":
       const product = await Product.findOne({
         pond: id,
-        "isHarvested.status": [null, "false"],
       })
         .populate("isRegistered.reject")
         .populate({ path: "pond", populate: { path: "seed" } })

@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 
 import Pond from "../../../models/Pond";
-import dbConnect from "../../../lib/dbConnect";
+import dbConnect from "@/lib/dbConnect";
 import Seed from "../../../models/Seed";
 import Farm from "models/Farm";
 

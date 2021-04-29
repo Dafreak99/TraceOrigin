@@ -12,6 +12,7 @@ const PondEnvironmentSchema = new mongoose.Schema({
   NH3: Number,
   alkalinity: Number,
   farmId: String,
+  productId: String,
 });
 
 module.exports =

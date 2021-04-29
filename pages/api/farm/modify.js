@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 
 import Farm from "../../../models/Farm";
-import dbConnect from "../../../lib/dbConnect";
+import dbConnect from "@/lib/dbConnect";
 
 dbConnect();
 

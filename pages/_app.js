@@ -11,13 +11,15 @@ import "../styles/globals.css";
 import "../styles/animation.css";
 
 import { AuthProvider } from "../lib/AuthContext";
+import dynamic from "next/dynamic";
+
+const Head = dynamic(() => import("@/components/Head"), { ssr: false });
 
 function MyApp({ Component, pageProps }) {
   return (
     <>
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      </head>
+      <Head />
+
       <AuthProvider>
         <ChakraProvider theme={theme}>
           <CSSReset />

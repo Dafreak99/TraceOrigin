@@ -13,6 +13,7 @@ const UsingMedicineSchema = new mongoose.Schema({
   mixingRatio: String,
   weight: Number,
   farmId: String,
+  productId: String,
   isDone: Boolean,
 });
 

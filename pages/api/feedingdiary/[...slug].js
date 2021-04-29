@@ -1,5 +1,5 @@
 import FeedingDiary from "../../../models/FeedingDiary";
-import dbConnect from "../../../lib/dbConnect";
+import dbConnect from "@/lib/dbConnect";
 
 import jwt from "jsonwebtoken";
 import Farm from "models/Farm";
