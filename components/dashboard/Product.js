@@ -118,8 +118,6 @@ const Product = ({ product }) => {
     }
   };
 
-  console.log(product);
-
   return (
     <Table mb="2rem">
       <Tr>
@@ -145,7 +143,11 @@ const Product = ({ product }) => {
         {/* Show Register/Re-register/Harvest Button */}
         <Td>
           {isRegistered.status === "true" ? (
-            <Button>Thu hoạch</Button>
+            <Button>
+              <Link href={`/farm/harvest/${_id}`}>
+                <a>Thu hoạch</a>
+              </Link>
+            </Button>
           ) : isRegistered.status === "false" ? (
             <Button>Đăng ký lại</Button>
           ) : null}

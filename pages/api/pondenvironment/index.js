@@ -34,7 +34,7 @@ export default async (req, res) => {
         const pondEnv = new PondEnvironment({
           ...req.body,
           farmId: farm._id,
-          product,
+          productId: product._id,
         });
 
         await pondEnv.save();

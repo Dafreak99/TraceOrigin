@@ -21,10 +21,7 @@ export default async (req, res) => {
     case "GET":
       let products = await Product.find({
         "isHarvested.status": "pending",
-      }).populate({
-        path: "pond",
-        populate: { path: "seed" },
-      });
+      }).populate({ path: "isHarvested", populate: "harvestProduct" });
       res.send(products);
       break;
 

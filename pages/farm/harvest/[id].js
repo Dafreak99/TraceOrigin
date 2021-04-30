@@ -2,9 +2,6 @@ import fetcher from "@/utils/fetcher";
 import { useEffect, useState } from "react";
 import {
   Box,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
   Button,
   Flex,
   FormLabel,
@@ -27,6 +24,8 @@ import FormControl from "@/components/dashboard/FormControl";
 import BackButton from "@/components/dashboard/BackButton";
 import { message, Select } from "antd";
 import { format } from "date-fns";
+import { AiFillInfoCircle } from "react-icons/ai";
+import Map from "@/components/Map";
 
 const Index = () => {
   const router = useRouter();
@@ -73,9 +72,8 @@ const Index = () => {
     }
 
     values.images = urls;
-    values.weight = +values.weight;
-    values.productId = data.product._id;
-    values.pond = data.pond._id;
+
+    values.productId = router.query.id;
 
     try {
       await fetch("/api/product/harvest", {
@@ -87,16 +85,15 @@ const Index = () => {
         },
         body: JSON.stringify(values),
       });
+      setIsSave(false);
+
+      message.success("Thu hoạch thành công. Chờ phê duyệt !");
+
+      router.push("/farm/product");
     } catch (error) {
       console.log(error.message);
-      // message.error("Lỗi !");
+      message.error("Lỗi !");
     }
-
-    setIsSave(false);
-
-    message.success("Thu hoạch thành công. Chờ phê duyệt !");
-
-    router.push("/farm/product");
   };
 
   return (
@@ -107,14 +104,7 @@ const Index = () => {
             <Flex alignItems="center" justify="space-between">
               <Flex alignItems="center">
                 <BackButton />
-                <Breadcrumb fontSize="xl" color="#485B6D">
-                  <BreadcrumbItem>
-                    <BreadcrumbLink>Thu hoạch sản phẩm</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbItem isCurrentPage>
-                    <BreadcrumbLink>{data.product.name}</BreadcrumbLink>
-                  </BreadcrumbItem>
-                </Breadcrumb>
+                <Heading fontSize="lg">Thu hoạch sản phẩm</Heading>
               </Flex>
               {isSave ? (
                 <Button backgroundColor="gray.400" color="#fff">
@@ -127,149 +117,257 @@ const Index = () => {
               )}
             </Flex>
 
-            <Grid
-              gridTemplateColumns="repeat(2, 1fr)"
-              columnGap={12}
-              background="#fff"
-              borderRadius="3px"
-              boxShadow="0 4px 10px rgba(0,0,0,.1)"
-              padding="2rem 3rem"
-              mt="2rem"
-            >
-              <FormControl>
-                <FormLabel htmlFor="harvestedDate">Ngày thu hoạch: </FormLabel>
-                <br />
-                <DatePicker control={control} name="harvestedDate" />
-                {errors.harvestedDate?.type === "required" && (
-                  <Text fontSize="md" fontStyle="italic" color="red.300">
-                    Vui lòng nhập ngày
-                  </Text>
-                )}
-              </FormControl>
-              <FormControl>
-                <FormLabel htmlFor="weight">Trọng lượng: </FormLabel>
-                <Input
-                  type="number"
-                  id="weight"
-                  name="weight"
-                  ref={register({
-                    required: "Required",
-                  })}
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel htmlFor="weight">Đơn vị: </FormLabel>
-                <Controller
-                  name="unit"
-                  defaultValue="KG"
-                  control={control}
-                  rules={{ required: true }}
-                  render={({ onChange }) => (
-                    <Select
-                      defaultValue="KG"
-                      onChange={onChange}
-                      style={{ width: "100%" }}
-                    >
-                      <Option value="KG">KG</Option>
-                      <Option value="G">G</Option>
-                    </Select>
+            <Flex justify="space-between" flexWrap="wrap">
+              <Grid
+                gridTemplateColumns="repeat(2, 1fr)"
+                columnGap={12}
+                background="#fff"
+                borderRadius="3px"
+                boxShadow="0 4px 10px rgba(0,0,0,.1)"
+                padding="2rem 3rem"
+                mt="2rem"
+                width="800px"
+                max-width="800px"
+              >
+                <Flex
+                  align="center"
+                  gridColumn="span 2"
+                  fontSize="lg"
+                  mb="1.5rem"
+                  color="#76787d"
+                >
+                  <Box as={AiFillInfoCircle} />
+                  <Heading fontSize="md" ml="5px" color="#76787d">
+                    Thông tin sản phẩm
+                  </Heading>
+                </Flex>
+
+                <FormControl>
+                  <FormLabel htmlFor="name">Tên sản phẩm: </FormLabel>
+                  <Input
+                    type="text"
+                    id="name"
+                    name="name"
+                    ref={register({
+                      required: "Required",
+                    })}
+                  />
+                </FormControl>
+                <FormControl>
+                  <FormLabel htmlFor="harvestedDate">
+                    Ngày thu hoạch:{" "}
+                  </FormLabel>
+                  <DatePicker control={control} name="harvestedDate" />
+                  {errors.harvestedDate?.type === "required" && (
+                    <Text fontSize="md" fontStyle="italic" color="red.300">
+                      Vui lòng nhập ngày
+                    </Text>
                   )}
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel htmlFor="images">Hình ảnh: </FormLabel>
-                <UploadPreview
-                  files={files}
-                  setFiles={setFiles}
-                  fileUrls={fileUrls}
-                  setFileUrls={setFileUrls}
-                />
-              </FormControl>
-            </Grid>
-            <Grid
-              gridTemplateColumns="repeat(2, 1fr)"
-              columnGap={12}
-              background="#fff"
-              borderRadius="3px"
-              boxShadow="0 4px 10px rgba(0,0,0,.1)"
-              padding="2rem 3rem"
-              mt="2rem"
-            >
-              <List spacing={2}>
-                <Heading size="md" mt={4} mb={4}>
-                  Thông tin con giống
-                </Heading>
-                <ListItem>
-                  <Text fontSize="md" fontWeight="bold">
-                    Ngày thả giống:{" "}
-                    <Box as="span" fontWeight="normal">
-                      {data.pond.seed.stockingDate}
-                    </Box>
-                  </Text>
-                </ListItem>
-                <ListItem>
-                  <Text fontSize="md" fontWeight="bold">
-                    Số lượng:{" "}
-                    <Box as="span" fontWeight="normal">
-                      {data.pond.seed.quantity}
-                    </Box>
-                  </Text>
-                </ListItem>
-                <ListItem>
-                  <Text fontSize="md" fontWeight="bold">
-                    Ngày tuổi của giống:{" "}
-                    <Box as="span" fontWeight="normal">
-                      {data.pond.seed.seedAge}
-                    </Box>
-                  </Text>
-                </ListItem>
-                <ListItem>
-                  <Text fontSize="md" fontWeight="bold">
-                    Tên trại giống:{" "}
-                    <Box as="span" fontWeight="normal">
-                      {data.pond.seed.hatchery.name}
-                    </Box>
-                  </Text>
-                </ListItem>
-                <ListItem>
-                  <Text fontSize="md" fontWeight="bold">
-                    Địa chỉ trại giống:{" "}
-                    <Box as="span" fontWeight="normal">
-                      {data.pond.seed.hatchery.address}
-                    </Box>
-                  </Text>
-                </ListItem>
-              </List>
-              <List spacing={2}>
-                <Heading size="md" mb={4} mt={4}>
-                  Thông tin về ao nuôi
-                </Heading>
-                <ListItem>
-                  <Text fontSize="md" fontWeight="bold">
-                    Tên ao:{" "}
-                    <Box as="span" fontWeight="normal">
-                      {data.pond.name}
-                    </Box>
-                  </Text>
-                </ListItem>
-                <ListItem>
-                  <Text fontSize="md" fontWeight="bold">
-                    Mật độ thả:{" "}
-                    <Box as="span" fontWeight="normal">
-                      {data.pond.stockingDensity}
-                    </Box>
-                  </Text>
-                </ListItem>
-                <ListItem>
-                  <Text fontSize="md" fontWeight="bold">
-                    Diện tích ao (hecta):{" "}
-                    <Box as="span" fontWeight="normal">
-                      {data.pond.area}
-                    </Box>
-                  </Text>
-                </ListItem>
-              </List>
-            </Grid>
+                </FormControl>
+                <FormControl>
+                  <FormLabel htmlFor="weight">Khối lượng(KG): </FormLabel>
+                  <Input
+                    type="number"
+                    id="weight"
+                    name="weight"
+                    ref={register({
+                      required: "Required",
+                    })}
+                  />
+                </FormControl>
+                <FormControl>
+                  <FormLabel htmlFor="weight">Quy cách đóng gói: </FormLabel>
+                  <Controller
+                    name="packingMethod"
+                    defaultValue="Sơ chế, đóng gói bằng túi PE, đựng trong thùng xốp. Có dán giấy decal thể hiện logo và thông tin của công ty"
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ onChange }) => (
+                      <Select
+                        size="large"
+                        defaultValue="Sơ chế, đóng gói bằng túi PE, đựng trong thùng xốp. Có dán giấy decal thể hiện logo và thông tin của công ty"
+                        onChange={onChange}
+                        style={{ width: "100%" }}
+                      >
+                        <Option value="Sơ chế, đóng gói bằng túi PE, đựng trong thùng xốp. Có dán giấy decal thể hiện logo và thông tin của công ty">
+                          Quy cách chung
+                        </Option>
+                      </Select>
+                    )}
+                  />
+                </FormControl>
+
+                <FormControl>
+                  <FormLabel htmlFor="note">Ghi chú: </FormLabel>
+                  <Input
+                    type="text"
+                    id="note"
+                    name="note"
+                    ref={register({
+                      required: "Required",
+                    })}
+                  />
+                </FormControl>
+                <FormControl>
+                  <FormLabel htmlFor="images">Hình ảnh: </FormLabel>
+                  <UploadPreview
+                    files={files}
+                    setFiles={setFiles}
+                    fileUrls={fileUrls}
+                    setFileUrls={setFileUrls}
+                  />
+                </FormControl>
+                {/* Địa điểm tiêu thụ */}
+                <Flex
+                  align="center"
+                  gridColumn="span 2"
+                  fontSize="lg"
+                  mb="1.5rem"
+                  color="#76787d"
+                >
+                  <Box as={AiFillInfoCircle} />
+                  <Heading fontSize="md" ml="5px" color="#76787d">
+                    Địa điểm tiêu thụ
+                  </Heading>
+                </Flex>
+
+                <FormControl>
+                  <FormLabel htmlFor="consumptionName">
+                    Tên địa điểm/người mua:{" "}
+                  </FormLabel>
+                  <Input
+                    type="text"
+                    id="consumptionName"
+                    name="consumptionName"
+                    ref={register({
+                      required: "Required",
+                    })}
+                  />
+                </FormControl>
+                <FormControl>
+                  <FormLabel htmlFor="phone">SĐT: </FormLabel>
+                  <Input
+                    type="number"
+                    id="phone"
+                    name="phone"
+                    ref={register({
+                      required: "Required",
+                    })}
+                  />
+                </FormControl>
+                <FormControl gridColumn="span 2">
+                  <FormLabel htmlFor="address">Địa chỉ: </FormLabel>
+                  <Input
+                    type="text"
+                    id="address"
+                    name="address"
+                    ref={register({
+                      required: "Required",
+                    })}
+                  />
+                </FormControl>
+                <FormControl gridColumn="span 2">
+                  <FormLabel htmlFor="coordinate">Tọa độ: </FormLabel>
+                  <Box height="20rem">
+                    <Controller
+                      name="coordinate"
+                      control={control}
+                      defaultValue={false}
+                      rules={{ required: true }}
+                      render={({ onChange }) => <Map onChange={onChange} />}
+                    />
+                  </Box>
+                </FormControl>
+              </Grid>
+
+              {/* Below Section */}
+              <Grid
+                h="max-content"
+                gridTemplateColumns="repeat(2, 1fr)"
+                columnGap={12}
+                background="#fff"
+                borderRadius="3px"
+                boxShadow="0 4px 10px rgba(0,0,0,.1)"
+                padding="2rem 3rem"
+                mt="2rem"
+              >
+                <List spacing={2}>
+                  <Heading size="md" mt={4} mb={4}>
+                    Thông tin con giống
+                  </Heading>
+                  <ListItem>
+                    <Text fontSize="md" fontWeight="bold">
+                      Ngày thả giống:{" "}
+                      <Box as="span" fontWeight="normal">
+                        {data.pond.seed.stockingDate}
+                      </Box>
+                    </Text>
+                  </ListItem>
+                  <ListItem>
+                    <Text fontSize="md" fontWeight="bold">
+                      Số lượng:{" "}
+                      <Box as="span" fontWeight="normal">
+                        {data.pond.seed.quantity}
+                      </Box>
+                    </Text>
+                  </ListItem>
+                  <ListItem>
+                    <Text fontSize="md" fontWeight="bold">
+                      Ngày tuổi của giống:{" "}
+                      <Box as="span" fontWeight="normal">
+                        {data.pond.seed.seedAge}
+                      </Box>
+                    </Text>
+                  </ListItem>
+                  <ListItem>
+                    <Text fontSize="md" fontWeight="bold">
+                      Tên trại giống:{" "}
+                      <Box as="span" fontWeight="normal">
+                        {data.pond.seed.hatchery.name}
+                      </Box>
+                    </Text>
+                  </ListItem>
+                  <ListItem>
+                    <Text fontSize="md" fontWeight="bold">
+                      Địa chỉ trại giống:{" "}
+                      <Box as="span" fontWeight="normal">
+                        {data.pond.seed.hatchery.address}
+                      </Box>
+                    </Text>
+                  </ListItem>
+                </List>
+                <List spacing={2}>
+                  <Heading size="md" mb={4} mt={4}>
+                    Thông tin về ao nuôi
+                  </Heading>
+                  <ListItem>
+                    <Text fontSize="md" fontWeight="bold">
+                      Tên ao:{" "}
+                      <Box as="span" fontWeight="normal">
+                        {data.pond.name}
+                      </Box>
+                    </Text>
+                  </ListItem>
+                  <ListItem>
+                    <Text fontSize="md" fontWeight="bold">
+                      Mật độ thả:{" "}
+                      <Box as="span" fontWeight="normal">
+                        {data.pond.stockingDensity}
+                      </Box>
+                    </Text>
+                  </ListItem>
+                  <ListItem>
+                    <Text fontSize="md" fontWeight="bold">
+                      Diện tích ao (hecta):{" "}
+                      <Box as="span" fontWeight="normal">
+                        {data.pond.area}
+                      </Box>
+                    </Text>
+                  </ListItem>
+                </List>
+              </Grid>
+              {/* End Below Section */}
+            </Flex>
           </>
         )}
       </Box>

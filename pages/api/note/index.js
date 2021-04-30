@@ -39,7 +39,11 @@ export default async (req, res) => {
           id: -1,
         });
 
-        const note = new Note({ ...req.body, farmId: farm._id, product });
+        const note = new Note({
+          ...req.body,
+          farmId: farm._id,
+          productId: product._id,
+        });
 
         await note.save();
 

@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Farm = require("./Farm");
 const FeedingDiary = require("./FeedingDiary");
+const HarvestProduct = require("./HarvestProduct");
 const Note = require("./Note");
 const Packing = require("./Packing");
 const Pond = require("./Pond");
@@ -30,6 +31,10 @@ const ProductSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: RejectMessage,
     },
+    harvestProduct: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: HarvestProduct,
+    },
   },
   pond: {
     type: mongoose.Schema.Types.ObjectId,
@@ -47,10 +52,10 @@ const ProductSchema = new mongoose.Schema({
   usingMedicine: [
     { type: mongoose.Schema.Types.ObjectId, ref: UsingMedicine, default: null },
   ],
-  dialynote: [
+  dailyNote: [
     { type: mongoose.Schema.Types.ObjectId, ref: Note, default: null },
   ],
-  pondenvironment: [
+  pondEnvironment: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: PondEnvironment,
@@ -58,11 +63,6 @@ const ProductSchema = new mongoose.Schema({
     },
   ],
   seed: { type: mongoose.Schema.Types.ObjectId, ref: Seed, default: null },
-  packingMethod: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: Packing,
-    default: null,
-  },
   qrCode: { type: String, default: null },
 });
 
