@@ -18,6 +18,7 @@ const DatePicker = ({ control, name, placeholder }) => {
       defaultValue={defaultDate}
       render={({ onChange }) => (
         <AntdPicker
+          size="large"
           id="createdDate"
           placeholder={
             placeholder ? placeholder : moment().format("DD/MM/YYYY")

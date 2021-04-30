@@ -17,11 +17,20 @@ export default async (req, res) => {
     case "GET":
       const product = await Product.findOne({
         _id: id,
-        "isHarvested.status": [null, "false"],
+        // "isHarvested.status": [null, "false"],
+        "isHarvested.status": "pending",
       })
         .populate("farm")
         .populate({ path: "pond", populate: { path: "seed" } })
-        .populate({ path: "seed", populate: { path: "hatchery" } });
+        .populate({ path: "seed", populate: { path: "hatchery" } })
+        .populate({ path: "feeding", populate: { path: "food" } })
+        .populate({
+          path: "usingMedicine",
+          populate: { path: "medicine" },
+        })
+        .populate({ path: "dailyNote" })
+        .populate({ path: "pondEnvironment" })
+        .populate({ path: "isHarvested", populate: "harvestProduct" });
 
       res.send(product);
 

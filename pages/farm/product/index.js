@@ -69,11 +69,13 @@ const Product = () => {
     }
   };
 
+  console.log(data);
+
   if (loading) {
     return (
       <Layout>
         <Box position="relative">
-          <Heading mb={5}>Danh sách sản phẩm đã thu hoạch</Heading>
+          <Heading mb={5}>Danh sách sản phẩm thu hoạch</Heading>
           <SkeletonTable />
         </Box>
       </Layout>
@@ -83,41 +85,20 @@ const Product = () => {
   const productStatus = (status) => {
     if (status === "false") {
       return (
-        <Badge
-          ml="1"
-          fontSize="0.8em"
-          background="#f8c3c3f0"
-          color="#794444"
-          borderRadius="10px"
-          padding="10px"
-        >
-          No
+        <Badge ml="1" fontSize="0.8em" background="#f8c3c3f0" color="#794444">
+          Từ chối
         </Badge>
       );
     } else if (status === "true") {
       return (
-        <Badge
-          ml="1"
-          fontSize="0.8em"
-          background="#20f3b8"
-          color="#fff"
-          borderRadius="10px"
-          padding="10px"
-        >
-          Yes
+        <Badge ml="1" fontSize="0.8em" background="#20f3b8" color="#fff">
+          Được duyệt
         </Badge>
       );
     } else if (status === "pending") {
       return (
-        <Badge
-          ml="1"
-          fontSize="0.8em"
-          background="#d1d8e8"
-          color="#646770"
-          borderRadius="10px"
-          padding="10px"
-        >
-          Pending
+        <Badge ml="1" fontSize="0.8em" background="#d1d8e8" color="#646770">
+          Chờ duyệt
         </Badge>
       );
     }
@@ -126,18 +107,15 @@ const Product = () => {
   return (
     <Layout>
       <Box position="relative">
-        <Heading mb={5}>Danh sách sản phẩm đã thu hoạch</Heading>
+        <Heading mb={5}>Danh sách sản phẩm thu hoạch</Heading>
         {data && data.length > 0 ? (
           <>
             <Table>
               <Tr>
+                <Th>#</Th>
                 <Th>Tên sản phẩm</Th>
-                <Th>Hình ảnh</Th>
                 <Th>Ngày thu hoạch</Th>
-                <Th>QR</Th>
                 <Th>Duyệt thu hoạch</Th>
-                <Th>Quy cách đóng gói</Th>
-                <Th>Địa điểm tiêu thụ</Th>
                 <Th>{""}</Th>
               </Tr>
               <TransitionGroup component="tbody">
@@ -145,75 +123,31 @@ const Product = () => {
                   (
                     {
                       name,
-                      isHarvested,
-                      harvestedDate,
+                      isHarvested: { harvestProduct, status },
                       qrCode,
-                      images,
                       _id,
-                      packingMethod,
                     },
                     i
                   ) => (
                     <CSSTransition key={i} timeout={500} classNames="item">
                       <Link href={`./food/${_id}`}>
                         <Tr cursor="pointer">
+                          <Td>{i + 1}</Td>
                           <Td>{name}</Td>
-                          <Td>
-                            <Image
-                              src={images[0]}
-                              height="100px"
-                              width="auto"
-                            />
-                          </Td>
-                          <Td>{harvestedDate}</Td>
-                          <Td>
+                          <Td>{harvestProduct.harvestedDate}</Td>
+                          {/* <Td>
                             {" "}
                             <QRCode
-                              size={100}
+                              size={50}
                               value={
                                 "http://traceorigin.vercel.app/product/" +
                                 qrCode
                               }
                             />
-                          </Td>
-                          <Td>{productStatus(isHarvested.status)}</Td>
-                          {isHarvested.status === "true" ? (
-                            <>
-                              <Td
-                                px={8}
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                }}
-                              >
-                                {packingMethod?.packingMethod ? (
-                                  packingMethod.packingMethod
-                                ) : (
-                                  <AddPackingMethod productId={_id} />
-                                )}
-                              </Td>
-                              <Td
-                                px={8}
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                }}
-                              >
-                                <Link href={`./product/${_id}/consumption`}>
-                                  <a>
-                                    <Button>
-                                      <Box as={AiOutlinePlus} mr="5px" />
-                                      Địa điểm tiêu thụ
-                                    </Button>
-                                  </a>
-                                </Link>
-                              </Td>
-                            </>
-                          ) : (
-                            <>
-                              <Td>{""}</Td> <Td>{""}</Td>
-                            </>
-                          )}
+                          </Td> */}
+                          <Td>{productStatus(status)}</Td>
 
-                          <Td
+                          {/* <Td
                             borderLeft="1px solid #e8eef3"
                             px={8}
                             onClick={(e) => {
@@ -229,7 +163,7 @@ const Product = () => {
                             >
                               <Box as={FaTrash}></Box>
                             </Popconfirm>
-                          </Td>
+                          </Td> */}
                         </Tr>
                       </Link>
                     </CSSTransition>

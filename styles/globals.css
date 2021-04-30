@@ -731,3 +731,20 @@ span.rbc-toolbar-label {
     grid-column: span 12;
   }
 }
+
+.ant-collapse-header {
+  font-size: 1rem;
+  color: #8a8c90 !important;
+  font-weight: bold;
+}
+.ant-collapse-item.site-collapse-custom-panel {
+  background: #fff;
+}
+
+.ant-collapse-borderless > .ant-collapse-item {
+  border-bottom: 1px solid #e8f0fc;
+}
+
+.ant-collapse.ant-collapse-borderless.ant-collapse-icon-position-left.site-collapse-custom-collapse {
+  box-shadow: 0 10px 20px rgb(74 112 145 / 10%);
+}

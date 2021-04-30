@@ -40,7 +40,9 @@ export default async (req, res) => {
       } = req.body;
 
       try {
-        const product = await Product.findOne({ pondId }).sort({ id: -1 });
+        const product = await Product.findOne({ pond: pondId }).sort({
+          id: -1,
+        });
 
         // Reduce medicine quantity after using
         let medicine = await Medicine.findById(medicineId);
@@ -59,7 +61,7 @@ export default async (req, res) => {
           mixingRatio,
           weight,
           farmId: farm._id,
-          product,
+          productId: product._id,
           isDone: false,
         });
 
