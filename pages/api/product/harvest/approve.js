@@ -18,8 +18,6 @@ export default async (req, res) => {
     return res.status(400).send({ message: "Bạn không có quyền truy cập" });
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-  const farm = await Farm.findOne({ createdBy: decoded });
-
   switch (method) {
     case "POST":
       let product = await Product.findById(req.body.id);
