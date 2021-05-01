@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Box, Flex, Image, Text } from "@chakra-ui/react";
+import { Flex, Image, Text } from "@chakra-ui/react";
 import { Layout, Menu } from "antd";
 import {
   DesktopOutlined,
@@ -10,17 +10,15 @@ import {
 import Link from "next/link";
 import Header from "./Header";
 import Icon from "@ant-design/icons";
-import { FiAperture, FiPackage, FiUsers } from "react-icons/fi";
+import { FiAperture, FiUsers } from "react-icons/fi";
 import {
   FaBattleNet,
   FaBorderAll,
   FaChartBar,
   FaSeedling,
   FaStickyNote,
-  FaWarehouse,
 } from "react-icons/fa";
 import { useRouter } from "next/router";
-import { RiBuilding4Fill, RiBuildingFill } from "react-icons/ri";
 import { MdSecurity } from "react-icons/md";
 
 const { Content, Sider } = Layout;
@@ -54,7 +52,7 @@ const FarmSidebar = () => {
   let key;
   if (params.length === 2) {
     key = "default";
-  } else if (params.length === 3) {
+  } else if (params.length >= 3) {
     key = params[2];
   }
 
@@ -93,11 +91,6 @@ const FarmSidebar = () => {
           </span>
         }
       >
-        {/* <Menu.Item key="product-follow" icon={<DesktopOutlined />}>
-          <Link href="/farm/product-follow">
-            <a style={{ fontWeight: "bold" }}>Đăng ký</a>
-          </Link>
-        </Menu.Item> */}
         <Menu.Item key="product" icon={<DesktopOutlined />}>
           <Link href="/farm/product">
             <a style={{ fontWeight: "bold" }}> Thu hoạch</a>
@@ -185,10 +178,11 @@ const QualityControlSidebar = () => {
   const { route } = useRouter();
 
   let params = route.split("/");
+
   let key;
   if (params.length === 2) {
     key = "default";
-  } else if (params.length === 3) {
+  } else if (params.length >= 3) {
     key = params[2];
   }
 
@@ -226,7 +220,7 @@ const AdminSidebar = () => {
   let key;
   if (params.length === 2) {
     key = "default";
-  } else if (params.length === 3) {
+  } else if (params.length >= 3) {
     key = params[2];
   }
 

@@ -80,6 +80,7 @@ const Index = () => {
                     status="success"
                     w="max-content"
                     h="min-content"
+                    mb={{ base: "1.5rem", lg: 0 }}
                     fontSize="lg"
                   >
                     <AlertIcon />
@@ -101,9 +102,12 @@ const Index = () => {
             </>
           </Flex>
         </TabPane>
-        <TabPane tab={<span>Ghi chép theo chuẩn VietGAP</span>} key="2">
-          {data && <Diary pond={data} />}
-        </TabPane>
+        {/* Hide the VietGAP diary tab when the product of this pond pending to be harvested */}
+        {product?.isHarvested?.status !== "pending" && (
+          <TabPane tab={<span>Ghi chép theo chuẩn VietGAP</span>} key="2">
+            {data && <Diary pond={data} />}
+          </TabPane>
+        )}
       </Tabs>
     </Layout>
   );

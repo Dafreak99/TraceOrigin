@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { Box, Flex, Image, List, ListItem, Text } from "@chakra-ui/react";
 import { Modal } from "antd";
 
+import "react-big-calendar/lib/css/react-big-calendar.css";
+
 const localizer = momentLocalizer(moment);
 
 const Calendar = ({ data }) => {

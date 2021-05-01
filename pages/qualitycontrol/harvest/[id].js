@@ -10,6 +10,7 @@ import {
   List,
   ListItem,
   Skeleton,
+  Stack,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -28,7 +29,7 @@ const Index = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
 
-  const { data, error } = useSWR(
+  const { data } = useSWR(
     router.query.id
       ? [
           `/api/product/${router.query.id}/pending-harvest`,
@@ -40,19 +41,26 @@ const Index = () => {
 
   const onApprove = async () => {
     try {
-      await fetch(`/api/product/harvest/approve`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: process.browser ? localStorage.getItem("token") : null,
-        },
-        body: JSON.stringify({ id: router.query.id }),
-      });
+      let product = await (
+        await fetch(`/api/product/harvest/approve`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: process.browser
+              ? localStorage.getItem("token")
+              : null,
+          },
+          body: JSON.stringify({
+            productId: router.query.id,
+            pondId: data.pond._id,
+          }),
+        })
+      ).json();
+      console.log(product);
     } catch (error) {
       console.log(error.message);
     }
-
-    router.back();
+    // router.back();
   };
 
   return (
@@ -67,7 +75,7 @@ const Index = () => {
               </Flex>
               <Box>
                 <Popconfirm
-                  title="Bạn có chắc là sẽ duyệt trại giống này?"
+                  title="Bạn có chắc là sẽ duyệt thu hoạch sản phẩm này?"
                   onConfirm={onApprove}
                   okText="Yes"
                   cancelText="No"
@@ -83,7 +91,7 @@ const Index = () => {
                   </Button>
                 </Popconfirm>
                 <Popconfirm
-                  title="Bạn có chắc là sẽ không duyệt trại giống này?"
+                  title="Bạn có chắc là sẽ không duyệt thu hoạch sản phẩm này?"
                   onConfirm={onOpen}
                   okText="Yes"
                   cancelText="No"
@@ -109,7 +117,6 @@ const Index = () => {
             <Collapse
               style={{ marginTop: "2rem" }}
               bordered={false}
-              defaultActiveKey={["1"]}
               expandIcon={({ isActive }) => (
                 <CaretRightOutlined rotate={isActive ? 90 : 0} />
               )}
@@ -317,9 +324,11 @@ const Index = () => {
                 style={{ padding: "20px" }}
               >
                 <Collapse ghost>
-                  <Panel header="Nhật ký cho ăn" key="1">
+                  {/* Start FeedingDiary */}
+                  <Panel header="Cho ăn" key="1">
                     <Table>
                       <Tr>
+                        <Th>#</Th>
                         <Th>Ngày cho ăn</Th>
                         <Th>Ghi chú</Th>
                         <Th>Khối lượng</Th>
@@ -333,6 +342,7 @@ const Index = () => {
                           i
                         ) => (
                           <Tr cursor="pointer">
+                            <Td>{i + 1}</Td>
                             <Td>{createdDate}</Td>
                             <Td>{note}</Td>
                             <Td>{weight}</Td>
@@ -350,9 +360,13 @@ const Index = () => {
                       )}
                     </Table>
                   </Panel>
-                  <Panel header="Nhật ký sử dụng thuốc" key="2">
+                  {/* End FeedingDiary */}
+
+                  {/* End UsingMedicine */}
+                  <Panel header="Sử dụng thuốc" key="2">
                     <Table>
                       <Tr>
+                        <Th>#</Th>
                         <Th>Ngày sử dụng</Th>
                         <Th>Khối lượng</Th>
                         <Th>Thức ăn</Th>
@@ -365,6 +379,7 @@ const Index = () => {
                           i
                         ) => (
                           <Tr cursor="pointer">
+                            <Td>{i + 1}</Td>
                             <Td>{createdDate}</Td>
                             <Td>{weight}</Td>
                             <Td>{name}</Td>
@@ -381,12 +396,91 @@ const Index = () => {
                       )}
                     </Table>
                   </Panel>
+                  {/* End UsingMedicine */}
+
+                  {/* Start DailyNote */}
+                  <Panel header="Hằng ngày" key="3">
+                    <Table>
+                      <Tr>
+                        <Th>#</Th>
+                        <Th>Ngày ghi</Th>
+                        <Th>Ghi chú</Th>
+                        <Th>Hình ảnh</Th>
+                      </Tr>
+                      {data.dailyNote.map(
+                        ({ createdDate, note, images }, i) => (
+                          <Tr cursor="pointer">
+                            <Td>{i + 1}</Td>
+                            <Td>{createdDate}</Td>
+                            <Td>{note}</Td>
+                            <Td>
+                              <Image
+                                src={images[0]}
+                                h="50px"
+                                w="auto"
+                                objectFit="cover"
+                              />
+                            </Td>
+                          </Tr>
+                        )
+                      )}
+                    </Table>
+                  </Panel>
+                  {/* End UsingMedicine */}
+
+                  {/* Start PondEnvironment */}
+                  <Panel header="Môi trường ao " key="4">
+                    <Table>
+                      <Tr>
+                        <Th>#</Th>
+                        <Th>Ngày ghi</Th>
+                        <Th>Oxy(mg/l)</Th>
+                        <Th>pH</Th>
+                        <Th>Độ kiềm</Th>
+                        <Th>Độ mặn</Th>
+                        <Th>H2S(mg/l)</Th>
+                        <Th>NH3(mg/l)</Th>
+                      </Tr>
+                      {data.pondEnvironment.map(
+                        (
+                          {
+                            createdDate,
+                            H2S,
+                            NH3,
+                            alkalinity,
+                            oxy,
+                            ph,
+                            salinity,
+                          },
+                          i
+                        ) => (
+                          <Tr cursor="pointer">
+                            <Td>{i + 1}</Td>
+                            <Td>{createdDate}</Td>
+                            <Td>{oxy}</Td>
+                            <Td>{ph}</Td>
+                            <Td>{alkalinity}</Td>
+                            <Td>{salinity}</Td>
+                            <Td>{H2S}</Td>
+                            <Td>{NH3}</Td>
+                          </Tr>
+                        )
+                      )}
+                    </Table>
+                  </Panel>
+                  {/* End PondEnvironment */}
                 </Collapse>
               </Panel>
             </Collapse>
           </>
         ) : (
-          <Skeleton height="300px" active />
+          <Stack>
+            <Skeleton height="20px" width="400px" active mb="2rem" />
+            <Skeleton height="50px" width="600px" active />
+            <Skeleton height="50px" active />
+            <Skeleton height="50px" active />
+            <Skeleton height="50px" active />
+          </Stack>
         )}
       </Box>
     </Layout>

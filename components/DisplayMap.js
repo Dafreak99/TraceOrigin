@@ -1,5 +1,4 @@
 import "mapbox-gl/dist/mapbox-gl.css";
-import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import React, { useState, useRef, useCallback } from "react";
 import MapGL, {
   FullscreenControl,
@@ -33,19 +32,6 @@ const Map = ({ data }) => {
   const handleViewportChange = useCallback(
     (newViewport) => setViewport(newViewport),
     []
-  );
-
-  // if you are happy with Geocoder default settings, you can just use handleViewportChange directly
-  const handleGeocoderViewportChange = useCallback(
-    (newViewport) => {
-      const geocoderDefaultOverrides = { transitionDuration: 1000 };
-
-      return handleViewportChange({
-        ...newViewport,
-        ...geocoderDefaultOverrides,
-      });
-    },
-    [handleViewportChange]
   );
 
   const geojson = {

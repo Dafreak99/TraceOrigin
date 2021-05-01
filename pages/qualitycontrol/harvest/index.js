@@ -1,20 +1,10 @@
 import Layout from "@/components/dashboard/Layout";
 
-import {
-  Box,
-  Alert,
-  AlertIcon,
-  Heading,
-  Image,
-  Text,
-  Button,
-} from "@chakra-ui/react";
+import { Box, Alert, AlertIcon, Heading, Text, Button } from "@chakra-ui/react";
 
 import { Table, Td, Th, Tr } from "@/components/Table";
 
-import { Popconfirm } from "antd";
-
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
 import Link from "next/link";
 
@@ -27,48 +17,6 @@ const DashBoard = () => {
     fetcher,
     { refreshInterval: 1000 }
   );
-
-  console.log(products);
-
-  const onReject = async (id, pondId) => {
-    try {
-      await fetch(`/api/product/harvest/reject`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: process.browser ? localStorage.getItem("token") : null,
-        },
-        body: JSON.stringify({ id, pond: pondId }),
-      });
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  const onApprove = async (id, pondId) => {
-    // Send ID to change isHarvested -> true
-    let res = await fetch(`/api/product/harvest/approve`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: process.browser ? localStorage.getItem("token") : null,
-      },
-      body: JSON.stringify({ id, pond: pondId }),
-    });
-
-    mutate(
-      [
-        "/api/product/harvest/pending",
-        process.browser ? localStorage.getItem("token") : null,
-      ],
-      async (cachedData) => {
-        let data = cachedData.filter((each) => each._id !== id);
-
-        return data;
-      },
-      false
-    );
-  };
 
   return (
     <Layout>

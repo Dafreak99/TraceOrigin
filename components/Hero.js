@@ -1,7 +1,8 @@
 import { useRef, useEffect, useState } from "react";
 import { Box, Flex, Heading, Image, Text } from "@chakra-ui/react";
 import Slider from "react-slick";
-import gsap from "gsap";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const Hero = () => {
   let [index, setIndex] = useState(0);

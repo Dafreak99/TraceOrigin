@@ -17,7 +17,6 @@ export default async (req, res) => {
     case "GET":
       const product = await Product.findOne({
         _id: id,
-        // "isHarvested.status": [null, "false"],
         "isHarvested.status": "pending",
       })
         .populate("farm")

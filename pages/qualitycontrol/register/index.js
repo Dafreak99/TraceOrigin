@@ -12,13 +12,9 @@ import {
 
 import { Table, Td, Th, Tr } from "@/components/Table";
 
-import { Popconfirm } from "antd";
-
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
 import Link from "next/link";
-import RejectMessageModal from "@/components/dashboard/RejectMessageModal";
-import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 
 const DashBoard = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -65,7 +61,6 @@ const DashBoard = () => {
                     pond: {
                       name: pondName,
                       seed: { stockingDate },
-                      _id: pondId,
                     },
                     farm: { name: farmName },
                     _id,
@@ -79,52 +74,11 @@ const DashBoard = () => {
                       <Td>{stockingDate}</Td>
 
                       <Td>
-                        <Popconfirm
-                          title="Bạn có chắc là sẽ duyệt trại giống này?"
-                          onCancel={(e) => e.stopPropagation()}
-                          onConfirm={(e) => {
-                            e.stopPropagation();
-                            onApprove(_id);
-                          }}
-                          okText="Yes"
-                          cancelText="No"
-                        >
-                          <Button
-                            background="#88fcb62b"
-                            color="#22a669"
-                            mr="10px"
-                            mb={{ base: "10px", lg: "0" }}
-                            leftIcon={<AiOutlineCheck />}
-                            _hover={{ background: "88fcb62b" }}
-                          >
-                            Duyệt
-                          </Button>
-                        </Popconfirm>
-                        <Popconfirm
-                          title="Bạn có chắc là sẽ không duyệt trại giống này?"
-                          onCancel={(e) => e.stopPropagation()}
-                          onConfirm={(e) => {
-                            e.stopPropagation();
-                            onOpen();
-                          }}
-                          okText="Yes"
-                          cancelText="No"
-                        >
-                          <Button
-                            background="#fc88882b"
-                            color="#a62222"
-                            leftIcon={<AiOutlineClose />}
-                            _hover={{ background: "fc88882b" }}
-                          >
-                            Từ chối
-                          </Button>
-                          <RejectMessageModal
-                            isOpen={isOpen}
-                            onClose={onClose}
-                            type="register"
-                            productId={_id}
-                          />
-                        </Popconfirm>
+                        <Link href={`./register/${_id}`}>
+                          <a>
+                            <Button>Chi tiết</Button>
+                          </a>
+                        </Link>
                       </Td>
                     </Tr>
                   </Link>

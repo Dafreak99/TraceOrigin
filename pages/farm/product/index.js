@@ -107,7 +107,7 @@ const Product = () => {
   return (
     <Layout>
       <Box position="relative">
-        <Heading mb={5}>Danh sách sản phẩm thu hoạch</Heading>
+        <Heading mb={5}>Danh sách sản phẩm thu hoạch </Heading>
         {data && data.length > 0 ? (
           <>
             <Table>
@@ -121,51 +121,16 @@ const Product = () => {
               <TransitionGroup component="tbody">
                 {data.map(
                   (
-                    {
-                      name,
-                      isHarvested: { harvestProduct, status },
-                      qrCode,
-                      _id,
-                    },
+                    { name, isHarvested: { harvestProduct, status }, _id },
                     i
                   ) => (
                     <CSSTransition key={i} timeout={500} classNames="item">
-                      <Link href={`./food/${_id}`}>
-                        <Tr cursor="pointer">
-                          <Td>{i + 1}</Td>
-                          <Td>{name}</Td>
-                          <Td>{harvestProduct.harvestedDate}</Td>
-                          {/* <Td>
-                            {" "}
-                            <QRCode
-                              size={50}
-                              value={
-                                "http://traceorigin.vercel.app/product/" +
-                                qrCode
-                              }
-                            />
-                          </Td> */}
-                          <Td>{productStatus(status)}</Td>
-
-                          {/* <Td
-                            borderLeft="1px solid #e8eef3"
-                            px={8}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                            }}
-                          >
-                            <Popconfirm
-                              style={{ fontSize: "16px" }}
-                              title="Bạn có sẽ xóa sản phẩm này hay không？"
-                              okText="Có"
-                              cancelText="Không"
-                              onConfirm={() => onDelete(_id)}
-                            >
-                              <Box as={FaTrash}></Box>
-                            </Popconfirm>
-                          </Td> */}
-                        </Tr>
-                      </Link>
+                      <Tr cursor="pointer">
+                        <Td>{i + 1}</Td>
+                        <Td>{name}</Td>
+                        <Td>{harvestProduct.harvestedDate}</Td>
+                        <Td>{productStatus(status)}</Td>
+                      </Tr>
                     </CSSTransition>
                   )
                 )}

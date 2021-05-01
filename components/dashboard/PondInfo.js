@@ -31,7 +31,12 @@ const PondInfo = ({ pond }) => {
 
   return (
     <>
-      <Box p="3rem" background="#fff" w="max-content" mr="2rem">
+      <Box
+        p="3rem"
+        background="#fff"
+        w="max-content"
+        mr={{ base: 0, lg: "2rem" }}
+      >
         <Grid gridTemplateColumns="repeat(2, 1fr)" gridGap="4rem">
           {/* First Col */}
           <List spacing={2}>
