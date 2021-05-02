@@ -8,7 +8,7 @@ import fetcher from "@/utils/fetcher";
 import Footer from "@/components/Footer";
 
 const Product = () => {
-  const { data, error } = useSWR("/api/product/finish", fetcher);
+  const { data } = useSWR("/api/product/finish", fetcher);
 
   const [visible, setVisible] = useState(false);
 

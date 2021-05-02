@@ -15,13 +15,14 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { Collapse, Popconfirm } from "antd";
+import { Collapse, message, Popconfirm } from "antd";
 import useSWR from "swr";
 import { Table, Td, Th, Tr } from "@/components/Table";
 
 import { CaretRightOutlined } from "@ant-design/icons";
 import RejectMessageModal from "@/components/dashboard/RejectMessageModal";
 import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
+import { deployToBlockchain } from "@/lib/bigchain";
 
 const { Panel } = Collapse;
 
@@ -56,11 +57,26 @@ const Index = () => {
           }),
         })
       ).json();
+
+      const obj = {
+        userId: 1,
+        id: 1,
+        title: "delectus aut autem",
+        completed: false,
+      };
+
+      // deployToBlockchain(product);
+      deployToBlockchain(obj);
+
+      message.success(
+        "Duyệt thu hoạch thành công ! Dữ liệu đã được đưa lên blockchain."
+      );
+      // router.back();
+
       console.log(product);
     } catch (error) {
       console.log(error.message);
     }
-    // router.back();
   };
 
   return (

@@ -10,6 +10,7 @@ import UsingMedicine from "@/models/UsingMedicine";
 import Note from "@/models/Note";
 import PondEnvironment from "@/models/PondEnvironment";
 import Pond from "@/models/Pond";
+import { deployToBlockchain } from "@/lib/bigchain";
 
 // @route /api/product/harvest/pending
 // Get pending product waiting for harvest acceptance
@@ -30,34 +31,18 @@ export default async (req, res) => {
        ** Diaries: Set isDone to true
        */
 
-      const feeding = await FeedingDiary.updateMany(
-        { productId },
-        { isDone: false },
-        { new: true }
-      );
-      const usingMedicine = await UsingMedicine.updateMany(
-        { productId },
-        { isDone: false },
-        { new: true }
-      );
-      const note = await Note.updateMany(
-        { productId },
-        { isDone: false },
-        { new: true }
-      );
-      const pondEnvironment = await PondEnvironment.updateMany(
-        { productId },
-        { isDone: false },
-        { new: true }
-      );
+      // await FeedingDiary.updateMany({ productId }, { isDone: true });
+      // await UsingMedicine.updateMany({ productId }, { isDone: true });
+      // await Note.updateMany({ productId }, { isDone: true });
+      // await PondEnvironment.updateMany({ productId }, { isDone: true });
       /**
        ** Set ref of seed from pond to null
        ** since pond no longer has seed when after harvesting
        */
 
-      const pond = await Pond.findByIdAndUpdate(pondId, { seed: null });
+      // const pond = await Pond.findByIdAndUpdate(pondId, { seed: null });
 
-      await Seed.findByIdAndUpdate(pond.seed, { isDone: true });
+      // await Seed.findByIdAndUpdate(pond.seed, { isDone: true });
 
       /**
        ** Product: Set isHarvested.status to true and populate to get full info
@@ -68,20 +53,21 @@ export default async (req, res) => {
         { "isHarvested.status": "pending" },
         { new: true }
       )
-        .populate("farm")
-        .populate({ path: "pond" })
-        .populate({ path: "seed", populate: { path: "hatchery" } })
-        .populate({ path: "feeding", populate: { path: "food" } })
-        .populate({
-          path: "usingMedicine",
-          populate: { path: "medicine" },
-        })
-        .populate({ path: "dailyNote" })
-        .populate({ path: "pondEnvironment" })
+        // .populate("farm")
+        // .populate({ path: "pond" })
+        // .populate({ path: "seed", populate: { path: "hatchery" } })
+        // .populate({ path: "feeding", populate: { path: "food" } })
+        // .populate({
+        //   path: "usingMedicine",
+        //   populate: { path: "medicine" },
+        // })
+        // .populate({ path: "dailyNote" })
+        // .populate({ path: "pondEnvironment" })
         .populate({ path: "isHarvested", populate: "harvestProduct" });
 
+      // deployToBlockchain(product);
+
       res.send(product);
-      // res.send({ message: "OK" });
       break;
 
     default:
