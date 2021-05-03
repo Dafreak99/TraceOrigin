@@ -40,6 +40,8 @@ const Product = ({ data }) => {
 
   let source = [];
 
+  console.log(data);
+
   if (data !== undefined) {
     const {
       farm,
@@ -65,8 +67,6 @@ const Product = ({ data }) => {
       },
     ];
   }
-
-  console.log(source);
 
   return (
     <>
@@ -238,14 +238,12 @@ export async function getStaticPaths() {
 // In development (next dev), getStaticProps will be called on every request.
 
 export async function getStaticProps({ params }) {
-  const res = await fetch(
-    //TODO: SWAP HERE
-    `http://localhost:3000/api/product/${params.id}`
-  );
-  const data = await res.json();
+  const data = await (
+    await fetch(`https://test.ipdb.io/api/v1/assets/?search=${params.id}`)
+  ).json();
 
   return {
-    props: { data },
+    props: { data: data[0].data || {} },
   };
 }
 

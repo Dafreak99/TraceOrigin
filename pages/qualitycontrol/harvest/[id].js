@@ -58,22 +58,13 @@ const Index = () => {
         })
       ).json();
 
-      const obj = {
-        userId: 1,
-        id: 1,
-        title: "delectus aut autem",
-        completed: false,
-      };
-
-      // deployToBlockchain(product);
-      deployToBlockchain(obj);
+      let id = await deployToBlockchain(product);
 
       message.success(
-        "Duyệt thu hoạch thành công ! Dữ liệu đã được đưa lên blockchain."
+        `Duyệt thu hoạch thành công ! Dữ liệu đã được đưa lên blockchain.
+        `
       );
-      // router.back();
-
-      console.log(product);
+      router.back();
     } catch (error) {
       console.log(error.message);
     }
