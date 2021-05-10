@@ -75,7 +75,7 @@ const Index = () => {
             )}
             <>
               {product &&
-                (product.isHarvested ? (
+                (product.isHarvested === "pending" ? (
                   <Alert
                     status="success"
                     w="max-content"

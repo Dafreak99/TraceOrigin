@@ -35,8 +35,9 @@ export default async (req, res) => {
       try {
         const { pond } = req.body;
 
-        const product = await Product.findOne({ pond }).sort({
-          id: -1,
+        const product = await Product.findOne({
+          pond,
+          "isHarvested.status": { $ne: "true" },
         });
 
         const note = new Note({

@@ -38,7 +38,10 @@ export default async (req, res) => {
       try {
         const { pondId: pond } = req.body;
 
-        const product = await Product.findOne({ pond }).sort({ id: -1 });
+        const product = await Product.findOne({
+          pond,
+          "isHarvested.status": { $ne: "true" },
+        });
 
         let feedingDiary = new FeedingDiary({
           ...req.body,

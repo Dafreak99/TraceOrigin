@@ -3,9 +3,7 @@ dbConnect();
 
 import jwt from "jsonwebtoken";
 import Product from "models/Product";
-import FeedingDiary from "models/FeedingDiary";
-import UsingMedicine from "models/UsingMedicine";
-import Pond from "models/Pond";
+import RejectMessage from "@/models/RejectMessage";
 
 // @route /api/product/harvest/reject
 // POST: Reject the harvest of a product
@@ -21,27 +19,28 @@ export default async (req, res) => {
 
   switch (method) {
     case "POST":
-      let product = await Product.findOne({ _id: req.body.id });
+      /**
+       * * Reject harvest from Farmer
+       */
 
-      // Link to refresh data
-      await FeedingDiary.updateMany({ ao: req.body.pond }, { isDone: false });
-      await UsingMedicine.updateMany({ ao: req.body.pond }, { isDone: false });
-      await Pond.findOneAndUpdate(
-        { _id: req.body.pond },
-        { seed: product.seed }
-      );
+      const { id, message, type, createdAt } = req.body;
+
+      const rejectMessage = new RejectMessage({ message, type, createdAt });
+
+      await rejectMessage.save();
 
       await Product.findOneAndUpdate(
         { _id: req.body.id },
         {
-          usingMedicine: [],
           feeding: [],
-          seed: null,
-          donVi: null,
-          harvestedDate: null,
-          weight: null,
+          usingMedicine: [],
+          dailyNote: [],
+          pondEnvironment: [],
           images: [],
+          name: null,
           "isHarvested.status": "false",
+          "isHarvested.harvestProduct": null,
+          "isHarvested.reject": rejectMessage,
         }
       );
 

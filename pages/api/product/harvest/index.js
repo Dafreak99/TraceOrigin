@@ -6,8 +6,6 @@ import Product from "models/Product";
 import Farm from "models/Farm";
 import FeedingDiary from "models/FeedingDiary";
 import UsingMedicine from "models/UsingMedicine";
-import Seed from "models/Seed";
-import Pond from "models/Pond";
 import HarvestProduct from "models/HarvestProduct";
 import Note from "@/models/Note";
 import PondEnvironment from "@/models/PondEnvironment";
@@ -90,12 +88,14 @@ export default async (req, res) => {
           isDone: false,
         });
 
+        // console.log(productId);
+
         // console.log("feeding", feeding);
         // console.log("usingMedicine", usingMedicine);
         // console.log("noteLog", noteLog);
         // console.log("pondEnvironment", pondEnvironment);
 
-        // *** APPEND NEW DIARY TYPE IF NEEDEDW
+        // *** APPEND NEW DIARY TYPE IF NEEDED
 
         // 3. Update Product
 
@@ -114,7 +114,7 @@ export default async (req, res) => {
           { new: true }
         );
 
-        console.log("Product", product);
+        // console.log("Product", product);
 
         // Unlink to refresh data
         // await FeedingDiary.updateMany({ productId }, { isDone: true });

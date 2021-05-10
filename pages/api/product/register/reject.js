@@ -19,11 +19,11 @@ export default async (req, res) => {
     return res.status(400).send({ message: "Bạn không có quyền truy cập" });
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-  const farm = await Farm.findOne({ createdBy: decoded });
-
   switch (method) {
     case "POST":
-      // Reject register from Farmer
+      /**
+       * * Reject registration from Farmer
+       */
       try {
         const { id, message, type, createdAt } = req.body;
 

@@ -49,14 +49,12 @@ export const RejectMessageModal = ({
       url = `/api/product/register/reject`;
       values.id = productId;
       redirectUrl = "/qualitycontrol/register";
+    } else if (type === "harvest") {
+      url = `/api/product/harvest/reject`;
+      values.id = productId;
+      redirectUrl = "/qualitycontrol/register";
     }
 
-    // const types = {
-    //   register: "/api/product/register/reject",
-    //   authentication: "authentication",
-    //   harvest: "/api/product/harvest/reject",
-    //   hatchery: "/api/hatchery/reject",
-    // };
     setIsSave(true);
     try {
       let res = await fetch(url, {
@@ -73,8 +71,6 @@ export const RejectMessageModal = ({
     setIsSave(false);
     reset();
     onClose();
-
-    console.log(redirectUrl);
 
     router.push(redirectUrl);
   };

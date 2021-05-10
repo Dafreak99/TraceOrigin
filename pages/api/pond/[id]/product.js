@@ -18,8 +18,10 @@ export default async (req, res) => {
     case "GET":
       const product = await Product.findOne({
         pond: id,
+        "isHarvested.status": { $ne: "true" },
       })
         .populate("isRegistered.reject")
+        .populate("isHarvested.reject")
         .populate({ path: "pond", populate: { path: "seed" } })
         .populate({ path: "seed", populate: { path: "hatchery" } });
 

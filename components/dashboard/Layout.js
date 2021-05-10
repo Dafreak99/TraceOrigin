@@ -243,7 +243,11 @@ const AdminSidebar = () => {
 const Sidebar = () => {
   const router = useRouter();
 
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(() => {
+    return !localStorage.getItem("isCollapsed")
+      ? false
+      : JSON.parse(localStorage.getItem("isCollapsed"));
+  });
 
   const ISSERVER = typeof window === "undefined";
 
@@ -258,6 +262,7 @@ const Sidebar = () => {
   }
 
   const onCollapse = (collapsed) => {
+    localStorage.setItem("isCollapsed", collapsed);
     setCollapsed(collapsed);
   };
 

@@ -274,9 +274,9 @@ const Index = () => {
                   </ListItem>
                   <ListItem>
                     <Text fontSize="md" fontWeight="bold">
-                      Mã ao:{" "}
+                      Tên con giống:{" "}
                       <Box as="span" fontWeight="normal">
-                        {data.pond.code}
+                        {data.seed.name}
                       </Box>
                     </Text>
                   </ListItem>

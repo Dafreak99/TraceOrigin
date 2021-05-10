@@ -28,12 +28,7 @@ const Product = ({ product }) => {
   const onClose = () => setIsOpen(false);
   const cancelRef = React.useRef();
 
-  const {
-    pond: { name: pondName, _id: pondId },
-    isRegistered,
-    qrCode,
-    _id,
-  } = product;
+  const { pond, isRegistered, qrCode, _id, isHarvested } = product;
 
   const onDelete = async () => {
     try {
@@ -60,20 +55,20 @@ const Product = ({ product }) => {
     setIsOpen(false);
   };
 
-  // const reRegister = async (id) => {
-  //   try {
-  //     let res = await fetch(`/api/product/register/reregister`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: process.browser ? localStorage.getItem("token") : null,
-  //       },
-  //       body: JSON.stringify({ id }),
-  //     });
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // };
+  const onReRegister = async (id) => {
+    try {
+      await fetch(`/api/product/register/reregister`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: process.browser ? localStorage.getItem("token") : null,
+        },
+        body: JSON.stringify({ id }),
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   const productStatus = (status) => {
     if (status === "false") {
@@ -122,15 +117,26 @@ const Product = ({ product }) => {
     <Table mb="2rem">
       <Tr>
         <Th>Mã theo dõi</Th>
-        <Th>Được duyệt đăng ký</Th>
-        <Th> {isRegistered.status === "false" ? "Lí do" : "Mã QR"}</Th>
+        <Th>Được duyệt {isHarvested ? "thu hoạch" : "đăng ký"}</Th>
+        <Th>
+          {" "}
+          {isRegistered.status === "false" || isHarvested.status
+            ? "Lí do"
+            : "Mã QR"}
+        </Th>
         <Th>{""}</Th>
       </Tr>
       <Tr>
         <Td>{_id}</Td>
-        <Td>{productStatus(isRegistered.status)}</Td>
+        <Td>
+          {isHarvested
+            ? productStatus(isHarvested.status)
+            : productStatus(isRegistered.status)}
+        </Td>
         {isRegistered.status === "false" ? (
           <Td>{isRegistered.reject.message}</Td>
+        ) : isHarvested.status === "false" ? (
+          <Td>{isHarvested.reject.message}</Td>
         ) : (
           <Td>
             <QRCode
@@ -149,7 +155,7 @@ const Product = ({ product }) => {
               </Link>
             </Button>
           ) : isRegistered.status === "false" ? (
-            <Button>Đăng ký lại</Button>
+            <Button onClick={() => onReRegister(_id)}>Đăng ký lại</Button>
           ) : null}
         </Td>
 

@@ -30,6 +30,7 @@ export default async (req, res) => {
 
         await Product.findByIdAndUpdate(id, {
           "isRegistered.status": "pending",
+          "isRegistered.reject": null,
         });
 
         res.send({ message: "OK" });
