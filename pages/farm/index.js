@@ -20,7 +20,6 @@ import FarmInfoModify from "@/components/dashboard/FarmInfoModify";
 import Layout from "@/components/dashboard/Layout";
 import fetcher from "@/utils/fetcher";
 import EnterpriseAuthenticationModal from "@/components/dashboard/EntepriseAuthenticationModal";
-import { useRouter } from "next/router";
 
 const Info = () => {
   const [isEdit, setIsEdit] = useState(false);
@@ -85,13 +84,11 @@ const Content = ({
     address,
     area,
     phone,
-    createdBy,
-    coordinate,
     fax,
     email,
     website,
     map,
-    authentication,
+    reject,
     isAuthenticated,
   },
 
@@ -99,17 +96,6 @@ const Content = ({
   setIsEdit,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  // Get Reject Message from Enterprise Authentication
-  const { data: message, error } = useSWR(
-    isAuthenticated === "false"
-      ? [
-          "/api/rejectmessage",
-          process.browser ? localStorage.getItem("token") : null,
-        ]
-      : null,
-    fetcher
-  );
 
   return (
     <Box>
@@ -128,7 +114,7 @@ const Content = ({
 
       <EnterpriseAuthentication
         isAuthenticated={isAuthenticated}
-        message={message}
+        reject={reject}
         onOpen={onOpen}
         onClose={onClose}
       />
@@ -238,16 +224,10 @@ const Content = ({
   );
 };
 
-const EnterpriseAuthentication = ({
-  isAuthenticated,
-  rejectMessage,
-  onOpen,
-}) => {
-  const router = useRouter();
-
+const EnterpriseAuthentication = ({ isAuthenticated, onOpen, reject }) => {
   if (isAuthenticated === "") {
     return (
-      <Alert status="error" mt="2rem" w="max-content">
+      <Alert status="error" mt="2rem" w="max-content" fontSize="1rem">
         <AlertIcon />
         Chưa chứng thực doanh nghiệp.{" "}
         <Box
@@ -264,34 +244,37 @@ const EnterpriseAuthentication = ({
     );
   } else if (isAuthenticated === "pending") {
     return (
-      <Alert status="warning" mt="2rem" w="max-content">
+      <Alert status="warning" mt="2rem" w="max-content" fontSize="1rem">
         <AlertIcon />
         Đang chờ xác thực doanh nghiệp
       </Alert>
     );
-  } else if (isAuthenticated === "false" && rejectMessage) {
+  } else if (isAuthenticated === "false") {
     return (
-      <Alert status="error" mt="2rem" w="max-content">
+      <Alert status="error" mt="2rem" w="max-content" fontSize="1rem">
         <AlertIcon />
         <Box>
+          <Box>Không được duyệt chứng thực. </Box>
           <Box>
-            Không được duyệt chứng thực.{" "}
-            <Box
-              cursor="pointer"
-              textDecoration="underline"
-              as="span"
-              onClick={onOpen}
-            >
-              Chứng thực lại
-            </Box>{" "}
+            Lý do:{" "}
+            <Box as="span" fontWeight="bold">
+              {reject.message}({reject.createdAt})
+            </Box>
           </Box>
-          <Box>Lý do: {rejectMessage.message}</Box>
+          <Box
+            cursor="pointer"
+            textDecoration="underline"
+            as="span"
+            onClick={onOpen}
+          >
+            Chứng thực lại
+          </Box>{" "}
         </Box>
       </Alert>
     );
   } else {
     return (
-      <Alert status="success" mt="2rem" w="max-content">
+      <Alert status="success" mt="2rem" w="max-content" fontSize="1rem">
         <AlertIcon />
         Đã chứng thực doanh nghiệp
         <a

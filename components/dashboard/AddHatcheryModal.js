@@ -52,7 +52,12 @@ const AddHatchery = () => {
           "/api/hatchery",
           process.browser ? localStorage.getItem("token") : null,
         ],
-        async (cachedData) => [...cachedData, data],
+        async (cachedData) => {
+          return {
+            defaultHatcheries: cachedData.defaultHatcheries,
+            requestedHatcheries: [...cachedData.requestedHatcheries, data],
+          };
+        },
         false
       );
     } catch (error) {

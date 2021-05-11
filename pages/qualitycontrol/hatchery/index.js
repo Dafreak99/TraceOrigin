@@ -105,6 +105,7 @@ const Hatchery = () => {
           <>
             <Table mb="2rem">
               <Tr>
+                <Th>#</Th>
                 <Th>Tên trại giống</Th>
                 <Th>Địa chỉ</Th>
                 <Th>Tọa độ</Th>
@@ -126,66 +127,25 @@ const Hatchery = () => {
                     i
                   ) => (
                     <CSSTransition key={i} timeout={500} classNames="item">
-                      <Link href={`./hatchery/${_id}`}>
-                        <Tr cursor="pointer">
-                          <Td>{name}</Td>
-                          <Td>{address}</Td>
-                          <Td>{latitude + " , " + longitude}</Td>
-                          <Td>
-                            Cơ sở của{" "}
-                            <Box as="span" fontWeight="bold">
-                              {username}
-                            </Box>
-                          </Td>
-                          <Td>
-                            <Popconfirm
-                              title="Bạn có chắc là sẽ duyệt trại giống này?"
-                              onCancel={(e) => e.stopPropagation()}
-                              onConfirm={(e) => {
-                                e.stopPropagation();
-                                onApprove(_id);
-                              }}
-                              okText="Yes"
-                              cancelText="No"
-                            >
-                              <Button
-                                background="#88fcb62b"
-                                color="#22a669"
-                                mr="10px"
-                                leftIcon={<AiOutlineCheck />}
-                                _hover={{ background: "88fcb62b" }}
-                              >
-                                Duyệt
-                              </Button>
-                            </Popconfirm>
-                            <Popconfirm
-                              title="Bạn có chắc là sẽ không duyệt trại giống này?"
-                              onCancel={(e) => e.stopPropagation()}
-                              onConfirm={(e) => {
-                                e.stopPropagation();
-                                onOpen();
-                              }}
-                              okText="Yes"
-                              cancelText="No"
-                            >
-                              <Button
-                                background="#fc88882b"
-                                color="#a62222"
-                                leftIcon={<AiOutlineClose />}
-                                _hover={{ background: "fc88882b" }}
-                              >
-                                Từ chối
-                              </Button>
-                              <RejectMessageModal
-                                isOpen={isOpen}
-                                onClose={onClose}
-                                type="hatchery"
-                                hatcheryId={_id}
-                              />
-                            </Popconfirm>
-                          </Td>
-                        </Tr>
-                      </Link>
+                      <Tr cursor="pointer">
+                        <Td>{i + 1}</Td>
+                        <Td>{name}</Td>
+                        <Td>{address}</Td>
+                        <Td>{latitude + " , " + longitude}</Td>
+                        <Td>
+                          Cơ sở của{" "}
+                          <Box as="span" fontWeight="bold">
+                            {username}
+                          </Box>
+                        </Td>
+                        <Td>
+                          <Button>
+                            <Link href={`./hatchery/${_id}`}>
+                              <a>Chi tiết</a>
+                            </Link>
+                          </Button>
+                        </Td>
+                      </Tr>
                     </CSSTransition>
                   )
                 )}
@@ -206,6 +166,7 @@ const Hatchery = () => {
           <>
             <Table>
               <Tr>
+                <Th>#</Th>
                 <Th>Tên trại giống</Th>
                 <Th>Địa chỉ</Th>
                 <Th>Tọa độ</Th>
@@ -220,6 +181,7 @@ const Hatchery = () => {
                   ) => (
                     <CSSTransition key={i} timeout={500} classNames="item">
                       <Tr cursor="pointer">
+                        <Td>{i + 1}</Td>
                         <Td>{name}</Td>
                         <Td>{address}</Td>
                         <Td>{latitude + " , " + longitude}</Td>

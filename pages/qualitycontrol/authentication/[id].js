@@ -4,25 +4,14 @@ import fetcher from "@/utils/fetcher";
 import {
   Box,
   Flex,
-  FormControl,
-  FormLabel,
   Heading,
   Image,
-  Input,
   List,
   ListItem,
   Spinner,
   Text,
   Button,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
   useDisclosure,
-  Select,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { Button as AntdButton, Collapse, Popconfirm } from "antd";
@@ -31,6 +20,8 @@ import useSWR from "swr";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import SimpleReactLightbox, { SRLWrapper } from "simple-react-lightbox";
+import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
+import RejectMessageModal from "@/components/dashboard/RejectMessageModal";
 
 const Index = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -74,40 +65,15 @@ const Index = () => {
     );
   };
 
-  const onApprove = async (id) => {
-    let res = await fetch(`/api/enterpriseauthentication/${id}`, {
-      method: "PUT",
+  const onApprove = async () => {
+    await fetch(`/api/enterpriseauthentication/approve`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: process.browser ? localStorage.getItem("token") : null,
       },
-      body: JSON.stringify({ isAuthenticated: "true", farmId: id }),
+      body: JSON.stringify({ farmId: router.query.id }),
     });
-
-    router.back();
-  };
-
-  const sendMessage = async (values) => {
-    // Change Farm authentication state
-
-    setIsSave(true);
-    values.type = "Enterprise Authentication";
-    values.farmId = router.query.id;
-
-    try {
-      await fetch("/api/rejectmessage", {
-        method: "POST",
-        body: values,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: process.browser ? localStorage.getItem("token") : null,
-        },
-        body: JSON.stringify(values),
-      });
-    } catch (error) {
-      console.log(error.message);
-    }
-    setIsSave(false);
 
     router.back();
   };
@@ -122,20 +88,41 @@ const Index = () => {
           </Flex>
           <Box>
             <Popconfirm
-              title="Bạn có chắc sẽ duyệt cơ sở này？"
-              okText="Có"
-              cancelText="Không"
-              onConfirm={() => onApprove(router.query.id)}
+              title="Bạn có chắc là sẽ duyệt chứng thực cơ sở này?"
+              onConfirm={onApprove}
+              okText="Yes"
+              cancelText="No"
             >
-              <AntdButton type="primary">Chấp nhận</AntdButton>
+              <Button
+                background="#88fcb62b"
+                color="#22a669"
+                mr="10px"
+                leftIcon={<AiOutlineCheck />}
+                _hover={{ background: "88fcb62b" }}
+              >
+                Duyệt
+              </Button>
             </Popconfirm>
             <Popconfirm
-              title="Bạn có chắc sẽ không duyệt cơ sở này？"
-              okText="Có"
-              cancelText="Không"
-              // onConfirm={onClose}
+              title="Bạn có chắc là sẽ không duyệt chứng thực cơ sở này?"
+              onConfirm={onOpen}
+              okText="Yes"
+              cancelText="No"
             >
-              <AntdButton type="text">Hủy bỏ</AntdButton>
+              <Button
+                background="#fc88882b"
+                color="#a62222"
+                leftIcon={<AiOutlineClose />}
+                _hover={{ background: "fc88882b" }}
+              >
+                Từ chối
+              </Button>
+              <RejectMessageModal
+                isOpen={isOpen}
+                onClose={onClose}
+                type="authentication"
+                farmId={router.query.id}
+              />
             </Popconfirm>
           </Box>
         </Flex>
@@ -259,43 +246,6 @@ const Index = () => {
           )}
         </Flex>
       </Box>
-
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent as="form" onSubmit={handleSubmit(sendMessage)}>
-          <ModalHeader>Nhật ký cho ăn</ModalHeader>
-          <ModalCloseButton />
-
-          <ModalBody>
-            <FormControl>
-              <FormLabel htmlFor="message">Lời nhăn</FormLabel>
-              <Input
-                type="text"
-                id="message"
-                name="message"
-                ref={register({
-                  required: "Required",
-                })}
-              />
-            </FormControl>
-          </ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Đóng
-            </Button>
-            {isSave ? (
-              <Button backgroundColor="gray.400" color="#fff">
-                <Spinner mr={4} /> Đang lưu
-              </Button>
-            ) : (
-              <Button variant="ghost" type="submit">
-                Lưu
-              </Button>
-            )}
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
     </Layout>
   );
 };

@@ -140,9 +140,7 @@ const Hatchery = () => {
       >
         <List spacing={4}>
           <ListItem>
-            <Heading fontSize="xl" color="#006aff">
-              Đề xuất thêm trại giống
-            </Heading>
+            <Heading fontSize="xl">Đề xuất thêm trại giống</Heading>
           </ListItem>
           <ListItem>
             <Text fontSize="md" fontWeight="bold">
@@ -173,9 +171,7 @@ const Hatchery = () => {
 
         <List spacing={4}>
           <ListItem>
-            <Heading fontSize="xl" color="#006aff">
-              Đề xuất từ
-            </Heading>
+            <Heading fontSize="xl">Đề xuất từ</Heading>
           </ListItem>
           <ListItem>
             <Text fontSize="md" fontWeight="bold">

@@ -1,6 +1,6 @@
 import Layout from "@/components/dashboard/Layout";
 
-import { Box, Alert, AlertIcon, Heading, Text } from "@chakra-ui/react";
+import { Box, Alert, AlertIcon, Heading, Text, Button } from "@chakra-ui/react";
 
 import { Table, Td, Th, Tr } from "@/components/Table";
 
@@ -74,17 +74,19 @@ const DashBoard = () => {
                 <Th>{""}</Th>
               </Tr>
               {data.map(({ name, phone, createdBy, _id }, i) => (
-                <Link href={`./authentication/${_id}`}>
-                  {/* <a> */}
-                  <Tr cursor="pointer">
-                    <Td>{i + 1}</Td>
-                    <Td>{name}</Td>
-                    <Td>{phone}</Td>
-
-                    <Td>{createdBy}</Td>
-                  </Tr>
-                  {/* </a> */}
-                </Link>
+                <Tr cursor="pointer">
+                  <Td>{i + 1}</Td>
+                  <Td>{name}</Td>
+                  <Td>{phone}</Td>
+                  <Td>{createdBy}</Td>
+                  <Td>
+                    <Link href={`./authentication/${_id}`}>
+                      <a>
+                        <Button>Chi tiết</Button>
+                      </a>
+                    </Link>
+                  </Td>
+                </Tr>
               ))}
             </Table>
           </>

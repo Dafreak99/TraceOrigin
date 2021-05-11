@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const EnterpriseAuthentication = require("./EnterpriseAuthentication");
+const RejectMessage = require("./RejectMessage");
 
 const FarmSchema = new mongoose.Schema({
   name: String,
@@ -21,6 +22,10 @@ const FarmSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: EnterpriseAuthentication,
     default: null,
+  },
+  reject: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: RejectMessage,
   },
 });
 

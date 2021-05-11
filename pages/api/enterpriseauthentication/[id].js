@@ -27,21 +27,7 @@ export default async (req, res) => {
       res.send(farm);
 
       break;
-    case "PUT":
-      const { isAuthenticated, farmId } = req.body;
 
-      if (isAuthenticated === "true") {
-        await RejectMessage.findOneAndRemove({
-          farmId,
-          type: "Enterprise Authentication",
-        });
-
-        await Farm.findOneAndUpdate({ _id: farmId }, { isAuthenticated });
-      }
-
-      res.send({ message: "OK" });
-
-      break;
     default:
       break;
   }

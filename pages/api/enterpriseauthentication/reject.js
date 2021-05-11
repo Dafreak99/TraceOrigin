@@ -8,8 +8,8 @@ import RejectMessage from "models/RejectMessage";
 
 dbConnect();
 
-// @route /api/enterpriseauthentication
-// @desc Get detail authentication of your farm
+// @route /api/enterpriseauthentication/reject
+// @desc Reject Enterprise Authentication
 
 export default async (req, res) => {
   const token = req.headers.authorization;
@@ -19,29 +19,27 @@ export default async (req, res) => {
 
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-  let farm = await Farm.findOne({ createdBy: decoded });
-
   switch (method) {
-    case "GET":
-      try {
-        // For Quality Control to get pending Farms waiting for Enterprise Authentication
-        let farms = await Farm.find({ isAuthenticated: "pending" });
-
-        res.send(farms);
-      } catch (error) {
-        res.status(500).send({ message: error.message });
-      }
-      break;
     case "POST":
-      let authentication = new EnterpriseAuthentication(req.body);
+      const { farmId, message, type, createdAt } = req.body;
 
-      await authentication.save();
+      const rejectMessage = new RejectMessage({ message, type, createdAt });
 
-      await Farm.findByIdAndUpdate(farm._id, {
-        isAuthenticated: "pending",
-        authentication: authentication._id,
-        reject: null,
-      });
+      await rejectMessage.save();
+
+      const farm = await Farm.findOne({ _id: farmId });
+
+      await Farm.findOneAndUpdate(
+        { _id: farmId },
+        {
+          isAuthenticated: "false",
+          authentication: null,
+          reject: rejectMessage,
+        }
+      );
+
+      // Remove Enterprise Authentication
+      await EnterpriseAuthentication.findByIdAndRemove(farm.authentication);
       res.send({ message: "OK" });
 
       try {

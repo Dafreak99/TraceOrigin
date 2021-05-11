@@ -16,7 +16,7 @@ export default async (req, res) => {
 
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-  let farm = await Farm.findOne({ createdBy: decoded });
+  let farm = await Farm.findOne({ createdBy: decoded }).populate("reject");
 
   // Change the return value to satisfy conditional rendering in Client
 

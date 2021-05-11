@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Box, Heading, Alert, AlertIcon, Text, Badge } from "@chakra-ui/react";
 import useSWR, { mutate } from "swr";
 import { useRouter } from "next/router";
-import { FaTrash } from "react-icons/fa";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import Layout from "@/components/dashboard/Layout";
@@ -10,7 +9,6 @@ import { Table, Th, Td, Tr } from "@/components/Table";
 import fetcher from "@/utils/fetcher";
 import SkeletonTable from "@/components/dashboard/SkeletonTable";
 import AddHatcheryModal from "@/components/dashboard/AddHatcheryModal";
-import { Popconfirm } from "antd";
 
 const Hatchery = () => {
   const [loading, setLoading] = useState(true);

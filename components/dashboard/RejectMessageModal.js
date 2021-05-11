@@ -31,6 +31,7 @@ export const RejectMessageModal = ({
   type,
   hatcheryId,
   productId,
+  farmId,
 }) => {
   const router = useRouter();
   const { handleSubmit, register, errors, control, reset } = useForm();
@@ -53,6 +54,10 @@ export const RejectMessageModal = ({
       url = `/api/product/harvest/reject`;
       values.id = productId;
       redirectUrl = "/qualitycontrol/register";
+    } else if (type === "authentication") {
+      url = `/api/enterpriseauthentication/reject`;
+      values.farmId = farmId;
+      redirectUrl = "/qualitycontrol/authentication";
     }
 
     setIsSave(true);
