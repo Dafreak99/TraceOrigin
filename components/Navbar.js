@@ -41,6 +41,7 @@ const Navbar = ({ float, showDrawer }) => {
       farm: "/farm",
       qualitycontrol: "/qualitycontrol/authentication",
       admin: "/admin",
+      consumption: "/consumption-location",
     };
 
     return obj[type];

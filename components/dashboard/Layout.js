@@ -20,6 +20,7 @@ import {
 } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { MdSecurity } from "react-icons/md";
+import { AiFillInfoCircle } from "react-icons/ai";
 
 const { Content, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -240,6 +241,18 @@ const AdminSidebar = () => {
   );
 };
 
+const ConsumptionLocationSidebar = () => {
+  return (
+    <Menu theme="light" mode="inline" defaultSelectedKeys="default">
+      <Menu.Item key="default" icon={<Icon component={AiFillInfoCircle} />}>
+        <Link href="/consumption-location">
+          <a style={{ fontWeight: "bold" }}>Thông tin địa điểm</a>
+        </Link>
+      </Menu.Item>
+    </Menu>
+  );
+};
+
 const Sidebar = () => {
   const router = useRouter();
 
@@ -297,12 +310,14 @@ const Sidebar = () => {
         </Text>
       </Flex>
 
-      {user && user.type === "farm" ? (
+      {user?.type === "farm" ? (
         <FarmSidebar />
-      ) : user && user.type === "admin" ? (
+      ) : user?.type === "admin" ? (
         <AdminSidebar />
-      ) : (
+      ) : user?.type === "qualitycontrol" ? (
         <QualityControlSidebar />
+      ) : (
+        <ConsumptionLocationSidebar />
       )}
     </Sider>
   );

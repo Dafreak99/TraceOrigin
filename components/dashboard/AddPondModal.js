@@ -33,7 +33,6 @@ export const AddPondModal = () => {
     try {
       let res = await fetch("/api/pond", {
         method: "POST",
-        body: values,
         headers: {
           "Content-Type": "application/json",
           Authorization: process.browser ? localStorage.getItem("token") : null,

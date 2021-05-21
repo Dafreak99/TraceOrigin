@@ -113,6 +113,8 @@ const Product = ({ product }) => {
     }
   };
 
+  console.log(product);
+
   return (
     <Table mb="2rem">
       <Tr>
@@ -120,7 +122,7 @@ const Product = ({ product }) => {
         <Th>Được duyệt {isHarvested ? "thu hoạch" : "đăng ký"}</Th>
         <Th>
           {" "}
-          {isRegistered.status === "false" || isHarvested.status
+          {isRegistered.status === "false" || isHarvested?.status
             ? "Lí do"
             : "Mã QR"}
         </Th>
@@ -135,7 +137,7 @@ const Product = ({ product }) => {
         </Td>
         {isRegistered.status === "false" ? (
           <Td>{isRegistered.reject.message}</Td>
-        ) : isHarvested.status === "false" ? (
+        ) : isHarvested?.status === "false" ? (
           <Td>{isHarvested.reject.message}</Td>
         ) : (
           <Td>

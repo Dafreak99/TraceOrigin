@@ -39,15 +39,15 @@ export default async (req, res) => {
     case "POST":
       try {
         const {
+          // consumptionName,
+          // phone,
+          // address,
+          // coordinate,
           name,
           weight,
-          consumptionName,
-          phone,
           note,
-          address,
           harvestedDate,
           packingMethod,
-          coordinate,
           productId,
           images,
         } = req.body;
@@ -59,7 +59,7 @@ export default async (req, res) => {
           note,
           weight,
           packingMethod,
-          consumption: { name: consumptionName, phone, address, coordinate },
+          // consumption: { name: consumptionName, phone, address, coordinate },
         });
 
         harvestProduct.save();
@@ -99,34 +99,16 @@ export default async (req, res) => {
 
         // 3. Update Product
 
-        const product = await Product.findByIdAndUpdate(
-          productId,
-          {
-            "isHarvested.status": "pending",
-            "isHarvested.harvestProduct": harvestProduct,
-            name,
-            images,
-            feeding,
-            usingMedicine,
-            dailyNote: noteLog,
-            pondEnvironment,
-          },
-          { new: true }
-        );
-
-        // console.log("Product", product);
-
-        // Unlink to refresh data
-        // await FeedingDiary.updateMany({ productId }, { isDone: true });
-        // await UsingMedicine.updateMany({ productId }, { isDone: true });
-        // await Note.updateMany({ productId }, { isDone: true });
-        // await UsingMedicine.updateMany({ productId }, { isDone: true });
-
-        // const pond = await Pond.findOneAndUpdate(
-        //   { _id: product.pond },
-        //   { seed: null },
-        //   { new: true }
-        // );
+        await Product.findByIdAndUpdate(productId, {
+          "isHarvested.status": "pending",
+          "isHarvested.harvestProduct": harvestProduct,
+          name,
+          images,
+          feeding,
+          usingMedicine,
+          dailyNote: noteLog,
+          pondEnvironment,
+        });
 
         res.send({ message: "OK" });
       } catch (error) {

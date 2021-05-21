@@ -218,7 +218,7 @@ const Index = () => {
                   />
                 </FormControl>
                 {/* Địa điểm tiêu thụ */}
-                <Flex
+                {/* <Flex
                   align="center"
                   gridColumn="span 2"
                   fontSize="lg"
@@ -277,7 +277,7 @@ const Index = () => {
                       render={({ onChange }) => <Map onChange={onChange} />}
                     />
                   </Box>
-                </FormControl>
+                </FormControl>*/}
               </Grid>
 
               {/* Below Section */}

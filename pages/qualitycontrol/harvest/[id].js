@@ -172,30 +172,6 @@ const Index = () => {
                   </ListItem>
                   <ListItem>
                     <Text fontSize="md" fontWeight="bold">
-                      Tên nơi tiêu thụ:{" "}
-                      <Box as="span" fontWeight="normal">
-                        {data.isHarvested.harvestProduct.consumption.name}
-                      </Box>
-                    </Text>
-                  </ListItem>
-                  <ListItem>
-                    <Text fontSize="md" fontWeight="bold">
-                      Địa chỉ tiêu thụ:{" "}
-                      <Box as="span" fontWeight="normal">
-                        {data.isHarvested.harvestProduct.consumption.address}
-                      </Box>
-                    </Text>
-                  </ListItem>
-                  <ListItem>
-                    <Text fontSize="md" fontWeight="bold">
-                      SĐT nơi tiêu thụ:{" "}
-                      <Box as="span" fontWeight="normal">
-                        {data.isHarvested.harvestProduct.consumption.phone}
-                      </Box>
-                    </Text>
-                  </ListItem>
-                  <ListItem>
-                    <Text fontSize="md" fontWeight="bold">
                       Hình ảnh sản phẩm:{" "}
                       <Image
                         src={data.images[0]}

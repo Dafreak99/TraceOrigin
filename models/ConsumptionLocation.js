@@ -1,13 +1,12 @@
 const mongoose = require("mongoose");
-const Product = require("./Product");
 
-const ConsignmentSchema = new mongoose.Schema({
+const ConsumptionLocationSchema = new mongoose.Schema({
   name: String,
   phone: String,
   address: String,
-  coordinate: { latitude: Number, longitude: Number },
+  createdBy: String,
 });
 
 module.exports =
-  mongoose.models.Consignment ||
-  mongoose.model("Consignment", ConsignmentSchema);
+  mongoose.models.ConsumptionLocation ||
+  mongoose.model("ConsumptionLocation", ConsumptionLocationSchema);

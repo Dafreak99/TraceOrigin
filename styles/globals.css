@@ -748,3 +748,7 @@ span.rbc-toolbar-label {
 .ant-collapse.ant-collapse-borderless.ant-collapse-icon-position-left.site-collapse-custom-collapse {
   box-shadow: 0 10px 20px rgb(74 112 145 / 10%);
 }
+
+.ant-picker-dropdown {
+  z-index: 9999;
+}

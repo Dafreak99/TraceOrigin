@@ -5,12 +5,12 @@ const HarvestProductSchema = new mongoose.Schema({
   note: String,
   weight: Number,
   packingMethod: String,
-  consumption: {
-    name: String,
-    phone: String,
-    address: String,
-    coordinate: { latitude: Number, longitude: Number },
-  },
+  // consumption: {
+  //   name: String,
+  //   phone: String,
+  //   address: String,
+  //   coordinate: { latitude: Number, longitude: Number },
+  // },
 });
 
 module.exports =

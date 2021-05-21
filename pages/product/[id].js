@@ -1,4 +1,6 @@
 import {
+  Alert,
+  AlertIcon,
   Box,
   Flex,
   Grid,
@@ -29,6 +31,8 @@ import { AiOutlineNumber } from "react-icons/ai";
 import DisplayMap from "@/components/DisplayMap";
 
 const Product = ({ data }) => {
+  console.log(data);
+
   const [visible, setVisible] = useState(false);
 
   const showDrawer = () => {
@@ -82,6 +86,21 @@ const Product = ({ data }) => {
                   <a href="">{data.name}</a>
                 </Breadcrumb.Item>
               </Breadcrumb>
+              <Alert status="success" my="1rem" w="max-content">
+                <AlertIcon />
+                <Text fontSize="md">
+                  TransactionID:{" "}
+                  <a
+                    target="blank"
+                    href={
+                      "https://test.ipdb.io/api/v1/transactions/" +
+                      data.transactionId
+                    }
+                  >
+                    {data.transactionId}
+                  </a>
+                </Text>
+              </Alert>
               <Grid
                 gridTemplateColumns="repeat(12, 1fr)"
                 my={8}
@@ -243,7 +262,7 @@ export async function getStaticProps({ params }) {
   ).json();
 
   return {
-    props: { data: data[0].data || {} },
+    props: { data: { ...data[0].data, transactionId: data[0].id } || {} },
   };
 }
 

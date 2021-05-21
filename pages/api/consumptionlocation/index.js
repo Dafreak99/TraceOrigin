@@ -15,24 +15,29 @@ export default async (req, res) => {
 
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-  let farm = await Farm.findOne({ createdBy: decoded });
+  let consumption = await ConsumptionLocation.findOne({ createdBy: decoded });
 
   switch (method) {
     case "GET":
+      if (!consumption) {
+        return res.send({ message: "Require setup" });
+      }
+
+      res.send(consumption);
+
       break;
 
     case "POST":
       try {
-        const consumptionLocation = new ConsumptionLocation(req.body);
-
+        const consumptionLocation = new ConsumptionLocation({
+          ...req.body,
+          createdBy: decoded,
+        });
         await consumptionLocation.save();
 
-        await Product.findOneAndUpdate(
-          { _id: req.body.productId },
-          { consumptionLocation }
-        );
+        console.log(consumptionLocation);
 
-        res.send(packing);
+        res.send(consumptionLocation);
       } catch (error) {
         res.status(500).send({ message: error.message });
       }

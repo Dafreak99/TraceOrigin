@@ -21,7 +21,7 @@ export default async (req, res) => {
     }
 
     try {
-      let user = new User({ ...req.body, type: "farm" });
+      let user = new User({ ...req.body, type: "consumption" });
       await user.save();
 
       res.send(user);

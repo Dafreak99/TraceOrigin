@@ -53,7 +53,7 @@ export const RejectMessageModal = ({
     } else if (type === "harvest") {
       url = `/api/product/harvest/reject`;
       values.id = productId;
-      redirectUrl = "/qualitycontrol/register";
+      redirectUrl = "/qualitycontrol/harvest";
     } else if (type === "authentication") {
       url = `/api/enterpriseauthentication/reject`;
       values.farmId = farmId;
