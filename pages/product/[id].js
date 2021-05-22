@@ -5,7 +5,6 @@ import {
   Flex,
   Grid,
   Heading,
-  Icon,
   Image,
   List,
   ListItem,
@@ -19,7 +18,7 @@ import Navbar from "@/components/Navbar";
 import ProductInfo from "@/components/ProductInfo";
 import Footer from "@/components/Footer";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NavbarDrawer from "@/components/NavbarDrawer";
 import { HiUser } from "react-icons/hi";
 import { MdLocationOn } from "react-icons/md";
@@ -29,9 +28,64 @@ import { IoIosMail } from "react-icons/io";
 import { CgWebsite } from "react-icons/cg";
 import { AiOutlineNumber } from "react-icons/ai";
 import DisplayMap from "@/components/DisplayMap";
+import { transactionsForAsset } from "@/lib/bigchain";
 
 const Product = ({ data }) => {
-  console.log(data);
+  const [consumption, setConsumption] = useState([]);
+  let [mapSource, setMapSource] = useState([]);
+
+  useEffect(() => {
+    async function getData() {
+      // Chain of transactions
+      if (data) {
+        let transactions = await transactionsForAsset(data.transactionId);
+
+        let dataForMap = {
+          coordinate: {
+            latitude: +transactions[0].metadata.coordinate.latitude,
+            longitude: +transactions[0].metadata.coordinate.longitude,
+          },
+          type: "consumption",
+          _id: transactions[0].metadata._id,
+          name: transactions[0].metadata.name,
+          address: transactions[0].metadata.address,
+        };
+
+        setConsumption(transactions);
+        setMapSource((prevState) => [...prevState, dataForMap]);
+      }
+    }
+
+    if (data) {
+      const {
+        farm,
+        seed: { hatchery },
+      } = data;
+
+      const source = [
+        {
+          coordinate: farm.coordinate,
+          type: "farm",
+          _id: farm._id,
+          name: farm.name,
+          // image: farm.images[0],
+          address: farm.address,
+        },
+        {
+          coordinate: hatchery.coordinate,
+          type: "hatchery",
+          _id: hatchery._id,
+          name: hatchery.name,
+          // image: null,
+          address: hatchery.address,
+        },
+      ];
+
+      setMapSource(source);
+    }
+
+    getData();
+  }, [data]);
 
   const [visible, setVisible] = useState(false);
 
@@ -41,36 +95,6 @@ const Product = ({ data }) => {
   const onClose = () => {
     setVisible(false);
   };
-
-  let source = [];
-
-  console.log(data);
-
-  if (data !== undefined) {
-    const {
-      farm,
-      seed: { hatchery },
-    } = data;
-
-    source = [
-      {
-        coordinate: farm.coordinate,
-        type: "farm",
-        _id: farm._id,
-        name: farm.name,
-        image: farm.images[0],
-        address: farm.address,
-      },
-      {
-        coordinate: hatchery.coordinate,
-        type: "hatchery",
-        _id: hatchery._id,
-        name: hatchery.name,
-        image: null,
-        address: hatchery.address,
-      },
-    ];
-  }
 
   return (
     <>
@@ -233,11 +257,22 @@ const Product = ({ data }) => {
                 columnGap={{ base: 0, xl: "4rem" }}
                 rowGap={{ base: "3rem", xl: 0 }}
                 mt="6rem"
+                mb="4rem"
               >
-                <ProductInfo data={data} />
-                <FoodChainTimeline data={data} />
+                <ProductInfo data={data} consumption={consumption} />
+
+                {consumption.length > 0 && (
+                  <FoodChainTimeline
+                    data={data}
+                    consumptionDate={consumption[0].metadata.datetime}
+                  />
+                )}
               </Grid>
-              <Box height="500px">{source && <DisplayMap data={source} />}</Box>
+              {mapSource.length > 0 && (
+                <Box height="500px">
+                  <DisplayMap data={mapSource} />
+                </Box>
+              )}
             </>
           )}
         </div>

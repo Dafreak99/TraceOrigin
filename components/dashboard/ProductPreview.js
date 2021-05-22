@@ -12,21 +12,35 @@ import {
   List,
   ListItem,
   Text,
+  Spinner,
 } from "@chakra-ui/react";
 
-import { Collapse } from "antd";
+import { Collapse, message } from "antd";
 
 import { Table, Td, Th, Tr } from "@/components/Table";
 
 import { CaretRightOutlined } from "@ant-design/icons";
 import { updateAsset } from "@/lib/bigchain";
+import { useState } from "react";
 
 const { Panel } = Collapse;
 
 const ProductPreview = ({ data, consumptionLocation, isOpen, onClose }) => {
-  const onConfirm = () => {
-    console.log(consumptionLocation);
-    updateAsset(data.transactionId);
+  const [isSave, setIsSave] = useState(false);
+
+  const onConfirm = async () => {
+    setIsSave(true);
+
+    const metadata = {
+      ...consumptionLocation,
+      datetime: new Date().toString(),
+      type: "CONSUMPTIONLOCATION",
+    };
+
+    await updateAsset(data.transactionId, metadata);
+    message.success("Dữ liệu đã được thêm vào chuỗi khối !");
+    setIsSave(false);
+    onClose();
   };
 
   return (
@@ -43,7 +57,15 @@ const ProductPreview = ({ data, consumptionLocation, isOpen, onClose }) => {
           <Button colorScheme="blue" mr={3} onClick={onClose}>
             Đóng
           </Button>
-          <Button onClick={onConfirm}>Xác nhận</Button>
+          {isSave ? (
+            <Button backgroundColor="gray.400" color="#fff">
+              <Spinner mr={4} /> Đang lưu
+            </Button>
+          ) : (
+            <Button type="submit" onClick={onConfirm}>
+              Xác nhận
+            </Button>
+          )}
         </ModalFooter>
       </ModalContent>
     </Modal>
@@ -52,7 +74,7 @@ const ProductPreview = ({ data, consumptionLocation, isOpen, onClose }) => {
 
 const Body = ({ data }) => {
   return (
-    <Box height="50vh">
+    <Box height="50vh" overflowY="scroll">
       <Collapse
         style={{ marginTop: "2rem" }}
         bordered={false}

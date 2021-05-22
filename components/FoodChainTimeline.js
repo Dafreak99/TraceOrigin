@@ -2,11 +2,14 @@ import { useState } from "react";
 import { Timeline } from "antd";
 import { Box, Flex, Heading, Image } from "@chakra-ui/react";
 import GreenDot from "./GreenDot";
+import { format } from "date-fns";
 
-const FoodChainTimeline = ({ data }) => {
+const FoodChainTimeline = ({ data, consumptionDate }) => {
   const {
     seed: { stockingDate },
-    harvestedDate,
+    isHarvested: {
+      harvestProduct: { harvestedDate },
+    },
   } = data;
   const [mode, setMode] = useState("left");
 
@@ -25,16 +28,10 @@ const FoodChainTimeline = ({ data }) => {
           Thu hoạch
           <Image src="/ice-fishing.svg" h="40px" />
         </Timeline.Item>
-        <Timeline.Item label="2015-09-01 09:12:11">
-          Chế biến
-          {/* <Image src="/salmon.svg" h="40px" /> */}
-          <Image src="/salmon.svg" h="40px" />
-        </Timeline.Item>
-        <Timeline.Item label="2015-09-01 09:12:11">
-          Vận chuyển đến các điểm tiêu thụ
-          <Image src="/shipment.svg" h="40px" />
-        </Timeline.Item>
-        <Timeline.Item label="2015-09-01 09:12:11">
+
+        <Timeline.Item
+          label={format(new Date(consumptionDate), "dd/MM/yyyy, HH:mm bbb")}
+        >
           Điểm tiêu thụ
           <Image src="/store.svg" h="40px" />
         </Timeline.Item>

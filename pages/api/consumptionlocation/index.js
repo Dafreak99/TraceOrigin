@@ -35,8 +35,6 @@ export default async (req, res) => {
         });
         await consumptionLocation.save();
 
-        console.log(consumptionLocation);
-
         res.send(consumptionLocation);
       } catch (error) {
         res.status(500).send({ message: error.message });

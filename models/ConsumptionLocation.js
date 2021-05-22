@@ -5,6 +5,10 @@ const ConsumptionLocationSchema = new mongoose.Schema({
   phone: String,
   address: String,
   createdBy: String,
+  coordinate: {
+    latitude: Number,
+    longitude: Number,
+  },
 });
 
 module.exports =

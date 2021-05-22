@@ -130,6 +130,19 @@ const Product = () => {
                         <Td>{name}</Td>
                         <Td>{harvestProduct.harvestedDate}</Td>
                         <Td>{productStatus(status)}</Td>
+                        <Td>
+                          {status && (
+                            <Box
+                              as="a"
+                              target="_blank"
+                              href={`/product/${_id}`}
+                              textDecoration="underline"
+                              fontWeight="bold"
+                            >
+                              Xem
+                            </Box>
+                          )}
+                        </Td>
                       </Tr>
                     </CSSTransition>
                   )

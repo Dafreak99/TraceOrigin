@@ -7,7 +7,7 @@ import MapGL, {
   Popup,
   Source,
 } from "react-map-gl";
-import { Box, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 
 const fullscreenControlStyle = {
   right: 10,
@@ -22,7 +22,7 @@ const Map = ({ data }) => {
   const [viewport, setViewport] = useState({
     latitude: data[0].coordinate.latitude,
     longitude: data[0].coordinate.longitude,
-    zoom: 12,
+    zoom: 11,
     width: "100vw",
     height: "100%",
   });
@@ -97,9 +97,11 @@ const Map = ({ data }) => {
               onClick={() => setShowPopup({ [marker._id]: true })}
             >
               {marker.type === "hatchery" ? (
-                <img className="marker" src="/one.png" alt="marker" />
+                <img className="marker" src="/pond.png" alt="marker" />
+              ) : marker.type === "consumption" ? (
+                <img className="marker" src="/store.png" alt="marker" />
               ) : (
-                <img className="marker" src="/two.png" alt="marker" />
+                <img className="marker" src="/house.png" alt="marker" />
               )}
             </Box>
           </Marker>
@@ -114,10 +116,10 @@ const Map = ({ data }) => {
               onClose={() => setShowPopup({})}
               anchor="top"
             >
-              <div>
+              <Box p="1rem">
                 <h3>{marker.name}</h3>
                 <p>{marker.address}</p>
-              </div>
+              </Box>
             </Popup>
           )}
         </>

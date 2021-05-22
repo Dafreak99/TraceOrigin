@@ -83,21 +83,12 @@ const FarmSidebar = () => {
           <a style={{ fontWeight: "bold" }}>Ao</a>
         </Link>
       </Menu.Item>
-      <SubMenu
-        icon={<Icon component={FiAperture} />}
-        key="product"
-        title={
-          <span>
-            <span style={{ fontWeight: "bold" }}>Sản phẩm</span>
-          </span>
-        }
-      >
-        <Menu.Item key="product" icon={<DesktopOutlined />}>
-          <Link href="/farm/product">
-            <a style={{ fontWeight: "bold" }}> Thu hoạch</a>
-          </Link>
-        </Menu.Item>
-      </SubMenu>
+
+      <Menu.Item key="product" icon={<Icon component={FiAperture} />}>
+        <Link href="/farm/product">
+          <a style={{ fontWeight: "bold" }}> Sản phẩm</a>
+        </Link>
+      </Menu.Item>
 
       <SubMenu
         icon={<PlusCircleOutlined />}

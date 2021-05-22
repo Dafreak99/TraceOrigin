@@ -1,42 +1,31 @@
 import {
   Box,
-  Button,
   Flex,
   Grid,
   Heading,
   Image,
-  Input,
   List,
   ListItem,
+  Alert,
+  AlertIcon,
   Text,
 } from "@chakra-ui/react";
+import { Collapse, Descriptions, Tabs } from "antd";
 
-import { Collapse, Comment } from "antd";
-import Avatar from "antd/lib/avatar/avatar";
-import { Table, Td, Th, Tr } from "@/components/Table";
-
-import { useState } from "react";
-import { Descriptions, Badge } from "antd";
 import GreenDot from "./GreenDot";
-import { Tabs } from "antd";
-import { FaFish, FaSquareFull } from "react-icons/fa";
+import { FaFish, FaPhone, FaSquareFull } from "react-icons/fa";
 import { MdDateRange, MdLocationOn } from "react-icons/md";
 import { GiWaterSplash, GiWeight } from "react-icons/gi";
+import SimpleReactLightbox, { SRLWrapper } from "simple-react-lightbox";
 
 const { Panel } = Collapse;
 const { TabPane } = Tabs;
 
-const ProductInfo = ({ data }) => {
-  const [index, setIndex] = useState(0);
-
-  function callback(key) {
-    console.log(key);
-  }
-
+const ProductInfo = ({ data, consumption }) => {
   return (
     <Box gridColumn={{ base: "span 12", xl: "span 6" }}>
       <Flex w="100%" borderRadius="3px">
-        <Tabs defaultActiveKey="1" onChange={callback}>
+        <Tabs defaultActiveKey="1">
           <TabPane tab="Chi tiết sản phẩm" key="1">
             <Box
               border="2px solid rgb(19 154 243 / 10%)"
@@ -46,7 +35,7 @@ const ProductInfo = ({ data }) => {
               <Tab1 {...data} />
             </Box>
           </TabPane>
-          <TabPane tab="Chuỗi liên kết" key="2">
+          <TabPane tab="Nhật ký" key="2">
             <Box
               border="2px solid rgb(19 154 243 / 10%)"
               p={8}
@@ -55,17 +44,86 @@ const ProductInfo = ({ data }) => {
               <Tab2 data={data} />
             </Box>
           </TabPane>
-          <TabPane tab="Xác thực" key="3">
+          <TabPane tab="Chứng thực" key="3">
             <Box
               border="2px solid rgb(19 154 243 / 10%)"
               p={8}
               borderBottom="3px solid #007bff"
             >
-              {data.farm.authentication.images.map((image) => (
-                <Image src={image} w="80%" />
-              ))}
+              <SimpleReactLightbox>
+                <SRLWrapper
+                  options={{ settings: { slideTransitionSpeed: 1 } }}
+                  style={{ marginTop: "30px" }}
+                >
+                  <Flex mt="1rem">
+                    {data.farm.authentication.images.map((image) => (
+                      <Image src={image} height="150px" mr="1rem" />
+                    ))}
+                  </Flex>
+                </SRLWrapper>
+              </SimpleReactLightbox>
             </Box>
           </TabPane>
+          {consumption.length > 0 && (
+            <TabPane tab="Địa điểm tiêu thụ" key="4">
+              <Box
+                border="2px solid rgb(19 154 243 / 10%)"
+                p={8}
+                borderBottom="3px solid #007bff"
+              >
+                <Alert status="success" my="1rem" w="max-content">
+                  <AlertIcon />
+                  <Text fontSize="md">
+                    TransactionID:{" "}
+                    <a
+                      target="blank"
+                      href={
+                        "https://test.ipdb.io/api/v1/transactions/" +
+                        consumption[0].id
+                      }
+                    >
+                      {consumption[0].id.slice(0, 32)}
+                    </a>
+                  </Text>
+                </Alert>
+                <List spacing={3}>
+                  <ListItem>
+                    <Flex align="center">
+                      <Box as={FaFish} mr="0.5rem" />
+                      <Text fontWeight="bold">
+                        Tên địa điểm:{" "}
+                        <Text as="span" fontWeight="normal">
+                          {consumption[0].metadata.name}
+                        </Text>
+                      </Text>
+                    </Flex>
+                  </ListItem>
+                  <ListItem>
+                    <Flex align="center">
+                      <Box as={MdLocationOn} mr="0.5rem" />
+                      <Text fontWeight="bold">
+                        Địa chỉ:{" "}
+                        <Text as="span" fontWeight="normal">
+                          {consumption[0].metadata.address}
+                        </Text>
+                      </Text>
+                    </Flex>
+                  </ListItem>
+                  <ListItem>
+                    <Flex align="center">
+                      <Box as={FaPhone} mr="0.5rem" />
+                      <Text fontWeight="bold">
+                        SĐT:{" "}
+                        <Text as="span" fontWeight="normal">
+                          {consumption[0].metadata.phone}
+                        </Text>
+                      </Text>
+                    </Flex>
+                  </ListItem>
+                </List>
+              </Box>
+            </TabPane>
+          )}
         </Tabs>
       </Flex>
     </Box>
@@ -74,7 +132,6 @@ const ProductInfo = ({ data }) => {
 
 const Tab1 = ({
   name,
-  images,
   unit,
   weight,
   harvestedDate,
@@ -195,27 +252,9 @@ const Tab1 = ({
 
 const Tab2 = ({ data }) => {
   return (
-    // <Comment
-    //   avatar={
-    //     <Avatar
-    //       src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-    //       alt="Han Solo"
-    //     />
-    //   }
-    //   content={
-    //     <Box>
-    //       <Input placeholder="Thêm bình luận" h="10rem" />
-    //       <Button backgroundColor="#007bff" color="#fff" px={10} py={6} mt={10}>
-    //         ĐĂNG
-    //       </Button>
-    //     </Box>
-    //   }
-    // />
-
     <>
       <Collapse
         defaultActiveKey={["1"]}
-        // TODO: Display full information of Product before harvest
         ghost
         style={{ marginTop: "2rem", gridColumn: "span 12" }}
       >

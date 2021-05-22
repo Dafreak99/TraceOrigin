@@ -752,3 +752,9 @@ span.rbc-toolbar-label {
 .ant-picker-dropdown {
   z-index: 9999;
 }
+
+.mapboxgl-popup-close-button {
+  font-size: 1.5rem;
+  right: 5%;
+  top: 5%;
+}

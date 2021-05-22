@@ -13,7 +13,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import useSWR, { mutate } from "swr";
 
 import FormControl from "@/components/dashboard/FormControl";
@@ -21,6 +21,8 @@ import UploadQR from "@/components/dashboard/UploadQR";
 import Layout from "@/components/dashboard/Layout";
 import fetcher from "@/utils/fetcher";
 import ProductPreview from "@/components/dashboard/ProductPreview";
+import Map from "@/components/Map";
+import { message } from "antd";
 
 const Index = () => {
   const { handleSubmit, register, errors, control, reset } = useForm();
@@ -69,11 +71,18 @@ const Index = () => {
 
   const onSearch = async (values) => {
     setIsSearch(true);
-    let data = await (
-      await fetch(`https://test.ipdb.io/api/v1/assets/?search=${values.qrcode}`)
-    ).json();
 
-    setSearchResult({ ...data[0].data, transactionId: data[0].id });
+    try {
+      let data = await (
+        await fetch(
+          `https://test.ipdb.io/api/v1/assets/?search=${values.qrcode}`
+        )
+      ).json();
+
+      setSearchResult({ ...data[0].data, transactionId: data[0].id });
+    } catch {
+      message.error("Không tìm thấy ! Vui lòng thử lại");
+    }
 
     setIsSearch(false);
     /**
@@ -130,6 +139,18 @@ const Index = () => {
                   required: "Required",
                 })}
               />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="coordinate">Tọa độ: </FormLabel>
+              <Box height="20rem">
+                <Controller
+                  name="coordinate"
+                  control={control}
+                  defaultValue={false}
+                  rules={{ required: true }}
+                  render={({ onChange }) => <Map onChange={onChange} />}
+                />
+              </Box>
             </FormControl>
 
             {isSave ? (

@@ -1,9 +1,22 @@
+import { listOutputs } from "@/lib/bigchain";
 import { Grid, Heading, Image } from "@chakra-ui/react";
 import { Skeleton } from "antd";
+import { useEffect, useState } from "react";
 import Product from "./Product";
 import SectionPadding from "./SectionPadding";
 
-const Products = ({ data }) => {
+const Products = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    async function getData() {
+      let data = await listOutputs();
+
+      setData(data);
+    }
+    getData();
+  }, []);
+
   return (
     <SectionPadding>
       <Heading
