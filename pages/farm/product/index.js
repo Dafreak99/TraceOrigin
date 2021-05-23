@@ -131,7 +131,7 @@ const Product = () => {
                         <Td>{harvestProduct.harvestedDate}</Td>
                         <Td>{productStatus(status)}</Td>
                         <Td>
-                          {status && (
+                          {status === "true" && (
                             <Box
                               as="a"
                               target="_blank"

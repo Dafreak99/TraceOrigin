@@ -44,3 +44,5 @@ export async function getStaticProps({ params }) {
   // It still gets pass to getStaticProps
 }
 ```
+
+4. Sometime next/link cause CSS lost. Unable to find the solution for this
