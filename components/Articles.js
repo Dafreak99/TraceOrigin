@@ -38,7 +38,7 @@ const Articles = ({ data }) => {
               >
                 <a>
                   <Box minH="350px" maxH="350px" w="100%" position="relative">
-                    <Image src={image} layout="fill" />
+                    <Image src={image} layout="fill" className="objectfit" />
                   </Box>
                   <Box padding="3rem 4rem">
                     <Heading

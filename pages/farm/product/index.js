@@ -10,18 +10,14 @@ import {
   Text,
 } from "@chakra-ui/react";
 import useSWR, { mutate } from "swr";
-import { FaTrash } from "react-icons/fa";
-import { Popconfirm } from "antd";
+
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import Layout from "@/components/dashboard/Layout";
 import { Table, Th, Td, Tr } from "@/components/Table";
 import fetcher from "@/utils/fetcher";
 import SkeletonTable from "@/components/dashboard/SkeletonTable";
-import QRCode from "qrcode.react";
 import Link from "next/link";
-import { AiOutlinePlus } from "react-icons/ai";
-import AddPackingMethod from "@/components/dashboard/AddPackingMethod";
 
 const Product = () => {
   const [loading, setLoading] = useState(true);
@@ -40,36 +36,6 @@ const Product = () => {
       setLoading(false);
     }
   }, [data]);
-
-  const onDelete = async (id) => {
-    try {
-      await fetch("/api/product", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: process.browser ? localStorage.getItem("token") : null,
-        },
-        body: JSON.stringify({ id }),
-      });
-
-      mutate(
-        [
-          "/api/product/harvest",
-          process.browser ? localStorage.getItem("token") : null,
-        ],
-        async (cachedData) => {
-          console.log(cachedData);
-          let data = cachedData.filter((each) => each._id !== id);
-          return data;
-        },
-        false
-      );
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  console.log(data);
 
   if (loading) {
     return (
@@ -121,17 +87,26 @@ const Product = () => {
               <TransitionGroup component="tbody">
                 {data.map(
                   (
-                    { name, isHarvested: { harvestProduct, status }, _id },
+                    {
+                      name,
+                      isHarvested: { harvestProduct, status },
+                      pond,
+                      _id,
+                    },
                     i
                   ) => (
                     <CSSTransition key={i} timeout={500} classNames="item">
                       <Tr cursor="pointer">
                         <Td>{i + 1}</Td>
-                        <Td>{name}</Td>
-                        <Td>{harvestProduct.harvestedDate}</Td>
+                        <Td>{name ? name : "Sản phẩm"}</Td>
+                        <Td>
+                          {status !== "false"
+                            ? harvestProduct.harvestedDate
+                            : "Rỗng"}
+                        </Td>
                         <Td>{productStatus(status)}</Td>
                         <Td>
-                          {status === "true" && (
+                          {status === "true" ? (
                             <Box
                               as="a"
                               target="_blank"
@@ -141,6 +116,17 @@ const Product = () => {
                             >
                               Xem
                             </Box>
+                          ) : (
+                            <Link href={`./pond/${pond}`}>
+                              <a
+                                style={{
+                                  fontWeight: "bold",
+                                  textDecoration: "underline",
+                                }}
+                              >
+                                Xem
+                              </a>
+                            </Link>
                           )}
                         </Td>
                       </Tr>

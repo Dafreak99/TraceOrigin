@@ -29,7 +29,7 @@ export default async (req, res) => {
       // Get harvested products
       const products = await Product.find({
         farm: farm._id,
-        "isHarvested.status": ["true", "pending"],
+        "isHarvested.status": ["true", "pending", "false"],
       })
         .populate({ path: "seed", populate: "hatchery" })
         .populate({ path: "isHarvested", populate: "harvestProduct" });
@@ -39,10 +39,6 @@ export default async (req, res) => {
     case "POST":
       try {
         const {
-          // consumptionName,
-          // phone,
-          // address,
-          // coordinate,
           name,
           weight,
           note,
@@ -59,7 +55,6 @@ export default async (req, res) => {
           note,
           weight,
           packingMethod,
-          // consumption: { name: consumptionName, phone, address, coordinate },
         });
 
         harvestProduct.save();
@@ -87,13 +82,6 @@ export default async (req, res) => {
           productId,
           isDone: false,
         });
-
-        // console.log(productId);
-
-        // console.log("feeding", feeding);
-        // console.log("usingMedicine", usingMedicine);
-        // console.log("noteLog", noteLog);
-        // console.log("pondEnvironment", pondEnvironment);
 
         // *** APPEND NEW DIARY TYPE IF NEEDED
 

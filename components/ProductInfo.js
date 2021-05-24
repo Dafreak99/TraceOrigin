@@ -22,6 +22,7 @@ const { Panel } = Collapse;
 const { TabPane } = Tabs;
 
 const ProductInfo = ({ data, consumption }) => {
+  console.log(data);
   return (
     <Box gridColumn={{ base: "span 12", xl: "span 6" }}>
       <Flex w="100%" borderRadius="3px">
@@ -71,7 +72,7 @@ const ProductInfo = ({ data, consumption }) => {
                 p={8}
                 borderBottom="3px solid #007bff"
               >
-                <Alert status="success" my="1rem" w="max-content">
+                <Alert status="success" my="1rem" w="100%">
                   <AlertIcon />
                   <Text fontSize="md">
                     TransactionID:{" "}
@@ -82,7 +83,7 @@ const ProductInfo = ({ data, consumption }) => {
                         consumption[0].id
                       }
                     >
-                      {consumption[0].id.slice(0, 32)}
+                      {consumption[0].id}
                     </a>
                   </Text>
                 </Alert>
@@ -132,9 +133,9 @@ const ProductInfo = ({ data, consumption }) => {
 
 const Tab1 = ({
   name,
-  unit,
-  weight,
-  harvestedDate,
+  isHarvested: {
+    harvestProduct: { weight, harvestedDate },
+  },
   seed: { stockingDate, hatchery },
 }) => {
   return (
@@ -175,7 +176,7 @@ const Tab1 = ({
             <Text fontWeight="bold">
               Đơn vị:{" "}
               <Text as="span" fontWeight="normal">
-                {unit}
+                KG
               </Text>
             </Text>
           </Flex>

@@ -758,3 +758,7 @@ span.rbc-toolbar-label {
   right: 5%;
   top: 5%;
 }
+
+.objectfit {
+  object-fit: cover;
+}

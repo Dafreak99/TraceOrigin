@@ -10,6 +10,13 @@ import { useRouter } from "next/router";
 const DashboardHeader = () => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const [username, setUser] = useState(() => {
+    if (window.localStorage.getItem("user")) {
+      return JSON.parse(window.localStorage.getItem("user")).username;
+    } else {
+      null;
+    }
+  });
 
   const logout = () => {
     window.localStorage.removeItem("token");
@@ -41,7 +48,7 @@ const DashboardHeader = () => {
             <Text>
               Hi,{" "}
               <Text as="span" fontWeight="bold">
-                HaiTran
+                {username}
               </Text>
             </Text>
             <Avatar

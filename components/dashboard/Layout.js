@@ -277,29 +277,29 @@ const Sidebar = () => {
       onCollapse={onCollapse}
       style={{ background: "#fff", boxShadow: "0 4px 8px rgba(0,0,0,.05)" }}
     >
-      <Flex
-        dir="row"
-        align="center"
-        justify="center"
-        height="80px"
-        w="100%"
-        cursor="pointer"
-      >
-        <Link href="/">
-          <a>
+      <Link href="/">
+        <a>
+          <Flex
+            dir="row"
+            align="center"
+            justify="center"
+            height="80px"
+            w="100%"
+            cursor="pointer"
+          >
             <Image src="/water.svg" height="32px" mr={2} />
-          </a>
-        </Link>
 
-        <Text
-          color="#006aff"
-          fontWeight="bold"
-          fontSize="20px"
-          className="logo--name"
-        >
-          Trace Origin.
-        </Text>
-      </Flex>
+            <Text
+              color="#006aff"
+              fontWeight="bold"
+              fontSize="20px"
+              className="logo--name"
+            >
+              Trace Origin.
+            </Text>
+          </Flex>
+        </a>
+      </Link>
 
       {user?.type === "farm" ? (
         <FarmSidebar />

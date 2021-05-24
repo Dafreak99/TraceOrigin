@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   Alert,
   AlertIcon,
@@ -11,24 +12,23 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Divider, Breadcrumb } from "antd";
-
-import FoodChainTimeline from "@/components/FoodChainTimeline";
-import GreenDot from "@/components/GreenDot";
-import Navbar from "@/components/Navbar";
-import ProductInfo from "@/components/ProductInfo";
-import Footer from "@/components/Footer";
-
-import { useEffect, useState } from "react";
-import NavbarDrawer from "@/components/NavbarDrawer";
 import { HiUser } from "react-icons/hi";
 import { MdLocationOn } from "react-icons/md";
 import { ImPhone } from "react-icons/im";
 import { FaFax, FaVectorSquare } from "react-icons/fa";
 import { IoIosMail } from "react-icons/io";
+import QRCode from "qrcode.react";
 import { CgWebsite } from "react-icons/cg";
 import { AiOutlineNumber } from "react-icons/ai";
+
+import NavbarDrawer from "@/components/NavbarDrawer";
 import DisplayMap from "@/components/DisplayMap";
 import { transactionsForAsset } from "@/lib/bigchain";
+import FoodChainTimeline from "@/components/FoodChainTimeline";
+import GreenDot from "@/components/GreenDot";
+import Navbar from "@/components/Navbar";
+import ProductInfo from "@/components/ProductInfo";
+import Footer from "@/components/Footer";
 
 const Product = ({ data }) => {
   const [consumption, setConsumption] = useState([]);
@@ -68,7 +68,6 @@ const Product = ({ data }) => {
           type: "farm",
           _id: farm._id,
           name: farm.name,
-          // image: farm.images[0],
           address: farm.address,
         },
         {
@@ -76,7 +75,6 @@ const Product = ({ data }) => {
           type: "hatchery",
           _id: hatchery._id,
           name: hatchery.name,
-          // image: null,
           address: hatchery.address,
         },
       ];
@@ -110,9 +108,13 @@ const Product = ({ data }) => {
                   <a href="">{data.name}</a>
                 </Breadcrumb.Item>
               </Breadcrumb>
-              <Alert status="success" my="1rem" w="max-content">
+              <Alert
+                status="success"
+                my="1rem"
+                w={{ base: "100%", md: "max-content" }}
+              >
                 <AlertIcon />
-                <Text fontSize="md">
+                <Text fontSize="md" overflow="hidden">
                   TransactionID:{" "}
                   <a
                     target="blank"
@@ -248,7 +250,11 @@ const Product = ({ data }) => {
                       </Flex>
                     </ListItem>
                   </List>
-                  <Image src="./qrcode.png" mt="2rem" />
+                  <QRCode
+                    style={{ marginTop: "15px" }}
+                    size={100}
+                    value={"http://traceorigin.vercel.app/product/" + "hello"}
+                  />
                 </Box>
               </Grid>
               <Divider />

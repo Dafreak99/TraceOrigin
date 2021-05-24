@@ -154,6 +154,7 @@ const Navbar = ({ float, showDrawer }) => {
               {user.username}
             </Text>
             <Box
+              display={{ base: "none", md: "block" }}
               as={IoMdArrowDropdown}
               size="1.5rem"
               color="#b8bfcb"
@@ -198,9 +199,9 @@ const Navbar = ({ float, showDrawer }) => {
   );
 
   return (
-    <div className={float ? "navbar float" : "navbar"}>
-      <div className="container">{Content()}</div>
-    </div>
+    <Box className={float ? "navbar float" : "navbar"}>
+      <Box className="container">{Content()}</Box>
+    </Box>
   );
 };
 

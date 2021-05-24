@@ -113,8 +113,6 @@ const Product = ({ product }) => {
     }
   };
 
-  console.log(product);
-
   return (
     <Table mb="2rem">
       <Tr>
