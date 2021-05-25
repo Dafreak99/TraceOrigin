@@ -253,7 +253,7 @@ const Product = ({ data }) => {
                   <QRCode
                     style={{ marginTop: "15px" }}
                     size={100}
-                    value={"http://traceorigin.vercel.app/product/" + "hello"}
+                    value={"http://traceorigin.vercel.app/product/" + data._id}
                   />
                 </Box>
               </Grid>
