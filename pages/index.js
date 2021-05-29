@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Box } from "@chakra-ui/react";
 import useSWR from "swr";
 

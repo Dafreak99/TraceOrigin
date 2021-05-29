@@ -18,6 +18,7 @@ import { Table, Th, Td, Tr } from "@/components/Table";
 import fetcher from "@/utils/fetcher";
 import SkeletonTable from "@/components/dashboard/SkeletonTable";
 import Link from "next/link";
+import { deployToBlockchain } from "@/lib/bigchain";
 
 const Product = () => {
   const [loading, setLoading] = useState(true);
@@ -31,11 +32,43 @@ const Product = () => {
     { refreshInterval: 1000 }
   );
 
+  const { data: fullProducts } = useSWR(
+    [
+      "/api/product/finish",
+      process.browser ? localStorage.getItem("token") : null,
+    ],
+    fetcher
+  );
+
   useEffect(() => {
     if (data !== undefined) {
       setLoading(false);
     }
   }, [data]);
+
+  useEffect(() => {
+    timer();
+  }, []);
+
+  const timer = () => {
+    let tDate = new Date();
+    tDate.setHours(9);
+    tDate.setMinutes(2);
+    tDate.setSeconds(0);
+    tDate.setMilliseconds(0);
+
+    let tMillis = tDate - new Date();
+
+    if (tMillis < 0) tMillis = tMillis + 24 * 60 * 60 * 1000; // if time is greater than 21:36:00:500 just add 24 hours as it will execute next day
+
+    setTimeout(reDeployToBlockchain, tMillis);
+  };
+
+  const reDeployToBlockchain = async () => {
+    for (let product of fullProducts) {
+      await deployToBlockchain(product);
+    }
+  };
 
   if (loading) {
     return (

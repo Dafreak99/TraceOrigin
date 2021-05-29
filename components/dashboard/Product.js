@@ -1,9 +1,4 @@
 import {
-  Box,
-  Flex,
-  Heading,
-  Alert,
-  AlertIcon,
   AlertDialog,
   AlertDialogBody,
   AlertDialogFooter,
@@ -16,7 +11,6 @@ import {
 
 import Link from "next/link";
 
-import { FaTrash } from "react-icons/fa";
 import QRCode from "qrcode.react";
 
 import { Table, Th, Td, Tr } from "@/components/Table";
