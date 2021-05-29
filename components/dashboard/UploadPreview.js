@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { FormLabel, Input, Image, Flex, Box } from "@chakra-ui/react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { FiTrash } from "react-icons/fi";

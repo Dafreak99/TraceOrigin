@@ -1,14 +1,32 @@
 import { Image } from "@chakra-ui/image";
 import { Input } from "@chakra-ui/input";
 import { Box, Text } from "@chakra-ui/layout";
+import QrcodeDecoder from "qrcode-decoder";
+import { useRef } from "react";
 
-const UploadQR = () => {
+const UploadQR = ({ onSearch }) => {
+  const inputRef = useRef();
+  const qr = new QrcodeDecoder();
+
   const onUpload = (e) => {
-    console.dir(e.target);
+    const { files } = e.target;
+
+    if (files && files[0]) {
+      const reader = new FileReader();
+      reader.onload = async (event) => {
+        const result = await qr.decodeFromImage(event.target.result);
+        onSearch(result.data);
+      };
+
+      reader.readAsDataURL(files[0]);
+    }
+
+    inputRef.current.value = null;
   };
   return (
     <Box>
       <Input
+        ref={inputRef}
         type="file"
         name="file"
         id="qrUpload"

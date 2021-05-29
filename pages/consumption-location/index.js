@@ -18,6 +18,7 @@ import useSWR, { mutate } from "swr";
 
 import FormControl from "@/components/dashboard/FormControl";
 import UploadQR from "@/components/dashboard/UploadQR";
+import UploadPreview from "@/components/dashboard/UploadPreview";
 import Layout from "@/components/dashboard/Layout";
 import fetcher from "@/utils/fetcher";
 import ProductPreview from "@/components/dashboard/ProductPreview";
@@ -174,6 +175,7 @@ const Index = () => {
 
       <Grid gridTemplateColumns="repeat(12, 1fr)" gridGap="4rem">
         {/* Scan QR Section */}
+
         <Box
           gridColumn="span 7"
           boxShadow="0 4px 10px rgba(0,0,0,.1)"
@@ -209,7 +211,7 @@ const Index = () => {
           <Heading fontSize="xl" mb="1rem">
             Hoặc{" "}
           </Heading>
-          <UploadQR />
+          <UploadQR onSearch={onSearch} />
         </Box>
 
         {/* ConsumptionLocation Info Section */}
