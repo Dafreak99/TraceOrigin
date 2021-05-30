@@ -22,7 +22,6 @@ const { Panel } = Collapse;
 const { TabPane } = Tabs;
 
 const ProductInfo = ({ data, consumption }) => {
-  console.log(data);
   return (
     <Box gridColumn={{ base: "span 12", xl: "span 6" }}>
       <Flex w="100%" borderRadius="3px">

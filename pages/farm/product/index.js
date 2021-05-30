@@ -8,6 +8,7 @@ import {
   AlertIcon,
   Badge,
   Text,
+  Spinner,
 } from "@chakra-ui/react";
 import useSWR, { mutate } from "swr";
 
@@ -18,10 +19,12 @@ import { Table, Th, Td, Tr } from "@/components/Table";
 import fetcher from "@/utils/fetcher";
 import SkeletonTable from "@/components/dashboard/SkeletonTable";
 import Link from "next/link";
-import { deployToBlockchain } from "@/lib/bigchain";
+import { deployToBlockchain, listOutputs, updateAsset } from "@/lib/bigchain";
+import { message } from "antd";
 
 const Product = () => {
   const [loading, setLoading] = useState(true);
+  const [isClicked, setIsClicked] = useState(false);
 
   const { data, error } = useSWR(
     [
@@ -46,28 +49,35 @@ const Product = () => {
     }
   }, [data]);
 
-  useEffect(() => {
-    timer();
-  }, []);
-
-  const timer = () => {
-    let tDate = new Date();
-    tDate.setHours(9);
-    tDate.setMinutes(2);
-    tDate.setSeconds(0);
-    tDate.setMilliseconds(0);
-
-    let tMillis = tDate - new Date();
-
-    if (tMillis < 0) tMillis = tMillis + 24 * 60 * 60 * 1000; // if time is greater than 21:36:00:500 just add 24 hours as it will execute next day
-
-    setTimeout(reDeployToBlockchain, tMillis);
-  };
-
   const reDeployToBlockchain = async () => {
-    for (let product of fullProducts) {
-      await deployToBlockchain(product);
+    setIsClicked(true);
+    const blockchainData = await listOutputs();
+
+    if (blockchainData.length === 0) {
+      const consumption = {
+        address: "198 Xo Viet Nghe Tinh",
+        coordinate: {
+          latitude: 10.07361676432811,
+          longitude: 105.63178483857067,
+        },
+        createdBy: "60a7abe531f28d2cd8fbc7f1",
+        name: "Siêu thị CoopMart",
+        phone: "0703034308",
+        __v: 0,
+        _id: "60a9101de1574425d8fcca35",
+        datetime: new Date().toString(),
+        type: "CONSUMPTIONLOCATION",
+      };
+
+      for (let product of fullProducts) {
+        let transactionId = await deployToBlockchain(product);
+        await updateAsset(transactionId, consumption);
+      }
+      message.success("Redeploy thành công !");
+    } else {
+      message.warn("Dữ liệu bị trùng !");
     }
+    setIsClicked(false);
   };
 
   if (loading) {
@@ -106,7 +116,16 @@ const Product = () => {
   return (
     <Layout>
       <Box position="relative">
-        <Heading mb={5}>Danh sách sản phẩm thu hoạch </Heading>
+        <Heading mb={5}>
+          Danh sách sản phẩm thu hoạch{" "}
+          {isClicked ? (
+            <Button backgroundColor="gray.400" color="#fff">
+              <Spinner mr={4} /> Đang lưu
+            </Button>
+          ) : (
+            <Button onClick={reDeployToBlockchain}>Redeploy</Button>
+          )}
+        </Heading>
         {data && data.length > 0 ? (
           <>
             <Table>
