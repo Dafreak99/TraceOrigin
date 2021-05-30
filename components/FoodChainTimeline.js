@@ -4,7 +4,7 @@ import { Box, Flex, Heading, Image } from "@chakra-ui/react";
 import GreenDot from "./GreenDot";
 import { format } from "date-fns";
 
-const FoodChainTimeline = ({ data, consumptionDate }) => {
+const FoodChainTimeline = ({ data, consumptionDate, consumption }) => {
   const {
     seed: { stockingDate },
     isHarvested: {
@@ -24,17 +24,20 @@ const FoodChainTimeline = ({ data, consumptionDate }) => {
           Thả giống xuống ao nuôi <Image src="/pond.svg" h="40px" />
         </Timeline.Item>
         <Timeline.Item label={harvestedDate}>
-          {/* TODO: Add new item from the begining */}
           Thu hoạch
           <Image src="/ice-fishing.svg" h="40px" />
         </Timeline.Item>
-
-        <Timeline.Item
-          label={format(new Date(consumptionDate), "dd/MM/yyyy, HH:mm bbb")}
-        >
-          Điểm tiêu thụ
-          <Image src="/store.svg" h="40px" />
-        </Timeline.Item>
+        {consumption.length > 0 && (
+          <Timeline.Item
+            label={format(
+              new Date(consumption[0].metadata.datetime),
+              "dd/MM/yyyy, HH:mm bbb"
+            )}
+          >
+            Điểm tiêu thụ
+            <Image src="/store.svg" h="40px" />
+          </Timeline.Item>
+        )}
       </Timeline>
     </Box>
   );

@@ -762,3 +762,7 @@ span.rbc-toolbar-label {
 .objectfit {
   object-fit: cover;
 }
+
+.mapboxgl-popup.mapboxgl-popup-anchor-top.popup {
+  z-index: 1000;
+}

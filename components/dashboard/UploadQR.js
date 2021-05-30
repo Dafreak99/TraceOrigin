@@ -1,6 +1,7 @@
 import { Image } from "@chakra-ui/image";
 import { Input } from "@chakra-ui/input";
 import { Box, Text } from "@chakra-ui/layout";
+import { message } from "antd";
 import QrcodeDecoder from "qrcode-decoder";
 import { useRef } from "react";
 
@@ -14,8 +15,20 @@ const UploadQR = ({ onSearch }) => {
     if (files && files[0]) {
       const reader = new FileReader();
       reader.onload = async (event) => {
-        const result = await qr.decodeFromImage(event.target.result);
-        onSearch(result.data);
+        try {
+          const result = await qr.decodeFromImage(event.target.result);
+
+          if (result.data.includes("http://traceorigin.vercel.app/product/")) {
+            let qrcode = result.data.split(
+              "http://traceorigin.vercel.app/product/"
+            )[1];
+            onSearch({ qrcode });
+          } else {
+            message.error("Lỗi ! Không tìm thấy sản phẩm");
+          }
+        } catch {
+          message.error("Lỗi ! Không tìm thấy sản phẩm");
+        }
       };
 
       reader.readAsDataURL(files[0]);

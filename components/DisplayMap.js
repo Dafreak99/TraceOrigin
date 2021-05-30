@@ -7,7 +7,7 @@ import MapGL, {
   Popup,
   Source,
 } from "react-map-gl";
-import { Box } from "@chakra-ui/react";
+import { Box, Heading, Text } from "@chakra-ui/react";
 
 const fullscreenControlStyle = {
   right: 10,
@@ -117,8 +117,11 @@ const Map = ({ data }) => {
               anchor="top"
             >
               <Box p="1rem">
-                <h3>{marker.name}</h3>
-                <p>{marker.address}</p>
+                <Text textTransform="uppercase" mb="0.5rem">
+                  {marker.type}
+                </Text>
+                <Heading fontSize="md">{marker.name}</Heading>
+                <Text>{marker.address}</Text>
               </Box>
             </Popup>
           )}

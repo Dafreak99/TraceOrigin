@@ -17,6 +17,7 @@ import { FaFish, FaPhone, FaSquareFull } from "react-icons/fa";
 import { MdDateRange, MdLocationOn } from "react-icons/md";
 import { GiWaterSplash, GiWeight } from "react-icons/gi";
 import SimpleReactLightbox, { SRLWrapper } from "simple-react-lightbox";
+import { Table, Th, Tr, Td } from "./Table";
 
 const { Panel } = Collapse;
 const { TabPane } = Tabs;
@@ -260,43 +261,96 @@ const Tab2 = ({ data }) => {
       >
         <Panel header="Nhật ký cho ăn" key="1">
           {data.feeding.map(
-            ({ createdDate, note, weight, food: { name, images } }) => (
-              <Descriptions>
-                <Descriptions.Item label="Ngày tháng năm">
-                  {createdDate}
-                </Descriptions.Item>
-                <Descriptions.Item label="Ghi chú">{note}</Descriptions.Item>
-                <Descriptions.Item label="Tên thức ăn">
-                  {name}
-                </Descriptions.Item>
-                <Descriptions.Item label="Khối lượng">
-                  {weight}
-                </Descriptions.Item>
-                <Descriptions.Item label="Hình ảnh">
-                  <Image src={images[0]} h="100px" />
-                </Descriptions.Item>
-              </Descriptions>
+            ({ createdDate, note, weight, food: { name, images } }, i) => (
+              <Table>
+                <Tr>
+                  <Th>#</Th>
+                  <Th>Ngày cho ăn</Th>
+                  <Th>Tên thức ăn</Th>
+                  <Th>Khối lượng</Th>
+                  <Th>Hình ảnh</Th>
+                </Tr>
+                <Tr>
+                  <Td>{i + 1}</Td>
+                  <Td>{createdDate}</Td>
+                  <Td>{name}</Td>
+                  <Td>{weight} KG</Td>
+                  <Td>
+                    <Image src={images[0]} h="100px" objectFit="cover" />
+                  </Td>
+                </Tr>
+              </Table>
             )
           )}
         </Panel>
 
         <Panel header="Nhật ký sử dụng thuốc" key="2">
           {data.usingMedicine.map(
-            ({ createdDate, weight, medicine: { name, images } }) => (
-              <Descriptions>
-                <Descriptions.Item label="Ngày tháng năm">
-                  {createdDate}
-                </Descriptions.Item>
-                <Descriptions.Item label="Tên thức ăn">
-                  {name}
-                </Descriptions.Item>
-                <Descriptions.Item label="Khối lượng">
-                  {weight}
-                </Descriptions.Item>
-                <Descriptions.Item label="Hình ảnh">
-                  <Image src={images[0]} h="100px" />
-                </Descriptions.Item>
-              </Descriptions>
+            ({ createdDate, weight, medicine: { name, images } }, i) => (
+              <Table>
+                <Tr>
+                  <Th>#</Th>
+                  <Th>Ngày sử dụng</Th>
+                  <Th>Tên thuốc</Th>
+                  <Th>Khối lượng</Th>
+                  <Th>Hình ảnh</Th>
+                </Tr>
+                <Tr>
+                  <Td>{i + 1}</Td>
+                  <Td>{createdDate}</Td>
+                  <Td>{name}</Td>
+                  <Td>{weight} KG</Td>
+                  <Td>
+                    <Image src={images[0]} h="100px" objectFit="cover" />
+                  </Td>
+                </Tr>
+              </Table>
+            )
+          )}
+        </Panel>
+        <Panel header="Nhật ký hằng ngày" key="3">
+          {data.dailyNote.map(({ createdDate, note }, i) => (
+            <Table>
+              <Tr>
+                <Th>#</Th>
+                <Th>Ngày tháng</Th>
+                <Th>Ghi chép</Th>
+
+                {/* <Th>Hình ảnh</Th> */}
+              </Tr>
+              <Tr>
+                <Td>{i + 1}</Td>
+                <Td>{createdDate}</Td>
+                <Td>{note}</Td>
+              </Tr>
+            </Table>
+          ))}
+        </Panel>
+        <Panel header="Môi trường ao" key="4">
+          {data.pondEnvironment.map(
+            ({ createdDate, H2S, NH3, alkalinity, oxy, ph, salinity }, i) => (
+              <Table>
+                <Tr>
+                  <Th>#</Th>
+                  <Th>Ngày ghi</Th>
+                  <Th>Oxy(mg/l)</Th>
+                  <Th>pH</Th>
+                  <Th>Độ kiềm</Th>
+                  <Th>Độ mặn</Th>
+                  <Th>H2S(mg/l)</Th>
+                  <Th>NH3(mg/l)</Th>
+                </Tr>
+                <Tr>
+                  <Td>{i + 1}</Td>
+                  <Td>{createdDate}</Td>
+                  <Td>{oxy}</Td>
+                  <Td>{ph}</Td>
+                  <Td>{alkalinity}</Td>
+                  <Td>{salinity}</Td>
+                  <Td>{H2S}</Td>
+                  <Td>{NH3}</Td>
+                </Tr>
+              </Table>
             )
           )}
         </Panel>

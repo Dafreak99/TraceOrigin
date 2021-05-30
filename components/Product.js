@@ -2,7 +2,6 @@ import { Text, Flex, Box } from "@chakra-ui/react";
 import { AiOutlineQrcode } from "react-icons/ai";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import Link from "next/link";
 
 const Product = ({ images, name, _id }) => {
   const router = useRouter();

@@ -6,10 +6,7 @@ import {
   Grid,
   Heading,
   Input,
-  List,
-  ListItem,
   Spinner,
-  Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useState } from "react";
@@ -18,12 +15,12 @@ import useSWR, { mutate } from "swr";
 
 import FormControl from "@/components/dashboard/FormControl";
 import UploadQR from "@/components/dashboard/UploadQR";
-import UploadPreview from "@/components/dashboard/UploadPreview";
 import Layout from "@/components/dashboard/Layout";
 import fetcher from "@/utils/fetcher";
 import ProductPreview from "@/components/dashboard/ProductPreview";
 import Map from "@/components/Map";
 import { message } from "antd";
+import ConsumptionLocation from "@/components/dashboard/CunsumptionLocationInfo";
 
 const Index = () => {
   const { handleSubmit, register, errors, control, reset } = useForm();
@@ -200,58 +197,22 @@ const Index = () => {
             ) : (
               <Button type="submit">Tìm</Button>
             )}
-            {/* Popup when searching */}
-            <ProductPreview
-              consumptionLocation={data}
-              data={searchResult}
-              isOpen={isOpen}
-              onClose={onClose}
-            />
           </Flex>
           <Heading fontSize="xl" mb="1rem">
             Hoặc{" "}
           </Heading>
+          {/* Popup when searching */}
           <UploadQR onSearch={onSearch} />
         </Box>
-
+        <ProductPreview
+          consumptionLocation={data}
+          data={searchResult}
+          isOpen={isOpen}
+          onClose={onClose}
+        />
         {/* ConsumptionLocation Info Section */}
 
-        <List
-          spacing={2}
-          px={16}
-          py={12}
-          boxShadow="0 4px 10px rgba(0,0,0,.1)"
-          w="max-content"
-          h="max-content"
-          marginRight="2rem"
-          background="#fff"
-          mb="2rem"
-        >
-          <ListItem>
-            <Text fontSize="md" fontWeight="bold">
-              Tên địa điểm tiêu thụ:{" "}
-              <Box as="span" fontWeight="normal">
-                {data?.name}
-              </Box>
-            </Text>
-          </ListItem>
-          <ListItem>
-            <Text fontSize="md" fontWeight="bold">
-              Địa chỉ:{" "}
-              <Box as="span" fontWeight="normal">
-                {data?.address}
-              </Box>
-            </Text>
-          </ListItem>
-          <ListItem>
-            <Text fontSize="md" fontWeight="bold">
-              SĐT:{" "}
-              <Box as="span" fontWeight="normal">
-                {data?.phone}
-              </Box>
-            </Text>
-          </ListItem>
-        </List>
+        <ConsumptionLocation data={data} />
       </Grid>
     </Layout>
   );

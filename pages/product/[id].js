@@ -40,19 +40,21 @@ const Product = ({ data }) => {
       if (data) {
         let transactions = await transactionsForAsset(data.transactionId);
 
-        let dataForMap = {
-          coordinate: {
-            latitude: +transactions[0].metadata.coordinate.latitude,
-            longitude: +transactions[0].metadata.coordinate.longitude,
-          },
-          type: "consumption",
-          _id: transactions[0].metadata._id,
-          name: transactions[0].metadata.name,
-          address: transactions[0].metadata.address,
-        };
+        if (transactions.length > 0) {
+          const dataForMap = {
+            coordinate: {
+              latitude: +transactions[0].metadata.coordinate.latitude,
+              longitude: +transactions[0].metadata.coordinate.longitude,
+            },
+            type: "consumption",
+            _id: transactions[0].metadata._id,
+            name: transactions[0].metadata.name,
+            address: transactions[0].metadata.address,
+          };
 
-        setConsumption(transactions);
-        setMapSource((prevState) => [...prevState, dataForMap]);
+          setConsumption(transactions);
+          setMapSource((prevState) => [...prevState, dataForMap]);
+        }
       }
     }
 
@@ -64,18 +66,18 @@ const Product = ({ data }) => {
 
       const source = [
         {
-          coordinate: farm.coordinate,
-          type: "farm",
-          _id: farm._id,
-          name: farm.name,
-          address: farm.address,
-        },
-        {
           coordinate: hatchery.coordinate,
           type: "hatchery",
           _id: hatchery._id,
           name: hatchery.name,
           address: hatchery.address,
+        },
+        {
+          coordinate: farm.coordinate,
+          type: "farm",
+          _id: farm._id,
+          name: farm.name,
+          address: farm.address,
         },
       ];
 
@@ -266,13 +268,7 @@ const Product = ({ data }) => {
                 mb="4rem"
               >
                 <ProductInfo data={data} consumption={consumption} />
-
-                {consumption.length > 0 && (
-                  <FoodChainTimeline
-                    data={data}
-                    consumptionDate={consumption[0].metadata.datetime}
-                  />
-                )}
+                <FoodChainTimeline data={data} consumption={consumption} />
               </Grid>
               {mapSource.length > 0 && (
                 <Box height="500px">
