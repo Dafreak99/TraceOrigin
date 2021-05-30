@@ -25,7 +25,14 @@ import { useState } from "react";
 
 const { Panel } = Collapse;
 
-const ProductPreview = ({ data, consumptionLocation, isOpen, onClose }) => {
+const ProductPreview = ({
+  data,
+  consumptionLocation,
+  isOpen,
+  onClose,
+  isConfirmed,
+  consumptionOnChain,
+}) => {
   const [isSave, setIsSave] = useState(false);
 
   const onConfirm = async () => {
@@ -36,6 +43,14 @@ const ProductPreview = ({ data, consumptionLocation, isOpen, onClose }) => {
       datetime: new Date().toString(),
       type: "CONSUMPTIONLOCATION",
     };
+
+    // let txtId;
+
+    // if (consumptionOnChain.length >= 0) {
+    //   txtId = consumptionOnChain[consumptionOnChain.length - 1].id;
+    // } else {
+    //   txtId = data.transactionId;
+    // }
 
     await updateAsset(data.transactionId, metadata);
     message.success("Dữ liệu đã được thêm vào chuỗi khối !");
@@ -62,7 +77,7 @@ const ProductPreview = ({ data, consumptionLocation, isOpen, onClose }) => {
               <Spinner mr={4} /> Đang lưu
             </Button>
           ) : (
-            <Button type="submit" onClick={onConfirm}>
+            <Button type="submit" onClick={onConfirm} disabled={isConfirmed}>
               Xác nhận
             </Button>
           )}

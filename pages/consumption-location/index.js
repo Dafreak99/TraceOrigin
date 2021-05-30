@@ -9,7 +9,7 @@ import {
   Spinner,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import useSWR, { mutate } from "swr";
 
@@ -21,6 +21,7 @@ import ProductPreview from "@/components/dashboard/ProductPreview";
 import Map from "@/components/Map";
 import { message } from "antd";
 import ConsumptionLocation from "@/components/dashboard/CunsumptionLocationInfo";
+import { transactionsForAsset } from "@/lib/bigchain";
 
 const Index = () => {
   const { handleSubmit, register, errors, control, reset } = useForm();
@@ -28,6 +29,8 @@ const Index = () => {
   const [isSearch, setIsSearch] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [searchResult, setSearchResult] = useState(null);
+  const [consumption, setConsumption] = useState([]);
+  const [isConfirmed, setIsConfirmed] = useState(false);
 
   const { data } = useSWR(
     [
@@ -71,14 +74,34 @@ const Index = () => {
     setIsSearch(true);
 
     try {
-      let data = await (
+      let res = await (
         await fetch(
           `https://test.ipdb.io/api/v1/assets/?search=${values.qrcode}`
         )
       ).json();
 
-      setSearchResult({ ...data[0].data, transactionId: data[0].id });
-    } catch {
+      let transactions = await transactionsForAsset(res[0].id);
+      let isMatch = -1;
+
+      if (transactions.length >= 0) {
+        setConsumption(transactions);
+
+        isMatch = transactions.findIndex(
+          (each) => each.metadata._id === data._id
+        );
+      }
+
+      // Disable confirm button
+
+      if (isMatch !== -1) {
+        setIsConfirmed(true);
+      } else {
+        setIsConfirmed(false);
+      }
+
+      setSearchResult({ ...res[0].data, transactionId: res[0].id });
+    } catch (error) {
+      console.log(error.message);
       message.error("Không tìm thấy ! Vui lòng thử lại");
     }
 
@@ -204,12 +227,17 @@ const Index = () => {
           {/* Popup when searching */}
           <UploadQR onSearch={onSearch} />
         </Box>
-        <ProductPreview
-          consumptionLocation={data}
-          data={searchResult}
-          isOpen={isOpen}
-          onClose={onClose}
-        />
+        {searchResult && (
+          <ProductPreview
+            consumptionLocation={data}
+            consumptionOnChain={consumption}
+            data={searchResult}
+            isOpen={isOpen}
+            onClose={onClose}
+            isConfirmed={isConfirmed}
+          />
+        )}
+
         {/* ConsumptionLocation Info Section */}
 
         <ConsumptionLocation data={data} />

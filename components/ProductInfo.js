@@ -10,7 +10,7 @@ import {
   AlertIcon,
   Text,
 } from "@chakra-ui/react";
-import { Collapse, Descriptions, Tabs } from "antd";
+import { Collapse, Tabs } from "antd";
 
 import GreenDot from "./GreenDot";
 import { FaFish, FaPhone, FaSquareFull } from "react-icons/fa";
