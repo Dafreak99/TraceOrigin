@@ -17,8 +17,6 @@ const Products = () => {
     getData();
   }, []);
 
-  console.log(data);
-
   return (
     <SectionPadding>
       <Heading

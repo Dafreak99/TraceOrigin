@@ -44,15 +44,15 @@ const ProductPreview = ({
       type: "CONSUMPTIONLOCATION",
     };
 
-    // let txtId;
+    let txtId;
 
-    // if (consumptionOnChain.length >= 0) {
-    //   txtId = consumptionOnChain[consumptionOnChain.length - 1].id;
-    // } else {
-    //   txtId = data.transactionId;
-    // }
+    if (consumptionOnChain.length >= 0) {
+      txtId = consumptionOnChain[consumptionOnChain.length - 1].id;
+    } else {
+      txtId = data.transactionId;
+    }
 
-    await updateAsset(data.transactionId, metadata);
+    await updateAsset(txtId, metadata);
     message.success("Dữ liệu đã được thêm vào chuỗi khối !");
     setIsSave(false);
     onClose();

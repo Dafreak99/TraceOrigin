@@ -41,19 +41,23 @@ const Product = ({ data }) => {
         let transactions = await transactionsForAsset(data.transactionId);
 
         if (transactions.length > 0) {
-          const dataForMap = {
-            coordinate: {
-              latitude: +transactions[0].metadata.coordinate.latitude,
-              longitude: +transactions[0].metadata.coordinate.longitude,
-            },
-            type: "consumption",
-            _id: transactions[0].metadata._id,
-            name: transactions[0].metadata.name,
-            address: transactions[0].metadata.address,
-          };
+          const dataForMap = transactions.map(
+            ({ metadata: { _id, name, address, coordinate } }) => {
+              return {
+                coordinate: {
+                  latitude: +coordinate.latitude,
+                  longitude: +coordinate.longitude,
+                },
+                type: "consumption",
+                _id,
+                name,
+                address,
+              };
+            }
+          );
 
           setConsumption(transactions);
-          setMapSource((prevState) => [...prevState, dataForMap]);
+          setMapSource((prevState) => [...prevState, ...dataForMap]);
         }
       }
     }

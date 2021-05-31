@@ -72,56 +72,59 @@ const ProductInfo = ({ data, consumption }) => {
                 p={8}
                 borderBottom="3px solid #007bff"
               >
-                <Alert status="success" my="1rem" w="100%">
-                  <AlertIcon />
-                  <Text fontSize="md">
-                    TransactionID:{" "}
-                    <a
-                      target="blank"
-                      href={
-                        "https://test.ipdb.io/api/v1/transactions/" +
-                        consumption[0].id
-                      }
-                    >
-                      {consumption[0].id}
-                    </a>
-                  </Text>
-                </Alert>
-                <List spacing={3}>
-                  <ListItem>
-                    <Flex align="center">
-                      <Box as={FaFish} mr="0.5rem" />
-                      <Text fontWeight="bold">
-                        Tên địa điểm:{" "}
-                        <Text as="span" fontWeight="normal">
-                          {consumption[0].metadata.name}
-                        </Text>
+                {consumption.map(({ id, metadata }) => (
+                  <>
+                    <Alert status="success" my="1rem" w="100%">
+                      <AlertIcon />
+                      <Text fontSize="md">
+                        TransactionID:{" "}
+                        <a
+                          target="blank"
+                          href={
+                            "https://test.ipdb.io/api/v1/transactions/" + id
+                          }
+                        >
+                          {id}
+                        </a>
                       </Text>
-                    </Flex>
-                  </ListItem>
-                  <ListItem>
-                    <Flex align="center">
-                      <Box as={MdLocationOn} mr="0.5rem" />
-                      <Text fontWeight="bold">
-                        Địa chỉ:{" "}
-                        <Text as="span" fontWeight="normal">
-                          {consumption[0].metadata.address}
-                        </Text>
-                      </Text>
-                    </Flex>
-                  </ListItem>
-                  <ListItem>
-                    <Flex align="center">
-                      <Box as={FaPhone} mr="0.5rem" />
-                      <Text fontWeight="bold">
-                        SĐT:{" "}
-                        <Text as="span" fontWeight="normal">
-                          {consumption[0].metadata.phone}
-                        </Text>
-                      </Text>
-                    </Flex>
-                  </ListItem>
-                </List>
+                    </Alert>
+                    <List spacing={3}>
+                      <ListItem>
+                        <Flex align="center">
+                          <Box as={FaFish} mr="0.5rem" />
+                          <Text fontWeight="bold">
+                            Tên địa điểm:{" "}
+                            <Text as="span" fontWeight="normal">
+                              {metadata.name}
+                            </Text>
+                          </Text>
+                        </Flex>
+                      </ListItem>
+                      <ListItem>
+                        <Flex align="center">
+                          <Box as={MdLocationOn} mr="0.5rem" />
+                          <Text fontWeight="bold">
+                            Địa chỉ:{" "}
+                            <Text as="span" fontWeight="normal">
+                              {metadata.address}
+                            </Text>
+                          </Text>
+                        </Flex>
+                      </ListItem>
+                      <ListItem>
+                        <Flex align="center">
+                          <Box as={FaPhone} mr="0.5rem" />
+                          <Text fontWeight="bold">
+                            SĐT:{" "}
+                            <Text as="span" fontWeight="normal">
+                              {metadata.phone}
+                            </Text>
+                          </Text>
+                        </Flex>
+                      </ListItem>
+                    </List>
+                  </>
+                ))}
               </Box>
             </TabPane>
           )}
