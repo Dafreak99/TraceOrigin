@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import {
   Alert,
   AlertIcon,
@@ -26,9 +27,10 @@ import DisplayMap from "@/components/DisplayMap";
 import { transactionsForAsset } from "@/lib/bigchain";
 import FoodChainTimeline from "@/components/FoodChainTimeline";
 import GreenDot from "@/components/GreenDot";
-import Navbar from "@/components/Navbar";
 import ProductInfo from "@/components/ProductInfo";
-import Footer from "@/components/Footer";
+
+const Navbar = dynamic(() => import("@/components/Navbar"), { ssr: false });
+const Footer = dynamic(() => import("@/components/Footer"), { ssr: false });
 
 const Product = ({ data }) => {
   const [consumption, setConsumption] = useState([]);

@@ -12,8 +12,8 @@ import Chatbot from "@/components/Chatbot";
 import Articles from "@/components/Articles";
 import Features from "@/components/Features";
 
-const Navbar = dynamic(() => import("@/componnents/Navbar"));
-const Footer = dynamic(() => import("@/componnents/Footer"));
+const Navbar = dynamic(() => import("@/components/Navbar"));
+const Footer = dynamic(() => import("@/components/Footer"));
 
 const IndexPage = () => {
   const { data: posts } = useSWR("/api/post", fetcher);

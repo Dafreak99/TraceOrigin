@@ -31,7 +31,14 @@ const Footer = () => {
                 />
               </a>
             </Link>
-
+            <Image
+              cursor="pointer"
+              src="/water.svg"
+              minH="3rem"
+              maxH="3rem"
+              maxW="3rem"
+              minW="3rem"
+            />
             <Heading color="#fff" mt={6} fontSize="xl">
               Khoa CNTT & TT - Đại học Cần Thơ
             </Heading>
