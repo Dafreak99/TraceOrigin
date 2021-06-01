@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "server": "node server.js",
-    "start": "next start"
+    "start": "next start",
+    "analyze": "cross-env ANALYZE=true next build",
+    "analyze:server": "cross-env BUNDLE_ANALYZE=server next build",
+    "analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build"
   },
   "dependencies": {
     "@chakra-ui/react": "^1.0.0",
@@ -19,6 +22,7 @@
     "@fullcalendar/daygrid": "^5.6.0",
     "@fullcalendar/react": "^5.6.0",
     "@fullcalendar/timegrid": "^5.6.0",
+    "@next/bundle-analyzer": "^10.2.3",
     "@zeit/next-source-maps": "^0.0.3",
     "antd": "^4.8.2",
     "aos": "^2.3.4",
@@ -26,6 +30,7 @@
     "bigchaindb-driver": "^4.2.2",
     "bip39": "^3.0.4",
     "chart.js": "^2.9.4",
+    "cross-env": "^7.0.3",
     "date-fns": "^2.16.1",
     "debug": "^4.3.1",
     "express": "^4.17.1",

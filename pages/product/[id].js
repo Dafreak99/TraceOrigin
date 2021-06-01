@@ -302,6 +302,8 @@ export async function getStaticProps({ params }) {
     await fetch(`https://test.ipdb.io/api/v1/assets/?search=${params.id}`)
   ).json();
 
+  console.log(data);
+
   return {
     props: { data: { ...data[0].data, transactionId: data[0].id } || {} },
   };

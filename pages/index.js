@@ -1,16 +1,19 @@
 import { useState } from "react";
+import dynamic from "next/dynamic";
+
 import { Box } from "@chakra-ui/react";
 import useSWR from "swr";
-
 import Hero from "@/components/Hero";
-import Navbar from "@/components/Navbar";
+
 import Products from "@/components/Products";
 import NavbarDrawer from "@/components/NavbarDrawer";
-import Footer from "@/components/Footer";
 import fetcher from "@/utils/fetcher";
 import Chatbot from "@/components/Chatbot";
 import Articles from "@/components/Articles";
 import Features from "@/components/Features";
+
+const Navbar = dynamic(() => import("@/componnents/Navbar"));
+const Footer = dynamic(() => import("@/componnents/Footer"));
 
 const IndexPage = () => {
   const { data: posts } = useSWR("/api/post", fetcher);
