@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const Hatchery = require("./Hatchery");
-// const Pond = require("./Pond");
+const RejectMessage = require("./RejectMessage");
 
 const SeedSchema = new mongoose.Schema({
   name: String,
@@ -9,7 +9,7 @@ const SeedSchema = new mongoose.Schema({
   importDate: String,
   stockingDate: String,
   seedAge: Number,
-  pond: { type: mongoose.Schema.Types.ObjectId, ref: "Pond" },
+  pond: mongoose.Schema.Types.ObjectId,
   hatchery: { type: mongoose.Schema.Types.ObjectId, ref: Hatchery },
   isDone: Boolean,
   isRegistered: { type: String, default: "false" },

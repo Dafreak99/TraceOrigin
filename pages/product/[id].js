@@ -28,9 +28,8 @@ import { transactionsForAsset } from "@/lib/bigchain";
 import FoodChainTimeline from "@/components/FoodChainTimeline";
 import GreenDot from "@/components/GreenDot";
 import ProductInfo from "@/components/ProductInfo";
-
-const Navbar = dynamic(() => import("@/components/Navbar"), { ssr: false });
-const Footer = dynamic(() => import("@/components/Footer"), { ssr: false });
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const Product = ({ data }) => {
   const [consumption, setConsumption] = useState([]);
@@ -303,8 +302,6 @@ export async function getStaticProps({ params }) {
   const data = await (
     await fetch(`https://test.ipdb.io/api/v1/assets/?search=${params.id}`)
   ).json();
-
-  console.log(data);
 
   return {
     props: { data: { ...data[0].data, transactionId: data[0].id } || {} },

@@ -1,4 +1,5 @@
 import dbConnect from "@/lib/dbConnect";
+import Pond from "@/models/Pond";
 dbConnect();
 
 import jwt from "jsonwebtoken";
@@ -21,11 +22,7 @@ export default async (req, res) => {
 
   switch (method) {
     case "GET":
-      let seeds = await Seed.find({ farmId: farm.id })
-        .populate("hatchery")
-        .populate("pond");
-
-      console.log("Seeds", seeds);
+      let seeds = await Seed.find({ farmId: farm.id }).populate("hatchery");
 
       res.send(seeds);
 

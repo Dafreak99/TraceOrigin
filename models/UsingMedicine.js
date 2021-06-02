@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Farm = require("./Farm");
 const Food = require("./Food");
 const Medicine = require("./Medicine");
 const Pond = require("./Pond");
@@ -12,7 +13,7 @@ const UsingMedicineSchema = new mongoose.Schema({
   pond: { type: mongoose.Schema.Types.ObjectId, ref: Pond },
   mixingRatio: String,
   weight: Number,
-  farmId: String,
+  farm: { type: mongoose.Schema.Types.ObjectId, ref: Farm },
   productId: String,
   isDone: Boolean,
 });

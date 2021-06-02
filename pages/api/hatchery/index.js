@@ -19,15 +19,23 @@ export default async (req, res) => {
 
   switch (method) {
     case "GET":
-      let user = await User.findById(decoded);
+      let user = await User.findById(decoded).select("type");
 
       let defaultHatcheries = await Hatchery.find({
         createdBy: "60082f5b61aec103005fd68e", // Quanlity Control
       });
+
+      let condition =
+        user.type === "qualitycontrol"
+          ? { $ne: "60082f5b61aec103005fd68e" }
+          : user._id;
+
       let requestedHatcheries = await Hatchery.find({
-        createdBy: { $ne: "60082f5b61aec103005fd68e" },
+        createdBy: condition,
         "isApproved.status":
-          user.type === "qualitycontrol" ? ["pending"] : ["false", "pending"],
+          user.type === "qualitycontrol"
+            ? ["pending"]
+            : ["pending", "false", "true"],
       }).populate("createdBy");
 
       res.send({ defaultHatcheries, requestedHatcheries });

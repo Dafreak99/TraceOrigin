@@ -3,7 +3,6 @@ import dbConnect from "@/lib/dbConnect";
 
 import jwt from "jsonwebtoken";
 import Farm from "models/Farm";
-import Food from "models/Food";
 
 dbConnect();
 
@@ -24,7 +23,7 @@ export default async (req, res) => {
     case "GET":
       const { slug } = req.query;
 
-      const [state, pondId] = slug[0].split("||");
+      const [state, pondId] = slug.split("||");
 
       try {
         let feedingDiaries;

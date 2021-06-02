@@ -9,6 +9,8 @@ import { Table, Th, Td, Tr } from "@/components/Table";
 import fetcher from "@/utils/fetcher";
 import SkeletonTable from "@/components/dashboard/SkeletonTable";
 import AddHatcheryModal from "@/components/dashboard/AddHatcheryModal";
+import { Popconfirm } from "antd";
+import { FaTrash } from "react-icons/fa";
 
 const Hatchery = () => {
   const [loading, setLoading] = useState(true);
@@ -54,8 +56,13 @@ const Hatchery = () => {
           process.browser ? localStorage.getItem("token") : null,
         ],
         async (cachedData) => {
-          let data = cachedData.filter((each) => each._id !== id);
-          return data;
+          let data = cachedData.requestedHatcheries.filter(
+            (each) => each._id !== id
+          );
+          return {
+            ...cachedData,
+            requestedHatcheries: data,
+          };
         },
         false
       );
@@ -87,6 +94,7 @@ const Hatchery = () => {
           <>
             <Table mb="2rem">
               <Tr>
+                <Th>#</Th>
                 <Th>Tên trại giống</Th>
                 <Th>Địa chỉ</Th>
                 <Th>Tọa độ</Th>
@@ -99,6 +107,7 @@ const Hatchery = () => {
                   ) => (
                     <CSSTransition key={i} timeout={500} classNames="item">
                       <Tr cursor="pointer">
+                        <Td>{i + 1}</Td>
                         <Td>{name}</Td>
                         <Td>{address}</Td>
                         <Td>{latitude + " , " + longitude}</Td>
@@ -122,6 +131,7 @@ const Hatchery = () => {
           <>
             <Table>
               <Tr>
+                <Th>#</Th>
                 <Th>Tên trại giống</Th>
                 <Th>Địa chỉ</Th>
                 <Th>Tọa độ</Th>
@@ -143,6 +153,7 @@ const Hatchery = () => {
                   ) => (
                     <CSSTransition key={i} timeout={500} classNames="item">
                       <Tr cursor="pointer">
+                        <Td>{i + 1}</Td>
                         <Td>{name}</Td>
                         <Td>{address}</Td>
                         <Td>{latitude + " , " + longitude}</Td>
@@ -156,6 +167,21 @@ const Hatchery = () => {
                             <Badge colorScheme="red">Không được duyệt</Badge>
                           )}
                         </Td>
+                        <Popconfirm
+                          style={{ fontSize: "16px" }}
+                          title="Bạn có sẽ xóa trại giống này hay không？"
+                          okText="Có"
+                          cancelText="Không"
+                          onConfirm={() => onDelete(_id)}
+                        >
+                          <Td
+                            onClick={(e) => {
+                              e.stopPropagation();
+                            }}
+                          >
+                            <Box as={FaTrash} />
+                          </Td>
+                        </Popconfirm>
                       </Tr>
                     </CSSTransition>
                   )

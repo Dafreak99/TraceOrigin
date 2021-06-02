@@ -22,7 +22,7 @@ import { Table, Tr, Td, Th } from "@/components/Table";
 import Link from "next/link";
 import { Select } from "antd";
 import Search from "antd/lib/input/Search";
-import Calendar from "@/components/dashboard/Calendar";
+import Calendar from "temp/Calendar";
 
 const { Option } = Select;
 

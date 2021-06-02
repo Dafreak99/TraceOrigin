@@ -10,12 +10,11 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
-  useDisclosure,
   Alert,
   AlertIcon,
   AlertDescription,
-  AlertTitle,
 } from "@chakra-ui/react";
+
 import { useRouter } from "next/router";
 import { useState } from "react";
 

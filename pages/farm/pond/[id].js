@@ -46,8 +46,6 @@ const Index = () => {
     { refreshInterval: 1000 }
   );
 
-  console.log(product);
-
   return (
     <Layout>
       <Flex align="center" mb={5}>

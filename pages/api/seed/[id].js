@@ -4,8 +4,9 @@ dbConnect();
 import Pond from "models/Pond";
 
 import jwt from "jsonwebtoken";
+import Seed from "@/models/Seed";
 
-// @route /api/pond/[id]
+// @route /api/seed/[id]
 
 export default async (req, res) => {
   const { method } = req;
@@ -21,22 +22,12 @@ export default async (req, res) => {
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
   switch (method) {
-    case "GET":
-      let pond = await Pond.findOne({ _id: id }).populate({
-        path: "seed",
-        populate: { path: "hatchery" },
-      });
-      res.send(pond);
-      break;
     case "POST":
       try {
-        let pond = await Pond.findOneAndUpdate({ _id: id }, req.body, {
-          new: true,
-        }).populate({
-          path: "seed",
-          populate: { path: "hatchery" },
-        });
-        res.send(pond);
+        console.log(id);
+        await Seed.findOneAndUpdate({ _id: id }, req.body);
+
+        res.send({ message: "OK" });
       } catch (error) {
         res.send({ message: error.message });
       }

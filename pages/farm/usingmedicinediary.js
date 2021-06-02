@@ -8,24 +8,23 @@ import {
   Text,
 } from "@chakra-ui/react";
 
+import Layout from "@/components/dashboard/Layout";
+import { Table, Tr, Td, Th } from "@/components/Table";
 import { FaTrash } from "react-icons/fa";
 import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
+import SkeletonTable from "@/components/dashboard/SkeletonTable";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { Popconfirm } from "antd";
-import { useRouter } from "next/router";
-
-import SkeletonTable from "@/components/dashboard/SkeletonTable";
-import Layout from "@/components/dashboard/Layout";
-import { Table, Tr, Td, Th } from "@/components/Table";
 import Link from "next/link";
 import { Select } from "antd";
 import Search from "antd/lib/input/Search";
 
 const { Option } = Select;
 
-const feedingdiary = () => {
+const UsingMedicineDiary = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
 
@@ -35,12 +34,14 @@ const feedingdiary = () => {
 
   const { data, error } = useSWR(
     [
-      `/api/feedingdiary/${active}||${pondId}`,
+      `/api/usingmedicine/${active}||${pondId}`,
       process.browser ? localStorage.getItem("token") : null,
       ,
     ],
     fetcher
   );
+
+  console.log(data);
 
   const { data: pondsData } = useSWR(
     [`/api/pond`, process.browser ? localStorage.getItem("token") : null, ,],
@@ -55,7 +56,7 @@ const feedingdiary = () => {
 
   const onDelete = async (id) => {
     try {
-      await fetch("/api/feedingdiary", {
+      await fetch("/api/usingmedicine", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -73,8 +74,11 @@ const feedingdiary = () => {
   if (loading) {
     return (
       <Layout>
-        <Heading mb={8}>Nhật ký cho ăn</Heading>
-        <SkeletonTable />
+        <Box position="relative">
+          <Heading mb={8}>Nhật ký sử dụng thuốc</Heading>
+
+          <SkeletonTable />
+        </Box>
       </Layout>
     );
   }
@@ -82,7 +86,7 @@ const feedingdiary = () => {
   return (
     <Layout>
       <Flex align="center" mb={8} justify="space-between">
-        <Heading flex="1">Nhật ký cho ăn</Heading>
+        <Heading flex="1">Nhật ký sử dụng thuốc</Heading>
         <Search
           size="large"
           style={{ width: "max-content" }}
@@ -133,15 +137,18 @@ const feedingdiary = () => {
         </Flex>
       </Box>
 
-      {data && data.length > 0 ? (
+      {data?.length > 0 ? (
         <Table>
           <Tr>
-            <Th>Ngày cho ăn</Th>
+            <Th>Ngày sử dung</Th>
             <Th>Tên Ao</Th>
+            <Th>Tên thuốc</Th>
+            {/* <Th>Hình ảnh thuốc</Th> */}
             <Th>Tên thức ăn</Th>
-            <Th>Hình ảnh</Th>
-            <Th>Khối lượng(kg)</Th>
-            <Th>Ghi chú</Th>
+            {/* <Th>Hình ảnh thức ăn</Th> */}
+            <Th>Khối lượng thuốc(kg)</Th>
+            <Th>Tỷ lệ phối trộn(%)</Th>
+            <Th>Người trộn</Th>
             <Th>{""}</Th>
           </Tr>
           <TransitionGroup component="tbody">
@@ -149,36 +156,42 @@ const feedingdiary = () => {
               (
                 {
                   createdDate,
+                  medicine: { name, images: hinhAnhThuoc },
+                  food: { name: foodName, images: hinhAnhThucAn },
+                  pond,
+                  mixingRatio,
                   weight,
-                  note,
-                  food: { name, images },
-                  pond: { name: pondName },
+                  worker: { name: workerName },
                   _id,
                 },
                 i
               ) => (
                 <CSSTransition key={i} timeout={500} classNames="item">
-                  <Link href={`./feedingdiary/${_id}`}>
-                    <Tr
-                      backgroundColor={i % 2 === 0 ? "white" : "gray.50"}
-                      cursor="pointer"
-                    >
+                  <Link href={`./usingmedicinediary/${_id}`}>
+                    <Tr cursor="pointer">
                       <Td>{createdDate}</Td>
-                      <Td>{pondName}</Td>
+                      <Td>{pond?.name ? pond.name : "A1"}</Td>
                       <Td>{name}</Td>
-                      <Td>
-                        <Image src={images[0]} height="5rem" />
-                      </Td>
+                      {/* <Td>
+                        <Image src={hinhAnhThuoc[0]} height="5rem" />
+                      </Td> */}
+                      <Td>{foodName}</Td>
+                      {/* <Td>
+                        <Image src={hinhAnhThucAn[0]} height="5rem" />
+                      </Td> */}
                       <Td>{weight}</Td>
-                      <Td>{note}</Td>
+                      <Td>{mixingRatio}</Td>
+                      <Td>{workerName}</Td>
                       <Td
                         borderLeft="1px solid #e8eef3"
                         px={8}
-                        onClick={(e) => e.stopPropagation()}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
                       >
                         <Popconfirm
                           style={{ fontSize: "16px" }}
-                          title="Bạn có chắc sẽ xóa ghi chép này hay không？"
+                          title="Bạn có sẽ xóa trại giống này hay không？"
                           okText="Có"
                           cancelText="Không"
                           onConfirm={() => onDelete(_id)}
@@ -196,11 +209,18 @@ const feedingdiary = () => {
       ) : (
         <Alert status="info" fontSize="md" w="30rem">
           <AlertIcon />
-          <Text fontSize="md">Chưa có lịch sử cho ăn</Text>
+          <Text fontSize="md">Chưa sử dụng thuốc</Text>
         </Alert>
       )}
     </Layout>
+
+    // <Layout>
+    //   <Box>
+    //     <Heading mb={8}>Nhật ký sử dụng thuốc</Heading>
+
+    //   </Box>
+    // </Layout>
   );
 };
 
-export default feedingdiary;
+export default UsingMedicineDiary;

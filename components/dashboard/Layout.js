@@ -60,8 +60,11 @@ const FarmSidebar = () => {
   let predefinedKey = {
     food: "management",
     medicine: "management",
+    worker: "management",
+    hatchery: "management",
     feedingdiary: "diary",
     usingmedicinediary: "diary",
+    seed: "diary",
     feedingchart: "chart",
     product: "product",
   };

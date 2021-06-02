@@ -7,11 +7,13 @@ import {
   ListItem,
   Text,
 } from "@chakra-ui/react";
-import Link from "next/link";
 import { useRouter } from "next/router";
+
 import { FaTrash } from "react-icons/fa";
 
 import AddSeedModal from "./AddSeedModal";
+import EditPondModal from "./EditPondModal";
+import EditSeedModal from "./EditSeedModal";
 
 const PondInfo = ({ pond }) => {
   const router = useRouter();
@@ -37,9 +39,9 @@ const PondInfo = ({ pond }) => {
         w="max-content"
         mr={{ base: 0, lg: "2rem" }}
       >
-        <Grid gridTemplateColumns="repeat(2, 1fr)" gridGap="4rem">
+        <Grid gridTemplateColumns="repeat(12, 1fr)" gridGap="2rem">
           {/* First Col */}
-          <List spacing={2}>
+          <List spacing={2} gridColumn="span 5">
             <ListItem>
               <Heading size="md" mb={4} mt={4}>
                 Thông tin về ao nuôi
@@ -83,11 +85,13 @@ const PondInfo = ({ pond }) => {
                 </ListItem>
               </>
             )}
+
+            <EditPondModal data={pond} />
           </List>
 
           {/* Second Col */}
           {pond.seed ? (
-            <List spacing={2}>
+            <List spacing={2} gridColumn="span 7">
               <ListItem>
                 <Heading size="md" mt={4} mb={4}>
                   Thông tin con giống
@@ -141,9 +145,12 @@ const PondInfo = ({ pond }) => {
                   </Box>
                 </Text>
               </ListItem>
+              <EditSeedModal seed={pond.seed} pondId={pond._id} />
             </List>
           ) : (
-            <AddSeedModal pondId={pond._id} />
+            <Box gridColumn="span 3">
+              <AddSeedModal pondId={pond._id} />
+            </Box>
           )}
         </Grid>
 
@@ -160,12 +167,6 @@ const PondInfo = ({ pond }) => {
           >
             Xóa ao
           </Button>
-          {/* TODO: REREGISTER */}
-          {/* {pond?.seed?.isRegistered === "false" && (
-            <Button>
-              <Link href={`/farm/register/${pond._id}`}>Đăng ký</Link>
-            </Button>
-          )} */}
         </Box>
       </Box>
     </>

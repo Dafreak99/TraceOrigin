@@ -26,7 +26,7 @@ const Seed = () => {
     return (
       <Layout>
         <Box position="relative">
-          <Heading mb={8}>Nhật ký sử dụng thuốc</Heading>
+          <Heading mb={8}>Nhật ký thả giống</Heading>
           <SkeletonTable />
         </Box>
       </Layout>
@@ -57,26 +57,20 @@ const Seed = () => {
                     quantity,
                     stockingDate,
                     seedAge,
-                    pond: { name: pondName },
                     hatchery: { name: hatcheryName },
-                    _id,
                   },
                   i
                 ) => (
                   <CSSTransition key={i} timeout={500} classNames="item">
-                    <Link href={`./seed/${_id}`}>
-                      {/* <a> */}
-                      <Tr cursor="pointer">
-                        <Td>{i + 1}</Td>
-                        <Td>{name}</Td>
-                        <Td>{quantity}</Td>
-                        <Td>{pondName}</Td>
-                        <Td>{stockingDate}</Td>
-                        <Td>{seedAge}</Td>
-                        <Td>{hatcheryName}</Td>
-                      </Tr>
-                      {/* </a> */}
-                    </Link>
+                    <Tr cursor="pointer">
+                      <Td>{i + 1}</Td>
+                      <Td>{name}</Td>
+                      <Td>{quantity}</Td>
+                      <Td>A1</Td>
+                      <Td>{stockingDate}</Td>
+                      <Td>{seedAge}</Td>
+                      <Td>{hatcheryName}</Td>
+                    </Tr>
                   </CSSTransition>
                 )
               )}

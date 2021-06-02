@@ -1,11 +1,11 @@
-import UsingMedicine from "../../../models/UsingMedicine";
+import UsingMedicine from "@/models/UsingMedicine";
+import Farm from "@/models/Farm";
 import dbConnect from "@/lib/dbConnect";
-
 import jwt from "jsonwebtoken";
 
 dbConnect();
 
-// @route /api/medicine/[id]
+// @route /api/medicine/[slug]
 // @desc Get detail information of your farm
 
 export default async (req, res) => {
@@ -16,16 +16,38 @@ export default async (req, res) => {
     query: { id },
   } = req;
 
+  const decoded = jwt.verify(token, process.env.SECRET_KEY);
+
+  let farm = await Farm.findOne({ createdBy: decoded });
+
   if (!token)
     return res.status(400).send({ message: "Bạn không có quyền truy cập" });
 
   switch (method) {
     case "GET":
+      const { slug } = req.query;
+
+      const [state, pondId] = slug.split("||");
+
       try {
-        let medicine = await Medicine.findOne({ _id: id });
-        res.send(medicine);
+        let usingMedicineDiaries;
+        if (pondId !== "*") {
+          usingMedicineDiaries = await UsingMedicine.find({
+            farm: farm._id,
+            isDone: state === "false",
+            pond: pondId,
+          }).populate(["pond", "food", "farm", "medicine", "worker"]);
+        } else {
+          usingMedicineDiaries = await UsingMedicine.find({
+            farm: farm._id,
+            isDone: state === "false",
+          }).populate(["pond", "food", "farm", "medicine", "worker"]);
+        }
+
+        res.send(usingMedicineDiaries);
       } catch (error) {
-        res.send({ message: error.message });
+        console.log(error);
+        res.status(500).send({ message: error.message });
       }
       break;
     case "POST":

@@ -46,8 +46,6 @@ const Worker = () => {
     fetcher
   );
 
-  console.log(data);
-
   useEffect(() => {
     if (data !== undefined) {
       setLoading(false);
