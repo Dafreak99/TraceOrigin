@@ -10,6 +10,9 @@ import UsingMedicineDiaryModal from "./UsingMedicineDiaryModal";
 import NoteModal from "./NoteModal";
 import { Grid, Text } from "@chakra-ui/layout";
 import { Alert, AlertIcon } from "@chakra-ui/alert";
+import { BsFillTrash2Fill } from "react-icons/bs";
+import { IoMdTrash } from "react-icons/io";
+import { GiUnplugged } from "react-icons/gi";
 
 const Diary = ({ pond }) => {
   return (
@@ -50,6 +53,28 @@ const Diary = ({ pond }) => {
             color="#6a17ef"
             icon={AiFillMedicineBox}
             pondId={pond._id}
+            name="Theo dõi sức khỏe"
+          />
+          <CheckupModal
+            bg="#d9f9fb"
+            color="#17dbef"
+            icon={BsFillTrash2Fill}
+            pondId={pond._id}
+            name="Xử lý rác thải"
+          />
+          <CheckupModal
+            bg="#fbe2d9"
+            color="#ef5d17"
+            icon={IoMdTrash}
+            pondId={pond._id}
+            name="Thu gom chất thải"
+          />
+          <CheckupModal
+            bg="#f1dbf4"
+            color="#d038d0"
+            icon={GiUnplugged}
+            pondId={pond._id}
+            name="Xử lý bao bì"
           />
         </>
       ) : (

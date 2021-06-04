@@ -4,6 +4,7 @@ import {
   Alert,
   AlertIcon,
   Box,
+  Button,
   Flex,
   Grid,
   Heading,
@@ -30,8 +31,11 @@ import GreenDot from "@/components/GreenDot";
 import ProductInfo from "@/components/ProductInfo";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useRouter } from "next/router";
 
 const Product = ({ data }) => {
+  const router = useRouter();
+
   const [consumption, setConsumption] = useState([]);
   let [mapSource, setMapSource] = useState([]);
 
@@ -262,6 +266,15 @@ const Product = ({ data }) => {
                     size={100}
                     value={"http://traceorigin.vercel.app/product/" + data._id}
                   />
+                  <Button
+                    colorScheme="teal"
+                    mt="1rem"
+                    onClick={() =>
+                      router.push(`/transactions/${data.transactionId}`)
+                    }
+                  >
+                    Xem giao dịch
+                  </Button>
                 </Box>
               </Grid>
               <Divider />

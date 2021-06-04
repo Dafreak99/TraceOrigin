@@ -29,7 +29,7 @@ const Articles = ({ data }) => {
           data.map(({ name, image, _id }) => (
             <Link href={`/posts/${_id}`}>
               <Box
-                gridColumn={{ base: "span 12", xl: " span 4" }}
+                gridColumn={{ base: "span 12", xl: " span 3" }}
                 background="#fff"
                 borderRadius="3px"
                 boxShadow="0 10px 30px rgb(30 126 245 / 0.2)"

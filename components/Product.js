@@ -1,4 +1,4 @@
-import { Text, Flex, Box } from "@chakra-ui/react";
+import { Text, Flex, Box, Heading } from "@chakra-ui/react";
 import { AiOutlineQrcode } from "react-icons/ai";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -29,9 +29,12 @@ const Product = ({ images, name, _id }) => {
             width="40px"
             marginRight="30px"
           />
-          <Text color="gray.600" fontSize="md">
+          {/* <Text color="gray.600" fontSize="md">
             {name}
-          </Text>
+          </Text> */}
+          <Heading fontSize="md" fontWeight="bold" fontSize="xl">
+            {name}
+          </Heading>
         </Flex>
       </a>
     </Flex>

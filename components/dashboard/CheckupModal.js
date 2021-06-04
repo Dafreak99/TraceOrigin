@@ -30,7 +30,7 @@ import DatePicker from "../DatePicker";
 
 const { Option } = Select;
 
-const CheckupModal = ({ bg, color, icon }) => {
+const CheckupModal = ({ bg, color, icon, name }) => {
   const [selectedMedicine, setSelectedMedicine] = useState(null);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -116,7 +116,7 @@ const CheckupModal = ({ bg, color, icon }) => {
           <Box as={icon} height="32px" width="32px" color={color} />
         </Flex>
         <Text fontWeight="bold" fontSize="xl" mt="2rem">
-          Theo dõi sức khỏe
+          {name}
         </Text>
       </Box>
 
