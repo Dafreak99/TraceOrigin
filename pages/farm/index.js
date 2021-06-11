@@ -70,6 +70,7 @@ const Info = () => {
 const Iframe = (props) => {
   return (
     <div
+      className="display-map"
       style={{ boxShadow: "0 10px 20px rgba(0,0,0,.1)", height: "min-content" }}
       dangerouslySetInnerHTML={{ __html: props.iframe ? props.iframe : "" }}
     />
@@ -99,7 +100,7 @@ const Content = ({
 
   return (
     <Box>
-      <Flex justifyContent="space-between">
+      <Flex justifyContent="space-between" flexWrap="wrap">
         <Heading color="gray.700">Thông Tin Cơ Sở Của Bạn</Heading>
         <Button
           background="linear-gradient(90deg, rgba(35,144,246,1) 0%, rgba(11,90,191,1) 100%)"

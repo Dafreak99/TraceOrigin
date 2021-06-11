@@ -9,14 +9,11 @@ import {
   Heading,
   List,
   ListItem,
-  Stack,
   Text,
 } from "@chakra-ui/layout";
 import { Skeleton } from "@chakra-ui/skeleton";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { AiFillEdit } from "react-icons/ai";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import useSWR from "swr";
 
@@ -40,11 +37,23 @@ const Index = () => {
         <Flex align="center" mb={5}>
           <Heading mr="10px">Danh sách ao</Heading>
         </Flex>
-        <Grid gridTemplateColumns="repeat(4,1fr)" gridGap="2rem">
-          <Skeleton height="200px" />
-          <Skeleton height="200px" />
-          <Skeleton height="200px" />
-          <Skeleton height="200px" />
+        <Grid gridTemplateColumns="repeat(12,1fr)" gridGap="2rem">
+          <Skeleton
+            height="200px"
+            gridColumn={{ base: "span 12", md: "span 6", xl: "span 3" }}
+          />
+          <Skeleton
+            height="200px"
+            gridColumn={{ base: "span 12", md: "span 6", xl: "span 3" }}
+          />
+          <Skeleton
+            height="200px"
+            gridColumn={{ base: "span 12", md: "span 6", xl: "span 3" }}
+          />
+          <Skeleton
+            height="200px"
+            gridColumn={{ base: "span 12", md: "span 6", xl: "span 3" }}
+          />
         </Grid>
       </Layout>
     );
@@ -52,7 +61,7 @@ const Index = () => {
 
   return (
     <Layout>
-      <Flex align="center" mb={5}>
+      <Flex align="center" mb={5} flexWrap="wrap">
         <Heading mr="10px">Danh sách ao</Heading>
         {data?.isAuthenticated === "true" && <AddPondModal />}
       </Flex>
@@ -60,13 +69,7 @@ const Index = () => {
       {data && data.length === 0 && (
         <Text fontSize="xl">Bạn chưa thêm mô hình ao!</Text>
       )}
-      <TransitionGroup
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(12, 1fr)",
-          gridGap: "2rem",
-        }}
-      >
+      <TransitionGroup className="pond-grid">
         {data?.isAuthenticated !== "true" ? (
           <Alert status="warning" gridColumn="span 12">
             <AlertIcon />
@@ -85,7 +88,6 @@ const Index = () => {
             {data?.ponds.map(({ name, area, seed, _id }, i) => (
               <CSSTransition key={i} timeout={500} classNames="item">
                 <Flex
-                  // gridColumn="span 3"
                   gridColumn={{ base: "span 12", md: "span 6", xl: "span 3" }}
                   backgroundColor="#fff"
                   boxShadow="0 4px 8px rgb(220 229 236)"

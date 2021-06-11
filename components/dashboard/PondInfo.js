@@ -38,10 +38,12 @@ const PondInfo = ({ pond }) => {
         background="#fff"
         w="max-content"
         mr={{ base: 0, lg: "2rem" }}
+        gridColumn={{ base: "span 12", lg: "span 7" }}
+        mb="2rem"
       >
         <Grid gridTemplateColumns="repeat(12, 1fr)" gridGap="2rem">
           {/* First Col */}
-          <List spacing={2} gridColumn="span 5">
+          <List spacing={2} gridColumn={{ base: "span 12", md: "span 5" }}>
             <ListItem>
               <Heading size="md" mb={4} mt={4}>
                 Thông tin về ao nuôi
@@ -91,7 +93,7 @@ const PondInfo = ({ pond }) => {
 
           {/* Second Col */}
           {pond.seed ? (
-            <List spacing={2} gridColumn="span 7">
+            <List spacing={2} gridColumn={{ base: "span 12", md: "span 7" }}>
               <ListItem>
                 <Heading size="md" mt={4} mb={4}>
                   Thông tin con giống

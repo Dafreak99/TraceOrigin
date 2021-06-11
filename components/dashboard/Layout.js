@@ -31,16 +31,7 @@ const CommonLayout = ({ children }) => {
       <Sidebar />
       <Layout>
         <Header />
-        <Content
-          style={{
-            height: "calc(100vh - 64px)",
-            overflowY: "scroll",
-            padding: "5rem",
-          }}
-          className="dashboard__content"
-        >
-          {children}
-        </Content>
+        <Content className="dashboard__content">{children}</Content>
       </Layout>
     </Layout>
   );
@@ -81,7 +72,7 @@ const FarmSidebar = () => {
           <a style={{ fontWeight: "bold" }}>Thông tin</a>
         </Link>
       </Menu.Item>
-      <Menu.Item key="ponds" icon={<Icon component={FaBorderAll} />}>
+      <Menu.Item key="pond" icon={<Icon component={FaBorderAll} />}>
         <Link href="/farm/pond">
           <a style={{ fontWeight: "bold" }}>Ao</a>
         </Link>

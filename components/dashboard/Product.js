@@ -7,6 +7,7 @@ import {
   AlertDialogOverlay,
   Button,
   Badge,
+  Box,
 } from "@chakra-ui/react";
 
 import Link from "next/link";
@@ -108,111 +109,80 @@ const Product = ({ product }) => {
   };
 
   return (
-    <Table mb="2rem">
-      <Tr>
-        <Th>Mã theo dõi</Th>
-        <Th>Được duyệt {isHarvested ? "thu hoạch" : "đăng ký"}</Th>
-        <Th>
-          {" "}
-          {isRegistered.status === "false" || isHarvested?.status
-            ? "Lí do"
-            : "Mã QR"}
-        </Th>
-        <Th>{""}</Th>
-      </Tr>
-      <Tr>
-        <Td>{_id}</Td>
-        <Td>
-          {isHarvested
-            ? productStatus(isHarvested.status)
-            : productStatus(isRegistered.status)}
-        </Td>
-        {isRegistered.status === "false" ? (
-          <Td>{isRegistered.reject.message}</Td>
-        ) : isHarvested?.status === "false" ? (
-          <Td>{isHarvested.reject.message}</Td>
-        ) : (
+    <Box>
+      <Table mb="2rem">
+        <Tr>
+          <Th>Mã theo dõi</Th>
+          <Th>Được duyệt {isHarvested ? "thu hoạch" : "đăng ký"}</Th>
+          <Th>
+            {" "}
+            {isRegistered.status === "false" || isHarvested?.status
+              ? "Lí do"
+              : "Mã QR"}
+          </Th>
+          <Th>{""}</Th>
+        </Tr>
+        <Tr>
+          <Td>{_id}</Td>
           <Td>
-            <QRCode
-              size={50}
-              value={"http://traceorigin.vercel.app/product/" + qrCode}
-            />
+            {isHarvested
+              ? productStatus(isHarvested.status)
+              : productStatus(isRegistered.status)}
           </Td>
-        )}
-
-        {/* Show Register/Re-register/Harvest Button */}
-        <Td>
-          {isRegistered.status === "true" ? (
-            <Button>
-              <Link href={`/farm/harvest/${_id}`}>
-                <a>Thu hoạch</a>
-              </Link>
-            </Button>
-          ) : isRegistered.status === "false" ? (
-            <Button onClick={() => onReRegister(_id)}>Đăng ký lại</Button>
-          ) : null}
-        </Td>
-
-        {/* <Td
-          px={8}
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-        >
           {isRegistered.status === "false" ? (
-            <Button onClick={() => reRegister(_id)}>Đăng ký lại</Button>
-          ) : isRegistered.status === "true" ? (
-            <Button>
-              <Link href={`/farm/harvest/${_id}`}>
-                <a>
-                  {isHarvested?.status === "false"
-                    ? "Thu hoạch lại"
-                    : "Thu hoạch"}
-                </a>
-              </Link>
-            </Button>
-          ) : null}
-        </Td> */}
+            <Td>{isRegistered.reject.message}</Td>
+          ) : isHarvested?.status === "false" ? (
+            <Td>{isHarvested.reject.message}</Td>
+          ) : (
+            <Td>
+              <QRCode
+                size={50}
+                value={"http://traceorigin.vercel.app/product/" + qrCode}
+              />
+            </Td>
+          )}
 
-        {/* <Td
-          borderLeft="1px solid #e8eef3"
-          px={8}
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsOpen(true);
-            setId(_id);
-          }}
+          {/* Show Register/Re-register/Harvest Button */}
+          <Td>
+            {isRegistered.status === "true" ? (
+              <Button>
+                <Link href={`/farm/harvest/${_id}`}>
+                  <a>Thu hoạch</a>
+                </Link>
+              </Button>
+            ) : isRegistered.status === "false" ? (
+              <Button onClick={() => onReRegister(_id)}>Đăng ký lại</Button>
+            ) : null}
+          </Td>
+        </Tr>
+
+        <AlertDialog
+          isOpen={isOpen}
+          leastDestructiveRef={cancelRef}
+          onClose={onClose}
         >
-          <Box as={FaTrash}></Box>
-        </Td> */}
-      </Tr>
-
-      <AlertDialog
-        isOpen={isOpen}
-        leastDestructiveRef={cancelRef}
-        onClose={onClose}
-      >
-        <AlertDialogOverlay />
-        <AlertDialogContent>
-          <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            Xóa
-          </AlertDialogHeader>
-
-          <AlertDialogBody>
-            Bạn có chắc rằng sẽ xóa sản phẩm này ?
-          </AlertDialogBody>
-
-          <AlertDialogFooter>
-            <Button ref={cancelRef} onClick={onClose}>
-              Hủy bỏ
-            </Button>
-            <Button colorScheme="red" onClick={onDelete} ml={3}>
+          <AlertDialogOverlay />
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
               Xóa
-            </Button>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-    </Table>
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Bạn có chắc rằng sẽ xóa sản phẩm này ?
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onClose}>
+                Hủy bỏ
+              </Button>
+              <Button colorScheme="red" onClick={onDelete} ml={3}>
+                Xóa
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </Table>
+    </Box>
   );
 };
 

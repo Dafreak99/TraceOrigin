@@ -46,7 +46,7 @@ const ProductPreview = ({
 
     let txtId;
 
-    if (consumptionOnChain.length >= 0) {
+    if (consumptionOnChain.length > 0) {
       txtId = consumptionOnChain[consumptionOnChain.length - 1].id;
     } else {
       txtId = data.transactionId;

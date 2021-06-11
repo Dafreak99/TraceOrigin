@@ -5,6 +5,7 @@ import {
   Heading,
   Skeleton,
   Stack,
+  Grid,
 } from "@chakra-ui/react";
 
 import { useRouter } from "next/router";
@@ -58,7 +59,7 @@ const Index = () => {
       </Flex>
       <Tabs defaultActiveKey="1">
         <TabPane tab={<span>Thông tin ao</span>} key="1" mb="2rem">
-          <Flex flexWrap="wrap-reverse" align="flex-end">
+          <Flex flexWrap="wrap">
             {data ? (
               <PondInfo pond={data} />
             ) : (

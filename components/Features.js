@@ -10,8 +10,8 @@ const Features = () => {
       <>
         <Heading
           className="heading"
-          marginBottom="10rem"
-          fontSize={{ base: "xl", xl: "4xl" }}
+          marginBottom={{ base: "10rem", sm: "4rem", lg: "6rem", xl: "8rem" }}
+          fontSize={{ base: "xl", md: "2xl", lg: "3xl", xl: "4xl" }}
           fontFamily="Nunito, sans-serif"
           color="#373535"
         >
@@ -21,11 +21,11 @@ const Features = () => {
         <div className="container">
           <Grid
             gridTemplateColumns="repeat(12, 1fr)"
-            columnGap={{ base: 0, xl: 16 }}
+            columnGap={{ base: 0, lg: 8, xl: 16 }}
             rowGap={16}
           >
             <Box
-              gridColumn={{ base: "span 12", xl: " span 3" }}
+              gridColumn={{ base: "span 12", lg: "span 6", xl: " span 3" }}
               background="#fff"
               borderRadius="3px"
               boxShadow="0 10px 30px rgb(30 126 245 / 0.2)"
@@ -54,7 +54,7 @@ const Features = () => {
               </Text>
             </Box>
             <Box
-              gridColumn={{ base: "span 12", xl: " span 3" }}
+              gridColumn={{ base: "span 12", lg: "span 6", xl: " span 3" }}
               background="#fff"
               borderRadius="3px"
               boxShadow="0 10px 30px rgb(30 126 245 / 0.2)"
@@ -83,7 +83,7 @@ const Features = () => {
               </Text>
             </Box>
             <Box
-              gridColumn={{ base: "span 12", xl: " span 3" }}
+              gridColumn={{ base: "span 12", lg: "span 6", xl: " span 3" }}
               background="#fff"
               borderRadius="3px"
               boxShadow="0 10px 30px rgb(30 126 245 / 0.2)"
@@ -112,7 +112,7 @@ const Features = () => {
               </Text>
             </Box>
             <Box
-              gridColumn={{ base: "span 12", xl: " span 3" }}
+              gridColumn={{ base: "span 12", lg: "span 6", xl: " span 3" }}
               background="#fff"
               borderRadius="3px"
               boxShadow="0 10px 30px rgb(30 126 245 / 0.2)"

@@ -73,13 +73,15 @@ const PondEnvironmentModal = ({ bg, color, icon, pondId }) => {
 
   const randomValues = () => {
     setValues({
-      oxy: Math.floor(Math.random() * (10 - 1 + 1)) + 1,
-      ph: Math.floor(Math.random() * (10 - 1 + 1)) + 1,
-      clarity: Math.floor(Math.random() * (10 - 1 + 1)) + 1,
-      salinity: Math.floor(Math.random() * (10 - 1 + 1)) + 1,
-      H2S: Math.floor(Math.random() * (10 - 1 + 1)) + 1,
-      NH3: Math.floor(Math.random() * (10 - 1 + 1)) + 1,
-      alkalinity: Math.floor(Math.random() * (10 - 1 + 1)) + 1,
+      // Math.floor(Math.random() * (max - min + 1)) + min
+
+      oxy: Math.floor(Math.random() * (10 - 4 + 1)) + 4,
+      ph: Math.floor(Math.random() * (8.5 - 7.5 + 1)) + 7.5,
+      clarity: Math.floor(Math.random() * (40 - 30 + 1)) + 30,
+      salinity: Math.floor(Math.random() * (25 - 15 + 1)) + 15,
+      H2S: Math.floor(Math.random() * (0.01 - 0.001 + 1)) + 0.001,
+      NH3: Math.floor(Math.random() * (0.1 - 0.001 + 1)) + 0.001,
+      alkalinity: Math.floor(Math.random() * (120 - 80 + 1)) + 80,
     });
   };
 
@@ -164,7 +166,7 @@ const PondEnvironmentModal = ({ bg, color, icon, pondId }) => {
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="salinity">Độ mặn(o/ oo): </FormLabel>
+              <FormLabel htmlFor="salinity">Độ mặn(%): </FormLabel>
               <Input
                 type="number"
                 id="salinity"

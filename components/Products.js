@@ -21,8 +21,8 @@ const Products = () => {
     <SectionPadding>
       <Heading
         className="heading"
-        marginBottom={16}
-        fontSize={{ base: "xl", xl: "4xl" }}
+        marginBottom={{ base: "10rem", sm: "4rem", lg: "6rem", xl: "8rem" }}
+        fontSize={{ base: "xl", md: "2xl", lg: "3xl", xl: "4xl" }}
         fontFamily="Nunito, sans-serif"
         color="#373535"
       >
@@ -33,7 +33,7 @@ const Products = () => {
       <Grid
         gridTemplateColumns="repeat(12, 1fr)"
         className="container"
-        columnGap={{ base: 0, xl: 16 }}
+        columnGap={{ base: 4, md: 8, lg: 12, xl: 16 }}
         rowGap={16}
       >
         {data?.length > 0 ? (
