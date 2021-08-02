@@ -1,3 +1,9 @@
+import BackButton from "@/components/dashboard/BackButton";
+import Diary from "@/components/dashboard/Diary";
+import Layout from "@/components/dashboard/Layout";
+import PondInfo from "@/components/dashboard/PondInfo";
+import Product from "@/components/dashboard/Product";
+import fetcher from "@/utils/fetcher";
 import {
   Alert,
   AlertIcon,
@@ -5,20 +11,11 @@ import {
   Heading,
   Skeleton,
   Stack,
-  Grid,
 } from "@chakra-ui/react";
-
+import { Tabs } from "antd";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import useSWR from "swr";
-import { Tabs } from "antd";
-
-import Diary from "@/components/dashboard/Diary";
-import BackButton from "@/components/dashboard/BackButton";
-import Layout from "@/components/dashboard/Layout";
-import PondInfo from "@/components/dashboard/PondInfo";
-import fetcher from "@/utils/fetcher";
-import Product from "@/components/dashboard/Product";
-import Link from "next/link";
 
 const { TabPane } = Tabs;
 

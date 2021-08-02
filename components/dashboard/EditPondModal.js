@@ -1,26 +1,23 @@
 import {
+  Box,
+  Button,
   FormLabel,
   Input,
-  Button,
-  Spinner,
   Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
   ModalBody,
+  ModalCloseButton,
+  ModalContent,
   ModalFooter,
-  Box,
+  ModalHeader,
+  ModalOverlay,
+  Spinner,
   useDisclosure,
 } from "@chakra-ui/react";
-
 import { useState } from "react";
-
 import { useForm } from "react-hook-form";
-import FormControl from "./FormControl";
-
-import { mutate } from "swr";
 import { AiFillEdit } from "react-icons/ai";
+import { mutate } from "swr";
+import FormControl from "./FormControl";
 
 const EditPondModal = ({ data }) => {
   const { name, area, _id } = data;
@@ -57,7 +54,7 @@ const EditPondModal = ({ data }) => {
   };
   return (
     <>
-      <Box as={AiFillEdit} size="32px" onClick={onOpen} />
+      <Box as={AiFillEdit} size="32px" onClick={onOpen} cursor="pointer" />
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>

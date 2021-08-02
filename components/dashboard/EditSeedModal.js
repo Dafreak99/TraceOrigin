@@ -1,31 +1,29 @@
+import fetcher from "@/utils/fetcher";
 import {
+  Alert,
+  AlertIcon,
   Box,
-  Select,
   Button,
   FormLabel,
   Input,
-  Spinner,
-  Alert,
-  AlertIcon,
-  Text,
   Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
   ModalBody,
+  ModalCloseButton,
+  ModalContent,
   ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Select,
+  Spinner,
+  Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
-
-import FormControl from "./FormControl";
 import { useState } from "react";
-import useSWR, { mutate } from "swr";
-
-import DatePicker from "../DatePicker";
+import { useForm } from "react-hook-form";
 import { AiFillEdit } from "react-icons/ai";
-import fetcher from "@/utils/fetcher";
+import useSWR, { mutate } from "swr";
+import DatePicker from "../DatePicker";
+import FormControl from "./FormControl";
 
 export const EditSeedModal = ({ pondId, seed }) => {
   const { name, quantity, seedAge, stockingDate, _id } = seed;
@@ -81,7 +79,7 @@ export const EditSeedModal = ({ pondId, seed }) => {
 
   return (
     <>
-      <Box as={AiFillEdit} size="32px" onClick={onOpen} />
+      <Box as={AiFillEdit} size="32px" onClick={onOpen} cursor="pointer" />
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

@@ -1,20 +1,17 @@
+import { Table, Td, Th, Tr } from "@/components/Table";
 import {
   AlertDialog,
   AlertDialogBody,
+  AlertDialogContent,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogContent,
   AlertDialogOverlay,
-  Button,
   Badge,
   Box,
+  Button,
 } from "@chakra-ui/react";
-
 import Link from "next/link";
-
 import QRCode from "qrcode.react";
-
-import { Table, Th, Td, Tr } from "@/components/Table";
 import { useState } from "react";
 
 const Product = ({ product }) => {
@@ -112,7 +109,6 @@ const Product = ({ product }) => {
     <Box>
       <Table mb="2rem">
         <Tr>
-          <Th>Mã theo dõi</Th>
           <Th>Được duyệt {isHarvested ? "thu hoạch" : "đăng ký"}</Th>
           <Th>
             {" "}
@@ -123,7 +119,6 @@ const Product = ({ product }) => {
           <Th>{""}</Th>
         </Tr>
         <Tr>
-          <Td>{_id}</Td>
           <Td>
             {isHarvested
               ? productStatus(isHarvested.status)
