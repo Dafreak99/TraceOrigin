@@ -1,18 +1,10 @@
-import {
-  Box,
-  Text,
-  Heading,
-  Skeleton,
-  SkeletonText,
-  Stack,
-} from "@chakra-ui/react";
-
-import Layout from "@/components/dashboard/Layout";
 import FeedingChart from "@/components/dashboard/FeedingChart";
-import { Select } from "antd";
-import useSWR from "swr";
+import Layout from "@/components/dashboard/Layout";
 import fetcher from "@/utils/fetcher";
+import { Box, Heading, Skeleton, Stack } from "@chakra-ui/react";
+import { Select } from "antd";
 import { useEffect, useState } from "react";
+import useSWR from "swr";
 
 const { Option } = Select;
 
@@ -26,7 +18,6 @@ const FeedingChartPage = () => {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
       setPondId(data.ponds[0]._id);
     }
   }, [data]);

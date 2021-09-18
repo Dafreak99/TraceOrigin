@@ -1,32 +1,30 @@
+import fetcher from "@/utils/fetcher";
 import {
-  Flex,
-  FormLabel,
-  Text,
-  Button,
-  Input,
-  Spinner,
   Alert,
   AlertIcon,
   Box,
+  Button,
+  Flex,
+  FormLabel,
+  Input,
   Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
   ModalBody,
+  ModalCloseButton,
+  ModalContent,
   ModalFooter,
-  useDisclosure,
+  ModalHeader,
+  ModalOverlay,
   Select,
+  Spinner,
+  Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { message } from "antd";
 import { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import useSWR from "swr";
-
-import FormControl from "./FormControl";
-
-import fetcher from "@/utils/fetcher";
 import DatePicker from "../DatePicker";
+import FormControl from "./FormControl";
 
 const UsingMedicineDiaryModal = ({ bg, color, icon, pondId }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -141,7 +139,7 @@ const UsingMedicineDiaryModal = ({ bg, color, icon, pondId }) => {
                 </FormControl>
                 <FormControl>
                   <FormLabel htmlFor="weight">
-                    Khối lượng thuốc(gam):
+                    Khối lượng thuốc(kg):
                     <Input
                       type="number"
                       name="weight"
@@ -176,8 +174,6 @@ const UsingMedicineDiaryModal = ({ bg, color, icon, pondId }) => {
 
                 <FormControl>
                   <FormLabel htmlFor="createdDate">Ngày tháng năm:</FormLabel>
-                  <br />
-
                   <DatePicker control={control} name="createdDate" />
 
                   {errors.createdDate?.type === "required" && (

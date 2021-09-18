@@ -1,5 +1,6 @@
+import { Box, Heading, Text } from "@chakra-ui/react";
 import "mapbox-gl/dist/mapbox-gl.css";
-import React, { useState, useRef, useCallback } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import MapGL, {
   FullscreenControl,
   Layer,
@@ -7,7 +8,6 @@ import MapGL, {
   Popup,
   Source,
 } from "react-map-gl";
-import { Box, Heading, Text } from "@chakra-ui/react";
 
 const fullscreenControlStyle = {
   right: 10,
@@ -18,6 +18,8 @@ const MAPBOX_TOKEN =
   "pk.eyJ1IjoiaGFpdHJhbjk5IiwiYSI6ImNrMmtlNnhlbjB6Y2kzY29oc2Q2YnRlOXoifQ.ZwtkHfNjr_Ltp39bQj8hSg";
 
 const Map = ({ data }) => {
+  console.log("data", data);
+
   const mapRef = useRef();
   const [viewport, setViewport] = useState({
     latitude: data[0].coordinate.latitude,
@@ -80,7 +82,7 @@ const Map = ({ data }) => {
 
       <Source id="my-data" type="geojson" data={geojson}>
         <Layer {...layerStyle} />
-        <Layer />
+        {/* <Layer /> */}
       </Source>
 
       {data?.map((marker) => (

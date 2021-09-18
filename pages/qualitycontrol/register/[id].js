@@ -52,6 +52,8 @@ const Index = () => {
     router.back();
   };
 
+  console.log("data here", data);
+
   return (
     <Layout>
       <Box>
@@ -149,7 +151,7 @@ const Index = () => {
                   </ListItem>
                   <ListItem>
                     <Text fontSize="md" fontWeight="bold">
-                      Hình ảnh: <Image src={data.farm.images[0]} />
+                      Hình ảnh: <Image src={data.farm.images[0]} w="200px" />
                     </Text>
                   </ListItem>
                 </List>
@@ -193,6 +195,7 @@ const Index = () => {
                     </Text>
                   </ListItem>
                   <ListItem>
+                    {/* TODO: Loss data here */}
                     <Text fontSize="md" fontWeight="bold">
                       Tên trại giống:{" "}
                       <Box as="span" fontWeight="normal">

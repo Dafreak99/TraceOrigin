@@ -1,30 +1,17 @@
-import {
-  Select,
-  Button,
-  FormLabel,
-  Input,
-  Spinner,
-  Alert,
-  AlertIcon,
-  Text,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
-
-import FormControl from "./FormControl";
-import { useState } from "react";
-import useSWR, { mutate } from "swr";
-import { io } from "socket.io-client";
-
 import fetcher from "@/utils/fetcher";
+import {
+  Alert,
+  AlertIcon, Button,
+  FormLabel,
+  Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, Spinner, Text, useDisclosure
+} from "@chakra-ui/react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import useSWR, { mutate } from "swr";
 import DatePicker from "../DatePicker";
+import FormControl from "./FormControl";
+
+
 
 export const AddSeedModal = ({ pondId }) => {
   const { data, error } = useSWR(
@@ -133,7 +120,7 @@ export const AddSeedModal = ({ pondId }) => {
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="stockingDate">Ngày sản xuất</FormLabel>
+              <FormLabel htmlFor="stockingDate">Ngày thả giống</FormLabel>
               <DatePicker control={control} name="stockingDate" />
               {errors.stockingDate?.type === "required" && (
                 <Text fontSize="md" fontStyle="italic" color="red.300">

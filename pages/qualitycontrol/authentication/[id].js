@@ -1,35 +1,31 @@
 import BackButton from "@/components/dashboard/BackButton";
 import Layout from "@/components/dashboard/Layout";
+import RejectMessageModal from "@/components/dashboard/RejectMessageModal";
 import fetcher from "@/utils/fetcher";
 import {
   Box,
+  Button,
   Flex,
+  Grid,
   Heading,
   Image,
   List,
   ListItem,
   Spinner,
   Text,
-  Button,
   useDisclosure,
 } from "@chakra-ui/react";
+import { Popconfirm } from "antd";
 import { useRouter } from "next/router";
-import { Button as AntdButton, Collapse, Popconfirm } from "antd";
-import useSWR from "swr";
-
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import SimpleReactLightbox, { SRLWrapper } from "simple-react-lightbox";
 import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
-import RejectMessageModal from "@/components/dashboard/RejectMessageModal";
+import SimpleReactLightbox, { SRLWrapper } from "simple-react-lightbox";
+import useSWR from "swr";
 
 const Index = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const router = useRouter();
-
-  const { register, handleSubmit, reset } = useForm();
-  const [isSave, setIsSave] = useState(false);
 
   const [images, setImages] = useState([]);
 
@@ -126,125 +122,126 @@ const Index = () => {
             </Popconfirm>
           </Box>
         </Flex>
-        <Box mt="3rem">
-          <Heading fontSize="md">Hình ảnh pháp lý</Heading>
-          <SimpleReactLightbox>
-            <SRLWrapper
-              options={{ settings: { slideTransitionSpeed: 1 } }}
-              style={{ marginTop: "30px" }}
-            >
-              <Flex mt="1rem">
-                {images.map((image) => (
-                  <Image src={image.src} height="150px" mr="1rem" />
-                ))}
+        <Grid gridTemplateColumns="repeat(12,1fr)" gridColumnGap="3rem">
+          <Flex paddingTop={12} gridColumn="span 4">
+            {data ? (
+              <>
+                <List
+                  spacing={2}
+                  px={16}
+                  py={12}
+                  width="100%"
+                  boxShadow="0 4px 10px rgba(0,0,0,.1)"
+                  marginRight="2rem"
+                  background="#fff"
+                >
+                  <ListItem>
+                    <Text fontSize="md" fontWeight="bold">
+                      {data.name}
+                    </Text>
+                  </ListItem>
+                  <ListItem>
+                    <Image
+                      src={data.images[0]}
+                      height="10rem"
+                      width="15rem"
+                      objectFit="contain"
+                      borderRadius="3px"
+                      mt="2rem"
+                      mb="1rem"
+                    />
+                  </ListItem>
+
+                  <ListItem>
+                    <Text fontSize="md" fontWeight="bold">
+                      Họ và tên chủ cơ sở:{" "}
+                      <Box as="span" fontWeight="normal">
+                        {data.owner}
+                      </Box>
+                    </Text>
+                  </ListItem>
+                  <ListItem>
+                    <Text fontSize="md" fontWeight="bold">
+                      Loại tài khoản:{" "}
+                      <Box as="span" fontWeight="normal">
+                        Nông dân
+                      </Box>
+                    </Text>
+                  </ListItem>
+
+                  <ListItem>
+                    <Text fontSize="md" fontWeight="bold">
+                      Diện tích trang trại:{" "}
+                      <Box as="span" fontWeight="normal">
+                        {data.area}
+                      </Box>
+                    </Text>
+                  </ListItem>
+                  <ListItem>
+                    <Text fontSize="md" fontWeight="bold">
+                      Địa chỉ trang trại:{" "}
+                      <Box as="span" fontWeight="normal">
+                        {data.address}
+                      </Box>
+                    </Text>
+                  </ListItem>
+                  <ListItem>
+                    <Text fontSize="md" fontWeight="bold">
+                      SĐT liên hệ:{" "}
+                      <Box as="span" fontWeight="normal">
+                        {data.phone}
+                      </Box>
+                    </Text>
+                  </ListItem>
+                  <ListItem>
+                    <Text fontSize="md" fontWeight="bold">
+                      Fax:{" "}
+                      <Box as="span" fontWeight="normal">
+                        {data.fax}
+                      </Box>
+                    </Text>
+                  </ListItem>
+                  <ListItem>
+                    <Text fontSize="md" fontWeight="bold">
+                      Website:{" "}
+                      <Box as="span" fontWeight="normal">
+                        {data.website}
+                      </Box>
+                    </Text>
+                  </ListItem>
+                  <ListItem>
+                    <Text fontSize="md" fontWeight="bold">
+                      Email:{" "}
+                      <Box as="span" fontWeight="normal">
+                        {data.email}
+                      </Box>
+                    </Text>
+                  </ListItem>
+                </List>
+                <Iframe iframe={data.map} />
+              </>
+            ) : (
+              <Flex justify="center" align="center">
+                <Spinner />
               </Flex>
-            </SRLWrapper>
-          </SimpleReactLightbox>
-        </Box>
-        <Flex paddingTop={12}>
-          {data ? (
-            <>
-              <List
-                spacing={2}
-                px={16}
-                py={12}
-                boxShadow="0 4px 10px rgba(0,0,0,.1)"
-                w="max-content"
-                h="max-content"
-                marginRight="2rem"
-                background="#fff"
+            )}
+          </Flex>
+          <Box mt="3rem" gridColumn="span 8">
+            <Heading fontSize="md">Hình ảnh pháp lý</Heading>
+            <SimpleReactLightbox>
+              <SRLWrapper
+                options={{ settings: { slideTransitionSpeed: 1 } }}
+                style={{ marginTop: "30px" }}
               >
-                <ListItem>
-                  <Text fontSize="md" fontWeight="bold">
-                    {data.name}
-                  </Text>
-                </ListItem>
-                <ListItem>
-                  <Image
-                    src={data.images[0]}
-                    height="10rem"
-                    width="15rem"
-                    objectFit="contain"
-                    borderRadius="3px"
-                    mt="2rem"
-                    mb="1rem"
-                  />
-                </ListItem>
-
-                <ListItem>
-                  <Text fontSize="md" fontWeight="bold">
-                    Họ và tên chủ cơ sở:{" "}
-                    <Box as="span" fontWeight="normal">
-                      {data.owner}
-                    </Box>
-                  </Text>
-                </ListItem>
-                <ListItem>
-                  <Text fontSize="md" fontWeight="bold">
-                    Loại tài khoản:{" "}
-                    <Box as="span" fontWeight="normal">
-                      Nông dân
-                    </Box>
-                  </Text>
-                </ListItem>
-
-                <ListItem>
-                  <Text fontSize="md" fontWeight="bold">
-                    Diện tích trang trại:{" "}
-                    <Box as="span" fontWeight="normal">
-                      {data.area}
-                    </Box>
-                  </Text>
-                </ListItem>
-                <ListItem>
-                  <Text fontSize="md" fontWeight="bold">
-                    Địa chỉ trang trại:{" "}
-                    <Box as="span" fontWeight="normal">
-                      {data.address}
-                    </Box>
-                  </Text>
-                </ListItem>
-                <ListItem>
-                  <Text fontSize="md" fontWeight="bold">
-                    SĐT liên hệ:{" "}
-                    <Box as="span" fontWeight="normal">
-                      {data.phone}
-                    </Box>
-                  </Text>
-                </ListItem>
-                <ListItem>
-                  <Text fontSize="md" fontWeight="bold">
-                    Fax:{" "}
-                    <Box as="span" fontWeight="normal">
-                      {data.fax}
-                    </Box>
-                  </Text>
-                </ListItem>
-                <ListItem>
-                  <Text fontSize="md" fontWeight="bold">
-                    Website:{" "}
-                    <Box as="span" fontWeight="normal">
-                      {data.website}
-                    </Box>
-                  </Text>
-                </ListItem>
-                <ListItem>
-                  <Text fontSize="md" fontWeight="bold">
-                    Email:{" "}
-                    <Box as="span" fontWeight="normal">
-                      {data.email}
-                    </Box>
-                  </Text>
-                </ListItem>
-              </List>
-              <Iframe iframe={data.map} />
-            </>
-          ) : (
-            <Flex justify="center" align="center">
-              <Spinner />
-            </Flex>
-          )}
-        </Flex>
+                <Flex mt="1rem">
+                  {images.map((image) => (
+                    <Image src={image.src} height="150px" mr="1rem" />
+                  ))}
+                </Flex>
+              </SRLWrapper>
+            </SimpleReactLightbox>
+          </Box>
+        </Grid>
       </Box>
     </Layout>
   );

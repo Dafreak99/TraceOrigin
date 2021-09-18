@@ -1,9 +1,8 @@
 import { Box, Grid, Heading, Image as Img, Text } from "@chakra-ui/react";
 import { Skeleton } from "antd";
-
-import SectionPadding from "./SectionPadding";
 import Image from "next/image";
 import Link from "next/link";
+import SectionPadding from "./SectionPadding";
 
 const Articles = ({ data }) => {
   return (
@@ -17,7 +16,12 @@ const Articles = ({ data }) => {
       >
         Bài viết
       </Heading>
-      <Img src="/blob/3.svg" className="blob article" layout="fill" />
+      <Img
+        src="/blob/3.svg"
+        className="blob article"
+        layout="fill"
+        width="50%"
+      />
 
       <Grid
         gridTemplateColumns="repeat(12, 1fr)"

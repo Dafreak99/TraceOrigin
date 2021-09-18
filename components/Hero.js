@@ -1,6 +1,7 @@
-import { useRef, useEffect, useState } from "react";
 import { Box, Flex, Heading, Image, Text } from "@chakra-ui/react";
+import { useState } from "react";
 import Slider from "react-slick";
+import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -18,8 +19,6 @@ const Hero = () => {
       setIndex(current);
     },
   };
-
-  let headingRef = useRef(null);
 
   const data = [
     {

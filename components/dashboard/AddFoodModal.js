@@ -1,29 +1,26 @@
+import UploadPreview from "@/components/dashboard/UploadPreview";
 import {
+  Button,
   FormLabel,
   Input,
-  Button,
-  Spinner,
   Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
   ModalBody,
+  ModalCloseButton,
+  ModalContent,
   ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Spinner,
   useDisclosure,
 } from "@chakra-ui/react";
-
-import { useState } from "react";
-
-import { useForm } from "react-hook-form";
-import UploadPreview from "@/components/dashboard/UploadPreview";
 import { Button as AntdButton } from "antd";
 import { useRouter } from "next/router";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { HiPlus } from "react-icons/hi";
-
-import FormControl from "./FormControl";
-import DatePicker from "../DatePicker";
 import { mutate } from "swr";
+import DatePicker from "../DatePicker";
+import FormControl from "./FormControl";
 
 const AddFood = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -127,13 +124,13 @@ const AddFood = () => {
         <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
           <ModalHeader>Nhập thức ăn</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
-            <FormControl>
-              <FormLabel htmlFor="importDate">Ngày nhập: </FormLabel>
-              <DatePicker control={control} name="importDate" />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="name">Tên thức ăn</FormLabel>
+          <ModalBody
+            display="grid"
+            gridTemplateColumns="repeat(2,1fr)"
+            gridColumnGap="2rem"
+          >
+            <FormControl gridColumn="span 2">
+              <FormLabel htmlFor="name"> Tên thức ăn</FormLabel>
               <Input
                 type="text"
                 id="name"
@@ -143,7 +140,7 @@ const AddFood = () => {
                 })}
               />
             </FormControl>
-            <FormControl>
+            <FormControl gridColumn="span 2">
               <FormLabel htmlFor="foodSupplier">
                 Tên người/cửa hàng đại lý thức ăn:{" "}
               </FormLabel>
@@ -156,7 +153,7 @@ const AddFood = () => {
                 })}
               />
             </FormControl>
-            <FormControl>
+            <FormControl gridColumn="span 1">
               <FormLabel htmlFor="weight">Số lượng(kg): </FormLabel>
               <Input
                 type="number"
@@ -167,11 +164,15 @@ const AddFood = () => {
                 })}
               />
             </FormControl>
-            <FormControl>
+            <FormControl gridColumn="span 1">
+              <FormLabel htmlFor="importDate">Ngày nhập: </FormLabel>
+              <DatePicker control={control} name="importDate" />
+            </FormControl>
+            <FormControl gridColumn="span 1">
               <FormLabel htmlFor="manufactureDate">Ngày sản xuất</FormLabel>
               <DatePicker control={control} name="manufactureDate" />
             </FormControl>
-            <FormControl>
+            <FormControl gridColumn="span 1">
               <FormLabel htmlFor="expiryDate">Hạn sử dụng</FormLabel>
               <DatePicker control={control} name="expiryDate" />
             </FormControl>

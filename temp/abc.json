@@ -1,0 +1,9 @@
+{
+    "id": id,
+    "version": version,
+    "inputs": inputs,
+    "outputs": outputs,
+    "operation": operation,
+    "asset": asset,
+    "metadata": metadata
+}

@@ -1,25 +1,26 @@
+import EnterpriseAuthenticationModal from "@/components/dashboard/EntepriseAuthenticationModal";
+import FarmInfoModify from "@/components/dashboard/FarmInfoModify";
+import Layout from "@/components/dashboard/Layout";
+import DisplayMap from "@/components/DisplayMap";
+import fetcher from "@/utils/fetcher";
 import {
+  Alert,
+  AlertIcon,
   Box,
   Button,
   Flex,
+  Grid,
   Heading,
   Image,
   List,
   ListItem,
-  Text,
   Skeleton,
-  AlertIcon,
-  Alert,
+  Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { AiFillEdit } from "react-icons/ai";
 import { useState } from "react";
+import { AiFillEdit } from "react-icons/ai";
 import useSWR from "swr";
-
-import FarmInfoModify from "@/components/dashboard/FarmInfoModify";
-import Layout from "@/components/dashboard/Layout";
-import fetcher from "@/utils/fetcher";
-import EnterpriseAuthenticationModal from "@/components/dashboard/EntepriseAuthenticationModal";
 
 const Info = () => {
   const [isEdit, setIsEdit] = useState(false);
@@ -67,16 +68,6 @@ const Info = () => {
   );
 };
 
-const Iframe = (props) => {
-  return (
-    <div
-      className="display-map"
-      style={{ boxShadow: "0 10px 20px rgba(0,0,0,.1)", height: "min-content" }}
-      dangerouslySetInnerHTML={{ __html: props.iframe ? props.iframe : "" }}
-    />
-  );
-};
-
 const Content = ({
   data: {
     name,
@@ -88,7 +79,7 @@ const Content = ({
     fax,
     email,
     website,
-    map,
+    coordinate,
     reject,
     isAuthenticated,
   },
@@ -124,17 +115,19 @@ const Content = ({
         onClose={onClose}
         onOpen={onOpen}
       />
-      <Flex paddingTop={12} flexWrap="wrap">
+      <Grid
+        paddingTop={12}
+        gridTemplateColumns="repeat(12,1fr)"
+        gridColumnGap="4rem"
+      >
         <List
+          gridColumn={{ base: "span 12", xl: "span 5" }}
           spacing={2}
           px={16}
           py={12}
           boxShadow="0 4px 10px rgba(0,0,0,.1)"
-          w="max-content"
-          h="max-content"
-          marginRight="2rem"
           background="#fff"
-          mb="2rem"
+          mb={{ base: "2rem", xl: "0" }}
         >
           <ListItem>
             <Text fontSize="md" fontWeight="bold">
@@ -219,8 +212,10 @@ const Content = ({
             </Text>
           </ListItem>
         </List>
-        <Iframe iframe={map} />
-      </Flex>
+        <Box height="100%" gridColumn={{ base: "span 12", xl: "span 7" }}>
+          <DisplayMap data={[{ coordinate, type: "house", name, address }]} />
+        </Box>
+      </Grid>
     </Box>
   );
 };

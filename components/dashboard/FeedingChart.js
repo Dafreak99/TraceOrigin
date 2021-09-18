@@ -1,10 +1,7 @@
-import { Alert, Box, AlertIcon, Text, Stack, Skeleton } from "@chakra-ui/react";
-import Chart from "chart.js";
-import { useEffect, useState } from "react";
-import { GrFormPrevious, GrFormNext } from "react-icons/gr";
-
-import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
+import { Alert, AlertIcon, Box, Skeleton, Stack, Text } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import useSWR from "swr";
 
 const FeedingChart = ({ pondId }) => {
   const { data: feedingDiaries, error } = useSWR(
@@ -15,7 +12,7 @@ const FeedingChart = ({ pondId }) => {
     fetcher
   );
 
-  console.log(feedingDiaries);
+  console.log("feeding", feedingDiaries);
 
   const values = [
     {
@@ -36,96 +33,6 @@ const FeedingChart = ({ pondId }) => {
       createdDate: "9/10/2020",
       __v: 0,
     },
-    // {
-    //   _id: "5f9424ad4959fa23c00d7833",
-    //   ao: "5f87113aa0e6d61860af5bcc",
-    //   food: "5f8cff9003ac3f2580ee04a0",
-    //   weight: "19",
-    //   note: "",
-    //   createdDate: "10/10/2020",
-    //   __v: 0,
-    // },
-    // {
-    //   _id: "5f9424c84959fa23c00d7834",
-    //   ao: "5f87113aa0e6d61860af5bcc",
-    //   food: "5f8cfefe03ac3f2580ee049f",
-    //   weight: "15",
-    //   note: "",
-    //   createdDate: "11/10/2020",
-    //   __v: 0,
-    // },
-    // {
-    //   _id: "5f9421434959fa23c00d7830",
-    //   note: "Test cho an",
-    //   weight: "12",
-    //   ao: "5f87113aa0e6d61860af5bcc",
-    //   food: "5f8cfefe03ac3f2580ee049f",
-    //   createdDate: "12/10/2020",
-    //   __v: 0,
-    // },
-    // {
-    //   _id: "5f9424484959fa23c00d7831",
-    //   ao: "5f87113aa0e6d61860af5bcc",
-    //   food: "5f8cff9003ac3f2580ee04a0",
-    //   weight: "25",
-    //   note: "",
-    //   createdDate: "13/10/2020",
-    //   __v: 0,
-    // },
-    // {
-    //   _id: "5f9424ad4959fa23c00d7833",
-    //   ao: "5f87113aa0e6d61860af5bcc",
-    //   food: "5f8cff9003ac3f2580ee04a0",
-    //   weight: "19",
-    //   note: "",
-    //   createdDate: "14/10/2020",
-    //   __v: 0,
-    // },
-    // {
-    //   _id: "5f9424c84959fa23c00d7834",
-    //   ao: "5f87113aa0e6d61860af5bcc",
-    //   food: "5f8cfefe03ac3f2580ee049f",
-    //   weight: "15",
-    //   note: "",
-    //   createdDate: "15/10/2020",
-    //   __v: 0,
-    // },
-    // {
-    //   _id: "5f9421434959fa23c00d7830",
-    //   note: "Test cho an",
-    //   weight: "12",
-    //   ao: "5f87113aa0e6d61860af5bcc",
-    //   food: "5f8cfefe03ac3f2580ee049f",
-    //   createdDate: "16/10/2020",
-    //   __v: 0,
-    // },
-    // {
-    //   _id: "5f9424484959fa23c00d7831",
-    //   ao: "5f87113aa0e6d61860af5bcc",
-    //   food: "5f8cff9003ac3f2580ee04a0",
-    //   weight: "25",
-    //   note: "",
-    //   createdDate: "17/10/2020",
-    //   __v: 0,
-    // },
-    // {
-    //   _id: "5f9424ad4959fa23c00d7833",
-    //   ao: "5f87113aa0e6d61860af5bcc",
-    //   food: "5f8cff9003ac3f2580ee04a0",
-    //   weight: "19",
-    //   note: "",
-    //   createdDate: "18/10/2020",
-    //   __v: 0,
-    // },
-    // {
-    //   _id: "5f9424c84959fa23c00d7834",
-    //   ao: "5f87113aa0e6d61860af5bcc",
-    //   food: "5f8cfefe03ac3f2580ee049f",
-    //   weight: "15",
-    //   note: "",
-    //   createdDate: "19/10/2020",
-    //   __v: 0,
-    // },
   ];
 
   let labels = values.map((each) => each.createdDate);
@@ -134,32 +41,32 @@ const FeedingChart = ({ pondId }) => {
 
   useEffect(() => {
     var ctx = document.getElementById("myChart");
-    var myChart = new Chart(ctx, {
-      type: "line",
-      data: {
-        labels: labels.slice((index - 1) * 7, index * 7),
-        datasets: [
-          {
-            label: "Khối lượng cho ăn",
-            data: data.slice((index - 1) * 7, index * 7),
-            fill: false,
-            borderColor: "rgb(75, 192, 192)",
-            borderWidth: 2,
-          },
-        ],
-      },
-      options: {
-        scales: {
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-              },
-            },
-          ],
-        },
-      },
-    });
+    // var myChart = new Chart(ctx, {
+    //   type: "line",
+    //   data: {
+    //     labels: labels.slice((index - 1) * 7, index * 7),
+    //     datasets: [
+    //       {
+    //         label: "Khối lượng cho ăn",
+    //         data: data.slice((index - 1) * 7, index * 7),
+    //         fill: false,
+    //         borderColor: "rgb(75, 192, 192)",
+    //         borderWidth: 2,
+    //       },
+    //     ],
+    //   },
+    //   options: {
+    //     scales: {
+    //       yAxes: [
+    //         {
+    //           ticks: {
+    //             beginAtZero: true,
+    //           },
+    //         },
+    //       ],
+    //     },
+    //   },
+    // });
   }, [index]);
 
   if (!feedingDiaries) {
@@ -175,10 +82,10 @@ const FeedingChart = ({ pondId }) => {
 
   return (
     <>
-      {feedingDiaries?.length === 0 ? (
-        <Alert status="info" fontSize="md" w="30rem">
+      {feedingDiaries.length === 0 ? (
+        <Alert status="info" fontSize="md" w="30rem" mt="1rem">
           <AlertIcon />
-          <Text fontSize="md">Chưa có tài khoản nào được tạo</Text>
+          <Text fontSize="md">Chưa có nhật ký nào được ghi nhận</Text>
         </Alert>
       ) : (
         <Box w="1200px" m="0 auto" position="relative">

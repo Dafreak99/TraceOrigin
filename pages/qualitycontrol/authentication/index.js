@@ -1,12 +1,8 @@
 import Layout from "@/components/dashboard/Layout";
-
-import { Box, Alert, AlertIcon, Heading, Text, Button } from "@chakra-ui/react";
-
 import { Table, Td, Th, Tr } from "@/components/Table";
-
-import useSWR, { mutate } from "swr";
 import fetcher from "@/utils/fetcher";
-import Link from "next/link";
+import { Alert, AlertIcon, Box, Button, Heading, Text } from "@chakra-ui/react";
+import useSWR from "swr";
 
 const DashBoard = () => {
   const { data } = useSWR(
@@ -16,45 +12,6 @@ const DashBoard = () => {
     ],
     fetcher
   );
-
-  const onReject = async (id, pondId) => {
-    try {
-      await fetch(`/api/product/harvest/reject`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: process.browser ? localStorage.getItem("token") : null,
-        },
-        body: JSON.stringify({ id, pond: pondId }),
-      });
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  const onApprove = async (id, pondId) => {
-    let res = await fetch(`/api/product/harvest/approve`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: process.browser ? localStorage.getItem("token") : null,
-      },
-      body: JSON.stringify({ id, pond: pondId }),
-    });
-
-    mutate(
-      [
-        "/api/product/harvest/pending",
-        process.browser ? localStorage.getItem("token") : null,
-      ],
-      async (cachedData) => {
-        let data = cachedData.filter((each) => each._id !== id);
-
-        return data;
-      },
-      false
-    );
-  };
 
   return (
     <Layout>
@@ -80,11 +37,9 @@ const DashBoard = () => {
                   <Td>{phone}</Td>
                   <Td>{createdBy}</Td>
                   <Td>
-                    <Link href={`./authentication/${_id}`}>
-                      <a>
-                        <Button>Chi tiết</Button>
-                      </a>
-                    </Link>
+                    <a href={`./authentication/${_id}`}>
+                      <Button>Chi tiết</Button>
+                    </a>
                   </Td>
                 </Tr>
               ))}

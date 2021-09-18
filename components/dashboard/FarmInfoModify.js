@@ -1,23 +1,21 @@
 import {
   Box,
+  Button,
+  Flex,
+  FormLabel,
   Grid,
   Heading,
-  FormLabel,
   Input,
-  Flex,
-  Button,
   Spinner,
   Textarea,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-
-import Asterisk from "./Asterisk";
-import UploadPreview from "./UploadPreview";
-import router from "next/router";
 import Map from "../Map";
-import FormControl from "./FormControl";
+import Asterisk from "./Asterisk";
 import BackButton from "./BackButton";
+import FormControl from "./FormControl";
+import UploadPreview from "./UploadPreview";
 
 const FarmInfoModify = ({ isEdit, setIsEdit, data = {} }) => {
   const [farmInfo, setData] = useState(data);
@@ -104,12 +102,12 @@ const FarmInfoModify = ({ isEdit, setIsEdit, data = {} }) => {
       <Grid
         gridTemplateColumns="repeat(12, 1fr)"
         columnGap={{ base: "1rem", md: "3rem" }}
-        rowGap="2rem"
         background="#fff"
         px={12}
         py={8}
-        mt="2rem"
+        margin="2rem auto"
         boxShadow="0 4px 10px rgba(0,0,0,.1)"
+        w="50vw"
       >
         <FormControl gridColumn="span 6">
           <FormLabel htmlFor="name">
@@ -219,34 +217,6 @@ const FarmInfoModify = ({ isEdit, setIsEdit, data = {} }) => {
             id="email"
             name="email"
             defaultValue={farmInfo.email}
-            ref={register({
-              required: "Required",
-            })}
-          />
-        </FormControl>
-        <FormControl gridColumn="span 6">
-          <FormLabel htmlFor="coordinate">
-            Tọa độ <Asterisk />
-          </FormLabel>
-          <Input
-            type="text"
-            id="coordinate"
-            name="coordinate"
-            defaultValue={farmInfo.coordinate}
-            ref={register({
-              required: "Required",
-            })}
-          />
-        </FormControl>
-        <FormControl gridColumn="span 6">
-          <FormLabel htmlFor="map">
-            Bản đồ <Asterisk />
-          </FormLabel>
-          <Input
-            type="text"
-            id="map"
-            name="map"
-            defaultValue={farmInfo.map}
             ref={register({
               required: "Required",
             })}
