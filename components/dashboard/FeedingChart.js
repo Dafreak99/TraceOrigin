@@ -1,13 +1,13 @@
 import fetcher from "@/utils/fetcher";
 import { Alert, AlertIcon, Box, Skeleton, Stack, Text } from "@chakra-ui/react";
 import { Chart } from "chart.js";
-import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import useSWR from "swr";
 
 const FeedingChart = ({ pondId }) => {
- 
+  console.log('changed');
+  
   const { data: feedingDiaries, error } = useSWR(
     [
       `/api/feedingdiary/pond/${pondId}`,
