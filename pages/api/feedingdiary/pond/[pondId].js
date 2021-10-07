@@ -24,11 +24,12 @@ export default async (req, res) => {
   switch (method) {
     case "GET":
       try {
+
         let feedingDiaries = await FeedingDiary.find({
           farm: farm._id,
           pond: pondId,
           isDone: false,
-        });
+        }).sort([['createdDate']]);
 
         res.send(feedingDiaries);
       } catch (error) {

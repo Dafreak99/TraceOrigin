@@ -16,7 +16,8 @@ const DetailPost = ({ data }) => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    window.scroll(0, 0);
+    console.log('scroll')
+    window.scrollTo(0, 0);
   }, []);
 
   const showDrawer = () => {

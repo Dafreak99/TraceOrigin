@@ -11,6 +11,7 @@ import {
   Image,
   List,
   ListItem,
+  Spinner,
   Text,
 } from "@chakra-ui/react";
 import { Divider, Breadcrumb } from "antd";
@@ -109,9 +110,9 @@ const Product = ({ data }) => {
     <>
       <Navbar showDrawer={showDrawer} />
       <NavbarDrawer visible={visible} onClose={onClose} />
-      <Box py="5rem">
+      <Box py="5rem" minH="700px">
         <div className="container">
-          {data && (
+          {data ? (
             <>
               <Breadcrumb>
                 <Breadcrumb.Item>Sản phẩm</Breadcrumb.Item>
@@ -294,7 +295,7 @@ const Product = ({ data }) => {
                 </Box>
               )}
             </>
-          )}
+          ) : (<Flex w="100%" h="100%" justify='center' align='center'><Spinner/> </Flex>)}
         </div>
       </Box>
       <Footer />

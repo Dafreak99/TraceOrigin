@@ -18,7 +18,6 @@ const MAPBOX_TOKEN =
   "pk.eyJ1IjoiaGFpdHJhbjk5IiwiYSI6ImNrMmtlNnhlbjB6Y2kzY29oc2Q2YnRlOXoifQ.ZwtkHfNjr_Ltp39bQj8hSg";
 
 const Map = ({ data }) => {
-  console.log("data", data);
 
   const mapRef = useRef();
   const [viewport, setViewport] = useState({

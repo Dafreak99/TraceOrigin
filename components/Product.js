@@ -17,7 +17,7 @@ const Product = ({ images, name, _id }) => {
             src={images[0] ? images[0] : "/bg1.jpg"}
             objectFit="cover"
             layout="fill"
-            style={{ borderRadius: "5px" }}
+            style={{ borderRadius: "10px" }}
           />
         </Box>
         <Flex align="center" mt={8}>

@@ -48,7 +48,7 @@ const FeedingChartPage = () => {
           style={{ width: "200px" }}
           size="large"
           defaultValue={data.ponds[0].name}
-          onChange={(e) => console.log(e)}
+          onChange={setPondId}
         >
           {data.ponds.map(({ _id, name }) => (
             <Option value={_id}>{name}</Option>
