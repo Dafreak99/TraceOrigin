@@ -131,7 +131,7 @@ const Product = ({ data }) => {
                   <a
                     target="blank"
                     href={
-                      "https://test.ipdb.io/api/v1/transactions/" +
+                      "https://bigchain.tk/api/v1//transactions/" +
                       data.transactionId
                     }
                   >
@@ -314,7 +314,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const data = await (
-    await fetch(`https://test.ipdb.io/api/v1/assets/?search=${params.id}`)
+    await fetch(`https://bigchain.tk/api/v1//assets/?search=${params.id}`)
   ).json();
 
   return {

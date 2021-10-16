@@ -81,7 +81,7 @@ const ProductInfo = ({ data, consumption }) => {
                         <a
                           target="blank"
                           href={
-                            "https://test.ipdb.io/api/v1/transactions/" + id
+                            "https://bigchain.tk/api/v1//transactions/" + id
                           }
                         >
                           {id}
