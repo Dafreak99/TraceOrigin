@@ -64,8 +64,10 @@ const ProductPreview = ({
       <ModalContent>
         <ModalHeader>Xác nhận sản phẩm</ModalHeader>
         <ModalCloseButton />
-        <ModalBody padding="4rem">
-          <Body data={data} />
+        <ModalBody padding="4rem 3rem">
+          <Box bg="#f5f5f5">
+            <Body data={data} />
+          </Box>
         </ModalBody>
 
         <ModalFooter>
@@ -89,7 +91,7 @@ const ProductPreview = ({
 
 const Body = ({ data }) => {
   return (
-    <Box height="50vh" overflowY="scroll">
+    <Box height="50vh" overflowY="scroll"  p="0 2rem" >
       <Collapse
         style={{ marginTop: "2rem" }}
         bordered={false}

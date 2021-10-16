@@ -104,11 +104,11 @@ const Index = () => {
         </Flex>
 
         <Flex
-          px="4rem"
-          py="2rem"
+          p="4rem"
           mt={8}
           boxShadow="0 15px 30px rgba(0,0,0,.05)"
           background="#fff"
+          borderRadius="10px"
         >
           {data ? (
             <>

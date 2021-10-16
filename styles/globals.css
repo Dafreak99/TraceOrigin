@@ -665,21 +665,6 @@ table.ant-picker-content {
   border: none;
 }
 
-/* Scrollbar style */
-
-/* width */
-::-webkit-scrollbar {
-  width: 16px;
-}
-::-webkit-scrollbar-track {
-  background: #cccccc;
-  border-radius: 5px;
-}
-::-webkit-scrollbar-thumb {
-  border-radius: 5px;
-  background: gray;
-}
-
 .rbc-header {
   padding: 10px;
   font-size: 17px;

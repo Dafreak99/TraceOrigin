@@ -76,7 +76,7 @@ const Index = () => {
     try {
       let res = await (
         await fetch(
-          `https://bigchain.tk/api/v1//assets/?search=${values.qrcode}`
+          `https://bigchain.tk/api/v1/assets/?search=${values.qrcode}`
         )
       ).json();
 

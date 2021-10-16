@@ -290,7 +290,11 @@ const Product = ({ data }) => {
                 <FoodChainTimeline data={data} consumption={consumption} />
               </Grid>
               {mapSource.length > 0 && (
-                <Box height="500px">
+                <Box height="500px" mb="4rem">
+                   <Flex alignItems="center" mb="2rem">
+                    <GreenDot />
+                    <Heading size="md">Bản đồ hành trình sản phẩm</Heading>
+                   </Flex>
                   <DisplayMap data={mapSource} />
                 </Box>
               )}
