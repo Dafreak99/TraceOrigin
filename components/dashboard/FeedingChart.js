@@ -6,7 +6,6 @@ import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import useSWR from "swr";
 
 const FeedingChart = ({ pondId }) => {
-  console.log('changed');
   
   const { data: feedingDiaries, error } = useSWR(
     [
