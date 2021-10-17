@@ -11,7 +11,6 @@ import {
   Image,
   List,
   ListItem,
-  Spinner,
   Text,
 } from "@chakra-ui/react";
 import { Divider, Breadcrumb } from "antd";
@@ -33,6 +32,7 @@ import ProductInfo from "@/components/ProductInfo";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useRouter } from "next/router";
+import Spinner from "@/components/Spinner";
 
 const Product = ({ data }) => {
   const router = useRouter();
@@ -291,15 +291,20 @@ const Product = ({ data }) => {
               </Grid>
               {mapSource.length > 0 && (
                 <Box height="500px" mb="4rem">
-                   <Flex alignItems="center" mb="2rem">
+                  <Flex alignItems="center" mb="2rem">
                     <GreenDot />
                     <Heading size="md">Bản đồ hành trình sản phẩm</Heading>
-                   </Flex>
+                  </Flex>
                   <DisplayMap data={mapSource} />
                 </Box>
               )}
             </>
-          ) : (<Flex w="100%" h="100%" justify='center' align='center'><Spinner/> </Flex>)}
+          ) : (
+            <Flex w="100%" h="100%" justify="center" align="center">
+              {" "}
+              <Spinner />{" "}
+            </Flex>
+          )}
         </div>
       </Box>
       <Footer />

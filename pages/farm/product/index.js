@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import {
   Box,
   Heading,
-  Image,
   Button,
   Alert,
   AlertIcon,
@@ -10,7 +9,7 @@ import {
   Text,
   Spinner,
 } from "@chakra-ui/react";
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 

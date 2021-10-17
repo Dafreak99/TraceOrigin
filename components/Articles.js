@@ -26,19 +26,20 @@ const Articles = ({ data }) => {
       <Grid
         gridTemplateColumns="repeat(12, 1fr)"
         className="container"
-        columnGap={{ base: 0, xl: 16 }}
+        columnGap={{ base: 0, md: 9, xl: 16 }}
         rowGap={16}
       >
         {data?.length > 0 ? (
           data.map(({ name, image, _id }) => (
             <Link href={`/posts/${_id}`}>
               <Box
-                gridColumn={{ base: "span 12", xl: " span 3" }}
+                gridColumn={{ base: "span 12", md: "span 6", xl: " span 3" }}
                 background="#fff"
                 borderRadius="3px"
                 boxShadow="0 10px 30px rgb(30 126 245 / 0.2)"
                 textAlign="center"
                 cursor="pointer"
+                borderRadius="10px"
               >
                 <a>
                   <Box minH="350px" maxH="350px" w="100%" position="relative">

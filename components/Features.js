@@ -1,10 +1,37 @@
 import { Box, Grid, Heading, Image, Text } from "@chakra-ui/react";
 import { AiFillControl, AiOutlineQrcode } from "react-icons/ai";
-import { FaRegStickyNote } from "react-icons/fa";
-import { GiPencil } from "react-icons/gi";
+import { FaDiceD6, FaRegStickyNote } from "react-icons/fa";
+
 import SectionPadding from "./SectionPadding";
 
 const Features = () => {
+  const data = [
+    {
+      icon: AiOutlineQrcode,
+      heading: "Quản lý nguồn gốc",
+      description:
+        "TraceOrigin là cầu nối uy tín đảm bảo xác thực hàng hóa của nhà cung cấp tới tay người tiêu dùng .",
+    },
+    {
+      icon: FaRegStickyNote,
+      heading: "Thông tin ghi chép",
+      description:
+        "Thông tin ghi chép đầy đủ, đa dạng cho phép người dùng có thể nắm được mọi thông tin về sản phẩm .",
+    },
+    {
+      icon: AiFillControl,
+      heading: "Kiểm soát chất lượng",
+      description:
+        "TraceOrigin là cầu nối uy tín đảm bảo xác thực hàng hóa của nhà cung cấp tới tay người tiêu dùng .",
+    },
+    {
+      icon: FaDiceD6,
+      heading: "Bảo toàn dữ liệu",
+      description:
+        "TraceOrigin sử dụng công nghệ blockchain để đảm bảo tính bất biến và tính minh mạch của dữ liệu sản phảm .",
+    },
+  ];
+
   return (
     <SectionPadding>
       <>
@@ -24,122 +51,38 @@ const Features = () => {
             columnGap={{ base: 0, lg: 8, xl: 16 }}
             rowGap={16}
           >
-            <Box
-              gridColumn={{ base: "span 12", lg: "span 6", xl: " span 3" }}
-              background="#fff"
-              borderRadius="3px"
-              boxShadow="0 10px 30px rgb(30 126 245 / 0.2)"
-              padding="60px 40px"
-              textAlign="center"
-            >
+            {data.map(({ icon, heading, description }) => (
               <Box
-                as={AiOutlineQrcode}
-                height="60px"
-                width="60px"
-                margin="0 auto"
-                mb={8}
-                color="#007bff"
-              />
-              <Heading fontSize="md" mb={6} fontWeight="bold" fontSize="xl">
-                Quản lý nguồn gốc
-              </Heading>
-              <Text
-                fontSize="md"
-                letterSpacing="0.3px"
-                color="#2e2e2fab"
-                fontWeight="600"
+                key={heading}
+                gridColumn={{ base: "span 12", lg: "span 6", xl: " span 3" }}
+                background="#fff"
+                borderRadius="3px"
+                boxShadow="0 10px 30px rgb(30 126 245 / 0.2)"
+                padding="60px 40px"
+                textAlign="center"
+                borderRadius="30px"
               >
-                TraceOrigin là cầu nối uy tín đảm bảo xác thực hàng hóa của nhà
-                cung cấp tới tay người tiêu dùng .
-              </Text>
-            </Box>
-            <Box
-              gridColumn={{ base: "span 12", lg: "span 6", xl: " span 3" }}
-              background="#fff"
-              borderRadius="3px"
-              boxShadow="0 10px 30px rgb(30 126 245 / 0.2)"
-              padding="60px 40px"
-              textAlign="center"
-            >
-              <Box
-                as={FaRegStickyNote}
-                height="60px"
-                width="60px"
-                margin="0 auto"
-                mb={8}
-                color="#007bff"
-              />
-              <Heading fontSize="md" mb={6} fontWeight="bold" fontSize="xl">
-                Thông tin ghi chép
-              </Heading>
-              <Text
-                fontSize="md"
-                letterSpacing="0.3px"
-                color="#2e2e2fab"
-                fontWeight="600"
-              >
-                Thông tin ghi chép đầy đủ, đa dạng cho phép người dùng có thể
-                nắm được mọi thông tin về sản phẩm .
-              </Text>
-            </Box>
-            <Box
-              gridColumn={{ base: "span 12", lg: "span 6", xl: " span 3" }}
-              background="#fff"
-              borderRadius="3px"
-              boxShadow="0 10px 30px rgb(30 126 245 / 0.2)"
-              padding="60px 40px"
-              textAlign="center"
-            >
-              <Box
-                as={AiFillControl}
-                height="60px"
-                width="60px"
-                margin="0 auto"
-                mb={8}
-                color="#007bff"
-              />
-              <Heading fontSize="md" mb={6} fontWeight="bold" fontSize="xl">
-                Kiểm soát chất lượng
-              </Heading>
-              <Text
-                fontSize="md"
-                letterSpacing="0.3px"
-                color="#2e2e2fab"
-                fontWeight="600"
-              >
-                Traceorigin là cầu nối uy tín đảm bảo xác thực hàng hóa của nhà
-                cung cấp tới tay người tiêu dùng .
-              </Text>
-            </Box>
-            <Box
-              gridColumn={{ base: "span 12", lg: "span 6", xl: " span 3" }}
-              background="#fff"
-              borderRadius="3px"
-              boxShadow="0 10px 30px rgb(30 126 245 / 0.2)"
-              padding="60px 40px"
-              textAlign="center"
-            >
-              <Box
-                as={GiPencil}
-                height="60px"
-                width="60px"
-                margin="0 auto"
-                mb={8}
-                color="#007bff"
-              />
-              <Heading mb={6} fontWeight="bold" fontSize="xl">
-                Ghi Chép Nhật Ký
-              </Heading>
-              <Text
-                fontSize="md"
-                letterSpacing="0.3px"
-                color="#2e2e2fab"
-                fontWeight="600"
-              >
-                Traceorigin là cầu nối uy tín đảm bảo xác thực hàng hóa của nhà
-                cung cấp tới tay người tiêu dùng .
-              </Text>
-            </Box>
+                <Box
+                  as={icon}
+                  height="60px"
+                  width="60px"
+                  margin="0 auto"
+                  mb={8}
+                  color="#007bff"
+                />
+                <Heading fontSize="md" mb={6} fontWeight="bold" fontSize="xl">
+                  {heading}
+                </Heading>
+                <Text
+                  fontSize="md"
+                  letterSpacing="0.3px"
+                  color="#2e2e2fab"
+                  fontWeight="600"
+                >
+                  {description}
+                </Text>
+              </Box>
+            ))}
           </Grid>
         </div>
       </>

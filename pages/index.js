@@ -8,7 +8,6 @@ import Hero from "@/components/Hero";
 import Products from "@/components/Products";
 import NavbarDrawer from "@/components/NavbarDrawer";
 import fetcher from "@/utils/fetcher";
-import Chatbot from "@/components/Chatbot";
 import Articles from "@/components/Articles";
 import Features from "@/components/Features";
 
@@ -36,7 +35,6 @@ const IndexPage = () => {
       </Box>
       <Features />
       <Products />
-      <Chatbot />
       <Articles data={posts} />
       <Footer />
     </>

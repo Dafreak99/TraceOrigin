@@ -4,6 +4,7 @@ import { Skeleton } from "antd";
 import { useEffect, useState } from "react";
 import Product from "./Product";
 import SectionPadding from "./SectionPadding";
+import Spinner from "./Spinner";
 
 const Products = () => {
   const [data, setData] = useState([]);
@@ -51,4 +52,3 @@ const Products = () => {
 };
 
 export default Products;
-
