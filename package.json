@@ -51,5 +51,8 @@
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.2.1",
     "swr": "^0.3.2"
+  },
+  "devDependencies": {
+    "electron": "^15.2.0"
   }
 }
