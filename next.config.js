@@ -8,6 +8,7 @@ const withSourceMaps = require("@zeit/next-source-maps")({
 let config = withSourceMaps;
 
 config.images = { domains: ["res.cloudinary.com"] };
+config.target = "serverless";
 
 module.exports = config;
 
